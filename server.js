@@ -85,7 +85,8 @@ app.get('/api/models', async (req, res) => {
         const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Origin': 'https://relax-production.up.railway.app'
             }
         });
 
@@ -148,7 +149,8 @@ app.get('/api/models/:identifier', async (req, res) => {
         const response = await fetch(url, {
             headers: {
                 'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Origin': 'https://relax-production.up.railway.app'
             }
         });
 
