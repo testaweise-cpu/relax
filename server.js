@@ -43,6 +43,20 @@ app.get('/api/debug-env', (req, res) => {
     });
 });
 
+// Debug: test upstream Noble Atlas call directly from this server
+app.get('/api/debug-upstream', async (req, res) => {
+    try {
+        const url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards`;
+        const upstream = await fetch(url, {
+            headers: { 'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`, 'Accept': 'application/json' }
+        });
+        const body = await upstream.text();
+        res.json({ upstream_status: upstream.status, upstream_ok: upstream.ok, body_preview: body.substring(0, 200) });
+    } catch (e) {
+        res.json({ error: e.message });
+    }
+});
+
 // Simple in-memory cache
 let modelsCache = {
     data: null,
