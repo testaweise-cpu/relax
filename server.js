@@ -116,7 +116,9 @@ app.get('/api/models', async (req, res) => {
             headers: {
                 'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
                 'Accept': 'application/json',
-                'Origin': 'https://relax-production.up.railway.app'
+                'Origin': 'https://relax-production.up.railway.app',
+                'Referer': 'https://relax-production.up.railway.app/',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
         });
 
@@ -180,7 +182,9 @@ app.get('/api/models/:identifier', async (req, res) => {
             headers: {
                 'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
                 'Accept': 'application/json',
-                'Origin': 'https://relax-production.up.railway.app'
+                'Origin': 'https://relax-production.up.railway.app',
+                'Referer': 'https://relax-production.up.railway.app/',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
         });
 
