@@ -72,6 +72,25 @@ app.get('/api/debug-upstream', async (req, res) => {
     }
 });
 
+// Debug: test AJAX fallback
+app.get('/api/debug-ajax', async (req, res) => {
+    try {
+        const baseUrl = NOBLE_SYNC_BASE_URL.split('/wp-json')[0];
+        const url = `${baseUrl}/wp-admin/admin-ajax.php?action=noble_bordell_sync_get_sedcards&bordell_id=${NOBLE_SYNC_BORDELL_ID}&token=${NOBLE_SYNC_TOKEN}`;
+        const upstream = await fetch(url, {
+            headers: {
+                'Origin': 'https://relax-production.up.railway.app',
+                'Referer': 'https://relax-production.up.railway.app/',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+        });
+        const body = await upstream.text();
+        res.json({ url, status: upstream.status, body: body.substring(0, 500) });
+    } catch (e) {
+        res.json({ error: e.message });
+    }
+});
+
 // Simple in-memory cache
 let modelsCache = {
     data: null,
