@@ -154,7 +154,7 @@ app.get('/api/models/:identifier', async (req, res) => {
 
 // Catch-all: serve React app for any non-API route (SPA support)
 if (isProduction) {
-    app.get('*', (req, res) => {
+    app.get('/{*path}', (req, res) => {
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
 }
