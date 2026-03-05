@@ -48,7 +48,11 @@ app.get('/api/debug-upstream', async (req, res) => {
     try {
         const url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards`;
         const upstream = await fetch(url, {
-            headers: { 'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`, 'Accept': 'application/json' }
+            headers: {
+                'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
+                'Accept': 'application/json',
+                'Origin': 'https://relax-production.up.railway.app'
+            }
         });
         const body = await upstream.text();
         res.json({ upstream_status: upstream.status, upstream_ok: upstream.ok, body_preview: body.substring(0, 200) });
