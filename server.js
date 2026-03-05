@@ -47,15 +47,26 @@ app.get('/api/debug-env', (req, res) => {
 app.get('/api/debug-upstream', async (req, res) => {
     try {
         const url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards`;
-        const upstream = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
-                'Accept': 'application/json',
-                'Origin': 'https://relax-production.up.railway.app'
-            }
-        });
+        const headers = {
+            'Authorization': `Bearer ${NOBLE_SYNC_TOKEN}`,
+            'Accept': 'application/json',
+            'Origin': 'https://relax-production.up.railway.app',
+            'Referer': 'https://relax-production.up.railway.app/',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        };
+        const upstream = await fetch(url, { headers });
         const body = await upstream.text();
-        res.json({ upstream_status: upstream.status, upstream_ok: upstream.ok, body_preview: body.substring(0, 200) });
+        const resHeaders = {};
+        upstream.headers.forEach((v, k) => resHeaders[k] = v);
+
+        res.json({
+            url,
+            headers_sent: headers,
+            upstream_status: upstream.status,
+            upstream_ok: upstream.ok,
+            response_headers: resHeaders,
+            body: body
+        });
     } catch (e) {
         res.json({ error: e.message });
     }
