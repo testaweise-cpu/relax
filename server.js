@@ -32,6 +32,17 @@ if (!NOBLE_SYNC_TOKEN) {
     console.warn('WARNING: NOBLE_SYNC_TOKEN is not set in environment variables!');
 }
 
+// Temporary debug endpoint — remove after confirming Railway env vars
+app.get('/api/debug-env', (req, res) => {
+    res.json({
+        token_set: !!NOBLE_SYNC_TOKEN,
+        token_prefix: NOBLE_SYNC_TOKEN ? NOBLE_SYNC_TOKEN.substring(0, 8) + '...' : 'NOT SET',
+        base_url: NOBLE_SYNC_BASE_URL,
+        bordell_id: NOBLE_SYNC_BORDELL_ID,
+        node_env: process.env.NODE_ENV,
+    });
+});
+
 // Simple in-memory cache
 let modelsCache = {
     data: null,
