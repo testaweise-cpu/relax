@@ -17,64 +17,74 @@ function toText(value) {
 }
 
 export function mapSedcardForUI(data) {
+    if (!data) return null;
+
+    // Grid mapping
     const images = Array.isArray(data.images) ? data.images : [];
     const heroImage =
+        data.thumbnail_full_url ||
         data.thumbnail_url ||
         images[0]?.full ||
         images[0]?.url ||
         "";
 
+    // About text fallbacks: about_text -> description -> values.about_me
     const about =
         (data.about_text || "").trim() ||
         (data.description || "").trim() ||
-        String((data.values || {})?.about_me || "").trim();
+        String((data.values || {})?.about_me || "").trim() ||
+        'Exklusive Begleitung in der Relax Lounge.';
 
     const services = (data.services || []).filter(Boolean);
     const languages = (data.languages || []).filter(Boolean);
 
+    // Specific price mapping
     const pricesRaw = data.prices || {};
     const prices = [
         { label: "30 Min", value: pricesRaw.p30 || "" },
         { label: "45 Min", value: pricesRaw.p45 || "" },
         { label: "60 Min", value: pricesRaw.p60 || "" },
-        { label: "2 Stunden", value: pricesRaw.p2h || "" },
-        { label: "Overnight", value: pricesRaw.overnight || "" },
+        { label: "2 Std", value: pricesRaw.p2h || "" },
+        { label: "Nacht", value: pricesRaw.overnight || "" },
     ].filter((p) => p.value);
 
     return {
         id: data.id,
         slug: data.slug,
-        permalink: data.permalink,
+        name: data.name || "Model",
+        verified: !!data.verified,
         hero: {
             name: data.name || "",
-            verified: !!data.verified,
             image: heroImage,
-            age: data.age || "25",
+            age: data.age || "",
             origin: data.origin || "",
-            city: data.city || "Berlin",
-            zip: data.zip || "",
+            city: data.city || "",
         },
-        measurements: toText((data.values || {})["masse"]) || 'Auf Anfrage',
-        about: about || 'Exklusive Begleitung in der Relax Lounge.',
-        gallery: images.map((img) => ({
-            src: img.full || img.url,
-            thumb: img.thumb || img.url,
-            alt: img.alt || data.name || "Sedcard image",
-        })),
+        about,
         services,
         languages,
         prices,
-        location: {
+        gallery: images.map((img) => ({
+            src: img.full || img.url,
+            thumb: img.thumb || img.url,
+            alt: img.alt || data.name || "Galerie Bild",
+        })),
+        details: {
+            age: data.age || "",
+            origin: data.origin || "",
             city: data.city || "",
             zip: data.zip || "",
-        },
-        rawValues: data.values || {},
+        }
     };
 }
 
-export const fetchNobleAtlasSedcards = async () => {
+export const fetchNobleAtlasSedcards = async (params = {}) => {
     try {
-        const response = await fetch('/api/models');
+        const { page = 1, per_page = 15, search = '' } = params;
+        let url = `/api/models?page=${page}&per_page=${per_page}`;
+        if (search) url += `&search=${encodeURIComponent(search)}`;
+
+        const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error(`Internal API returned status: ${response.status}`);
@@ -82,13 +92,14 @@ export const fetchNobleAtlasSedcards = async () => {
 
         const data = await response.json();
 
-        if (Array.isArray(data)) {
-            return data.map(mapSedcardForUI);
-        }
-        return [];
+        return {
+            items: (data.items || []).map(mapSedcardForUI),
+            pagination: data.pagination || {},
+            bordell: data.bordell || {}
+        };
     } catch (error) {
-        console.error("Error fetching models from internal API:", error);
-        return [];
+        console.error("Error fetching models:", error);
+        return { items: [], pagination: {}, bordell: {} };
     }
 };
 
@@ -100,14 +111,11 @@ export const fetchNobleAtlasSedcard = async (identifier) => {
             throw new Error(`Internal API returned status: ${response.status}`);
         }
 
-        const item = await response.json();
-
-        if (item && item.id) {
-            return mapSedcardForUI(item);
-        }
-        return null;
+        const data = await response.json();
+        // data factorily contains the raw model object from upstream
+        return mapSedcardForUI(data);
     } catch (error) {
-        console.error(`Error fetching single model (${identifier}) from internal API:`, error);
+        console.error(`Error fetching model (${identifier}):`, error);
         return null;
     }
 };

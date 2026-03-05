@@ -100,17 +100,26 @@ let modelsCache = {
 
 /**
  * Fetch all models for the configured Bordell
- * GET /api/models
+ * GET /api/models?page=1&per_page=12&search=...
  */
 app.get('/api/models', async (req, res) => {
     try {
-        // Check cache first
-        if (modelsCache.data && modelsCache.lastFetched && (Date.now() - modelsCache.lastFetched < modelsCache.TTL)) {
-            console.log('Serving /api/models from cache');
-            return res.json(modelsCache.data);
+        const { page = 1, per_page = 15, search = '' } = req.query;
+
+        // Cache key includes query params
+        const cacheKey = `list_${page}_${per_page}_${search}`;
+
+        // Simple cache check (optional for paginated, but helpful for first page)
+        if (page === 1 && !search && modelsCache.data && (Date.now() - modelsCache.lastFetched < modelsCache.TTL)) {
+            return res.json({
+                items: modelsCache.data,
+                pagination: modelsCache.pagination || {},
+                bordell: modelsCache.bordell || {}
+            });
         }
 
-        const url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards`;
+        let url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards?page=${page}&per_page=${per_page}`;
+        if (search) url += `&search=${encodeURIComponent(search)}`;
 
         const response = await fetch(url, {
             headers: {
@@ -124,59 +133,46 @@ app.get('/api/models', async (req, res) => {
 
         if (!response.ok) {
             console.error(`Upstream API Error (List): ${response.status} ${response.statusText}`);
-
-            // Fallback to stale cache if available when upstream fails
-            if (modelsCache.data) {
-                console.log('Upstream failed, serving STALE cache for /api/models');
-                return res.json(modelsCache.data);
-            }
-
             return res.status(response.status).json({ error: 'Failed to fetch models from external API.' });
         }
 
         const data = await response.json();
 
-        if (data.success && data.data && data.data.items) {
-            // Update Cache
-            modelsCache.data = data.data.items;
-            modelsCache.lastFetched = Date.now();
-            res.json(data.data.items);
+        if (data.success && data.data) {
+            const result = {
+                items: data.data.items || [],
+                pagination: data.data.pagination || {},
+                bordell: data.data.bordell || {}
+            };
+
+            // Cache first page default
+            if (page === 1 && !search) {
+                modelsCache.data = result.items;
+                modelsCache.pagination = result.pagination;
+                modelsCache.bordell = result.bordell;
+                modelsCache.lastFetched = Date.now();
+            }
+
+            res.json(result);
         } else {
-            res.json([]);
+            res.json({ items: [], pagination: {}, bordell: {} });
         }
 
     } catch (error) {
         console.error('Server error fetching models:', error.message);
-        if (modelsCache.data) return res.json(modelsCache.data); // Fallback to stale cache
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
 
 /**
- * Fetch a single model by identifier (e.g. ID or slug)
+ * Fetch a single model by identifier (slug or ID)
  * GET /api/models/:identifier
- * 
- * Note: If the external API doesn't support a direct single-fetch by slug/id, 
- * we fetch the list and filter it, or use the direct endpoint if it exists.
- * Assuming fallback to list filter if specific endpoint isn't documented.
  */
 app.get('/api/models/:identifier', async (req, res) => {
     const { identifier } = req.params;
 
     try {
-        // Check cache for individual item to avoid hitting API
-        if (modelsCache.data) {
-            const model = modelsCache.data.find(m =>
-                m.id.toString() === identifier ||
-                m.slug.toLowerCase() === identifier.toLowerCase()
-            );
-            if (model) {
-                console.log(`Serving /api/models/${identifier} from cache`);
-                return res.json(model);
-            }
-        }
-
-        const url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards`;
+        const url = `${NOBLE_SYNC_BASE_URL}/sedcards/${identifier}/detail?bordell_id=${NOBLE_SYNC_BORDELL_ID}`;
 
         const response = await fetch(url, {
             headers: {
@@ -189,24 +185,15 @@ app.get('/api/models/:identifier', async (req, res) => {
         });
 
         if (!response.ok) {
-            console.error(`Upstream API Error (Single): ${response.status} ${response.statusText}`);
+            console.error(`Upstream API Error (Detail): ${response.status} ${response.statusText}`);
             return res.status(response.status).json({ error: 'Failed to fetch model details.' });
         }
 
         const data = await response.json();
 
-        if (data.success && data.data && data.data.items) {
-            const items = data.data.items;
-            const model = items.find(m =>
-                m.id.toString() === identifier ||
-                m.slug.toLowerCase() === identifier.toLowerCase()
-            );
-
-            if (model) {
-                res.json(model);
-            } else {
-                res.status(404).json({ error: 'Model not found.' });
-            }
+        if (data.success && data.data) {
+            // Return raw data as requested
+            res.json(data.data);
         } else {
             res.status(404).json({ error: 'Model not found.' });
         }

@@ -12,7 +12,7 @@ const Models = () => {
         const loadData = async () => {
             try {
                 const data = await fetchNobleAtlasSedcards();
-                setModels(data);
+                setModels(data.items || []);
             } catch (error) {
                 console.error("Failed to fetch sedcards", error);
             } finally {
@@ -32,7 +32,7 @@ const Models = () => {
                         Die individuelle Anwesenheit erfragst du bitte telefonisch.
                     </p>
                     <div className="noble-atlas-badge">
-                        Powered by <strong>Noble Atlas</strong> Sync
+                        Direkt von <strong>Noble Atlas</strong> Sync
                     </div>
                 </div>
             </section>
@@ -42,7 +42,7 @@ const Models = () => {
                     {loading ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
-                            <p>Sedcards werden von Noble Atlas geladen...</p>
+                            <p>Sedcards werden geladen...</p>
                         </div>
                     ) : (
                         <div className="models-grid">
@@ -53,7 +53,12 @@ const Models = () => {
                                     style={{ animationDelay: `${index * 0.1}s` }}
                                 >
                                     <div className="model-image-wrapper">
-                                        <img src={model.hero.image} alt={model.hero.name} className="model-image" />
+                                        <img src={model.hero.image} alt={model.name} className="model-image" />
+                                        {model.verified && (
+                                            <div className="verified-badge" title="Echtheits-geprüft">
+                                                <span>✓</span>
+                                            </div>
+                                        )}
                                         <div className="model-overlay">
                                             <Link to={`/damen/${model.slug}`} className="btn btn-outline btn-sm">
                                                 Profil ansehen <ArrowRight size={14} />
@@ -61,10 +66,13 @@ const Models = () => {
                                         </div>
                                     </div>
                                     <div className="model-info">
-                                        <h3>{model.hero.name}</h3>
-                                        <div className="model-details">
-                                            <span>Alter: {model.hero.age}</span>
-                                            <span>Maße: {model.measurements}</span>
+                                        <div className="model-header">
+                                            <h3>{model.name}</h3>
+                                            {model.hero.age && <span className="age-tag">{model.hero.age} Jahre</span>}
+                                        </div>
+                                        <div className="model-meta">
+                                            {model.hero.origin && <span>{model.hero.origin}</span>}
+                                            {model.hero.city && <span> • {model.hero.city}</span>}
                                         </div>
                                         <p className="model-bio">{model.about}</p>
                                     </div>

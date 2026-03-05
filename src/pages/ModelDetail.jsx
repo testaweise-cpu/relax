@@ -67,103 +67,201 @@ const ModelDetail = () => {
                     <ArrowLeft size={14} style={{ marginRight: '0.5rem' }} /> Zurück
                 </Link>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', alignItems: 'start' }}>
-                    {/* Image Section */}
-                    <div className="model-detail-image-wrapper glass-panel" style={{ padding: '1rem', borderRadius: '16px' }}>
+                <div className="model-detail-container">
+                    {/* Left: Hero Image */}
+                    <div className="model-main-image glass-panel">
                         <img
                             src={model.hero.image}
-                            alt={model.hero.name}
-                            style={{ width: '100%', height: 'auto', borderRadius: '8px', display: 'block' }}
+                            alt={model.name}
+                            className="img-fluid"
                         />
+                        {model.verified && (
+                            <div className="verified-status-badge">
+                                <span>Verifiziert</span>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Details Section */}
-                    <div className="model-detail-info">
-                        <h1 className="heading-xl text-accent">
-                            {model.hero.name}
-                            {model.hero.verified && <span style={{ fontSize: '0.5em', marginLeft: '10px', verticalAlign: 'middle', background: 'var(--color-dark-accent)', padding: '2px 8px', borderRadius: '4px', color: '#fff' }}>Verifiziert</span>}
-                        </h1>
-                        <p style={{ fontSize: '1.2rem', color: '#a0a0a0', marginBottom: '2rem' }}>
-                            Standort: {model.hero.city} {model.hero.zip && `(${model.hero.zip})`}
-                        </p>
-
-                        <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
-                            <h3 style={{ marginBottom: '1rem', color: 'var(--color-dark-text)' }}>Details</h3>
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
-                                <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <span style={{ color: '#888' }}>Alter</span>
-                                    <span>{model.hero.age}</span>
-                                </li>
-                                <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <span style={{ color: '#888' }}>Maße</span>
-                                    <span>{model.measurements}</span>
-                                </li>
-                                {model.languages && model.languages.length > 0 && (
-                                    <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                        <span style={{ color: '#888' }}>Sprachen</span>
-                                        <span>{model.languages.join(', ')}</span>
-                                    </li>
-                                )}
-                                <li style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0' }}>
-                                    <span style={{ color: '#888' }}>ID</span>
-                                    <span>#{model.id}</span>
-                                </li>
-                            </ul>
+                    {/* Right: Info */}
+                    <div className="model-main-info">
+                        <div className="model-title-section">
+                            <h1 className="heading-xl text-accent">{model.name}</h1>
+                            <div className="model-quick-meta">
+                                {model.hero.age && <span>{model.hero.age} Jahre</span>}
+                                {model.hero.origin && <span> • {model.hero.origin}</span>}
+                                {model.hero.city && <span> • {model.hero.city}</span>}
+                            </div>
                         </div>
 
-                        {model.about && (
-                            <div style={{ marginBottom: '2rem', lineHeight: '1.8' }}>
-                                <h3 style={{ marginBottom: '1rem' }}>Über mich</h3>
-                                <p>{model.about}</p>
+                        <div className="model-about-section">
+                            <h3 className="section-title">Über mich</h3>
+                            <p className="model-description">{model.about}</p>
+                        </div>
+
+                        {(model.services?.length > 0 || model.languages?.length > 0) && (
+                            <div className="model-tags-container">
+                                {model.services?.length > 0 && (
+                                    <div className="tag-group">
+                                        <h4 className="small-label">Serviceleistungen</h4>
+                                        <div className="tags">
+                                            {model.services.map(s => <span key={s} className="tag">{s}</span>)}
+                                        </div>
+                                    </div>
+                                )}
+                                {model.languages?.length > 0 && (
+                                    <div className="tag-group">
+                                        <h4 className="small-label">Sprachen</h4>
+                                        <div className="tags">
+                                            {model.languages.map(l => <span key={l} className="tag">{l}</span>)}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
 
-                        {model.services && model.services.length > 0 && (
-                            <div style={{ marginBottom: '2rem', lineHeight: '1.8' }}>
-                                <h3 style={{ marginBottom: '1rem' }}>Serviceleistungen</h3>
-                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                    {model.services.map((service, idx) => (
-                                        <span key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 12px', borderRadius: '20px', fontSize: '0.9rem' }}>
-                                            {service}
-                                        </span>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-
-                        <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
-                            <h3 style={{ marginBottom: '1rem', color: 'var(--color-dark-text)' }}>Preise</h3>
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
-                                {model.prices && model.prices.length > 0 ? (
-                                    model.prices.map((price, idx) => (
-                                        <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.5rem 0', borderBottom: idx < model.prices.length - 1 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
-                                            <span style={{ color: '#bbb' }}>{price.label}</span>
-                                            <span className="text-accent">{price.value}</span>
-                                        </li>
+                        <div className="model-pricing-section glass-panel">
+                            <h3 className="section-title">Preise</h3>
+                            <div className="price-list">
+                                {model.prices?.length > 0 ? (
+                                    model.prices.map((p, i) => (
+                                        <div key={i} className="price-row">
+                                            <span className="price-label">{p.label}</span>
+                                            <span className="price-value text-accent">{p.value}</span>
+                                        </div>
                                     ))
                                 ) : (
-                                    <li style={{ padding: '0.5rem 0', color: '#888', fontStyle: 'italic' }}>Auf Anfrage</li>
+                                    <p className="no-prices text-muted">Preise auf Anfrage.</p>
                                 )}
-                            </ul>
-                        </div>
-
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            <a href={model.permalink} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                                Auf Noble Atlas ansehen <ExternalLink size={18} />
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Gallery Section */}
+                {model.gallery?.length > 1 && (
+                    <section className="model-gallery-section" style={{ marginTop: '4rem', marginBottom: '4rem' }}>
+                        <h2 className="heading-lg" style={{ marginBottom: '2rem' }}>Galerie</h2>
+                        <div className="model-gallery-grid">
+                            {model.gallery.map((img, i) => (
+                                <div key={i} className="gallery-item glass-panel">
+                                    <img src={img.thumb} alt={`${model.name} Galerie ${i + 1}`} loading="lazy" />
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
             </div>
-            {/* Adding basic responsive style via inline style tag for quick demo */}
+
             <style dangerouslySetInnerHTML={{
                 __html: `
-                @media (max-width: 768px) {
-                    .models-page > .container > div[style] {
-                        grid-template-columns: 1fr !important;
+                .model-detail-container {
+                    display: grid;
+                    grid-template-columns: 1fr 1.2fr;
+                    gap: 3rem;
+                    align-items: start;
+                }
+                .model-main-image {
+                    position: relative;
+                    padding: 10px;
+                    border-radius: 20px;
+                }
+                .model-main-image img {
+                    width: 100%;
+                    border-radius: 12px;
+                    display: block;
+                }
+                .verified-status-badge {
+                    position: absolute;
+                    top: 25px;
+                    right: 25px;
+                    background: #10B981;
+                    color: white;
+                    padding: 6px 15px;
+                    border-radius: 50px;
+                    font-size: 0.8rem;
+                    font-weight: bold;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                }
+                .model-quick-meta {
+                    color: #a0a0a0;
+                    font-size: 1.2rem;
+                    margin-top: 0.5rem;
+                    margin-bottom: 2rem;
+                }
+                .section-title {
+                    font-size: 1.4rem;
+                    margin-bottom: 1rem;
+                    color: var(--color-dark-text);
+                }
+                .model-description {
+                    line-height: 1.8;
+                    color: #d0d0d0;
+                    margin-bottom: 2rem;
+                    white-space: pre-line;
+                }
+                .tag-group {
+                    margin-bottom: 1.5rem;
+                }
+                .small-label {
+                    font-size: 0.8rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    color: #666;
+                    margin-bottom: 0.8rem;
+                }
+                .tags {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+                .tag {
+                    background: rgba(255,255,255,0.05);
+                    padding: 4px 12px;
+                    border-radius: 4px;
+                    font-size: 0.85rem;
+                    color: #ccc;
+                    border: 1px solid rgba(255,255,255,0.05);
+                }
+                .price-list {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+                .price-row {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0.8rem 0;
+                    border-bottom: 1px solid rgba(255,255,255,0.05);
+                }
+                .price-row:last-child {
+                    border-bottom: none;
+                }
+                .model-gallery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                    gap: 1.5rem;
+                }
+                .gallery-item {
+                    padding: 5px;
+                    border-radius: 12px;
+                    overflow: hidden;
+                }
+                .gallery-item img {
+                    width: 100%;
+                    height: 250px;
+                    object-fit: cover;
+                    border-radius: 8px;
+                    transition: transform 0.3s ease;
+                }
+                .gallery-item:hover img {
+                    transform: scale(1.05);
+                }
+                @media (max-width: 992px) {
+                    .model-detail-container {
+                        grid-template-columns: 1fr;
                     }
                 }
-            `}} />
+            ` }} />
         </div>
     );
 };
