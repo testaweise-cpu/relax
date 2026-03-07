@@ -33,8 +33,13 @@
     align-items: center;
 }
 
-/* Gold Filter Effect: Forces black first, then applies accurate gold hue */
-filter: brightness(0) saturate(100%) invert(72%) sepia(50%) saturate(1000%) hue-rotate(5deg) brightness(102%) contrast(106%);
+.navbar-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    transition: transform var(--transition-normal);
+    /* Gold Filter Effect: Forces black first, then applies accurate gold hue */
+    filter: brightness(0) saturate(100%) invert(72%) sepia(50%) saturate(1000%) hue-rotate(5deg) brightness(102%) contrast(106%);
 }
 
 .brand:hover .navbar-logo {
