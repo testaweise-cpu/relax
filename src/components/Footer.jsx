@@ -43,8 +43,9 @@ const Footer = () => {
                     <p>
                         Wir möchten ausdrücklich darauf hinweisen, dass wir kein FKK-Club sind und keinen Eintritt erheben.
                     </p>
-                    <div style={{ marginTop: '2rem' }}>
-                        <Link to="/#impressum" className="text-accent">Impressum & Datenschutz</Link>
+                    <div style={{ marginTop: '2rem', display: 'flex', gap: '1.5rem' }}>
+                        <Link to="/impressum" className="text-accent">Impressum</Link>
+                        <Link to="/datenschutz" className="text-accent">Datenschutz</Link>
                     </div>
                 </div>
             </div>
