@@ -143,15 +143,17 @@
     color: var(--color-dark-text);
     text-align: center;
     width: 100%;
-    max-width: 300px;
-    border-bottom: 1px solid rgba(160, 0, 0, 0.1);
-    padding-bottom: 1rem;
-    transition: color 0.3s ease;
+    max-width: 250px;
+    border-bottom: 1px solid rgba(139, 0, 0, 0.3);
+    /* Red separation line */
+    padding: 1rem 0;
+    transition: all 0.3s ease;
 }
 
 .mobile-link.active {
     color: var(--color-dark-accent);
     border-bottom-color: var(--color-dark-accent);
+    font-weight: 600;
 }
 
 .quicklink-btn-mobile {
