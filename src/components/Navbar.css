@@ -34,7 +34,8 @@
 }
 
 .navbar-logo {
-    height: 50px;
+    height: 42px;
+    /* Reduced from 50px */
     width: auto;
     object-fit: contain;
     transition: transform var(--transition-normal);
@@ -116,18 +117,22 @@
 
 .mobile-menu {
     position: fixed;
-    top: 80px;
+    top: 0;
     left: 0;
     width: 100%;
-    height: calc(100vh - 80px);
-    background-color: var(--color-dark-bg);
+    height: 100vh;
+    background-color: rgba(3, 0, 0, 0.98);
+    /* Near opaque black */
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
     padding: 2rem;
-    gap: 1.5rem;
+    gap: 2rem;
     transform: translateX(100%);
-    transition: transform var(--transition-normal);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 999;
+    backdrop-filter: blur(15px);
 }
 
 .mobile-menu.open {
@@ -136,10 +141,14 @@
 
 .mobile-link {
     font-family: var(--font-serif);
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     color: var(--color-dark-text);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    border-bottom: 1px solid rgba(160, 0, 0, 0.1);
     padding-bottom: 1rem;
+    transition: color 0.3s ease;
 }
 
 .mobile-link.active {
