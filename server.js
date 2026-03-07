@@ -106,20 +106,20 @@ app.get('/api/models', async (req, res) => {
     try {
         const { page = 1, per_page = 15, search = '' } = req.query;
 
-        // Cache key includes query params
-        const cacheKey = `list_${page}_${per_page}_${search}`;
+        // URL exactly as specified: https://noble-atlas.de/wp-json/noble-bordell-sync/v1/bordells/5607/sedcards
+        let url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards`;
 
-        // Simple cache check (optional for paginated, but helpful for first page)
-        if (page === 1 && !search && modelsCache.data && (Date.now() - modelsCache.lastFetched < modelsCache.TTL)) {
-            return res.json({
-                items: modelsCache.data,
-                pagination: modelsCache.pagination || {},
-                bordell: modelsCache.bordell || {}
-            });
-        }
+        // Add params if they are standard for the API
+        const params = new URLSearchParams();
+        if (page > 1) params.append('page', page);
+        if (per_page != 15) params.append('per_page', per_page);
+        if (search) params.append('search', search);
 
-        let url = `${NOBLE_SYNC_BASE_URL}/bordells/${NOBLE_SYNC_BORDELL_ID}/sedcards?page=${page}&per_page=${per_page}`;
-        if (search) url += `&search=${encodeURIComponent(search)}`;
+        const queryString = params.toString();
+        if (queryString) url += `?${queryString}`;
+
+        console.log(`[NobleSync] Requesting: ${url}`);
+        console.log(`[NobleSync] Token Prefix: ${NOBLE_SYNC_TOKEN ? NOBLE_SYNC_TOKEN.substring(0, 10) : 'MISSING'}`);
 
         const response = await fetch(url, {
             headers: {
@@ -132,34 +132,25 @@ app.get('/api/models', async (req, res) => {
         });
 
         if (!response.ok) {
-            console.error(`Upstream API Error (List): ${response.status} ${response.statusText}`);
+            const errorText = await response.text();
+            console.error(`[NobleSync] Error ${response.status}: ${errorText.substring(0, 200)}`);
             return res.status(response.status).json({ error: 'Failed to fetch models from external API.' });
         }
 
         const data = await response.json();
 
         if (data.success && data.data) {
-            const result = {
+            res.json({
                 items: data.data.items || [],
                 pagination: data.data.pagination || {},
                 bordell: data.data.bordell || {}
-            };
-
-            // Cache first page default
-            if (page === 1 && !search) {
-                modelsCache.data = result.items;
-                modelsCache.pagination = result.pagination;
-                modelsCache.bordell = result.bordell;
-                modelsCache.lastFetched = Date.now();
-            }
-
-            res.json(result);
+            });
         } else {
             res.json({ items: [], pagination: {}, bordell: {} });
         }
 
     } catch (error) {
-        console.error('Server error fetching models:', error.message);
+        console.error('[NobleSync] Internal Server Error:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
