@@ -38,6 +38,8 @@
     width: auto;
     object-fit: contain;
     transition: transform var(--transition-normal);
+    /* Gold Filter Effect */
+    filter: invert(72%) sepia(50%) saturate(1000%) hue-rotate(5deg) brightness(102%) contrast(106%);
 }
 
 .brand:hover .navbar-logo {

@@ -18,6 +18,8 @@
     width: auto;
     object-fit: contain;
     margin-bottom: 1.5rem;
+    /* Gold Filter Effect */
+    filter: invert(72%) sepia(50%) saturate(1000%) hue-rotate(5deg) brightness(102%) contrast(106%);
 }
 
 .footer-tagline {
