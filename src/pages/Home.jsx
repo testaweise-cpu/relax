@@ -9,9 +9,16 @@ const Home = () => {
         <div className="home-page theme-dark">
             {/* Hero Section */}
             <section className="hero-section">
-                <div className="hero-bg-container">
-                    <div className="hero-bg-left"></div>
-                    <div className="hero-bg-right"></div>
+                <div className="hero-video-container">
+                    <video
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="hero-video"
+                    >
+                        <source src="https://www.mona-roses.com/wp-content/uploads/2020/08/bockhaus_dancing.mp4" type="video/mp4" />
+                    </video>
                 </div>
                 <div className="hero-overlay"></div>
                 <div className="container hero-content animate-fade-in">
