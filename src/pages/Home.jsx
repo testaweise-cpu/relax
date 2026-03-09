@@ -1,10 +1,13 @@
 import React from 'react';
 import { ArrowRight, Star, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import Button from '../components/Button';
 import image5 from '../bilder/5.jpg'; // Import Ambiente image
 import './Home.css';
 
 const Home = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="home-page theme-dark">
             {/* Hero Section */}
@@ -22,14 +25,14 @@ const Home = () => {
                 </div>
                 <div className="hero-overlay"></div>
                 <div className="container hero-content animate-fade-in">
-                    <h1 className="heading-xl">Willkommen in der<br /><span className="text-accent">Relax Lounge</span></h1>
-                    <p className="hero-subtitle">Dein exklusiver Treffpunkt in Berlin Neukölln.</p>
+                    <h1 className="heading-xl">{t('home.welcome')}<br /><span className="text-accent">Relax Lounge</span></h1>
+                    <p className="hero-subtitle">{t('home.subtitle')}</p>
                     <div className="hero-actions">
                         <Button to="/damen" variant="primary" icon={<ArrowRight size={18} />}>
-                            Zu den Damen
+                            {t('home.to_models')}
                         </Button>
                         <Button to="/ambiente-vermietung" variant="outline">
-                            Ambiente entdecken
+                            {t('home.discover_atmosphere')}
                         </Button>
                     </div>
                 </div>
@@ -40,18 +43,17 @@ const Home = () => {
                 <div className="container">
                     <div className="intro-grid">
                         <div className="intro-text">
-                            <h2 className="heading-lg">Entspanne in purer Eleganz</h2>
+                            <h2 className="heading-lg">{t('home.intro_title')}</h2>
                             <p>
-                                Wir begrüßen Dich herzlich in der Relax Lounge bei Kaisers.
-                                Erlebe unvergessliche Momente in einer stressfreien und diskreten Atmosphäre.
+                                {t('home.intro_p1')}
                             </p>
                             <p>
-                                Jetzt auch Sonntags von 10 Uhr bis 22 Uhr für euch da!
+                                {t('home.intro_p2')}
                             </p>
                             <ul className="feature-list">
-                                <li><Star size={20} className="text-accent" /> Kein FKK-Club</li>
-                                <li><Star size={20} className="text-accent" /> Kein Eintritt</li>
-                                <li><Heart size={20} className="text-accent" /> Familiäre Atmosphäre</li>
+                                <li><Star size={20} className="text-accent" /> {t('home.feature_fkk')}</li>
+                                <li><Star size={20} className="text-accent" /> {t('home.feature_entry')}</li>
+                                <li><Heart size={20} className="text-accent" /> {t('home.feature_vibe')}</li>
                             </ul>
                         </div>
                         <div className="intro-image glass-panel">
@@ -66,13 +68,12 @@ const Home = () => {
             {/* Quick Info Section - Dark Theme (Gold on Black) */}
             <section className="section quick-info-section theme-dark">
                 <div className="container text-center">
-                    <h2 className="heading-lg">Wir wünschen Ihnen einen <br /><span className="text-accent">schönen Aufenthalt</span></h2>
+                    <h2 className="heading-lg">{t('home.enjoy_stay')} <br /><span className="text-accent">{t('home.enjoy_stay_accent')}</span></h2>
                     <p style={{ maxWidth: '600px', margin: '2rem auto', color: '#a0a0a0' }}>
-                        Lass den Alltag hinter dir und genieße die Zeit bei uns.
-                        Unser Team aus ständig wechselnden, bezaubernden Damen freut sich auf deinen Besuch.
+                        {t('home.p_outro')}
                     </p>
                     <Button to="/anfahrt" variant="primary">
-                        Wegbeschreibung
+                        {t('home.directions')}
                     </Button>
                 </div>
             </section>
@@ -81,3 +82,4 @@ const Home = () => {
 };
 
 export default Home;
+

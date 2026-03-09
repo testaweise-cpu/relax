@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '../components/Button';
 import './Rooms.css';
 
@@ -9,14 +10,15 @@ import img7 from '../bilder/7.jpg';
 import img8 from '../bilder/8.jpg';
 
 const Rooms = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="rooms-page theme-dark">
             <section className="section page-header text-center">
                 <div className="container animate-fade-in">
-                    <h1 className="heading-lg">Ambiente & <span className="text-accent">Zimmervermietung</span></h1>
+                    <h1 className="heading-lg">{t('rooms.title')} <span className="text-accent">{t('rooms.title_accent')}</span></h1>
                     <p className="page-subtitle">
-                        Dein Arbeitsraum in der Relax Lounge. <br />
-                        Wir bieten einen stressfreien Ort für selbständige Damen.
+                        {t('rooms.subtitle')}
                     </p>
                 </div>
             </section>
@@ -25,18 +27,15 @@ const Rooms = () => {
                 <div className="container">
                     <div className="split-layout">
                         <div className="split-text animate-fade-in">
-                            <h2 className="heading-lg">Dein Arbeitsraum</h2>
+                            <h2 className="heading-lg">{t('rooms.your_workspace')}</h2>
                             <p>
-                                Hallo liebe Kollegin! Wir bieten ab sofort lieben Damen mit Erfahrung und Lebensreife einen Raum zum Arbeiten.
-                                Die Relax Lounge bietet dir in stressfreier und sehr ungezwungener Atmosphäre die Möglichkeit hier wochen-, tage- oder nur stundenweise,
-                                als selbstständig tätige Dienstleisterin deinem Beruf nachzugehen.
+                                {t('rooms.p1')}
                             </p>
                             <p>
-                                Wir bieten Euch in gemütlicher und familiärer Atmosphäre eine neue Arbeitsmöglichkeit mit guten Verdienstaussichten.
-                                In unseren sauberen und mit Liebe zum Detail eingerichteten hellen Räumen fühlst Du dich bestimmt ganz schnell wie zu Hause.
+                                {t('rooms.p2')}
                             </p>
                             <div style={{ marginTop: '2rem' }}>
-                                <Button to="/anfahrt" variant="primary">Komm vorbei</Button>
+                                <Button to="/anfahrt" variant="primary">{t('rooms.come_by')}</Button>
                             </div>
                         </div>
                         <div className="split-image glass-panel animate-fade-in" style={{ animationDelay: '0.2s', padding: '1.5rem' }}>
@@ -54,14 +53,13 @@ const Rooms = () => {
             {/* Seitensprung Section - Light Theme for contrast */}
             <section className="section theme-light seitensprung-section">
                 <div className="container text-center">
-                    <h2 className="heading-lg">Dein Abenteuer in der <span className="text-accent">Relax Lounge</span></h2>
-                    <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: '#555' }}>Du brauchst einen Ort für deinen Seitensprung?</h3>
+                    <h2 className="heading-lg">{t('rooms.adventure_title')} <span className="text-accent">{t('rooms.adventure_accent')}</span></h2>
+                    <h3 style={{ fontSize: '1.5rem', marginTop: '1rem', color: '#555' }}>{t('rooms.need_place')}</h3>
                     <p style={{ maxWidth: '600px', margin: '2rem auto' }}>
-                        Wir bieten diskrete und private Räumlichkeiten für ungestörte Stunden zu zweit.
-                        Genieße die absolute Privatsphäre in unserem gepflegten Ambiente.
+                        {t('rooms.discrete_p')}
                     </p>
                     <Button variant="outline" onClick={() => window.location.href = 'tel:015151576857'}>
-                        Jetzt Anrufen für Details
+                        {t('rooms.call_for_details')}
                     </Button>
                 </div>
             </section>
@@ -70,3 +68,4 @@ const Rooms = () => {
 };
 
 export default Rooms;
+

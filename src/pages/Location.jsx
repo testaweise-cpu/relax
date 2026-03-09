@@ -1,6 +1,7 @@
 import React from 'react';
-import { MapPin, Navigation, Clock } from 'lucide-react';
+import { MapPin, Navigation, Clock, Phone } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { useTranslation } from 'react-i18next';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import './Location.css';
@@ -17,6 +18,7 @@ const goldIcon = new L.Icon({
 });
 
 const Location = () => {
+    const { t } = useTranslation();
     const position = [52.469298, 13.454414];
 
     return (
@@ -36,8 +38,8 @@ const Location = () => {
                 </div>
                 <div className="hero-overlay"></div>
                 <div className="container hero-content animate-fade-in">
-                    <h1 className="heading-lg">Dein Weg zur <br /><span className="text-accent">Relax Lounge</span></h1>
-                    <p className="hero-subtitle">Mitten im Herzen von Berlin Neukölln.</p>
+                    <h1 className="heading-lg">{t('location.title')} <br /><span className="text-accent">Relax Lounge</span></h1>
+                    <p className="hero-subtitle">{t('location.subtitle')}</p>
                 </div>
             </section>
 
@@ -47,17 +49,28 @@ const Location = () => {
 
                         {/* Info Panel - Premium Glass Style */}
                         <div className="info-panel glass-panel animate-fade-in">
-                            <h2 className="heading-lg" style={{ fontSize: '2rem', marginBottom: '2.5rem' }}>Adresse & <span className="text-accent">Kontakt</span></h2>
+                            <h2 className="heading-lg" style={{ fontSize: '2rem', marginBottom: '2.5rem' }}>{t('location.address_contact')}</h2>
 
                             <div className="info-block">
                                 <div className="info-icon-wrapper">
                                     <MapPin className="text-accent" size={24} />
                                 </div>
                                 <div className="info-text-content">
-                                    <h3>Standort</h3>
+                                    <h3>{t('location.location')}</h3>
                                     <p>Lahnstraße 12</p>
                                     <p>12055 Berlin - Neukölln</p>
-                                    <p className="hint">Eingang im Hinterhaus Souterrain</p>
+                                    <p className="hint">{t('location.hint_entrance')}</p>
+                                </div>
+                            </div>
+
+                            <div className="info-block">
+                                <div className="info-icon-wrapper">
+                                    <Phone className="text-accent" size={24} />
+                                </div>
+                                <div className="info-text-content">
+                                    <h3>{t('impressum.contact')}</h3>
+                                    <p>WhatsApp: 0152 - 1362 3235</p>
+                                    <p>Telefon: 030 - 8973 1112</p>
                                 </div>
                             </div>
 
@@ -66,9 +79,9 @@ const Location = () => {
                                     <Clock className="text-accent" size={24} />
                                 </div>
                                 <div className="info-text-content">
-                                    <h3>Öffnungszeiten</h3>
-                                    <p>Täglich von 10:00 - 22:00 Uhr</p>
-                                    <p className="hint">Diskretion ist unsere Priorität</p>
+                                    <h3>{t('location.hours')}</h3>
+                                    <p>{t('location.daily')}</p>
+                                    <p className="hint">{t('location.hint_discretion')}</p>
                                 </div>
                             </div>
 
@@ -77,9 +90,9 @@ const Location = () => {
                                     <Navigation className="text-accent" size={24} />
                                 </div>
                                 <div className="info-text-content">
-                                    <h3>Anfahrt & Parken</h3>
-                                    <p>Zentrale Lage in Neukölln.</p>
-                                    <p>Gute Parkmöglichkeiten in der Nähe.</p>
+                                    <h3>{t('location.arrival_parking')}</h3>
+                                    <p>{t('location.central_location')}</p>
+                                    <p>{t('location.parking_info')}</p>
                                 </div>
                             </div>
 
@@ -90,7 +103,7 @@ const Location = () => {
                                     style={{ width: '100%' }}
                                     external
                                 >
-                                    Route berechnen
+                                    {t('location.calculate_route')}
                                 </Button>
                             </div>
                         </div>
@@ -124,3 +137,4 @@ const Location = () => {
 };
 
 export default Location;
+

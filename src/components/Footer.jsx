@@ -2,19 +2,26 @@ import React from 'react';
 import './Footer.css';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import logo from '../bilder/logo.png';
 
 const Footer = () => {
+    const { t } = useTranslation();
+
     return (
         <footer className="footer theme-dark">
             <div className="container footer-content">
                 <div className="footer-brand animate-fade-in">
                     <img src={logo} alt="Relax Lounge" className="footer-logo" />
-                    <p className="footer-tagline">Dein exklusiver Club in Berlin Neukölln.</p>
+                    <p className="footer-tagline">{t('footer.tagline')}</p>
                     <div className="contact-info">
                         <div className="info-item">
                             <Phone size={18} className="text-accent" />
-                            <span>0151 51576857</span>
+                            <span>030 - 8973 1112</span>
+                        </div>
+                        <div className="info-item">
+                            <span className="text-accent" style={{ fontWeight: 'bold', fontSize: '10px' }}>WA</span>
+                            <span>0152 - 1362 3235</span>
                         </div>
                         <div className="info-item">
                             <MapPin size={18} className="text-accent" />
@@ -28,30 +35,30 @@ const Footer = () => {
                 </div>
 
                 <div className="footer-links animate-fade-in" style={{ animationDelay: '0.1s' }}>
-                    <h3>Navigation</h3>
+                    <h3>{t('footer.navigation')}</h3>
                     <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/damen">Damen</Link></li>
-                        <li><Link to="/preise">Preise</Link></li>
-                        <li><Link to="/ambiente-vermietung">Ambiente & Vermietung</Link></li>
-                        <li><Link to="/anfahrt">Anfahrt</Link></li>
+                        <li><Link to="/">{t('nav.home')}</Link></li>
+                        <li><Link to="/damen">{t('nav.models')}</Link></li>
+                        <li><Link to="/preise">{t('nav.prices')}</Link></li>
+                        <li><Link to="/ambiente-vermietung">{t('nav.atmosphere')}</Link></li>
+                        <li><Link to="/anfahrt">{t('nav.anfahrt')}</Link></li>
                     </ul>
                 </div>
 
                 <div className="footer-disclaimer animate-fade-in" style={{ animationDelay: '0.2s' }}>
-                    <h3>Information</h3>
+                    <h3>{t('footer.information')}</h3>
                     <p>
-                        Wir möchten ausdrücklich darauf hinweisen, dass wir kein FKK-Club sind und keinen Eintritt erheben.
+                        {t('footer.fkk_disclaimer')}
                     </p>
                     <div style={{ marginTop: '2rem', display: 'flex', gap: '1.5rem' }}>
-                        <Link to="/impressum" className="text-accent">Impressum</Link>
-                        <Link to="/datenschutz" className="text-accent">Datenschutz</Link>
+                        <Link to="/impressum" className="text-accent">{t('footer.impressum')}</Link>
+                        <Link to="/datenschutz" className="text-accent">{t('footer.datenschutz')}</Link>
                     </div>
                 </div>
             </div>
             <div className="footer-bottom">
                 <div className="container">
-                    <p>&copy; {new Date().getFullYear()} Relax Lounge bei Kaisers. Alle Rechte vorbehalten.</p>
+                    <p>&copy; {new Date().getFullYear()} Relax Lounge bei Kaisers. {t('footer.rights')}</p>
                 </div>
             </div>
         </footer>
@@ -59,3 +66,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { fetchNobleAtlasSedcards } from '../services/nobleAtlasService';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import './Models.css';
 
 const Models = () => {
+    const { t } = useTranslation();
     const [models, setModels] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -26,13 +28,12 @@ const Models = () => {
         <div className="models-page theme-dark">
             <section className="section page-header text-center">
                 <div className="container animate-fade-in">
-                    <h1 className="heading-lg">Unsere <span className="text-accent">Damen</span></h1>
+                    <h1 className="heading-lg">{t('models.title')} <span className="text-accent">{t('models.title_accent')}</span></h1>
                     <p className="page-subtitle">
-                        Wir sind ein Team ständig wechselnder Damen.<br />
-                        Die individuelle Anwesenheit erfragst du bitte telefonisch.
+                        {t('models.subtitle')}
                     </p>
                     <div className="noble-atlas-badge">
-                        Direkt von <strong>Noble Atlas</strong> Sync
+                        {t('models.noble_atlas')}
                     </div>
                 </div>
             </section>
@@ -42,7 +43,7 @@ const Models = () => {
                     {loading ? (
                         <div className="loading-state">
                             <div className="spinner"></div>
-                            <p>Sedcards werden geladen...</p>
+                            <p>{t('models.loading')}</p>
                         </div>
                     ) : (
                         <div className="models-grid">
@@ -61,14 +62,14 @@ const Models = () => {
                                         )}
                                         <div className="model-overlay">
                                             <Link to={`/damen/${model.slug}`} className="btn btn-outline btn-sm">
-                                                Profil ansehen <ArrowRight size={14} />
+                                                {t('models.view_profile')} <ArrowRight size={14} />
                                             </Link>
                                         </div>
                                     </div>
                                     <div className="model-info">
                                         <div className="model-header">
                                             <h3>{model.name}</h3>
-                                            {model.hero.age && <span className="age-tag">{model.hero.age} Jahre</span>}
+                                            {model.hero.age && <span className="age-tag">{model.hero.age} {t('models.years')}</span>}
                                         </div>
                                         <div className="model-meta">
                                             {model.hero.origin && <span>{model.hero.origin}</span>}
@@ -86,12 +87,11 @@ const Models = () => {
             {/* Light Theme Section for contrast */}
             <section className="section termindamen-section theme-light text-center">
                 <div className="container">
-                    <h2 className="heading-lg">Auf der Suche nach <span className="text-accent">Termindamen?</span></h2>
+                    <h2 className="heading-lg">{t('models.looking_for')} <span className="text-accent">{t('models.termindamen')}</span></h2>
                     <p style={{ maxWidth: '600px', margin: '2rem auto' }}>
-                        Diese Damen sind immer nur für kurze Zeit bei uns!
-                        Alle Damen sind selbständig tätig. Auf Nachfrage werden auch Sonderwünsche erfüllt!
+                        {t('models.termindamen_p')}
                     </p>
-                    <button className="btn btn-primary">Termindamen ansehen</button>
+                    <button className="btn btn-primary">{t('models.view_termindamen')}</button>
                 </div>
             </section>
         </div>
@@ -99,3 +99,4 @@ const Models = () => {
 };
 
 export default Models;
+

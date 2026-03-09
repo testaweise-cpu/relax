@@ -1,44 +1,45 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Impressum = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="legal-page theme-dark" style={{ paddingTop: '120px', paddingBottom: '80px', minHeight: '100vh' }}>
             <div className="container">
-                <h1 className="heading-lg">Impressum</h1>
+                <h1 className="heading-lg">{t('impressum.title')}</h1>
                 <div className="glass-panel" style={{ padding: '3rem', marginTop: '2rem', lineHeight: '1.8' }}>
-                    <h2>Angaben gemäß § 5 TMG</h2>
+                    <h2>{t('impressum.info_tmg')}</h2>
                     <p>
                         Relax Lounge bei Kaisers<br />
-                        [Inhaber/Geschäftsführer Name]<br />
-                        Rollbergstraße 70<br />
-                        12053 Berlin
+                        Lahnstr. 12<br />
+                        12055 Berlin
                     </p>
 
-                    <h3>Kontakt</h3>
+                    <h3>{t('impressum.contact')}</h3>
                     <p>
-                        Telefon: +49 (0) 30 6813293<br />
-                        E-Mail: [Deine E-Mail Adresse]
+                        Telefon: +49 (0) 30 - 89 73 11 12<br />
+                        WhatsApp: 0152 - 1362 3235<br />
+                        E-Mail: info@relaxloungebeikaisers.de
                     </p>
 
-                    <h3>Umsatzsteuer-ID</h3>
+                    <h3>{t('impressum.responsible')}</h3>
                     <p>
-                        Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br />
-                        [Deine USt-IdNr.]
+                        Frau Ute Meusel<br />
+                        Lahnstr 12<br />
+                        12055 Berlin
                     </p>
 
-                    <h3>Redaktionell verantwortlich</h3>
-                    <p>[Name der verantwortlichen Person]</p>
-
-                    <h3>EU-Streitschlichtung</h3>
+                    <h3>{t('impressum.eu_settlement')}</h3>
                     <p>
-                        Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
+                        {t('impressum.eu_p1')}
                         <a href="https://ec.europa.eu/consumers/odr/" target="_blank" rel="noopener noreferrer"> https://ec.europa.eu/consumers/odr/</a>.<br />
-                        Unsere E-Mail-Adresse finden Sie oben im Impressum.
+                        {t('impressum.eu_p2')}
                     </p>
 
-                    <h3>Verbraucherstreitbeilegung/Universalschlichtungsstelle</h3>
+                    <h3>{t('impressum.consumer_settlement')}</h3>
                     <p>
-                        Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+                        {t('impressum.consumer_p1')}
                     </p>
                 </div>
             </div>
@@ -47,3 +48,4 @@ const Impressum = () => {
 };
 
 export default Impressum;
+
