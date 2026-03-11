@@ -15,6 +15,11 @@ const Datenschutz = () => {
                         {t('datenschutz.p_glance')}
                     </p>
 
+                    <h3>{t('datenschutz.rights')}</h3>
+                    <p>
+                        {t('datenschutz.p_rights')}
+                    </p>
+
                     <h2>{t('datenschutz.collection')}</h2>
                     <h3>{t('datenschutz.who_responsible')}</h3>
                     <p>
@@ -41,6 +46,16 @@ const Datenschutz = () => {
                         {t('datenschutz.p_what_use')}
                     </p>
 
+                    <h2>{t('datenschutz.hosting')}</h2>
+                    <p>
+                        {t('datenschutz.hosting_railway')}
+                    </p>
+
+                    <h2>{t('datenschutz.encryption')}</h2>
+                    <p>
+                        {t('datenschutz.p_encryption')}
+                    </p>
+
                     <h2>{t('datenschutz.cookies')}</h2>
                     <p>
                         {t('datenschutz.p_cookies')}
@@ -51,7 +66,7 @@ const Datenschutz = () => {
                         {t('datenschutz.p_analysis')}
                     </p>
 
-                    <p style={{ marginTop: '2rem', fontStyle: 'italic' }}>
+                    <p style={{ marginTop: '2rem', fontStyle: 'italic', borderTop: '1px solid #333', paddingTop: '1rem' }}>
                         {t('datenschutz.template_notice')}
                     </p>
                 </div>

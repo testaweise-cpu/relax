@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './CookieBanner.css';
 
 const CookieBanner = () => {
+    const { t } = useTranslation();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -13,27 +15,30 @@ const CookieBanner = () => {
         }
     }, []);
 
-    const handleAccept = () => {
-        localStorage.setItem('relax_lounge_cookies', 'accepted');
+    const handleAccept = (type) => {
+        localStorage.setItem('relax_lounge_cookies', type);
         setIsVisible(false);
     };
 
     if (!isVisible) return null;
 
     return (
-        <div className="cookie-banner glass-panel animate-fade-in-up">
-            <div className="cookie-content">
-                <p>
-                    Wir verwenden Cookies, um die Nutzererfahrung zu verbessern.
-                    Details finden Sie in unserer <Link to="/datenschutz">Datenschutzerklärung</Link>.
-                </p>
-                <div className="cookie-actions">
-                    <button onClick={handleAccept} className="btn btn-primary btn-sm">
-                        Akzeptieren
-                    </button>
-                    <button onClick={handleAccept} className="btn btn-outline btn-sm">
-                        Nur Notwendige
-                    </button>
+        <div className="cookie-banner-wrapper">
+            <div className="cookie-banner glass-panel animate-fade-in-up">
+                <div className="cookie-content">
+                    <h3>Cookies & Privacy</h3>
+                    <p>
+                        {t('cookie.text')} {t('cookie.privacy_link')}{' '}
+                        <Link to="/datenschutz">{t('datenschutz.title')}</Link>.
+                    </p>
+                    <div className="cookie-actions">
+                        <button onClick={() => handleAccept('all')} className="btn btn-primary btn-sm">
+                            {t('cookie.accept')}
+                        </button>
+                        <button onClick={() => handleAccept('necessary')} className="btn btn-outline btn-sm">
+                            {t('cookie.necessary')}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
