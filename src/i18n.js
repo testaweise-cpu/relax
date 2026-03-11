@@ -24,7 +24,7 @@ const resources = {
                 "rights": "Alle Rechte vorbehalten."
             },
             "home": {
-                "welcome": "Willkommen in der",
+                "welcome": "Heiße polnische Ladys begrüßen dich in der",
                 "subtitle": "Dein exklusiver Treffpunkt in Berlin Neukölln.",
                 "to_models": "Zu den Damen",
                 "discover_atmosphere": "Ambiente entdecken",
@@ -150,7 +150,7 @@ const resources = {
                 "rights": "All rights reserved."
             },
             "home": {
-                "welcome": "Welcome to",
+                "welcome": "Hot Polish ladies welcome you to",
                 "subtitle": "Your exclusive meeting point in Berlin Neukölln.",
                 "to_models": "To the ladies",
                 "discover_atmosphere": "Discover atmosphere",
