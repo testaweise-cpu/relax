@@ -81,7 +81,7 @@ export function mapSedcardForUI(data) {
 export const fetchNobleAtlasSedcards = async (params = {}) => {
     try {
         const { page = 1, per_page = 15, search = '' } = params;
-        let url = `/api/models?page=${page}&per_page=${per_page}`;
+        let url = `/api.php?action=list&page=${page}&per_page=${per_page}`;
         if (search) url += `&search=${encodeURIComponent(search)}`;
 
         const response = await fetch(url);
@@ -105,7 +105,7 @@ export const fetchNobleAtlasSedcards = async (params = {}) => {
 
 export const fetchNobleAtlasSedcard = async (identifier) => {
     try {
-        const response = await fetch(`/api/models/${identifier}`);
+        const response = await fetch(`/api.php?action=detail&identifier=${encodeURIComponent(identifier)}`);
 
         if (!response.ok) {
             throw new Error(`Internal API returned status: ${response.status}`);
