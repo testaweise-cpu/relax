@@ -20,7 +20,17 @@ app.use(express.json());
 
 // In production, serve the built Vite frontend
 if (isProduction) {
-    app.use(express.static(path.join(__dirname, 'dist')));
+    app.use(express.static(path.join(__dirname, 'dist'), {
+        setHeaders: (res, customPath) => {
+            if (customPath.endsWith('.html')) {
+                res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+                res.setHeader('Pragma', 'no-cache');
+                res.setHeader('Expires', '0');
+            } else if (customPath.includes('/assets/')) {
+                res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+            }
+        }
+    }));
 }
 
 // Load configuration from environment securely
@@ -197,7 +207,10 @@ app.get('/api/models/:identifier', async (req, res) => {
 
 // Catch-all: serve React app for any non-API route (SPA support)
 if (isProduction) {
-    app.get('/{*path}', (req, res) => {
+    app.get('*', (req, res) => {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
         res.sendFile(path.join(__dirname, 'dist', 'index.html'));
     });
 }
