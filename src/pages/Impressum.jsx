@@ -13,21 +13,17 @@ const Impressum = () => {
                     <p>
                         Relax Lounge bei Kaisers<br />
                         Lahnstr. 12<br />
-                        12055 Berlin
+                        12055 Berlin<br />
+                        Telefon +49 (0) 30 - 89 73 11 12
                     </p>
 
-                    <h3>{t('impressum.contact')}</h3>
-                    <p>
-                        Telefon: +49 (0) 30 - 89 73 11 12<br />
-                        WhatsApp: 0152 - 1362 3235<br />
-                        E-Mail: info@relaxloungebeikaisers.de
-                    </p>
-
-                    <h3>{t('impressum.responsible')}</h3>
+                    <h2 style={{ marginTop: '2rem' }}>{t('impressum.responsible')}</h2>
                     <p>
                         Frau Ute Meusel<br />
                         Lahnstr 12<br />
-                        12055 Berlin
+                        12055 Berlin<br />
+                        E-Mail: info (at) relaxloungebeikaisers.de<br />
+                        Telefon +49 (0) 30 - 89 73 11 12
                     </p>
 
                     <h3>{t('impressum.eu_settlement')}</h3>

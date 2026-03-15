@@ -41,9 +41,9 @@ const resources = {
             },
             "impressum": {
                 "title": "Impressum",
-                "info_tmg": "Angaben gemäß § 5 TMG",
+                "info_tmg": "Anbieterkennzeichnung gemäß § 5 TMG und 55 RStV:",
                 "contact": "Kontakt",
-                "responsible": "Redaktionell verantwortlich",
+                "responsible": "Inhaltlich Verantwortlich gemäß § 10 Abs. 3 MDStV ist:",
                 "eu_settlement": "EU-Streitschlichtung",
                 "eu_p1": "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:",
                 "eu_p2": "Unsere E-Mail-Adresse finden Sie oben im Impressum.",
@@ -180,9 +180,9 @@ const resources = {
             },
             "impressum": {
                 "title": "Legal Notice",
-                "info_tmg": "Information according to § 5 TMG",
+                "info_tmg": "Provider identification according to § 5 TMG and 55 RStV:",
                 "contact": "Contact",
-                "responsible": "Responsible for Content",
+                "responsible": "Responsible for content according to § 10 para. 3 MDStV:",
                 "eu_settlement": "EU Dispute Resolution",
                 "eu_p1": "The European Commission provides a platform for online dispute resolution (OS):",
                 "eu_p2": "You can find our e-mail address at the top of the legal notice.",
