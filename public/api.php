@@ -17,13 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Configuration (Replace with your actual token if not set in server environment)
-$apiToken = getenv('NOBLE_SYNC_TOKEN') ? getenv('NOBLE_SYNC_TOKEN') : 'YOUR_NOBLE_ATLAS_TOKEN_HERE';
+$apiToken = getenv('NOBLE_SYNC_TOKEN') ? getenv('NOBLE_SYNC_TOKEN') : 'sync-relax-5607';
 $baseUrl = 'https://noble-atlas.de/wp-json/noble-bordell-sync/v1';
 $bordellId = '5607';
 
 // Because we don't have .env by default in standard shared hosting, you MUST HARDCODE the token here 
 // if your hosting provider doesn't support environment variables.
-$hardcodedToken = 'f2baXU3K2U1wA3z4Y44u7u7H93t72yN'; // Placeholder - replace with your real token!
+$hardcodedToken = 'sync-relax-5607'; // Token from local .env
 
 if ($hardcodedToken !== 'YOUR_REAL_TOKEN_HERE') {
     $apiToken = $hardcodedToken;
