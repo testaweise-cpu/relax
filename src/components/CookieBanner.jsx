@@ -8,7 +8,10 @@ const CookieBanner = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const consent = localStorage.getItem('relax_lounge_cookies');
+        // Clear old cookie consent key to force deletion for end users
+        localStorage.removeItem('relax_lounge_cookies');
+
+        const consent = localStorage.getItem('relax_lounge_cookies_v2');
         if (!consent) {
             const timer = setTimeout(() => setIsVisible(true), 1500);
             return () => clearTimeout(timer);
@@ -16,7 +19,7 @@ const CookieBanner = () => {
     }, []);
 
     const handleAccept = (type) => {
-        localStorage.setItem('relax_lounge_cookies', type);
+        localStorage.setItem('relax_lounge_cookies_v2', type);
         setIsVisible(false);
     };
 
