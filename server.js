@@ -207,7 +207,7 @@ app.get('/api/models/:identifier', async (req, res) => {
 
 // Catch-all: serve React app for any non-API route (SPA support)
 if (isProduction) {
-    app.get('*', (req, res) => {
+    app.get('/{*path}', (req, res) => {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
