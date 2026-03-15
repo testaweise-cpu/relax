@@ -5,7 +5,10 @@ const AgeGate = () => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const hasAccepted = localStorage.getItem('relax_lounge_age_check');
+        // Clear old age gate consent to force reappearance for all users
+        localStorage.removeItem('relax_lounge_age_check');
+
+        const hasAccepted = localStorage.getItem('relax_lounge_age_check_v2');
         if (!hasAccepted) {
             setIsVisible(true);
             document.body.style.overflow = 'hidden';
@@ -13,7 +16,7 @@ const AgeGate = () => {
     }, []);
 
     const handleAccept = () => {
-        localStorage.setItem('relax_lounge_age_check', 'true');
+        localStorage.setItem('relax_lounge_age_check_v2', 'true');
         setIsVisible(false);
         document.body.style.overflow = 'auto';
     };
