@@ -6,10 +6,11 @@ test("Startseite DE lädt ohne horizontales Scrollen", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("lang", "de");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  const overflow = await page.evaluate(
-    () => document.documentElement.scrollWidth - window.innerWidth,
-  );
-  expect(overflow).toBeLessThanOrEqual(0);
+  const width = page.viewportSize()!.width;
+  expect(await page.evaluate(() => window.innerWidth)).toBe(width);
+  expect(
+    await page.evaluate(() => document.documentElement.scrollWidth),
+  ).toBeLessThanOrEqual(width);
 });
 
 test("Englische Version unter /en", async ({ page }) => {

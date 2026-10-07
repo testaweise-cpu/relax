@@ -84,7 +84,7 @@ export async function FilterChips({
         </Chip>
       </div>
 
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="eyebrow mb-2">{t("language")}</legend>
         <div className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
           {options.languages.map(([code, n]) => (
@@ -101,7 +101,7 @@ export async function FilterChips({
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="eyebrow mb-2">{t("origin")}</legend>
         <div className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
           {options.origins.map(([code, n]) => (
