@@ -1,7 +1,7 @@
 {
   "intro": {
     "de": "Bei uns mieten Sie ein Zimmer – abgerechnet wird nach Zeit. Die Miete nimmt unsere Hausdame vor Ort entgegen.",
-    "en": ""
+    "en": "With us you rent a room, charged by time. Our hostess collects the rent on site."
   },
   "rows": [
     {
@@ -23,6 +23,6 @@
   ],
   "footnote": {
     "de": "Die Preise gelten ausschließlich für die Zimmermiete. Alle Dienstleistungen und deren Preise vereinbaren Sie direkt mit der jeweiligen Mieterin.",
-    "en": ""
+    "en": "These prices cover the room rent only. You agree on all services and their prices directly with the respective tenant."
   }
 }

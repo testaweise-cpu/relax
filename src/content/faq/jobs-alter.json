@@ -3,10 +3,10 @@
   "order": 1,
   "question": {
     "de": "Wie alt muss ich sein?",
-    "en": ""
+    "en": "How old do I have to be?"
   },
   "answer": {
     "de": "Du musst mindestens 21 Jahre alt sein.",
-    "en": ""
+    "en": "You must be at least 21 years old."
   }
 }

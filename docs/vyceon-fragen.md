@@ -31,7 +31,7 @@ Stand: Phase 3. Bitte Antworten direkt hier eintragen.
 - [ ] `name`: nur der Name? „Neu“/„Wieder da“ als eigene Felder `isNew`/`isBack`?
 - [ ] `languages`: ISO-639-1-Codes (`de`, `en`, `ro`)? `origin`: ISO-3166-Ländercode (`RO`)?
 - [ ] `services`: freie Texte oder feste Liste mit IDs (für Übersetzung DE/EN)?
-- [ ] `personalNote`: einsprachig oder DE/EN?
+- [ ] `personalNote` und `services`: einsprachig oder DE/EN? Die englische Website zeigt sie derzeit unverändert (deutsch).
 - [ ] Maße: Einheiten (cm, kg, EU-Schuhgröße), Körbchengröße als Text?
 - [ ] Welche Felder sind optional?
 

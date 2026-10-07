@@ -1,5 +1,5 @@
 import { collection, config, fields, singleton } from "@keystatic/core";
-import { richText, text } from "./src/keystatic/fields";
+import { optionalText, richText, text } from "./src/keystatic/fields";
 
 // Speicherort:
 // - lokal (Standard): Änderungen landen direkt als Dateien in src/content.
@@ -198,7 +198,7 @@ export default config({
       schema: {
         slug: fields.slug({ name: { label: "URL-Name" } }),
         date: fields.date({ label: "Datum", validation: { isRequired: true } }),
-        time: fields.text({ label: "Uhrzeit (optional, z. B. „ab 22 Uhr“)" }),
+        time: optionalText("Uhrzeit (optional, z. B. „ab 22 Uhr“)"),
         title: text("Titel"),
         body: text("Text", { multiline: true }),
         image: fields.image({

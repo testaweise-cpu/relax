@@ -23,3 +23,13 @@ export const richText = (label: string) =>
     },
     { label },
   );
+
+/** Optionaler zweisprachiger Kurztext (z. B. Uhrzeit eines Events). */
+export const optionalText = (label: string) =>
+  fields.object(
+    {
+      de: fields.text({ label: `${label} (DE)` }),
+      en: fields.text({ label: `${label} (EN)` }),
+    },
+    { label, layout: [6, 6] },
+  );

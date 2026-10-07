@@ -1,13 +1,16 @@
 {
   "date": "2025-07-07",
-  "time": "",
+  "time": {
+    "de": "",
+    "en": ""
+  },
   "title": {
     "de": "Neu: Tabledance-Bereich mit Bar",
-    "en": ""
+    "en": "New: table dance area with bar"
   },
   "body": {
     "de": "Wir haben einen weiteren Bereich ausgebaut – mit eigener Bar, bequemen Sitzplätzen und Tabledance-Shows. Schauen Sie vorbei!",
-    "en": ""
+    "en": "We have opened another area – with its own bar, comfortable seating and table dance shows. Come and see for yourself!"
   },
   "image": "/images/events/tabledance-bar.jpg"
 }

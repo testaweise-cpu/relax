@@ -11,12 +11,12 @@ import keystaticConfig from "../../keystatic.config";
  */
 const reader = createReader(process.cwd(), keystaticConfig);
 
-export type Localized = { de: string; en?: string | null };
+export type Localized = { de: string | null; en?: string | null };
 
 /** Liefert den Text in der gewünschten Sprache, sonst Deutsch als Rückfall. */
 export function pick(value: Localized | null | undefined, locale: Locale) {
   if (!value) return "";
-  return (locale === "en" && value.en?.trim()) || value.de;
+  return (locale === "en" && value.en?.trim()) || value.de || "";
 }
 
 export const getSettings = cache(async () => {

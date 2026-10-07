@@ -1,13 +1,16 @@
 {
   "date": "2026-10-31",
-  "time": "ab 22 Uhr",
+  "time": {
+    "de": "ab 22 Uhr",
+    "en": "from 10 pm"
+  },
   "title": {
     "de": "Halloween im Mona Roses",
-    "en": ""
+    "en": "Halloween at Mona Roses"
   },
   "body": {
     "de": "Unsere Hausdame Yvonne lädt zur Halloween-Nacht ein: schaurige Deko, passende Musik und eine ganz besondere Stimmung. Kostüme sind ausdrücklich erwünscht.",
-    "en": ""
+    "en": "Our hostess Yvonne invites you to a Halloween night: spooky decorations, matching music and a very special atmosphere. Costumes are more than welcome."
   },
   "image": null
 }

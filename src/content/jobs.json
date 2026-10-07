@@ -1,59 +1,59 @@
 {
   "title": {
     "de": "Zimmer mieten im Mona Roses",
-    "en": ""
+    "en": "Rent a room at Mona Roses"
   },
   "intro": {
     "de": "Du suchst einen sauberen, sicheren Ort mit guter Ausstattung und Gästen, die gern wiederkommen? Im Mona Roses in Berlin-Steglitz mietest du ein komplett eingerichtetes Zimmer – rund um die Uhr und mit freier Zeiteinteilung. Das Haus ist renoviert und bietet neben verschiedenen Zimmern einen VIP-Raum sowie einen Tabledance-Bereich mit Bar.\n\nDu arbeitest selbstständig und auf eigene Rechnung. Internationale Kolleginnen und Einsteigerinnen sind herzlich willkommen.",
-    "en": ""
+    "en": "Looking for a clean, safe place with good facilities and guests who like to come back? At Mona Roses in Berlin-Steglitz you rent a fully furnished room – around the clock and on your own schedule. The house has been renovated and, in addition to various rooms, offers a VIP room and a table dance area with a bar.\n\nYou work self-employed and on your own account. International colleagues and newcomers are very welcome."
   },
   "minAge": 21,
   "offers": [
     {
       "de": "Ein nettes Team und ein sicherer Ort",
-      "en": ""
+      "en": "A friendly team and a safe place"
     },
     {
       "de": "Freie Zeiteinteilung, rund um die Uhr",
-      "en": ""
+      "en": "Flexible hours, around the clock"
     },
     {
       "de": "Komplett eingerichtete Zimmer",
-      "en": ""
+      "en": "Fully furnished rooms"
     },
     {
       "de": "Miete nur, wenn du Gäste mit aufs Zimmer nimmst",
-      "en": ""
+      "en": "Rent only when you take guests to your room"
     },
     {
       "de": "Küche mit Geschirr, Bad mit Handtüchern",
-      "en": ""
+      "en": "Kitchen with crockery, bathroom with towels"
     },
     {
       "de": "Einkaufsmöglichkeiten zu Fuß erreichbar",
-      "en": ""
+      "en": "Shops within walking distance"
     },
     {
       "de": "Deine Sedcard auf dieser Website, auf Wunsch gezielte Werbung für dich",
-      "en": ""
+      "en": "Your profile on this website, targeted advertising for you on request"
     }
   ],
   "formIntro": {
     "de": "Schick uns ein paar Angaben und gern bis zu drei Fotos – wir melden uns diskret bei dir. Lieber persönlich? Ruf an oder schreib uns eine E-Mail.",
-    "en": ""
+    "en": "Send us a few details and up to three photos if you like – we will get back to you discreetly. Prefer to talk in person? Give us a call or send us an email."
   },
   "resources": [
     {
       "label": {
         "de": "Prostituiertenschutzgesetz (ProstSchG) im Wortlaut",
-        "en": ""
+        "en": "Prostitute Protection Act (ProstSchG), full text (German)"
       },
       "url": "https://www.gesetze-im-internet.de/prostschg/"
     },
     {
       "label": {
         "de": "Berufsverband erotische und sexuelle Dienstleistungen e. V. (BesD)",
-        "en": ""
+        "en": "Professional association for erotic and sexual services (BesD, German)"
       },
       "url": "https://berufsverband-sexarbeit.de/"
     }

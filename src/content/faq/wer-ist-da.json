@@ -3,10 +3,10 @@
   "order": 4,
   "question": {
     "de": "Woher weiß ich, wer gerade da ist?",
-    "en": ""
+    "en": "How do I know who is here right now?"
   },
   "answer": {
     "de": "Auf der Seite „Jetzt da“ sehen Sie live, welche Mieterinnen gerade im Haus sind. Die Übersicht aktualisiert sich automatisch.",
-    "en": ""
+    "en": "The “Here now” page shows live which tenants are in the house at the moment. It updates automatically."
   }
 }

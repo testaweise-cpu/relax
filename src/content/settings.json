@@ -2,7 +2,7 @@
   "phone": "030 832 29 067",
   "phoneE164": "+493083229067",
   "email": "info@mona-roses.com",
-  "street": "Hindenburgdamm TODO(74 oder 76)",
+  "street": "Hindenburgdamm TODO(74/76)",
   "postalCode": "12203",
   "city": "Berlin",
   "district": "Steglitz",
@@ -13,13 +13,13 @@
   },
   "foundedNote": {
     "de": "Seit über TODO(25 oder 30) Jahren in Berlin-Steglitz",
-    "en": ""
+    "en": "In Berlin-Steglitz for more than TODO(25 or 30) years"
   },
   "jobsPhone": "0173 631 49 35",
   "jobsPhoneE164": "+491736314935",
   "jobsEmail": "vermietung@mona-roses.com",
   "directions": {
     "de": "Sie finden uns direkt am Hindenburgdamm in Berlin-Steglitz. TODO(Anfahrt): nächste Haltestellen von Bus und S-Bahn sowie Parkmöglichkeiten ergänzen.",
-    "en": ""
+    "en": "You will find us right on Hindenburgdamm in Berlin-Steglitz. TODO(directions): add the nearest bus and S-Bahn stops as well as parking."
   }
 }

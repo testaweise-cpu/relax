@@ -3,10 +3,10 @@
   "order": 2,
   "question": {
     "de": "Bin ich angestellt oder selbstständig?",
-    "en": ""
+    "en": "Am I employed or self-employed?"
   },
   "answer": {
     "de": "Du arbeitest selbstständig und auf eigene Rechnung. Was du anbietest und zu welchen Konditionen, entscheidest du selbst.",
-    "en": ""
+    "en": "You work self-employed and on your own account. You decide what you offer and on what terms."
   }
 }

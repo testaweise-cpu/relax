@@ -69,7 +69,7 @@ export default async function EventsPage({
               <div className="p-5 sm:p-6">
                 <p className="font-mono text-sm text-cyan">
                   <time dateTime={e.date}>{formatDate(e.date, locale)}</time>
-                  {e.time ? ` · ${e.time}` : ""}
+                  {pick(e.time, l) ? ` · ${pick(e.time, l)}` : ""}
                 </p>
                 {highlight && (
                   <Badge variant="new" className="mt-3">

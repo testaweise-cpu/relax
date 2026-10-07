@@ -1,60 +1,60 @@
 {
   "heroLead": {
     "de": "Bar, Tabledance und stilvolle Zimmer – rund um die Uhr geöffnet.",
-    "en": ""
+    "en": "Bar, table dance and stylish rooms – open around the clock."
   },
   "introTitle": {
     "de": "Willkommen im Mona Roses",
-    "en": ""
+    "en": "Welcome to Mona Roses"
   },
   "introText": {
     "de": "Seit über TODO(25 oder 30) Jahren ist das Mona Roses eine feste Adresse in Berlin-Steglitz, direkt am Hindenburgdamm. Sie erwarten gepflegte, stimmungsvoll eingerichtete Zimmer und Suiten, eine Bar mit Tabledance und eine entspannte, diskrete Atmosphäre – an jedem Tag, rund um die Uhr.\n\nUnsere Hausdame empfängt Sie persönlich und kümmert sich um die Zimmermiete. Wer gerade im Haus ist, sehen Sie jederzeit live auf dieser Seite.",
-    "en": ""
+    "en": "For more than TODO(25 or 30) years, Mona Roses has been a fixture in Berlin-Steglitz, right on Hindenburgdamm. Expect well-kept, atmospherically furnished rooms and suites, a bar with table dancing and a relaxed, discreet atmosphere – every day, around the clock.\n\nOur hostess welcomes you in person and takes care of the room rent. You can see who is in the house right now, live on this website."
   },
   "highlights": [
     {
       "title": {
         "de": "Bar & Lounge",
-        "en": ""
+        "en": "Bar & lounge"
       },
       "text": {
         "de": "Ankommen, etwas trinken, sich in Ruhe umsehen: Die Bar mit Lounge ist der Treffpunkt im Haus.",
-        "en": ""
+        "en": "Arrive, have a drink and take a look around: the bar and lounge is the meeting point of the house."
       },
       "image": "/images/home/bar-lounge.jpg",
       "imageAlt": {
         "de": "Bar-Lounge mit gepolsterter Sitzbank und beleuchtetem Tisch",
-        "en": ""
+        "en": "Bar lounge with padded bench and illuminated table"
       }
     },
     {
       "title": {
         "de": "Tabledance",
-        "en": ""
+        "en": "Table dance"
       },
       "text": {
         "de": "Im neu ausgebauten Bereich mit eigener Bar und bequemen Sitzplätzen gibt es Tabledance-Shows.",
-        "en": ""
+        "en": "Our newly built area with its own bar and comfortable seating hosts table dance shows."
       },
       "image": "/images/home/tabledance.jpg",
       "imageAlt": {
         "de": "Tänzerinnen in High Heels",
-        "en": ""
+        "en": "Dancers in high heels"
       }
     },
     {
       "title": {
         "de": "Zimmer & Suiten",
-        "en": ""
+        "en": "Rooms & suites"
       },
       "text": {
         "de": "Sauber, gepflegt und stimmungsvoll beleuchtet – vom gemütlichen Zimmer bis zur Suite mit Barockspiegel.",
-        "en": ""
+        "en": "Clean, well kept and atmospherically lit – from cosy rooms to a suite with a baroque mirror."
       },
       "image": "/images/home/zimmer.jpg",
       "imageAlt": {
         "de": "Zimmer mit Doppelbett, Barockspiegel und roter Neonbeleuchtung",
-        "en": ""
+        "en": "Room with double bed, baroque mirror and red neon lighting"
       }
     }
   ]

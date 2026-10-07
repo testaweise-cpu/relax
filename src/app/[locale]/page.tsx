@@ -104,7 +104,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   month: "long",
                   timeZone: "UTC",
                 }).format(new Date(`${nextEvent.date}T00:00:00Z`))}
-                {nextEvent.time ? ` · ${nextEvent.time}` : ""}
+                {pick(nextEvent.time, l) ? ` · ${pick(nextEvent.time, l)}` : ""}
               </p>
             </Link>
           )}

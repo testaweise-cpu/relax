@@ -21,7 +21,8 @@
     "closeMenu": "Close menu",
     "menu": "Menu",
     "main": "Main navigation",
-    "footer": "Site overview"
+    "footer": "Site overview",
+    "homeLabel": "Mona Roses – home"
   },
   "common": {
     "call": "Call",

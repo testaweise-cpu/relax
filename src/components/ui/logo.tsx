@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { NeonText } from "./neon-text";
@@ -25,6 +26,7 @@ export function Logo({
   link = true,
   className,
 }: LogoProps) {
+  const t = useTranslations("nav");
   const mark = (
     <NeonText
       tilt
@@ -40,7 +42,7 @@ export function Logo({
     <Link
       href="/"
       className="inline-block rounded-md px-1 no-underline"
-      aria-label="Mona Roses – Startseite"
+      aria-label={t("homeLabel")}
     >
       {mark}
     </Link>

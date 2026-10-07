@@ -3,7 +3,7 @@
 Diese Punkte werden **nicht** selbst entschieden. Im Inhalt sind sie mit
 `TODO(...)` markiert. Fragen an den Kunden: `docs/offene-fragen.md`.
 
-- [ ] **Hausnummer**: Hindenburgdamm 74 oder 76 (`settings.json` → `street`)
+- [ ] **Hausnummer**: Hindenburgdamm 74 oder 76 – Platzhalter „TODO(74/76)“ (`settings.json` → `street`)
 - [ ] **Jahre**: „seit über 25 Jahren“ oder „30 Jahren“ (`settings.json` → `foundedNote`)
 - [ ] **Bockhaus**: Erwähnung auf der Galerieseite – andere Marke? Nicht übernommen.
 - [x] **Telefon/PLZ**: aus dem alten Impressum übernommen (030 832 29 067, 12203 Berlin).
