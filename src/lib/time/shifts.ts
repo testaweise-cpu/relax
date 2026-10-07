@@ -210,3 +210,16 @@ export function hasUpcomingShift(
     (s) => toDate(s.end) > now && toDate(s.start).getTime() <= limit,
   );
 }
+
+/** Label für eine laufende Anwesenheit: "bis 24 Uhr" bzw. "seit 16 Uhr". */
+export function presenceLabel(
+  presence: { since: string; until?: string | null },
+  locale: TimeLocale,
+): string {
+  if (presence.until) {
+    const t = formatClock(toDate(presence.until), locale, { asEnd: true });
+    return locale === "de" ? `bis ${t} Uhr` : `until ${t}`;
+  }
+  const t = formatClock(toDate(presence.since), locale);
+  return locale === "de" ? `seit ${t} Uhr` : `since ${t}`;
+}

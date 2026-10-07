@@ -4,6 +4,10 @@ import { ArrowRightIcon } from "@/components/ui/icons";
 import { HeroBackdrop } from "@/components/ui/hero";
 import { Logo } from "@/components/ui/logo";
 import { HERO_VIDEO } from "@/lib/media/hero";
+import { NowStrip } from "@/components/presence/live-presence";
+import { getPresentProfiles } from "@/lib/data";
+import { toPresenceResponse } from "@/lib/data/presence-map";
+import { connection } from "next/server";
 
 // Auf schmalen Handys kompaktere Buttons, damit beide in eine Zeile passen.
 const compact = "max-sm:min-h-12 max-sm:px-4 max-sm:text-base";
@@ -14,32 +18,37 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
+  await connection();
+  const present = toPresenceResponse(await getPresentProfiles());
 
   return (
-    <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
-      <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
-        <p className="eyebrow">{t("heroEyebrow")}</p>
-        <h1 className="mt-4">
-          <Logo size="xl" link={false} animated />
-        </h1>
-        <p className="mt-4 max-w-md text-lg text-ink sm:mt-6 sm:text-xl">
-          {t("heroLead")}
-        </p>
-        <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <ButtonLink href="/jetzt-da" size="lg" className={compact}>
-            {t("ctaNow")}
-            <ArrowRightIcon />
-          </ButtonLink>
-          <ButtonLink
-            href="/preise"
-            size="lg"
-            variant="secondary"
-            className={compact}
-          >
-            {t("ctaPrices")}
-          </ButtonLink>
+    <>
+      <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
+        <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
+          <p className="eyebrow">{t("heroEyebrow")}</p>
+          <h1 className="mt-4">
+            <Logo size="xl" link={false} animated />
+          </h1>
+          <p className="mt-4 max-w-md text-lg text-ink sm:mt-6 sm:text-xl">
+            {t("heroLead")}
+          </p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <ButtonLink href="/jetzt-da" size="lg" className={compact}>
+              {t("ctaNow")}
+              <ArrowRightIcon />
+            </ButtonLink>
+            <ButtonLink
+              href="/preise"
+              size="lg"
+              variant="secondary"
+              className={compact}
+            >
+              {t("ctaPrices")}
+            </ButtonLink>
+          </div>
         </div>
-      </div>
-    </HeroBackdrop>
+      </HeroBackdrop>
+      <NowStrip initial={present} className="bg-night-2" />
+    </>
   );
 }

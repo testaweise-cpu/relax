@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
+import { setScrollLock } from "@/lib/scroll-lock";
 import { CloseIcon, MenuIcon, PhoneIcon } from "../ui/icons";
 import { NeonText } from "../ui/neon-text";
 import { buttonClasses } from "../ui/button";
@@ -28,7 +29,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
 
   const open = () => {
     ref.current?.showModal();
-    document.documentElement.style.overflow = "hidden";
+    setScrollLock(true);
   };
   const close = () => ref.current?.close();
 
@@ -47,7 +48,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
       <dialog
         ref={ref}
         onClose={() => {
-          document.documentElement.style.overflow = "";
+          setScrollLock(false);
         }}
         aria-label={t("menu")}
         className="m-0 h-dvh max-h-none w-full max-w-none bg-night p-0 text-ink backdrop:bg-night/80 open:flex open:flex-col"
