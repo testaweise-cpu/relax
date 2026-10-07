@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { clientIpFrom } from "@/lib/client-ip";
 import { getJobs } from "@/lib/content";
 import { env } from "@/lib/env";
 import {
@@ -19,13 +20,7 @@ const limiter = createRateLimiter({
 
 async function clientIp() {
   const h = await headers();
-  if (env.TRUST_PROXY) {
-    const forwarded = h.get("x-forwarded-for")?.split(",")[0]?.trim();
-    if (forwarded) return forwarded;
-    const real = h.get("x-real-ip");
-    if (real) return real;
-  }
-  return "unknown";
+  return clientIpFrom((n) => h.get(n), env.TRUST_PROXY);
 }
 
 const esc = (s: string) =>

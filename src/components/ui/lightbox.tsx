@@ -28,6 +28,7 @@ export const Lightbox = forwardRef<
   const dialog = useRef<HTMLDialogElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const [index, setIndex] = useState(0);
+  const [opened, setOpened] = useState(false);
   const total = images.length;
 
   const go = (i: number, smooth = true) => {
@@ -43,6 +44,7 @@ export const Lightbox = forwardRef<
     open(i: number) {
       dialog.current?.showModal();
       setScrollLock(true);
+      setOpened(true);
       setIndex(i);
       requestAnimationFrame(() => go(i, false));
     },
@@ -96,20 +98,28 @@ export const Lightbox = forwardRef<
           }}
           className="flex flex-1 snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto"
         >
-          {images.map((img) => (
-            <div
-              key={img.url}
-              className="relative h-full w-full shrink-0 snap-center"
-            >
-              <Image
-                src={img.url}
-                alt={img.alt}
-                fill
-                sizes="100vw"
-                className="object-contain"
-              />
-            </div>
-          ))}
+          {/* Erst nach dem ersten Öffnen rendern, dann sofort laden */}
+          {opened &&
+            images.map((img) => (
+              <div
+                key={img.url}
+                className="relative h-full w-full shrink-0 snap-center"
+              >
+                {/* Ladering – liegt hinter dem Bild und verschwindet, sobald es gemalt ist */}
+                <span
+                  aria-hidden
+                  className="absolute top-1/2 left-1/2 size-10 -translate-1/2 animate-spin rounded-full border-2 border-pink/20 border-t-pink motion-reduce:animate-none"
+                />
+                <Image
+                  src={img.url}
+                  alt={img.alt}
+                  fill
+                  sizes="100vw"
+                  loading="eager"
+                  className="object-contain"
+                />
+              </div>
+            ))}
         </div>
         {total > 1 && (
           <div className="pointer-events-none absolute inset-x-0 top-1/2 hidden -translate-y-1/2 justify-between px-4 sm:flex">
