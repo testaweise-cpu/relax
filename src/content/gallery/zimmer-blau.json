@@ -1,0 +1,9 @@
+{
+  "order": 4,
+  "category": "rooms",
+  "image": "/images/gallery/zimmer-blau.jpg",
+  "alt": {
+    "de": "Zimmer mit großem Bett, Spiegel und blauer Beleuchtung",
+    "en": "Room with large bed, mirror and blue lighting"
+  }
+}

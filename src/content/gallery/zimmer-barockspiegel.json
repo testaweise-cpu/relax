@@ -1,0 +1,9 @@
+{
+  "order": 3,
+  "category": "rooms",
+  "image": "/images/gallery/zimmer-barockspiegel.jpg",
+  "alt": {
+    "de": "Zimmer mit Doppelbett, Barockspiegel und roter Neonbeleuchtung",
+    "en": "Room with double bed, baroque mirror and red neon lighting"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "order": 1,
+  "category": "club",
+  "image": "/images/gallery/lounge-sitzbank.jpg",
+  "alt": {
+    "de": "Bar-Lounge mit gepolsterter Sitzbank, Sesseln und beleuchtetem Tisch",
+    "en": "Bar lounge with padded bench, armchairs and illuminated table"
+  }
+}

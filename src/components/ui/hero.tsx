@@ -1,5 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import type { HeroMedia } from "@/lib/media/hero";
+import { HeroVideo } from "./hero-video";
 
 /**
  * Hero-Kulisse "Miami Nights": Sternenhimmel, gestreifte Sonne, Horizont mit
@@ -13,6 +15,7 @@ export function HeroBackdrop({
   className,
   horizon,
   sun,
+  media,
 }: {
   children?: ReactNode;
   className?: string;
@@ -20,6 +23,8 @@ export function HeroBackdrop({
   horizon?: string;
   /** Sonnendurchmesser, CSS-Länge */
   sun?: string;
+  /** optionaler Video-Hintergrund (abgedunkelt, unter der Neon-Szene) */
+  media?: HeroMedia;
 }) {
   const style = {
     ...(horizon && { "--horizon": horizon }),
@@ -27,6 +32,8 @@ export function HeroBackdrop({
   } as CSSProperties;
   return (
     <div className={cn("hero-sky", className)} style={style}>
+      {media && <HeroVideo media={media} />}
+      {media && <div className="hero-tint" aria-hidden />}
       <div className="hero-stars" aria-hidden />
       <div className="hero-sun" aria-hidden />
       <div className="hero-floor" aria-hidden>

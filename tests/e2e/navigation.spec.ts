@@ -17,7 +17,10 @@ test("Mobiles Vollbild-Menü öffnet, schließt mit Escape und navigiert", async
   await expect(page).toHaveURL(/\/preise$/);
 });
 
-test("Sprachumschalter führt auf die englische Seite", async ({ page, isMobile }) => {
+test("Sprachumschalter führt auf die englische Seite", async ({
+  page,
+  isMobile,
+}) => {
   test.skip(!!isMobile, "Desktop-Header");
   await page.goto("/styleguide");
   await page.getByRole("link", { name: "English" }).first().click();
@@ -25,7 +28,10 @@ test("Sprachumschalter führt auf die englische Seite", async ({ page, isMobile 
   await expect(page.locator("html")).toHaveAttribute("lang", "en");
 });
 
-test("Anruf-Button ist auf dem Handy immer sichtbar", async ({ page, isMobile }) => {
+test("Anruf-Button ist auf dem Handy immer sichtbar", async ({
+  page,
+  isMobile,
+}) => {
   test.skip(!isMobile, "nur Handy");
   await page.goto("/styleguide");
   await page.mouse.wheel(0, 3000);

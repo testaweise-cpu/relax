@@ -205,6 +205,43 @@
       ),
       linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, #241a4a 100%);
   }
+  /* Video-/Bild-Hintergrund unter der Neon-Szene */
+  .hero-media {
+    position: absolute;
+    inset: 0 0 var(--horizon) 0;
+    z-index: -3;
+    overflow: hidden;
+  }
+  .hero-media-el {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+    filter: saturate(1.2) contrast(1.05);
+  }
+  /* Abdunkeln und in die Markenfarben einfärben: Text bleibt gut lesbar */
+  .hero-tint {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in oklab, var(--night) 72%, transparent) 0%,
+        color-mix(in oklab, var(--night) 48%, transparent) 45%,
+        color-mix(in oklab, var(--violet) 22%, transparent) 78%,
+        color-mix(in oklab, var(--pink) 30%, transparent) 100%
+      ),
+      radial-gradient(
+        120% 80% at 50% 40%,
+        transparent 0%,
+        color-mix(in oklab, var(--night) 60%, transparent) 100%
+      );
+  }
+
   .hero-stars {
     position: absolute;
     inset: 0 0 45% 0;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import { LegalNotice } from "@/components/legal-notice";
@@ -9,6 +10,8 @@ import { ArrowRightIcon, PhoneIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
 import { NeonText } from "@/components/ui/neon-text";
 import { SedcardTile } from "@/components/ui/sedcard-tile";
+import type { Locale } from "@/i18n/routing";
+import { getGallery, pick } from "@/lib/content";
 
 // Interne Seite: zeigt alle Bausteine des Designsystems. Nicht indexieren.
 export const metadata: Metadata = {
@@ -89,6 +92,7 @@ export default async function StyleguidePage({
 }: PageProps<"/[locale]/styleguide">) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const gallery = await getGallery();
 
   return (
     <div className="container-page py-12">
@@ -221,6 +225,37 @@ export default async function StyleguidePage({
             <Logo size="lg" link={false} />
           </div>
         </HeroBackdrop>
+      </Block>
+
+      <Block
+        title="Medien aus der Altseite"
+        note="Raumfotos (Feb. 2025) in Keystatic unter „Galerie“, Metadaten entfernt. Das Werbevideo startet erst per Klick; der Hero nutzt nur einen 10-s-Ausschnitt mit Bar- und Raumszenen."
+      >
+        <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {gallery.map((g) => (
+            <li
+              key={g.slug}
+              className="relative aspect-[3/4] overflow-hidden rounded-card border border-line"
+            >
+              <Image
+                src={g.image!}
+                alt={pick(g.alt, locale as Locale)}
+                fill
+                sizes="(min-width: 640px) 25vw, 50vw"
+                className="object-cover"
+              />
+            </li>
+          ))}
+        </ul>
+        <video
+          className="mt-6 aspect-[3/2] w-full max-w-2xl rounded-card border border-line bg-panel"
+          controls
+          preload="none"
+          playsInline
+          poster="/media/mona-roses-werbevideo-poster.webp"
+        >
+          <source src="/media/mona-roses-werbevideo.mp4" type="video/mp4" />
+        </video>
       </Block>
 
       <Block

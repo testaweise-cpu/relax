@@ -1,0 +1,9 @@
+{
+  "order": 8,
+  "category": "rooms",
+  "image": "/images/gallery/zimmer-warm.jpg",
+  "alt": {
+    "de": "Zimmer mit Doppelbett in warmem Licht",
+    "en": "Room with double bed in warm light"
+  }
+}

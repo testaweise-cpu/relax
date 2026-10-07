@@ -1,0 +1,9 @@
+{
+  "order": 5,
+  "category": "rooms",
+  "image": "/images/gallery/zimmer-neon.jpg",
+  "alt": {
+    "de": "Zimmer mit Bett, Fernseher und pinker Neonleiste",
+    "en": "Room with bed, TV and pink neon strip"
+  }
+}

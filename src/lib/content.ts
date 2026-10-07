@@ -30,3 +30,10 @@ export const getLegalNotice = cache(async () => {
 export const getPrices = cache(async () => {
   return reader.singletons.prices.readOrThrow();
 });
+
+export const getGallery = cache(async () => {
+  const entries = await reader.collections.gallery.all();
+  return entries
+    .map(({ entry }) => entry)
+    .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+});

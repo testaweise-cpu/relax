@@ -1,0 +1,9 @@
+{
+  "order": 7,
+  "category": "rooms",
+  "image": "/images/gallery/zimmer-waschbecken.jpg",
+  "alt": {
+    "de": "Zimmer mit Waschbecken, Spiegel und roten Wänden",
+    "en": "Room with washbasin, mirror and red walls"
+  }
+}
