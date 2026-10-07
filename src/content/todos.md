@@ -9,3 +9,9 @@ Diese Punkte werden **nicht** selbst entschieden. Im Inhalt sind sie mit
 - [x] **Telefon/PLZ**: aus dem alten Impressum übernommen (030 832 29 067, 12203 Berlin).
 - [ ] **Impressum/Datenschutz**: Die alten Rechtstexte nennen „Bockhaus Berlin“ und info@bockhaus-berlin.de. Wer ist Anbieter/Verantwortlicher für mona-roses.com?
 - [ ] **Medien**: Werbevideo (2025) und Raumfotos (Feb. 2025) übernommen; Gruppenfoto der Mieterinnen und „bockhaus_dancing.mp4“ bewusst nicht.
+- [ ] **Mindestalter Mieterinnen**: Jobs-Text der Altseite „ab 21 Jahren“, Jobs-FAQ „über 18 Jahre“ → übernommen: 21 (Keystatic „Jobs“ → Mindestalter)
+- [ ] **Zimmerpreise in der Jobs-FAQ** weichen ab (30 Min 20 €, 40 Min 25 €, 60 Min 30 €) – nicht übernommen, FAQ verweist aufs Telefon
+- [ ] **Event-Datum „Tabledance-Bereich“** unbekannt – vorläufig 07.07.2025 (Upload-Datum des Werbevideos)
+- [ ] **Anfahrt**: Haltestellen und Parkmöglichkeiten fehlen (`settings.json` → `directions`)
+- [ ] **Impressum**: USt-IdNr. fehlt; Bestellung der Jugendschutzbeauftragten für mona-roses.com prüfen (Altseite: „monaroses.de“)
+- [ ] **Datenschutz**: Hosting-Anbieter, Log-Speicherdauer, E-Mail-Anbieter, Löschfrist Bewerbungen, Rolle von VyceON

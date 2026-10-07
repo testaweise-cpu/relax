@@ -1,0 +1,12 @@
+{
+  "page": "jobs",
+  "order": 1,
+  "question": {
+    "de": "Wie alt muss ich sein?",
+    "en": ""
+  },
+  "answer": {
+    "de": "Du musst mindestens 21 Jahre alt sein.",
+    "en": ""
+  }
+}

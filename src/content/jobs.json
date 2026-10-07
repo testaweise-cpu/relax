@@ -1,0 +1,61 @@
+{
+  "title": {
+    "de": "Zimmer mieten im Mona Roses",
+    "en": ""
+  },
+  "intro": {
+    "de": "Du suchst einen sauberen, sicheren Ort mit guter Ausstattung und Gästen, die gern wiederkommen? Im Mona Roses in Berlin-Steglitz mietest du ein komplett eingerichtetes Zimmer – rund um die Uhr und mit freier Zeiteinteilung. Das Haus ist renoviert und bietet neben verschiedenen Zimmern einen VIP-Raum sowie einen Tabledance-Bereich mit Bar.\n\nDu arbeitest selbstständig und auf eigene Rechnung. Internationale Kolleginnen und Einsteigerinnen sind herzlich willkommen.",
+    "en": ""
+  },
+  "minAge": 21,
+  "offers": [
+    {
+      "de": "Ein nettes Team und ein sicherer Ort",
+      "en": ""
+    },
+    {
+      "de": "Freie Zeiteinteilung, rund um die Uhr",
+      "en": ""
+    },
+    {
+      "de": "Komplett eingerichtete Zimmer",
+      "en": ""
+    },
+    {
+      "de": "Miete nur, wenn du Gäste mit aufs Zimmer nimmst",
+      "en": ""
+    },
+    {
+      "de": "Küche mit Geschirr, Bad mit Handtüchern",
+      "en": ""
+    },
+    {
+      "de": "Einkaufsmöglichkeiten zu Fuß erreichbar",
+      "en": ""
+    },
+    {
+      "de": "Deine Sedcard auf dieser Website, auf Wunsch gezielte Werbung für dich",
+      "en": ""
+    }
+  ],
+  "formIntro": {
+    "de": "Schick uns ein paar Angaben und gern bis zu drei Fotos – wir melden uns diskret bei dir. Lieber persönlich? Ruf an oder schreib uns eine E-Mail.",
+    "en": ""
+  },
+  "resources": [
+    {
+      "label": {
+        "de": "Prostituiertenschutzgesetz (ProstSchG) im Wortlaut",
+        "en": ""
+      },
+      "url": "https://www.gesetze-im-internet.de/prostschg/"
+    },
+    {
+      "label": {
+        "de": "Berufsverband erotische und sexuelle Dienstleistungen e. V. (BesD)",
+        "en": ""
+      },
+      "url": "https://berufsverband-sexarbeit.de/"
+    }
+  ]
+}

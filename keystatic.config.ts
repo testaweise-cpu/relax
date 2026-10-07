@@ -20,7 +20,8 @@ export default config({
     brand: { name: "Mona Roses" },
     navigation: {
       Allgemein: ["settings", "legalNotice"],
-      Inhalte: ["prices", "faq", "events", "gallery"],
+      Seiten: ["home", "prices", "jobs"],
+      Inhalte: ["faq", "events", "gallery"],
       Rechtstexte: ["imprint", "privacy"],
     },
   },
@@ -39,6 +40,11 @@ export default config({
           validation: { isRequired: true },
         }),
         email: fields.text({ label: "E-Mail (öffentlich)" }),
+        jobsPhone: fields.text({
+          label: "Telefon für Bewerbungen/Vermietung (Anzeige)",
+        }),
+        jobsPhoneE164: fields.text({ label: "Telefon für Bewerbungen (+49…)" }),
+        jobsEmail: fields.text({ label: "E-Mail für Bewerbungen/Vermietung" }),
         street: fields.text({
           label: "Straße und Hausnummer",
           validation: { isRequired: true },
@@ -50,6 +56,7 @@ export default config({
         city: fields.text({ label: "Ort", validation: { isRequired: true } }),
         district: fields.text({ label: "Ortsteil" }),
         mapsUrl: fields.url({ label: "Link zu Google Maps" }),
+        directions: text("Anfahrt (ÖPNV, Auto, Parken)", { multiline: true }),
         openingHours: text("Öffnungszeiten"),
         foundedNote: text("Seit … Jahren (Kurztext)"),
       },
@@ -61,6 +68,66 @@ export default config({
       schema: {
         short: text("Kurzfassung (Footer, Kacheln)", { multiline: true }),
         long: text("Langfassung (Preise, Jobs)", { multiline: true }),
+      },
+    }),
+    home: singleton({
+      label: "Startseite",
+      path: "src/content/home",
+      format: { data: "json" },
+      schema: {
+        heroLead: text("Hero: Untertitel"),
+        introTitle: text("Kurzvorstellung: Überschrift"),
+        introText: text("Kurzvorstellung: Text", { multiline: true }),
+        highlights: fields.array(
+          fields.object({
+            title: text("Titel"),
+            text: text("Text", { multiline: true }),
+            image: fields.image({
+              label: "Bild",
+              directory: "public/images/home",
+              publicPath: "/images/home/",
+            }),
+            imageAlt: text("Bildbeschreibung (Alt-Text)"),
+          }),
+          {
+            label: "Highlights",
+            itemLabel: (p) => p.fields.title.fields.de.value || "Highlight",
+          },
+        ),
+      },
+    }),
+    jobs: singleton({
+      label: "Jobs",
+      path: "src/content/jobs",
+      format: { data: "json" },
+      schema: {
+        title: text("Überschrift"),
+        intro: text("Einleitung", { multiline: true }),
+        minAge: fields.integer({
+          label: "Mindestalter für Bewerbungen",
+          defaultValue: 21,
+          validation: { isRequired: true, min: 18 },
+        }),
+        offers: fields.array(text("Vorteil"), {
+          label: "Was wir bieten",
+          itemLabel: (p) => p.fields.de.value || "Vorteil",
+        }),
+        formIntro: text("Text über dem Bewerbungsformular", {
+          multiline: true,
+        }),
+        resources: fields.array(
+          fields.object({
+            label: text("Linktext"),
+            url: fields.url({
+              label: "Adresse",
+              validation: { isRequired: true },
+            }),
+          }),
+          {
+            label: "Weitere Informationen (Links)",
+            itemLabel: (p) => p.fields.label.fields.de.value || "Link",
+          },
+        ),
       },
     }),
     prices: singleton({
@@ -114,6 +181,7 @@ export default config({
           options: [
             { label: "Preise", value: "prices" },
             { label: "Jobs", value: "jobs" },
+            { label: "Allgemein (Galerie/Kontakt)", value: "general" },
           ],
           defaultValue: "prices",
         }),
@@ -130,6 +198,7 @@ export default config({
       schema: {
         slug: fields.slug({ name: { label: "URL-Name" } }),
         date: fields.date({ label: "Datum", validation: { isRequired: true } }),
+        time: fields.text({ label: "Uhrzeit (optional, z. B. „ab 22 Uhr“)" }),
         title: text("Titel"),
         body: text("Text", { multiline: true }),
         image: fields.image({

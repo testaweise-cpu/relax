@@ -1,13 +1,28 @@
 {
-  "intro": { "de": "Zimmermiete pro Aufenthalt.", "en": "" },
+  "intro": {
+    "de": "Bei uns mieten Sie ein Zimmer – abgerechnet wird nach Zeit. Die Miete nimmt unsere Hausdame vor Ort entgegen.",
+    "en": ""
+  },
   "rows": [
-    { "minutes": 20, "priceEur": 20 },
-    { "minutes": 30, "priceEur": 25 },
-    { "minutes": 40, "priceEur": 30 },
-    { "minutes": 60, "priceEur": 40 }
+    {
+      "minutes": 20,
+      "priceEur": 20
+    },
+    {
+      "minutes": 30,
+      "priceEur": 25
+    },
+    {
+      "minutes": 40,
+      "priceEur": 30
+    },
+    {
+      "minutes": 60,
+      "priceEur": 40
+    }
   ],
   "footnote": {
-    "de": "Die Preise gelten nur für die Zimmermiete. Die Dienstleistung wird mit der jeweiligen Mieterin vereinbart.",
+    "de": "Die Preise gelten ausschließlich für die Zimmermiete. Alle Dienstleistungen und deren Preise vereinbaren Sie direkt mit der jeweiligen Mieterin.",
     "en": ""
   }
 }

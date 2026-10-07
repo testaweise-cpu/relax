@@ -1,0 +1,12 @@
+{
+  "page": "jobs",
+  "order": 5,
+  "question": {
+    "de": "Brauche ich eine Anmeldung?",
+    "en": ""
+  },
+  "answer": {
+    "de": "Ja. Nach dem Prostituiertenschutzgesetz brauchst du eine gültige Anmeldebescheinigung. Weiterführende Informationen findest du unten auf dieser Seite.",
+    "en": ""
+  }
+}

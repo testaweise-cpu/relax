@@ -24,6 +24,9 @@ const nextConfig: NextConfig = {
     // Der Build-Cache übernahm neue Klassen aus dem Tailwind-Loader nicht
     // zuverlässig (veraltetes CSS). Docker-Builds starten ohnehin kalt.
     turbopackFileSystemCacheForBuild: false,
+    // Bewerbungen mit bis zu 3 Fotos à 8 MB
+    serverActions: { bodySizeLimit: "26mb" },
+    proxyClientMaxBodySize: "26mb",
   },
   turbopack: {
     rules: {

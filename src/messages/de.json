@@ -44,7 +44,15 @@
     "heroEyebrow": "Berlin-Steglitz · 24/7",
     "heroLead": "Bar, Tabledance und stilvolle Zimmer – rund um die Uhr geöffnet.",
     "ctaNow": "Wer ist jetzt da?",
-    "ctaPrices": "Preise"
+    "ctaPrices": "Preise",
+    "highlightsEyebrow": "Das erwartet Sie",
+    "highlightsTitle": "Bar, Tabledance, Suiten",
+    "pricesEyebrow": "Zimmermiete",
+    "pricesTitle": "Preise",
+    "visitEyebrow": "Besuch",
+    "visitTitle": "So finden Sie uns",
+    "gallery": "Zur Galerie",
+    "callNow": "Jetzt anrufen"
   },
   "profiles": {
     "title": "Mieterinnen",
@@ -104,5 +112,98 @@
     "stripTitle": "Jetzt da",
     "stripAll": "Alle anzeigen",
     "stale": "Verbindung unterbrochen – zeige letzten Stand."
+  },
+  "prices": {
+    "title": "Preise",
+    "eyebrow": "Zimmermiete",
+    "metaDescription": "Zimmerpreise im Mona Roses Berlin-Steglitz: 20 Minuten ab 20 €. Rund um die Uhr geöffnet.",
+    "tableCaption": "Zimmermiete nach Dauer",
+    "duration": "Dauer",
+    "roomRent": "Zimmermiete",
+    "minutes": "{count} Min.",
+    "faqTitle": "Häufige Fragen",
+    "legalTitle": "Wichtiger Hinweis",
+    "allPrices": "Alle Preise & FAQ"
+  },
+  "gallery": {
+    "title": "Galerie",
+    "eyebrow": "Mona Roses von innen",
+    "metaDescription": "Bilder und Video aus dem Mona Roses in Berlin-Steglitz: Zimmer, Suiten, Bar und Lounge.",
+    "intro": "Manchmal sagen Bilder mehr als Worte: Schauen Sie sich bei uns um – oder überzeugen Sie sich live vor Ort.",
+    "rooms": "Zimmer & Suiten",
+    "club": "Bar & Lounge",
+    "video": "Video",
+    "videoNote": "Das Video startet erst, wenn Sie auf Abspielen tippen.",
+    "videoLabel": "Imagefilm Mona Roses"
+  },
+  "events": {
+    "title": "Events & News",
+    "eyebrow": "Was los ist",
+    "metaDescription": "Events und Neuigkeiten aus dem Mona Roses in Berlin-Steglitz.",
+    "upcoming": "Demnächst",
+    "past": "Rückblick & News",
+    "empty": "Gerade sind keine Events geplant – schauen Sie bald wieder vorbei.",
+    "teaser": "Nächstes Event"
+  },
+  "jobs": {
+    "eyebrow": "Für Mieterinnen",
+    "metaDescription": "Zimmer mieten im Mona Roses Berlin-Steglitz: selbstständig, freie Zeiteinteilung, Miete nur bei Gästen. Jetzt bewerben.",
+    "offersTitle": "Was wir dir bieten",
+    "faqTitle": "Fragen von Mieterinnen",
+    "formTitle": "Bewerbung",
+    "contactDirect": "Direkt erreichst du uns unter",
+    "resourcesTitle": "Weitere Informationen",
+    "form": {
+      "name": "Name oder Künstlername",
+      "age": "Alter",
+      "ageHint": "Mindestens {min} Jahre",
+      "contact": "Telefon oder E-Mail",
+      "contactHint": "Wie dürfen wir dich erreichen?",
+      "languages": "Sprachen",
+      "languagesHint": "z. B. Deutsch, Englisch",
+      "period": "Gewünschter Zeitraum",
+      "periodHint": "z. B. ab November, 2 Wochen",
+      "message": "Nachricht",
+      "photos": "Fotos (optional)",
+      "photosHint": "Bis zu 3 Bilder, JPG, PNG oder WebP, je höchstens 8 MB",
+      "consent": "Ich willige ein, dass Mona Roses meine Angaben und Fotos zur Bearbeitung meiner Anfrage verarbeitet. Mir ist bewusst, dass sie Rückschlüsse auf mein Sexualleben zulassen können. Details in der",
+      "consentLink": "Datenschutzerklärung",
+      "honeypot": "Bitte leer lassen",
+      "submit": "Bewerbung senden",
+      "sending": "Wird gesendet …",
+      "required": "Pflichtfeld",
+      "success": "Danke! Deine Bewerbung ist bei uns angekommen. Wir melden uns diskret bei dir.",
+      "error": "Das hat leider nicht geklappt. Bitte versuch es später noch einmal oder ruf uns an.",
+      "notConfigured": "Das Formular ist noch nicht eingerichtet. Bitte ruf uns an oder schreib uns eine E-Mail.",
+      "rateLimited": "Zu viele Anfragen. Bitte versuch es in einer Stunde noch einmal.",
+      "invalid": "Bitte prüfe die markierten Felder.",
+      "errors": {
+        "name": "Bitte gib einen Namen an (2–60 Zeichen).",
+        "age": "Du musst mindestens {min} Jahre alt sein.",
+        "contact": "Bitte gib eine Telefonnummer oder E-Mail-Adresse an.",
+        "languages": "Höchstens 120 Zeichen.",
+        "period": "Höchstens 120 Zeichen.",
+        "message": "Höchstens 2000 Zeichen.",
+        "photos": "Höchstens 3 Bilder (JPG, PNG, WebP), je max. 8 MB.",
+        "consent": "Bitte bestätige die Einwilligung."
+      }
+    }
+  },
+  "contact": {
+    "title": "Kontakt & Anfahrt",
+    "eyebrow": "So finden Sie uns",
+    "metaDescription": "Mona Roses, Hindenburgdamm, 12203 Berlin-Steglitz. Telefon 030 832 29 067, rund um die Uhr geöffnet.",
+    "address": "Adresse",
+    "phone": "Telefon",
+    "email": "E-Mail",
+    "hours": "Öffnungszeiten",
+    "directions": "Anfahrt",
+    "maps": "In Google Maps öffnen",
+    "mapsNote": "Öffnet Google Maps in einem neuen Tab. Erst dann werden Daten an Google übertragen.",
+    "jobs": "Für Mieterinnen"
+  },
+  "legal": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutzerklärung"
   }
 }

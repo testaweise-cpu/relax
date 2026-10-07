@@ -1,0 +1,61 @@
+{
+  "heroLead": {
+    "de": "Bar, Tabledance und stilvolle Zimmer – rund um die Uhr geöffnet.",
+    "en": ""
+  },
+  "introTitle": {
+    "de": "Willkommen im Mona Roses",
+    "en": ""
+  },
+  "introText": {
+    "de": "Seit über TODO(25 oder 30) Jahren ist das Mona Roses eine feste Adresse in Berlin-Steglitz, direkt am Hindenburgdamm. Sie erwarten gepflegte, stimmungsvoll eingerichtete Zimmer und Suiten, eine Bar mit Tabledance und eine entspannte, diskrete Atmosphäre – an jedem Tag, rund um die Uhr.\n\nUnsere Hausdame empfängt Sie persönlich und kümmert sich um die Zimmermiete. Wer gerade im Haus ist, sehen Sie jederzeit live auf dieser Seite.",
+    "en": ""
+  },
+  "highlights": [
+    {
+      "title": {
+        "de": "Bar & Lounge",
+        "en": ""
+      },
+      "text": {
+        "de": "Ankommen, etwas trinken, sich in Ruhe umsehen: Die Bar mit Lounge ist der Treffpunkt im Haus.",
+        "en": ""
+      },
+      "image": "/images/home/bar-lounge.jpg",
+      "imageAlt": {
+        "de": "Bar-Lounge mit gepolsterter Sitzbank und beleuchtetem Tisch",
+        "en": ""
+      }
+    },
+    {
+      "title": {
+        "de": "Tabledance",
+        "en": ""
+      },
+      "text": {
+        "de": "Im neu ausgebauten Bereich mit eigener Bar und bequemen Sitzplätzen gibt es Tabledance-Shows.",
+        "en": ""
+      },
+      "image": "/images/home/tabledance.jpg",
+      "imageAlt": {
+        "de": "Tänzerinnen in High Heels",
+        "en": ""
+      }
+    },
+    {
+      "title": {
+        "de": "Zimmer & Suiten",
+        "en": ""
+      },
+      "text": {
+        "de": "Sauber, gepflegt und stimmungsvoll beleuchtet – vom gemütlichen Zimmer bis zur Suite mit Barockspiegel.",
+        "en": ""
+      },
+      "image": "/images/home/zimmer.jpg",
+      "imageAlt": {
+        "de": "Zimmer mit Doppelbett, Barockspiegel und roter Neonbeleuchtung",
+        "en": ""
+      }
+    }
+  ]
+}

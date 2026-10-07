@@ -1,0 +1,12 @@
+{
+  "page": "jobs",
+  "order": 3,
+  "question": {
+    "de": "Muss ich Miete zahlen, wenn ich keine Gäste habe?",
+    "en": ""
+  },
+  "answer": {
+    "de": "Nein. Du zahlst nur, wenn du Gäste mit auf dein Zimmer nimmst. Möchtest du einen Tag frei nehmen, fällt keine Miete an.",
+    "en": ""
+  }
+}

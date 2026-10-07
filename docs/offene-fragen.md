@@ -12,3 +12,7 @@ Stand: Phase 1 (Setup). Antworten bitte direkt hier eintragen.
 | 6   | Ziel-E-Mail für Bewerbungen und SMTP-Zugang (Host, Port, Benutzer, Passwort, Absender)? | Bewerbungsformular `/jobs`                                                         |         |
 | 7   | Rechtliche Prüfung der Altersabfrage (JMStV) – wer übernimmt sie?                       | Aktuell einfaches Overlay mit Cookie `age_ok`                                      |         |
 | 8   | Telefonnummer und PLZ für Kontakt/strukturierte Daten bestätigen                        | Altseite war aus der Build-Umgebung nicht erreichbar, siehe `src/content/todos.md` |         |
+| 11 | Mindestalter für Mieterinnen: 21 (Jobs-Text) oder 18 (Jobs-FAQ)? | Formular prüft derzeit 21 | |
+| 12 | Hosting-Anbieter, E-Mail-Anbieter, Löschfristen – für die Datenschutzerklärung | Entwurf mit TODOs | |
+| 13 | Anfahrt: Haltestellen, Parkplätze, Klingel/Eingang? | Kontaktseite | |
+| 14 | Rechtliche Prüfung von Impressum und Datenschutzerklärung (Entwurf) | Phase 5 | |

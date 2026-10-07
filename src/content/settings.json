@@ -1,18 +1,25 @@
 {
   "phone": "030 832 29 067",
   "phoneE164": "+493083229067",
-  "email": "",
+  "email": "info@mona-roses.com",
   "street": "Hindenburgdamm TODO(74 oder 76)",
   "postalCode": "12203",
   "city": "Berlin",
   "district": "Steglitz",
-  "mapsUrl": "",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mona%20Roses%20Hindenburgdamm%20Berlin",
   "openingHours": {
     "de": "Rund um die Uhr geöffnet, 7 Tage die Woche",
     "en": "Open around the clock, 7 days a week"
   },
   "foundedNote": {
     "de": "Seit über TODO(25 oder 30) Jahren in Berlin-Steglitz",
+    "en": ""
+  },
+  "jobsPhone": "0173 631 49 35",
+  "jobsPhoneE164": "+491736314935",
+  "jobsEmail": "vermietung@mona-roses.com",
+  "directions": {
+    "de": "Sie finden uns direkt am Hindenburgdamm in Berlin-Steglitz. TODO(Anfahrt): nächste Haltestellen von Bus und S-Bahn sowie Parkmöglichkeiten ergänzen.",
     "en": ""
   }
 }

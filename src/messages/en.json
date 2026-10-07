@@ -44,7 +44,15 @@
     "heroEyebrow": "Berlin-Steglitz · 24/7",
     "heroLead": "Bar, table dance and stylish rooms – open around the clock.",
     "ctaNow": "Who is here now?",
-    "ctaPrices": "Prices"
+    "ctaPrices": "Prices",
+    "highlightsEyebrow": "What awaits you",
+    "highlightsTitle": "Bar, table dance, suites",
+    "pricesEyebrow": "Room rent",
+    "pricesTitle": "Prices",
+    "visitEyebrow": "Visit",
+    "visitTitle": "How to find us",
+    "gallery": "To the gallery",
+    "callNow": "Call now"
   },
   "profiles": {
     "title": "Ladies",
@@ -104,5 +112,98 @@
     "stripTitle": "Here now",
     "stripAll": "Show all",
     "stale": "Connection lost – showing last known state."
+  },
+  "prices": {
+    "title": "Prices",
+    "eyebrow": "Room rent",
+    "metaDescription": "Room prices at Mona Roses Berlin-Steglitz: 20 minutes from €20. Open around the clock.",
+    "tableCaption": "Room rent by duration",
+    "duration": "Duration",
+    "roomRent": "Room rent",
+    "minutes": "{count} min",
+    "faqTitle": "Frequently asked questions",
+    "legalTitle": "Important note",
+    "allPrices": "All prices & FAQ"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "eyebrow": "Inside Mona Roses",
+    "metaDescription": "Pictures and video from Mona Roses in Berlin-Steglitz: rooms, suites, bar and lounge.",
+    "intro": "Sometimes pictures say more than words: take a look around – or see for yourself in person.",
+    "rooms": "Rooms & suites",
+    "club": "Bar & lounge",
+    "video": "Video",
+    "videoNote": "The video only starts when you tap play.",
+    "videoLabel": "Mona Roses image film"
+  },
+  "events": {
+    "title": "Events & news",
+    "eyebrow": "What's on",
+    "metaDescription": "Events and news from Mona Roses in Berlin-Steglitz.",
+    "upcoming": "Upcoming",
+    "past": "Looking back & news",
+    "empty": "No events planned right now – check back soon.",
+    "teaser": "Next event"
+  },
+  "jobs": {
+    "eyebrow": "For tenants",
+    "metaDescription": "Rent a room at Mona Roses Berlin-Steglitz: self-employed, flexible hours, rent only when you have guests. Apply now.",
+    "offersTitle": "What we offer",
+    "faqTitle": "Questions from tenants",
+    "formTitle": "Application",
+    "contactDirect": "Reach us directly at",
+    "resourcesTitle": "Further information",
+    "form": {
+      "name": "Name or stage name",
+      "age": "Age",
+      "ageHint": "At least {min} years",
+      "contact": "Phone or email",
+      "contactHint": "How can we reach you?",
+      "languages": "Languages",
+      "languagesHint": "e.g. German, English",
+      "period": "Preferred period",
+      "periodHint": "e.g. from November, 2 weeks",
+      "message": "Message",
+      "photos": "Photos (optional)",
+      "photosHint": "Up to 3 images, JPG, PNG or WebP, max. 8 MB each",
+      "consent": "I agree that Mona Roses may process my details and photos to handle my request. I am aware that they may reveal information about my sex life. Details in the",
+      "consentLink": "privacy policy",
+      "honeypot": "Please leave empty",
+      "submit": "Send application",
+      "sending": "Sending …",
+      "required": "Required",
+      "success": "Thank you! Your application has arrived. We will get back to you discreetly.",
+      "error": "Sorry, that did not work. Please try again later or give us a call.",
+      "notConfigured": "The form is not set up yet. Please call or email us.",
+      "rateLimited": "Too many requests. Please try again in an hour.",
+      "invalid": "Please check the highlighted fields.",
+      "errors": {
+        "name": "Please enter a name (2–60 characters).",
+        "age": "You must be at least {min} years old.",
+        "contact": "Please enter a phone number or email address.",
+        "languages": "At most 120 characters.",
+        "period": "At most 120 characters.",
+        "message": "At most 2000 characters.",
+        "photos": "At most 3 images (JPG, PNG, WebP), max. 8 MB each.",
+        "consent": "Please confirm your consent."
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact & directions",
+    "eyebrow": "How to find us",
+    "metaDescription": "Mona Roses, Hindenburgdamm, 12203 Berlin-Steglitz. Phone +49 30 832 29 067, open around the clock.",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Opening hours",
+    "directions": "Directions",
+    "maps": "Open in Google Maps",
+    "mapsNote": "Opens Google Maps in a new tab. Only then is data sent to Google.",
+    "jobs": "For tenants"
+  },
+  "legal": {
+    "imprint": "Legal notice",
+    "privacy": "Privacy policy"
   }
 }

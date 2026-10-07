@@ -1,0 +1,12 @@
+{
+  "page": "prices",
+  "order": 4,
+  "question": {
+    "de": "Woher weiß ich, wer gerade da ist?",
+    "en": ""
+  },
+  "answer": {
+    "de": "Auf der Seite „Jetzt da“ sehen Sie live, welche Mieterinnen gerade im Haus sind. Die Übersicht aktualisiert sich automatisch.",
+    "en": ""
+  }
+}
