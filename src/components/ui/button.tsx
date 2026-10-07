@@ -6,20 +6,20 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-full font-display font-semibold uppercase tracking-[0.12em] no-underline transition-[box-shadow,background-color,color,border-color] duration-200 disabled:cursor-not-allowed disabled:opacity-50 select-none";
+  "inline-flex items-center justify-center gap-2.5 rounded-full font-display font-semibold uppercase tracking-[0.18em] no-underline transition-[box-shadow,background-color,color,border-color] duration-300 disabled:cursor-not-allowed disabled:opacity-50 select-none";
 
 const variants: Record<ButtonVariant, string> = {
   // Dunkle Schrift auf Pink: Kontrast 5,6:1
   primary:
-    "bg-pink text-night shadow-[0_0_14px_color-mix(in_oklab,var(--pink)_55%,transparent)] hover:shadow-[0_0_26px_var(--pink)] hover:bg-[color-mix(in_oklab,var(--pink)_88%,white)]",
+    "bg-pink text-night shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] hover:bg-[color-mix(in_oklab,var(--pink)_88%,white)] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_0_28px_color-mix(in_oklab,var(--pink)_45%,transparent)]",
   secondary:
-    "border border-cyan bg-night/70 text-cyan backdrop-blur-sm shadow-[0_0_10px_color-mix(in_oklab,var(--cyan)_30%,transparent)] hover:bg-cyan/10 hover:shadow-[0_0_20px_color-mix(in_oklab,var(--cyan)_60%,transparent)]",
+    "border border-ink/25 bg-night/40 text-ink backdrop-blur-sm hover:border-cyan hover:text-cyan",
   ghost: "text-ink hover:text-cyan",
 };
 
 const sizes: Record<ButtonSize, string> = {
-  md: "min-h-11 px-5 text-base",
-  lg: "min-h-13 px-7 text-lg",
+  md: "min-h-11 px-6 text-[0.95rem]",
+  lg: "min-h-13 px-8 text-base",
 };
 
 export function buttonClasses({

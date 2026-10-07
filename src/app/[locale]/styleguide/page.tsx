@@ -110,10 +110,7 @@ export default async function StyleguidePage({
       >
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
           {COLORS.map(([name, use]) => (
-            <li
-              key={name}
-              className="overflow-hidden rounded-card border border-line bg-panel"
-            >
+            <li key={name} className="panel overflow-hidden">
               <div
                 className="h-14"
                 style={{ background: `var(--${name})` }}
@@ -256,7 +253,7 @@ export default async function StyleguidePage({
           ))}
         </ul>
         <video
-          className="mt-6 aspect-[3/2] w-full max-w-2xl rounded-card border border-line bg-panel"
+          className="panel mt-6 aspect-[3/2] w-full max-w-2xl"
           controls
           preload="none"
           playsInline

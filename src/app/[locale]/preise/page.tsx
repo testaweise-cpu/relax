@@ -32,16 +32,14 @@ export default async function PricesPage({
         intro={pick(prices.intro, l)}
       >
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:gap-16">
-          <div className="rounded-card border border-pink/50 bg-panel p-5 shadow-[0_0_24px_color-mix(in_oklab,var(--pink)_20%,transparent)] sm:p-8">
+          <div className="panel panel-accent p-6 sm:p-10">
             <PriceTable rows={prices.rows} locale={locale} />
             <p className="mt-6 text-sm text-muted">
               {pick(prices.footnote, l)}
             </p>
           </div>
           <div>
-            <h2 className="heading-glow text-2xl text-ink">
-              {t("legalTitle")}
-            </h2>
+            <h2 className="text-2xl text-ink">{t("legalTitle")}</h2>
             <LegalNotice variant="long" className="mt-5" />
           </div>
         </div>

@@ -33,16 +33,22 @@ export async function PriceTable({
             <th
               scope="row"
               className={cn(
-                "border-b border-line text-left font-display font-semibold tracking-[0.08em] text-ink uppercase group-last:border-b-0",
-                compact ? "py-3 text-xl" : "py-4 text-2xl sm:text-3xl",
+                "border-b border-line/70 text-left font-display font-semibold tracking-[0.14em] text-ink uppercase group-last:border-b-0",
+                compact ? "py-3.5 text-lg" : "py-5 text-xl sm:text-2xl",
               )}
             >
-              {t("minutes", { count: r.minutes ?? 0 })}
+              <span className="flex items-baseline gap-3">
+                {t("minutes", { count: r.minutes ?? 0 })}
+                <span
+                  aria-hidden
+                  className="mb-1 flex-1 border-b border-dotted border-muted/30"
+                />
+              </span>
             </th>
             <td
               className={cn(
-                "border-b border-line text-right font-mono text-mint [text-shadow:0_0_12px_color-mix(in_oklab,var(--mint)_45%,transparent)] group-last:border-b-0",
-                compact ? "py-3 text-xl" : "py-4 text-2xl sm:text-3xl",
+                "border-b border-line/70 pl-3 text-right font-mono text-ink tabular-nums group-last:border-b-0",
+                compact ? "py-3.5 text-lg" : "py-5 text-xl sm:text-2xl",
               )}
             >
               {money.format(r.priceEur ?? 0)}

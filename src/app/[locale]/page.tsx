@@ -92,7 +92,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           {nextEvent && (
             <Link
               href="/events"
-              className="block rounded-card border border-pink/60 bg-panel p-5 no-underline shadow-[0_0_24px_color-mix(in_oklab,var(--pink)_25%,transparent)] transition-shadow hover:shadow-[0_0_32px_color-mix(in_oklab,var(--pink)_45%,transparent)]"
+              className="panel panel-accent block p-6 no-underline transition-colors hover:border-pink/50"
             >
               <p className="eyebrow">{te("teaser")}</p>
               <p className="mt-2 font-display text-3xl font-extrabold tracking-[0.04em] text-ink uppercase">
@@ -109,6 +109,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </Link>
           )}
         </div>
+        <ul className="mt-14 grid gap-px overflow-hidden rounded-card border border-line/70 bg-line/70 sm:grid-cols-3">
+          {(t.raw("values") as { title: string; text: string }[]).map((v) => (
+            <li key={v.title} className="bg-night p-6 sm:p-8">
+              <p className="font-display text-2xl font-semibold tracking-[0.14em] text-ink uppercase">
+                {v.title}
+              </p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                {v.text}
+              </p>
+            </li>
+          ))}
+        </ul>
       </Section>
 
       <Section
@@ -116,30 +128,33 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         eyebrow={t("highlightsEyebrow")}
         title={t("highlightsTitle")}
       >
-        <ul className="grid gap-5 md:grid-cols-3">
+        <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
           {home.highlights.map((h, i) => (
             <li
               key={i}
-              className="overflow-hidden rounded-card border border-line bg-panel"
+              className="group relative aspect-[4/5] overflow-hidden rounded-card border border-line/80"
             >
               {h.image && (
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    src={h.image}
-                    alt={pick(h.imageAlt, l)}
-                    fill
-                    sizes="(min-width: 768px) 33vw, 100vw"
-                    className="object-cover"
-                  />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-panel via-transparent"
-                    aria-hidden
-                  />
-                </div>
+                <Image
+                  src={h.image}
+                  alt={pick(h.imageAlt, l)}
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-[1.04]"
+                />
               )}
-              <div className="p-5">
-                <h3 className="text-2xl text-ink">{pick(h.title, l)}</h3>
-                <p className="mt-2 text-muted">{pick(h.text, l)}</p>
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-[linear-gradient(180deg,rgb(13_11_30/0.1)_0%,rgb(13_11_30/0.35)_45%,rgb(13_11_30/0.95)_100%)]"
+              />
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
+                <p className="font-mono text-xs tracking-[0.3em] text-pink">
+                  0{i + 1}
+                </p>
+                <h3 className="mt-2 text-3xl text-ink">{pick(h.title, l)}</h3>
+                <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/80">
+                  {pick(h.text, l)}
+                </p>
               </div>
             </li>
           ))}
@@ -153,13 +168,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <Section eyebrow={t("pricesEyebrow")} title={t("pricesTitle")}>
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
-          <div className="rounded-card border border-pink/50 bg-panel p-5 sm:p-6">
+          <div className="panel panel-accent p-6 sm:p-8">
             <PriceTable rows={prices.rows} locale={locale} compact />
             <p className="mt-4 text-sm text-muted">
               {pick(prices.footnote, l)}
             </p>
           </div>
-          <div className="flex flex-col justify-between gap-6">
+          <div className="flex flex-col justify-center gap-8">
+            <p className="font-display text-4xl leading-tight font-semibold tracking-[0.06em] text-ink uppercase sm:text-5xl">
+              {t("promise")}
+            </p>
             <LegalNotice />
             <ButtonLink
               href="/preise"

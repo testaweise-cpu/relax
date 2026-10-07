@@ -28,7 +28,7 @@ function Card({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-card border border-line bg-panel p-5 sm:p-6">
+    <div className="panel p-5 sm:p-6">
       <h2 className="flex items-center gap-3 font-display text-xl font-semibold tracking-[0.12em] text-ink uppercase">
         <span className="text-pink">{icon}</span>
         {title}

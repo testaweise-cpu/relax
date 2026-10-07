@@ -43,7 +43,7 @@ export function LivePresenceGrid({ initial }: Props) {
           ))}
         </ul>
       ) : (
-        <div className="rounded-card border border-line bg-panel p-8 text-center">
+        <div className="panel p-8 text-center">
           <p className="text-lg text-ink">{t("empty")}</p>
           <p className="mt-2 text-muted">{t("emptyHint")}</p>
           <p className="mt-4">
@@ -67,19 +67,22 @@ export function NowStrip({
   return (
     <section
       aria-labelledby="now-strip"
-      className={cn("py-10 sm:py-14", className)}
+      className={cn("py-16 sm:py-20", className)}
     >
       <div className="container-page flex items-end justify-between gap-4">
-        <h2
-          id="now-strip"
-          className="flex items-center gap-3 text-3xl text-ink sm:text-4xl"
-        >
-          <span className="live-dot" aria-hidden />
-          {t("stripTitle")}
-          <span className="font-mono text-base font-normal tracking-normal text-cyan">
-            {data.present.length}
-          </span>
-        </h2>
+        <div>
+          <p className="eyebrow">Live</p>
+          <h2
+            id="now-strip"
+            className="mt-3 flex items-center gap-4 text-3xl text-ink sm:text-4xl"
+          >
+            {t("stripTitle")}
+            <span className="inline-flex items-center gap-2 rounded-full border border-cyan/40 px-3 py-1 font-mono text-sm font-normal tracking-normal text-cyan">
+              <span className="live-dot" aria-hidden />
+              {data.present.length}
+            </span>
+          </h2>
+        </div>
         <Link
           href="/jetzt-da"
           className="inline-flex min-h-11 items-center gap-1 font-mono text-sm"

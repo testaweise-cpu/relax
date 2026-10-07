@@ -15,8 +15,8 @@ export async function Header() {
   const phoneHref = telHref(settings.phoneE164);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-night/85 backdrop-blur-md supports-[not(backdrop-filter:blur(1px))]:bg-night">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 border-b border-line/50 bg-night/75 backdrop-blur-xl supports-[not(backdrop-filter:blur(1px))]:bg-night">
+      <div className="container-page flex h-16 items-center justify-between gap-4 sm:h-[4.5rem]">
         <Logo animated />
 
         <nav aria-label={t("main")} className="hidden xl:block">

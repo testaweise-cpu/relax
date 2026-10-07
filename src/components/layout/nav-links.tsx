@@ -23,10 +23,8 @@ export function NavLinks() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "inline-flex min-h-11 items-center rounded-full px-3 font-display text-[0.95rem] font-semibold tracking-[0.12em] uppercase no-underline transition-colors",
-                active
-                  ? "text-pink [text-shadow:0_0_10px_var(--pink)]"
-                  : "text-ink hover:text-cyan",
+                "inline-flex min-h-11 items-center rounded-full px-3 font-display text-[0.85rem] font-semibold tracking-[0.22em] uppercase no-underline transition-colors",
+                active ? "text-pink" : "text-ink/85 hover:text-ink",
               )}
             >
               {item.key === "now" && (

@@ -40,7 +40,7 @@ export function ProfileGallery({
           const el = e.currentTarget;
           setIndex(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
         }}
-        className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-card border border-pink/60 shadow-[0_0_18px_color-mix(in_oklab,var(--pink)_35%,transparent)]"
+        className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-card border border-line/80 shadow-[0_32px_60px_-36px_rgb(0_0_0/0.9)]"
         aria-label={t("gallery", { name })}
         role="region"
         tabIndex={0}

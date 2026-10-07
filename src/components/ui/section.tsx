@@ -25,24 +25,29 @@ export function Section({
       id={id}
       aria-labelledby={title ? headingId : undefined}
       className={cn(
-        "py-14 sm:py-20",
-        tone === "night-2" && "bg-night-2",
+        "py-20 sm:py-28",
+        tone === "night-2" &&
+          "bg-[linear-gradient(180deg,var(--night)_0%,var(--night-2)_18%,var(--night-2)_82%,var(--night)_100%)]",
         className,
       )}
     >
       <div className="container-page">
         {(eyebrow || title) && (
-          <header className="mb-8 max-w-2xl">
+          <header className="mb-10 max-w-2xl sm:mb-14">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
             {title && (
               <h2
                 id={headingId}
-                className="heading-glow mt-2 text-4xl text-ink sm:text-5xl"
+                className="mt-4 text-4xl text-ink sm:text-[3.4rem]"
               >
                 {title}
               </h2>
             )}
-            {intro && <div className="mt-4 text-lg text-muted">{intro}</div>}
+            {intro && (
+              <div className="mt-5 text-lg leading-relaxed text-muted">
+                {intro}
+              </div>
+            )}
           </header>
         )}
         {children}

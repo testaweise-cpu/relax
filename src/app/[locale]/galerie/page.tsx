@@ -46,7 +46,7 @@ export default async function GalleryPage({
       </Section>
       <Section tone="night-2" title={t("video")} intro={t("videoNote")}>
         <video
-          className="aspect-[3/2] w-full max-w-4xl rounded-card border border-line bg-panel"
+          className="panel aspect-[3/2] w-full max-w-4xl"
           controls
           preload="none"
           playsInline

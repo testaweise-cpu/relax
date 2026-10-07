@@ -52,7 +52,22 @@
     "visitEyebrow": "Besuch",
     "visitTitle": "So finden Sie uns",
     "gallery": "Zur Galerie",
-    "callNow": "Jetzt anrufen"
+    "callNow": "Jetzt anrufen",
+    "promise": "Diskret. Gepflegt. Rund um die Uhr.",
+    "values": [
+      {
+        "title": "Diskret",
+        "text": "Persönlicher Empfang durch unsere Hausdame, kein Aufsehen."
+      },
+      {
+        "title": "Gepflegt",
+        "text": "Saubere, stimmungsvoll eingerichtete Zimmer und Suiten."
+      },
+      {
+        "title": "24 / 7",
+        "text": "Jeden Tag rund um die Uhr geöffnet – auch spontan."
+      }
+    ]
   },
   "profiles": {
     "title": "Mieterinnen",

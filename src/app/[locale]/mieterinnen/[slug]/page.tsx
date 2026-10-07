@@ -122,7 +122,7 @@ export default async function SedcardPage({
 
           {profile.personalNote && (
             <section className="mt-10" aria-labelledby="about">
-              <h2 id="about" className="heading-glow text-2xl text-ink">
+              <h2 id="about" className="text-2xl text-ink">
                 {t("about")}
               </h2>
               <p className="mt-4 text-lg text-ink">{profile.personalNote}</p>
@@ -131,7 +131,7 @@ export default async function SedcardPage({
 
           <div className="mt-10 grid gap-10 sm:grid-cols-2">
             <section aria-labelledby="facts">
-              <h2 id="facts" className="heading-glow text-2xl text-ink">
+              <h2 id="facts" className="text-2xl text-ink">
                 {t("facts")}
               </h2>
               <dl className="mt-4 text-sm">
@@ -161,7 +161,7 @@ export default async function SedcardPage({
             </section>
 
             <section aria-labelledby="week">
-              <h2 id="week" className="heading-glow text-2xl text-ink">
+              <h2 id="week" className="text-2xl text-ink">
                 {t("week")}
               </h2>
               <div className="mt-4">
@@ -172,7 +172,7 @@ export default async function SedcardPage({
 
           {profile.services.length > 0 && (
             <section className="mt-10" aria-labelledby="services">
-              <h2 id="services" className="heading-glow text-2xl text-ink">
+              <h2 id="services" className="text-2xl text-ink">
                 {t("services")}
               </h2>
               <ul className="mt-4 flex flex-wrap gap-2">

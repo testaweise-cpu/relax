@@ -50,8 +50,8 @@ export default async function EventsPage({
             key={e.slug}
             className={
               highlight
-                ? "overflow-hidden rounded-card border border-pink/60 bg-panel shadow-[0_0_24px_color-mix(in_oklab,var(--pink)_25%,transparent)]"
-                : "overflow-hidden rounded-card border border-line bg-panel"
+                ? "panel panel-accent overflow-hidden"
+                : "panel overflow-hidden"
             }
           >
             <article>

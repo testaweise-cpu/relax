@@ -55,7 +55,7 @@ export async function DataPreview({ locale }: { locale: TimeLocale }) {
       </ul>
 
       {sample && (
-        <div className="mt-10 max-w-md rounded-card border border-line bg-panel p-5">
+        <div className="panel mt-10 max-w-md p-5">
           <h3 className="font-display text-xl text-ink">
             Wochenplan {sample.name}
           </h3>

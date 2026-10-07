@@ -52,7 +52,7 @@ export default async function ProfilesPage({
       {visible.length > 0 ? (
         <ProfileGrid cards={visible} />
       ) : (
-        <div className="rounded-card border border-line bg-panel p-8 text-center">
+        <div className="panel p-8 text-center">
           <p className="text-lg text-ink">{t("empty")}</p>
           <p className="mt-2 text-muted">{t("emptyHint")}</p>
         </div>

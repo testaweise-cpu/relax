@@ -38,16 +38,14 @@ export default async function JobsPage({
       <Section eyebrow={t("eyebrow")} title={pick(jobs.title, l)}>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
           <Paragraphs text={pick(jobs.intro, l)} className="text-lg text-ink" />
-          <div className="rounded-card border border-line bg-panel p-6">
-            <h2 className="heading-glow text-2xl text-ink">
-              {t("offersTitle")}
-            </h2>
+          <div className="panel p-6">
+            <h2 className="text-2xl text-ink">{t("offersTitle")}</h2>
             <ul className="mt-5 space-y-3">
               {jobs.offers.map((o, i) => (
                 <li key={i} className="flex gap-3 text-ink">
                   <span
                     aria-hidden
-                    className="mt-2 size-2 shrink-0 rounded-full bg-mint shadow-[0_0_8px_var(--mint)]"
+                    className="mt-3 h-px w-4 shrink-0 bg-pink"
                   />
                   {pick(o, l)}
                 </li>
@@ -66,7 +64,7 @@ export default async function JobsPage({
             />
             <ApplicationForm minAge={jobs.minAge} />
           </div>
-          <aside className="h-fit rounded-card border border-line bg-panel p-6">
+          <aside className="panel h-fit p-6">
             <p className="text-muted">{t("contactDirect")}</p>
             {s.jobsPhone && s.jobsPhoneE164 && (
               <p className="mt-3">
@@ -93,9 +91,7 @@ export default async function JobsPage({
         </div>
         {jobs.resources.length > 0 && (
           <div className="mt-12">
-            <h2 className="heading-glow text-2xl text-ink">
-              {t("resourcesTitle")}
-            </h2>
+            <h2 className="text-2xl text-ink">{t("resourcesTitle")}</h2>
             <ul className="mt-5 space-y-2">
               {jobs.resources.map((r) => (
                 <li key={r.url}>

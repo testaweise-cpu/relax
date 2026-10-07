@@ -4,10 +4,10 @@ import { cn } from "@/lib/cn";
 type BadgeVariant = "live" | "new" | "back" | "neutral";
 
 const variants: Record<BadgeVariant, string> = {
-  live: "border-cyan/70 bg-night/80 text-cyan shadow-[0_0_10px_color-mix(in_oklab,var(--cyan)_45%,transparent)]",
-  new: "border-pink/80 bg-night/80 text-pink shadow-[0_0_10px_color-mix(in_oklab,var(--pink)_45%,transparent)]",
-  back: "border-sunset/70 bg-night/80 text-sunset",
-  neutral: "border-line bg-panel text-muted",
+  live: "border-cyan/40 bg-night/70 text-cyan",
+  new: "border-pink/50 bg-night/70 text-pink",
+  back: "border-sunset/45 bg-night/70 text-sunset",
+  neutral: "border-line bg-night/60 text-muted",
 };
 
 export function Badge({
@@ -22,7 +22,7 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-xs font-medium tracking-wider uppercase backdrop-blur-sm",
+        "inline-flex items-center gap-1.5 rounded-full border px-2 py-0.5 font-mono text-[0.68rem] font-medium tracking-[0.14em] uppercase backdrop-blur-md",
         variants[variant],
         className,
       )}

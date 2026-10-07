@@ -65,14 +65,31 @@
     overflow-x: clip; /* kein horizontales Scrollen */
   }
 
+  /* Feines Filmkorn über der ganzen Seite – nimmt den Flächen das "Digitale" */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 800;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 
   a {
@@ -122,12 +139,55 @@
 
   /* Kleine Überzeile in Mono */
   .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.28em;
     text-transform: uppercase;
-    color: var(--cyan);
+    color: var(--muted);
+  }
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--pink), transparent);
+  }
+  .text-center .eyebrow::after,
+  .eyebrow-center::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(270deg, var(--pink), transparent);
+  }
+
+  /* Edle Fläche: Hauch von Licht oben, feine Kante, kein Glühen */
+  .panel {
+    position: relative;
+    border-radius: var(--radius);
+    border: 1px solid color-mix(in oklab, var(--line) 75%, transparent);
+    background:
+      linear-gradient(
+        180deg,
+        rgb(255 255 255 / 0.035),
+        rgb(255 255 255 / 0.008) 40%,
+        transparent
+      ),
+      color-mix(in oklab, var(--panel) 85%, var(--night));
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.05),
+      0 24px 48px -32px rgb(0 0 0 / 0.8);
+  }
+  /* Fläche mit pinkem Haarlinien-Akzent oben */
+  .panel-accent::before {
+    content: "";
+    position: absolute;
+    inset: -1px 15% auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    opacity: 0.8;
   }
 
   /* ---- Neon-Schriftzug ------------------------------------------ */
@@ -142,10 +202,10 @@
     color: color-mix(in oklab, var(--neon) 18%, white);
     text-shadow:
       0 0 1px #fff,
-      0 0 4px color-mix(in oklab, var(--neon) 60%, white),
-      0 0 10px var(--neon),
-      0 0 22px var(--neon),
-      0 0 44px color-mix(in oklab, var(--neon) 70%, transparent);
+      0 0 3px color-mix(in oklab, var(--neon) 55%, white),
+      0 0 9px color-mix(in oklab, var(--neon) 85%, transparent),
+      0 0 20px color-mix(in oklab, var(--neon) 60%, transparent),
+      0 0 42px color-mix(in oklab, var(--neon) 35%, transparent);
   }
   .neon-cyan {
     --neon: var(--cyan);
@@ -174,18 +234,6 @@
   /* Überschrift mit Neon-Unterstrich */
   .heading-glow {
     position: relative;
-    padding-bottom: 0.5rem;
-  }
-  .heading-glow::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 3rem;
-    height: 3px;
-    border-radius: 3px;
-    background: linear-gradient(90deg, var(--pink), var(--sunset));
-    box-shadow: 0 0 12px var(--pink);
   }
 
   /* ---- Hero: Himmel, gestreifte Sonne, Raster ------------------- */
@@ -267,13 +315,15 @@
     border-radius: 50%;
     background: linear-gradient(
       180deg,
-      var(--sun-core) 0%,
-      var(--sunset) 48%,
-      var(--pink) 78%
+      color-mix(in oklab, var(--sun-core) 85%, var(--sunset)) 0%,
+      var(--sunset) 38%,
+      var(--pink) 72%,
+      color-mix(in oklab, var(--pink) 60%, var(--violet)) 100%
     );
+    opacity: 0.88;
     box-shadow:
-      0 0 60px color-mix(in oklab, var(--sunset) 55%, transparent),
-      0 0 140px color-mix(in oklab, var(--pink) 40%, transparent);
+      0 0 50px color-mix(in oklab, var(--sunset) 35%, transparent),
+      0 0 120px color-mix(in oklab, var(--pink) 25%, transparent);
     /* oben voll, nach unten Streifen mit wachsenden Lücken */
     mask-image: linear-gradient(
       180deg,
@@ -298,20 +348,19 @@
     left: 0;
     right: 0;
     bottom: var(--horizon);
-    height: 2px;
+    height: 1px;
     z-index: 0;
     background: linear-gradient(
       90deg,
       transparent,
-      var(--pink) 15%,
+      color-mix(in oklab, var(--pink) 80%, transparent) 20%,
       #fff 50%,
-      var(--pink) 85%,
+      color-mix(in oklab, var(--pink) 80%, transparent) 80%,
       transparent
     );
     box-shadow:
-      0 0 8px var(--pink),
-      0 0 24px var(--pink),
-      0 0 48px color-mix(in oklab, var(--pink) 60%, transparent);
+      0 0 6px var(--pink),
+      0 0 22px color-mix(in oklab, var(--pink) 55%, transparent);
   }
   .hero-floor {
     position: absolute;
@@ -323,7 +372,7 @@
     overflow: hidden;
     perspective: 18rem;
     perspective-origin: 50% 0%;
-    background: linear-gradient(180deg, #2a1550 0%, var(--night) 100%);
+    background: linear-gradient(180deg, #1f1240 0%, var(--night) 90%);
   }
   .hero-grid {
     position: absolute;
@@ -336,62 +385,63 @@
     transform: rotateX(62deg);
     background-image:
       linear-gradient(
-        color-mix(in oklab, var(--pink) 85%, transparent) 2px,
-        transparent 2px
+        color-mix(in oklab, var(--pink) 55%, transparent) 1px,
+        transparent 1px
       ),
       linear-gradient(
         90deg,
-        color-mix(in oklab, var(--cyan) 70%, transparent) 2px,
-        transparent 2px
+        color-mix(in oklab, var(--cyan) 42%, transparent) 1px,
+        transparent 1px
       );
     background-size: 3rem 3rem;
     background-position: center top;
     /* Linien zum Horizont hin ausblenden */
-    mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+    mask-image: linear-gradient(
+      180deg,
+      transparent 0%,
+      #000 25%,
+      rgb(0 0 0 / 0.6) 100%
+    );
     animation: grid-drive 3.5s linear infinite;
   }
 
   /* ---- Sedcard-Kachel ------------------------------------------- */
   .sedcard {
-    --glow: color-mix(in oklab, var(--pink) 55%, transparent);
     position: relative;
     display: block;
     overflow: hidden;
     border-radius: var(--radius);
-    border: 1px solid color-mix(in oklab, var(--pink) 70%, var(--line));
+    border: 1px solid color-mix(in oklab, var(--line) 80%, transparent);
     background: var(--panel);
-    box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--pink) 20%, transparent),
-      0 0 14px var(--glow);
+    box-shadow: 0 24px 40px -28px rgb(0 0 0 / 0.9);
     transition:
-      box-shadow 200ms ease,
-      transform 200ms ease,
-      border-color 200ms ease;
+      box-shadow 300ms ease,
+      transform 300ms ease,
+      border-color 300ms ease;
   }
   .sedcard:hover,
   .sedcard:focus-visible {
-    --glow: color-mix(in oklab, var(--pink) 85%, transparent);
-    border-color: var(--pink);
+    border-color: color-mix(in oklab, var(--pink) 80%, transparent);
     box-shadow:
-      0 0 0 1px var(--pink),
-      0 0 22px var(--glow),
-      0 0 48px color-mix(in oklab, var(--pink) 35%, transparent);
+      0 0 0 1px color-mix(in oklab, var(--pink) 50%, transparent),
+      0 0 26px color-mix(in oklab, var(--pink) 35%, transparent),
+      0 28px 48px -28px rgb(0 0 0 / 0.9);
   }
   @media (prefers-reduced-motion: no-preference) {
     .sedcard:hover,
     .sedcard:focus-visible {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
     }
   }
   .sedcard-shade {
     position: absolute;
     inset: auto 0 0 0;
-    height: 62%;
+    height: 55%;
     background: linear-gradient(
       180deg,
       transparent 0%,
-      color-mix(in oklab, var(--night) 70%, transparent) 45%,
-      var(--night) 100%
+      color-mix(in oklab, var(--night) 55%, transparent) 45%,
+      color-mix(in oklab, var(--night) 94%, transparent) 100%
     );
   }
 
@@ -399,16 +449,16 @@
   .placeholder-art {
     background:
       radial-gradient(
-        80% 60% at 70% 20%,
-        color-mix(in oklab, var(--sunset) 55%, transparent),
+        70% 55% at 65% 25%,
+        color-mix(in oklab, var(--pink) 30%, transparent),
         transparent 70%
       ),
       radial-gradient(
-        90% 70% at 20% 80%,
-        color-mix(in oklab, var(--cyan) 35%, transparent),
+        80% 60% at 25% 75%,
+        color-mix(in oklab, var(--violet) 30%, transparent),
         transparent 70%
       ),
-      linear-gradient(160deg, var(--violet), var(--pink));
+      linear-gradient(165deg, #241b45, var(--night-2) 70%);
   }
 
   /* ---- Live-Punkt ----------------------------------------------- */

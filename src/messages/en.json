@@ -52,7 +52,22 @@
     "visitEyebrow": "Visit",
     "visitTitle": "How to find us",
     "gallery": "To the gallery",
-    "callNow": "Call now"
+    "callNow": "Call now",
+    "promise": "Discreet. Well kept. Around the clock.",
+    "values": [
+      {
+        "title": "Discreet",
+        "text": "A personal welcome from our hostess, no fuss."
+      },
+      {
+        "title": "Well kept",
+        "text": "Clean, atmospherically furnished rooms and suites."
+      },
+      {
+        "title": "24 / 7",
+        "text": "Open every day around the clock – drop by any time."
+      }
+    ]
   },
   "profiles": {
     "title": "Ladies",
