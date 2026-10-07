@@ -1,0 +1,12 @@
+{
+  "phone": "TODO: Telefonnummer aus Altseite übernehmen",
+  "phoneE164": "+49",
+  "email": "",
+  "street": "Hindenburgdamm TODO(74 oder 76)",
+  "postalCode": "TODO",
+  "city": "Berlin",
+  "district": "Steglitz",
+  "mapsUrl": "",
+  "openingHours": { "de": "Rund um die Uhr geöffnet, 7 Tage die Woche", "en": "Open around the clock, 7 days a week" },
+  "foundedNote": { "de": "Seit über TODO(25 oder 30) Jahren in Berlin-Steglitz", "en": "" }
+}

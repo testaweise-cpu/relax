@@ -1,0 +1,13 @@
+{
+  "intro": { "de": "Zimmermiete pro Aufenthalt.", "en": "" },
+  "rows": [
+    { "minutes": 20, "priceEur": 20 },
+    { "minutes": 30, "priceEur": 25 },
+    { "minutes": 40, "priceEur": 30 },
+    { "minutes": 60, "priceEur": 40 }
+  ],
+  "footnote": {
+    "de": "Die Preise gelten nur für die Zimmermiete. Die Dienstleistung wird mit der jeweiligen Mieterin vereinbart.",
+    "en": ""
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "siteName": "Mona Roses",
+    "defaultTitle": "Mona Roses – Room rental with bar and table dance in Berlin-Steglitz",
+    "defaultDescription": "Mona Roses in Berlin-Steglitz: room rental with bar and table dance, open around the clock. See who is here right now."
+  },
+  "nav": {
+    "home": "Home",
+    "now": "Here now",
+    "profiles": "Ladies",
+    "prices": "Prices",
+    "gallery": "Gallery",
+    "events": "Events",
+    "jobs": "Jobs",
+    "contact": "Contact",
+    "imprint": "Legal notice",
+    "privacy": "Privacy",
+    "language": "Language",
+    "switchTo": "Deutsch"
+  },
+  "common": {
+    "call": "Call",
+    "open247": "Open 24/7",
+    "skipToContent": "Skip to content"
+  },
+  "setup": {
+    "eyebrow": "Phase 1 · Setup",
+    "title": "Mona Roses 2.0",
+    "lead": "The technical foundation is in place: Next.js, strict TypeScript, Tailwind tokens, self-hosted fonts, two languages and Keystatic.",
+    "tokens": "Colour tokens",
+    "fonts": "Typefaces",
+    "fontScript": "Neon script for logo and names",
+    "fontDisplay": "Headings in capitals",
+    "fontBody": "Body text: calm and easy to read, even in longer paragraphs on a phone.",
+    "fontMono": "Labels · times · 4 pm–midnight",
+    "admin": "Open the CMS"
+  }
+}

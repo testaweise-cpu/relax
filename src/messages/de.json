@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "siteName": "Mona Roses",
+    "defaultTitle": "Mona Roses – Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz",
+    "defaultDescription": "Mona Roses in Berlin-Steglitz: Zimmervermietung mit Bar und Tabledance, rund um die Uhr geöffnet. Sieh nach, wer jetzt da ist."
+  },
+  "nav": {
+    "home": "Start",
+    "now": "Jetzt da",
+    "profiles": "Mieterinnen",
+    "prices": "Preise",
+    "gallery": "Galerie",
+    "events": "Events",
+    "jobs": "Jobs",
+    "contact": "Kontakt",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "language": "Sprache",
+    "switchTo": "English"
+  },
+  "common": {
+    "call": "Anrufen",
+    "open247": "24/7 geöffnet",
+    "skipToContent": "Zum Inhalt springen"
+  },
+  "setup": {
+    "eyebrow": "Phase 1 · Setup",
+    "title": "Mona Roses 2.0",
+    "lead": "Das technische Fundament steht: Next.js, TypeScript strict, Tailwind-Tokens, selbst gehostete Schriften, Zweisprachigkeit und Keystatic.",
+    "tokens": "Farb-Tokens",
+    "fonts": "Schriften",
+    "fontScript": "Neon-Schreibschrift für Logo und Namen",
+    "fontDisplay": "Überschriften in Großbuchstaben",
+    "fontBody": "Fließtext: ruhig und gut lesbar, auch in längeren Absätzen auf dem Handy.",
+    "fontMono": "Labels · Zeiten · 16–24 Uhr",
+    "admin": "Redaktionssystem öffnen"
+  }
+}
