@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
+import { DataPreview } from "@/components/data-preview";
 import { LegalNotice } from "@/components/legal-notice";
 import { Badge } from "@/components/ui/badge";
 import { Button, ButtonAnchor, ButtonLink } from "@/components/ui/button";
@@ -225,6 +226,13 @@ export default async function StyleguidePage({
             <Logo size="lg" link={false} />
           </div>
         </HeroBackdrop>
+      </Block>
+
+      <Block
+        title="Datenschicht (live)"
+        note="Echte Daten der aktiven Quelle (DATA_SOURCE). Im Mock-Modus fiktive Profile mit Platzhalterbildern; Schichten relativ zur aktuellen Uhrzeit, alle Zeiten in Europe/Berlin."
+      >
+        <DataPreview locale={locale === "en" ? "en" : "de"} />
       </Block>
 
       <Block

@@ -15,8 +15,10 @@ const nextConfig: NextConfig = {
   cacheComponents: false,
   images: {
     formats: ["image/avif", "image/webp"],
-    // ANNAHME: VyceON liefert Bilder von einer eigenen Domain; wird in Phase 3 ergänzt.
-    remotePatterns: [],
+    // ANNAHME: VyceON liefert Profilbilder von einer eigenen Domain (Build-Zeit-Variable).
+    remotePatterns: process.env.VYCEON_IMAGE_HOST
+      ? [{ protocol: "https", hostname: process.env.VYCEON_IMAGE_HOST }]
+      : [],
   },
   experimental: {
     // Der Build-Cache übernahm neue Klassen aus dem Tailwind-Loader nicht
