@@ -16,23 +16,34 @@
     "imprint": "Impressum",
     "privacy": "Datenschutz",
     "language": "Sprache",
-    "switchTo": "English"
+    "switchTo": "English",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "menu": "Menü",
+    "main": "Hauptnavigation",
+    "footer": "Seitenübersicht"
   },
   "common": {
     "call": "Anrufen",
     "open247": "24/7 geöffnet",
     "skipToContent": "Zum Inhalt springen"
   },
-  "setup": {
-    "eyebrow": "Phase 1 · Setup",
-    "title": "Mona Roses 2.0",
-    "lead": "Das technische Fundament steht: Next.js, TypeScript strict, Tailwind-Tokens, selbst gehostete Schriften, Zweisprachigkeit und Keystatic.",
-    "tokens": "Farb-Tokens",
-    "fonts": "Schriften",
-    "fontScript": "Neon-Schreibschrift für Logo und Namen",
-    "fontDisplay": "Überschriften in Großbuchstaben",
-    "fontBody": "Fließtext: ruhig und gut lesbar, auch in längeren Absätzen auf dem Handy.",
-    "fontMono": "Labels · Zeiten · 16–24 Uhr",
-    "admin": "Redaktionssystem öffnen"
+  "footer": {
+    "tagline": "Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz. Rund um die Uhr geöffnet.",
+    "visit": "Besuch",
+    "explore": "Entdecken",
+    "adultsOnly": "Nur für Erwachsene ab 18 Jahren"
+  },
+  "profile": {
+    "live": "Jetzt da",
+    "new": "Neu",
+    "back": "Wieder da",
+    "languages": "Sprachen"
+  },
+  "home": {
+    "heroEyebrow": "Berlin-Steglitz · 24/7",
+    "heroLead": "Bar, Tabledance und stilvolle Zimmer – rund um die Uhr geöffnet.",
+    "ctaNow": "Wer ist jetzt da?",
+    "ctaPrices": "Preise"
   }
 }

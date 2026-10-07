@@ -18,6 +18,11 @@ const nextConfig: NextConfig = {
     // ANNAHME: VyceON liefert Bilder von einer eigenen Domain; wird in Phase 3 ergänzt.
     remotePatterns: [],
   },
+  experimental: {
+    // Der Build-Cache übernahm neue Klassen aus dem Tailwind-Loader nicht
+    // zuverlässig (veraltetes CSS). Docker-Builds starten ohnehin kalt.
+    turbopackFileSystemCacheForBuild: false,
+  },
   turbopack: {
     rules: {
       "*.css": {

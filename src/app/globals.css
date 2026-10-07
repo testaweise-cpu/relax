@@ -20,7 +20,7 @@
   --sunset: #ff8a3d; /* Verläufe, Hinweise */
   --violet: #8a5cff; /* Verläufe */
   --mint: #6bffc8; /* Erfolg, Preise */
-  --sun: #ffd84d; /* Sonnenkern (nur in Verläufen) */
+  --sun-core: #ffd84d; /* Sonnenkern (nur in Verläufen) */
 
   --gutter: 1rem; /* mindestens 16 px Seitenrand */
   --radius: 0.75rem;
@@ -38,7 +38,7 @@
   --color-sunset: var(--sunset);
   --color-violet: var(--violet);
   --color-mint: var(--mint);
-  --color-sun: var(--sun);
+  --color-sun: var(--sun-core);
 
   --font-script: var(--nf-script), cursive;
   --font-display: var(--nf-display), "Arial Narrow", sans-serif;
@@ -100,5 +100,358 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Signatur-Elemente
+   ------------------------------------------------------------------ */
+@layer components {
+  /* Inhaltsbreite mit mindestens 16 px Seitenrand */
+  .container-page {
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+    padding-inline: max(var(--gutter), env(safe-area-inset-left));
+  }
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Kleine Überzeile in Mono */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+
+  /* ---- Neon-Schriftzug ------------------------------------------ */
+  .neon {
+    --neon: var(--pink);
+    font-family: var(--font-script);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 1.1;
+    /* weißer Kern, farbiges Glühen in mehreren Lagen */
+    color: color-mix(in oklab, var(--neon) 18%, white);
+    text-shadow:
+      0 0 1px #fff,
+      0 0 4px color-mix(in oklab, var(--neon) 60%, white),
+      0 0 10px var(--neon),
+      0 0 22px var(--neon),
+      0 0 44px color-mix(in oklab, var(--neon) 70%, transparent);
+  }
+  .neon-cyan {
+    --neon: var(--cyan);
+  }
+  .neon-sunset {
+    --neon: var(--sunset);
+  }
+  .neon-tilt {
+    display: inline-block;
+    transform: rotate(-4deg);
+  }
+  /* seltenes Flackern: ein kurzer Aussetzer alle ~11 s */
+  .neon-flicker {
+    animation: neon-flicker 11s linear infinite;
+  }
+  /* Einschalten beim ersten Laden: kurz flackern, dann an */
+  .neon-ignite {
+    animation: neon-ignite 1.6s steps(1, end) both;
+  }
+  .neon-ignite.neon-flicker {
+    animation:
+      neon-ignite 1.6s steps(1, end) both,
+      neon-flicker 11s linear 1.6s infinite;
+  }
+
+  /* Überschrift mit Neon-Unterstrich */
+  .heading-glow {
+    position: relative;
+    padding-bottom: 0.5rem;
+  }
+  .heading-glow::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3rem;
+    height: 3px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--pink), var(--sunset));
+    box-shadow: 0 0 12px var(--pink);
+  }
+
+  /* ---- Hero: Himmel, gestreifte Sonne, Raster ------------------- */
+  .hero-sky {
+    /* Höhe des Bodens (Horizont) und Sonnendurchmesser */
+    --horizon: clamp(5.5rem, 17svh, 12rem);
+    --sun: min(64vw, 22rem, 34svh);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background:
+      radial-gradient(
+        120% 70% at 50% 100%,
+        color-mix(in oklab, var(--pink) 38%, transparent) 0%,
+        color-mix(in oklab, var(--violet) 26%, transparent) 38%,
+        transparent 70%
+      ),
+      linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, #241a4a 100%);
+  }
+  .hero-stars {
+    position: absolute;
+    inset: 0 0 45% 0;
+    z-index: -2;
+    background-image:
+      radial-gradient(1px 1px at 12% 20%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 28% 62%, #fff6 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 44% 14%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 63% 38%, #fff6 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 78% 18%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 88% 55%, #fff5 50%, transparent 51%),
+      radial-gradient(1px 1px at 6% 72%, #fff5 50%, transparent 51%);
+  }
+  .hero-sun {
+    position: absolute;
+    left: 50%;
+    bottom: var(--horizon);
+    z-index: -1;
+    width: var(--sun);
+    aspect-ratio: 1;
+    /* ein gutes Fünftel der Sonne liegt hinter dem Horizont */
+    translate: -50% 22%;
+    border-radius: 50%;
+    background: linear-gradient(
+      180deg,
+      var(--sun-core) 0%,
+      var(--sunset) 48%,
+      var(--pink) 78%
+    );
+    box-shadow:
+      0 0 60px color-mix(in oklab, var(--sunset) 55%, transparent),
+      0 0 140px color-mix(in oklab, var(--pink) 40%, transparent);
+    /* oben voll, nach unten Streifen mit wachsenden Lücken */
+    mask-image: linear-gradient(
+      180deg,
+      #000 0 40%,
+      transparent 40% 42%,
+      #000 42% 50%,
+      transparent 50% 53.5%,
+      #000 53.5% 60%,
+      transparent 60% 64.5%,
+      #000 64.5% 70%,
+      transparent 70% 75.5%,
+      #000 75.5% 100%
+    );
+  }
+  /* Freiraum unter Hero-Inhalten: Boden + sichtbarer Teil der Sonne */
+  .hero-clearance {
+    padding-bottom: calc(var(--horizon) + var(--sun) * 0.78 + 1.5rem);
+  }
+
+  .hero-horizon {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: var(--horizon);
+    height: 2px;
+    z-index: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--pink) 15%,
+      #fff 50%,
+      var(--pink) 85%,
+      transparent
+    );
+    box-shadow:
+      0 0 8px var(--pink),
+      0 0 24px var(--pink),
+      0 0 48px color-mix(in oklab, var(--pink) 60%, transparent);
+  }
+  .hero-floor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--horizon);
+    z-index: -1;
+    overflow: hidden;
+    perspective: 18rem;
+    perspective-origin: 50% 0%;
+    background: linear-gradient(180deg, #2a1550 0%, var(--night) 100%);
+  }
+  .hero-grid {
+    position: absolute;
+    left: -50%;
+    width: 200%;
+    top: 0;
+    height: 200%;
+    transform-origin: 50% 0%;
+    will-change: transform;
+    transform: rotateX(62deg);
+    background-image:
+      linear-gradient(
+        color-mix(in oklab, var(--pink) 85%, transparent) 2px,
+        transparent 2px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklab, var(--cyan) 70%, transparent) 2px,
+        transparent 2px
+      );
+    background-size: 3rem 3rem;
+    background-position: center top;
+    /* Linien zum Horizont hin ausblenden */
+    mask-image: linear-gradient(180deg, transparent 0%, #000 22%);
+    animation: grid-drive 3.5s linear infinite;
+  }
+
+  /* ---- Sedcard-Kachel ------------------------------------------- */
+  .sedcard {
+    --glow: color-mix(in oklab, var(--pink) 55%, transparent);
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid color-mix(in oklab, var(--pink) 70%, var(--line));
+    background: var(--panel);
+    box-shadow:
+      0 0 0 1px color-mix(in oklab, var(--pink) 20%, transparent),
+      0 0 14px var(--glow);
+    transition:
+      box-shadow 200ms ease,
+      transform 200ms ease,
+      border-color 200ms ease;
+  }
+  .sedcard:hover,
+  .sedcard:focus-visible {
+    --glow: color-mix(in oklab, var(--pink) 85%, transparent);
+    border-color: var(--pink);
+    box-shadow:
+      0 0 0 1px var(--pink),
+      0 0 22px var(--glow),
+      0 0 48px color-mix(in oklab, var(--pink) 35%, transparent);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sedcard:hover,
+    .sedcard:focus-visible {
+      transform: translateY(-4px);
+    }
+  }
+  .sedcard-shade {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 62%;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      color-mix(in oklab, var(--night) 70%, transparent) 45%,
+      var(--night) 100%
+    );
+  }
+
+  /* Platzhalter-Verlauf in Markenfarben (keine echten Fotos) */
+  .placeholder-art {
+    background:
+      radial-gradient(
+        80% 60% at 70% 20%,
+        color-mix(in oklab, var(--sunset) 55%, transparent),
+        transparent 70%
+      ),
+      radial-gradient(
+        90% 70% at 20% 80%,
+        color-mix(in oklab, var(--cyan) 35%, transparent),
+        transparent 70%
+      ),
+      linear-gradient(160deg, var(--violet), var(--pink));
+  }
+
+  /* ---- Live-Punkt ----------------------------------------------- */
+  .live-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow:
+      0 0 6px var(--cyan),
+      0 0 12px var(--cyan);
+    animation: live-pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes neon-flicker {
+  0%,
+  91%,
+  93%,
+  95.5%,
+  100% {
+    opacity: 1;
+  }
+  92%,
+  94.5% {
+    opacity: 0.55;
+    text-shadow: 0 0 2px var(--neon);
+  }
+}
+
+@keyframes neon-ignite {
+  0% {
+    opacity: 0.12;
+    text-shadow: none;
+  }
+  12% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 0.2;
+    text-shadow: none;
+  }
+  30% {
+    opacity: 1;
+  }
+  36% {
+    opacity: 0.35;
+    text-shadow: none;
+  }
+  48%,
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Bewegung über transform (GPU), nicht über background-position */
+@keyframes grid-drive {
+  from {
+    transform: rotateX(62deg) translateY(-3rem);
+  }
+  to {
+    transform: rotateX(62deg) translateY(0);
+  }
+}
+
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neon-flicker,
+  .neon-ignite,
+  .hero-grid,
+  .live-dot {
+    animation: none !important;
   }
 }

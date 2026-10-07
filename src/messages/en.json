@@ -16,23 +16,34 @@
     "imprint": "Legal notice",
     "privacy": "Privacy",
     "language": "Language",
-    "switchTo": "Deutsch"
+    "switchTo": "Deutsch",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "menu": "Menu",
+    "main": "Main navigation",
+    "footer": "Site overview"
   },
   "common": {
     "call": "Call",
     "open247": "Open 24/7",
     "skipToContent": "Skip to content"
   },
-  "setup": {
-    "eyebrow": "Phase 1 · Setup",
-    "title": "Mona Roses 2.0",
-    "lead": "The technical foundation is in place: Next.js, strict TypeScript, Tailwind tokens, self-hosted fonts, two languages and Keystatic.",
-    "tokens": "Colour tokens",
-    "fonts": "Typefaces",
-    "fontScript": "Neon script for logo and names",
-    "fontDisplay": "Headings in capitals",
-    "fontBody": "Body text: calm and easy to read, even in longer paragraphs on a phone.",
-    "fontMono": "Labels · times · 4 pm–midnight",
-    "admin": "Open the CMS"
+  "footer": {
+    "tagline": "Room rental with bar and table dance in Berlin-Steglitz. Open around the clock.",
+    "visit": "Visit",
+    "explore": "Explore",
+    "adultsOnly": "Adults 18+ only"
+  },
+  "profile": {
+    "live": "Here now",
+    "new": "New",
+    "back": "Back again",
+    "languages": "Languages"
+  },
+  "home": {
+    "heroEyebrow": "Berlin-Steglitz · 24/7",
+    "heroLead": "Bar, table dance and stylish rooms – open around the clock.",
+    "ctaNow": "Who is here now?",
+    "ctaPrices": "Prices"
   }
 }
