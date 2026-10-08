@@ -33,6 +33,21 @@ test.describe("Altersabfrage", () => {
     await expect(page.getByRole("dialog", { name: "Willkommen" })).toBeHidden();
   });
 
+  test("bleibt nach dem Sprachwechsel weg", async ({ page, isMobile }) => {
+    test.skip(!!isMobile, "Sprachumschalter im Desktop-Header");
+    await page.goto("/preise");
+    await page
+      .getByRole("button", { name: "Ich bin mindestens 18 Jahre alt" })
+      .click();
+    await page.getByRole("link", { name: "English" }).first().click();
+    await expect(page).toHaveURL(/\/en\/preise$/);
+    await expect(
+      page.getByRole("heading", { level: 2, name: "Prices" }),
+    ).toBeVisible();
+    await expect(page.getByRole("dialog", { name: "Welcome" })).toBeHidden();
+    await expect(page.locator("#seite")).not.toHaveAttribute("inert", "");
+  });
+
   test("Verlassen führt von der Seite weg", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("link", { name: "Verlassen" })).toHaveAttribute(

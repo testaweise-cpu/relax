@@ -34,3 +34,10 @@ export function isExemptPath(pathname: string) {
  * wenn das Cookie existiert – so blitzt das Overlay nicht kurz auf.
  */
 export const AGE_GATE_HEAD_SCRIPT = `try{if(document.cookie.split("; ").indexOf("${AGE_GATE.cookieName}=${AGE_GATE.cookieValue}")>-1)document.documentElement.classList.add("age-ok")}catch(e){}`;
+
+/** Im Browser: Ist die Altersbestätigung als Cookie gesetzt? (einzige Quelle der Wahrheit) */
+export function hasAgeConsent(cookie: string) {
+  return cookie
+    .split("; ")
+    .includes(`${AGE_GATE.cookieName}=${AGE_GATE.cookieValue}`);
+}

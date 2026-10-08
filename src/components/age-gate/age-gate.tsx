@@ -3,7 +3,12 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { AGE_COOKIE_MAX_AGE, AGE_GATE, isExemptPath } from "@/lib/age-gate";
+import {
+  AGE_COOKIE_MAX_AGE,
+  AGE_GATE,
+  hasAgeConsent,
+  isExemptPath,
+} from "@/lib/age-gate";
 import { buttonClasses } from "../ui/button";
 import { NeonText } from "../ui/neon-text";
 
@@ -29,7 +34,10 @@ export function AgeGate() {
 
   useEffect(() => {
     if (exempt) return;
-    const ok = document.documentElement.classList.contains("age-ok");
+    // Maßgeblich ist das Cookie, nicht die Klasse am <html>: Beim Sprachwechsel
+    // rendert Next.js das <html> neu und die Klasse aus dem Head-Skript fehlt.
+    const ok = hasAgeConsent(document.cookie);
+    document.documentElement.classList.toggle("age-ok", ok);
     setInert(!ok);
     if (!ok) confirmRef.current?.focus();
     return () => setInert(false);
