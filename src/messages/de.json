@@ -216,7 +216,8 @@
     "directions": "Anfahrt",
     "maps": "In Google Maps öffnen",
     "mapsNote": "Öffnet Google Maps in einem neuen Tab. Erst dann werden Daten an Google übertragen.",
-    "jobs": "Für Mieterinnen"
+    "jobs": "Für Mieterinnen",
+    "faqTitle": "Häufige Fragen"
   },
   "legal": {
     "imprint": "Impressum",

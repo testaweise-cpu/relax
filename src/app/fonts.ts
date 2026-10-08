@@ -26,6 +26,11 @@ export const fontDisplay = Big_Shoulders({
   axes: ["opsz"],
   variable: "--nf-display",
   display: "swap",
+  // next/font kennt für Big Shoulders keine Metriken für eine angepasste
+  // Ersatzschrift (Build-Warnung). Die Schrift wird vorgeladen; bis dahin
+  // greift die schmale Systemschrift.
+  adjustFontFallback: false,
+  fallback: ["Arial Narrow", "sans-serif"],
 });
 
 /** Fließtext. */

@@ -216,7 +216,8 @@
     "directions": "Directions",
     "maps": "Open in Google Maps",
     "mapsNote": "Opens Google Maps in a new tab. Only then is data sent to Google.",
-    "jobs": "For tenants"
+    "jobs": "For tenants",
+    "faqTitle": "Frequently asked questions"
   },
   "legal": {
     "imprint": "Legal notice",

@@ -3,13 +3,14 @@ import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
+import { Faq } from "@/components/faq";
 import { Paragraphs } from "@/components/rich-text";
 import { ButtonAnchor } from "@/components/ui/button";
 import { ClockIcon, MapPinIcon, PhoneIcon } from "@/components/ui/icons";
 import { Section } from "@/components/ui/section";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getSettings, pick } from "@/lib/content";
+import { getFaq, getSettings, pick } from "@/lib/content";
 import { telHref } from "@/lib/phone";
 
 export async function generateMetadata({
@@ -53,7 +54,7 @@ export default async function ContactPage({
   const l = locale as Locale;
   const t = await getTranslations("contact");
   const tc = await getTranslations("common");
-  const s = await getSettings();
+  const [s, faq] = await Promise.all([getSettings(), getFaq("general")]);
 
   return (
     <>
@@ -111,6 +112,13 @@ export default async function ContactPage({
           {s.jobsEmail && <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>}
         </p>
       </Section>
+      {faq.length > 0 && (
+        <Section tone="night-2" title={t("faqTitle")} id="faq">
+          <div className="max-w-3xl">
+            <Faq items={faq} locale={l} />
+          </div>
+        </Section>
+      )}
     </>
   );
 }

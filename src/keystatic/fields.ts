@@ -1,6 +1,7 @@
 import { fields } from "@keystatic/core";
 
-// Hilfsfunktionen für zweisprachige Felder (DE ist Pflicht, EN folgt in Phase 6).
+// Hilfsfunktionen für zweisprachige Felder: DE ist Pflicht, EN optional –
+// fehlt EN, zeigt die englische Seite den deutschen Text.
 
 export const text = (label: string, opts: { multiline?: boolean } = {}) =>
   fields.object(

@@ -66,8 +66,8 @@ export default config({
       path: "src/content/legal-notice",
       format: { data: "json" },
       schema: {
-        short: text("Kurzfassung (Footer, Kacheln)", { multiline: true }),
-        long: text("Langfassung (Preise, Jobs)", { multiline: true }),
+        short: text("Kurzfassung (Fußzeile, Startseite)", { multiline: true }),
+        long: text("Langfassung (Preisseite)", { multiline: true }),
       },
     }),
     home: singleton({
@@ -181,7 +181,7 @@ export default config({
           options: [
             { label: "Preise", value: "prices" },
             { label: "Jobs", value: "jobs" },
-            { label: "Allgemein (Galerie/Kontakt)", value: "general" },
+            { label: "Allgemein (Kontaktseite)", value: "general" },
           ],
           defaultValue: "prices",
         }),
