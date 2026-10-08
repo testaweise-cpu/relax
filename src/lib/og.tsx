@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 /**
- * Open-Graph-Bilder im Neon-Stil (1200×630), gerendert mit next/og.
+ * Open-Graph-Bilder im Rotlicht-Neon-Stil (1200×630), gerendert mit next/og.
  * Schriften liegen lokal unter src/assets/fonts – keine externen Requests.
  */
 export const OG_SIZE = { width: 1200, height: 630 };
@@ -17,15 +17,12 @@ const fonts = Promise.all([
 ]);
 
 const C = {
-  night: "#0d0b1e",
-  night2: "#15122e",
   ink: "#ece8ff",
   muted: "#a39dc9",
   pink: "#ff2e97",
   cyan: "#22e4ff",
   sunset: "#ff8a3d",
-  violet: "#8a5cff",
-  sun: "#ffd84d",
+  red: "#ff1f3d",
 };
 
 const neon = (color: string) =>
@@ -45,8 +42,6 @@ export async function ogImage({
   badge?: string;
 }) {
   const [dafoe, shoulders, mono] = await fonts;
-  const horizon = 168; // Höhe des Bodens
-  const sun = 300;
 
   return new ImageResponse(
     <div
@@ -55,95 +50,45 @@ export async function ogImage({
         height: "100%",
         display: "flex",
         position: "relative",
-        background: `linear-gradient(180deg, ${C.night} 0%, ${C.night2} 55%, #2a1550 100%)`,
+        background:
+          "linear-gradient(180deg, #0b0610 0%, #16070f 55%, #2a0614 100%)",
         fontFamily: "Shoulders",
         color: C.ink,
       }}
     >
-      {/* Sonne mit Streifen (Streifen = Balken in Himmelfarbe) */}
+      {/* Rotlicht: Schein von unten, unscharfe Lichtpunkte */}
       <div
         style={{
           position: "absolute",
-          left: 600 - sun / 2,
-          top: 630 - horizon - sun * 0.78,
-          width: sun,
-          height: sun,
-          borderRadius: sun,
-          background: `linear-gradient(180deg, ${C.sun} 0%, ${C.sunset} 45%, ${C.pink} 80%)`,
-          boxShadow: `0 0 80px ${C.pink}`,
-          opacity: 0.9,
+          left: 0,
+          top: 0,
+          width: "100%",
+          height: "100%",
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(150,10,40,0.6) 78%, rgba(255,31,61,0.55) 100%)",
           display: "flex",
         }}
       />
-      {[0.48, 0.58, 0.67, 0.75].map((t, i) => (
+      {[
+        [90, 150, 140, C.red],
+        [1060, 120, 180, C.red],
+        [980, 420, 120, C.sunset],
+        [230, 450, 110, C.pink],
+      ].map(([x, y, d, c], i) => (
         <div
           key={i}
           style={{
             position: "absolute",
-            left: 600 - sun / 2 - 10,
-            top: 630 - horizon - sun * 0.78 + sun * t,
-            width: sun + 20,
-            height: 6 + i * 3,
-            background: "#22164a",
+            left: (x as number) - (d as number) / 2,
+            top: (y as number) - (d as number) / 2,
+            width: d as number,
+            height: d as number,
+            borderRadius: d as number,
+            background: `radial-gradient(circle, ${c}77 0%, transparent 70%)`,
             display: "flex",
           }}
         />
       ))}
-      {/* Boden mit Fluchtlinien */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          bottom: 0,
-          width: "100%",
-          height: horizon,
-          background: `linear-gradient(180deg, #1f1240, ${C.night})`,
-          display: "flex",
-        }}
-      />
-      {[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map((k) => (
-        <div
-          key={k}
-          style={{
-            position: "absolute",
-            left: 600,
-            top: 630 - horizon,
-            width: 2,
-            height: horizon * 1.9,
-            background: `${C.cyan}66`,
-            transformOrigin: "top center",
-            transform: `rotate(${k * 13}deg)`,
-            display: "flex",
-          }}
-        />
-      ))}
-      {[22, 52, 92, 145].map((y) => (
-        <div
-          key={y}
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 630 - horizon + y,
-            width: "100%",
-            height: 2,
-            background: `${C.pink}88`,
-            display: "flex",
-          }}
-        />
-      ))}
-      {/* Horizont */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 630 - horizon,
-          width: "100%",
-          height: 3,
-          background: `linear-gradient(90deg, transparent, ${C.pink} 20%, #fff 50%, ${C.pink} 80%, transparent)`,
-          boxShadow: `0 0 18px ${C.pink}`,
-          display: "flex",
-        }}
-      />
 
       {/* Inhalt */}
       <div

@@ -239,10 +239,8 @@
     position: relative;
   }
 
-  /* ---- Hero: Rotlicht, Lichtpunkte, Raster ------------------------ */
+  /* ---- Hero: Rotlicht und Lichtpunkte ---------------------------- */
   .hero-sky {
-    /* Höhe des Bodens (Horizont) */
-    --horizon: clamp(5.5rem, 17svh, 12rem);
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -270,7 +268,7 @@
   /* Video-/Bild-Hintergrund unter der Lichtszene */
   .hero-media {
     position: absolute;
-    inset: 0 0 var(--horizon) 0;
+    inset: 0;
     z-index: -3;
     overflow: hidden;
   }
@@ -309,7 +307,7 @@
   /* Unscharfe Lichtpunkte (Bokeh) statt Sternen */
   .hero-glow {
     position: absolute;
-    inset: 0 0 var(--horizon) 0;
+    inset: 0;
     z-index: -2;
     pointer-events: none;
     filter: blur(14px);
@@ -340,71 +338,19 @@
         transparent 60%
       );
   }
-  /* Freiraum unter Hero-Inhalten: Boden + etwas Luft */
-  .hero-clearance {
-    padding-bottom: calc(var(--horizon) + 2rem);
-  }
-
-  .hero-horizon {
+  /* Weicher Übergang in den nächsten Abschnitt */
+  .hero-sky::after {
+    content: "";
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: var(--horizon);
-    height: 1px;
-    z-index: 0;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in oklab, var(--red) 85%, transparent) 20%,
-      #fff 50%,
-      color-mix(in oklab, var(--red) 85%, transparent) 80%,
-      transparent
-    );
-    box-shadow:
-      0 0 6px var(--red),
-      0 0 22px color-mix(in oklab, var(--red) 60%, transparent);
-  }
-  .hero-floor {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: var(--horizon);
+    inset: auto 0 0;
+    height: 18%;
     z-index: -1;
-    overflow: hidden;
-    perspective: 18rem;
-    perspective-origin: 50% 0%;
-    background: linear-gradient(180deg, #3a0816 0%, #0b0610 90%);
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent, var(--night-2));
   }
-  .hero-grid {
-    position: absolute;
-    left: -50%;
-    width: 200%;
-    top: 0;
-    height: 200%;
-    transform-origin: 50% 0%;
-    will-change: transform;
-    transform: rotateX(62deg);
-    background-image:
-      linear-gradient(
-        color-mix(in oklab, var(--red) 55%, transparent) 1px,
-        transparent 1px
-      ),
-      linear-gradient(
-        90deg,
-        color-mix(in oklab, var(--pink) 32%, transparent) 1px,
-        transparent 1px
-      );
-    background-size: 3rem 3rem;
-    background-position: center top;
-    /* Linien zum Horizont hin ausblenden */
-    mask-image: linear-gradient(
-      180deg,
-      transparent 0%,
-      #000 25%,
-      rgb(0 0 0 / 0.6) 100%
-    );
-    animation: grid-drive 3.5s linear infinite;
+  /* Etwas Luft unter Hero-Inhalten */
+  .hero-clearance {
+    padding-bottom: 3rem;
   }
 
   /* ---- Sedcard-Kachel ------------------------------------------- */
@@ -516,16 +462,6 @@
   }
 }
 
-/* Bewegung über transform (GPU), nicht über background-position */
-@keyframes grid-drive {
-  from {
-    transform: rotateX(62deg) translateY(-3rem);
-  }
-  to {
-    transform: rotateX(62deg) translateY(0);
-  }
-}
-
 @keyframes live-pulse {
   0%,
   100% {
@@ -539,7 +475,6 @@
 @media (prefers-reduced-motion: reduce) {
   .neon-flicker,
   .neon-ignite,
-  .hero-grid,
   .live-dot {
     animation: none !important;
   }

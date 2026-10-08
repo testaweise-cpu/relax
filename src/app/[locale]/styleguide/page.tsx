@@ -214,12 +214,9 @@ export default async function StyleguidePage({
 
       <Block
         title="Hero"
-        note="Rotlicht: rotes Raumlicht von unten und von den Seiten, unscharfe Lichtpunkte, Raster mit glühendem Horizont – nur CSS."
+        note="Rotlicht: rotes Raumlicht von unten und von den Seiten, unscharfe Lichtpunkte – nur CSS."
       >
-        <HeroBackdrop
-          className="h-80 rounded-card border border-line sm:h-96"
-          horizon="38%"
-        >
+        <HeroBackdrop className="h-80 rounded-card border border-line sm:h-96">
           <div className="relative flex h-full items-start justify-center pt-10">
             <Logo size="lg" link={false} />
           </div>
