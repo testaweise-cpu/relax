@@ -32,6 +32,7 @@ const COLORS = [
   ["sunset", "Verläufe, Hinweise"],
   ["violet", "Verläufe"],
   ["mint", "Erfolg, Preise"],
+  ["red", "Rotlicht (nur Licht)"],
 ] as const;
 
 // Fiktive Beispiele – keine echten Personen.
@@ -213,7 +214,7 @@ export default async function StyleguidePage({
 
       <Block
         title="Hero"
-        note="Gestreifte Sonne über perspektivischem Raster, Horizont mit Glühen – nur CSS."
+        note="Rotlicht: rotes Raumlicht von unten und von den Seiten, unscharfe Lichtpunkte, Raster mit glühendem Horizont – nur CSS."
       >
         <HeroBackdrop
           className="h-80 rounded-card border border-line sm:h-96"

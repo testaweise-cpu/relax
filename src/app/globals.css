@@ -20,7 +20,9 @@
   --sunset: #ff8a3d; /* Verläufe, Hinweise */
   --violet: #8a5cff; /* Verläufe */
   --mint: #6bffc8; /* Erfolg, Preise */
-  --sun-core: #ffd84d; /* Sonnenkern (nur in Verläufen) */
+  --sun-core: #ffd84d; /* Goldton (nur in Verläufen) */
+  --red: #ff1f3d; /* Rotlicht – nur Licht und Glühen, nie als Textfarbe */
+  --red-deep: #4a0718; /* Rotlicht, tiefer Schatten */
 
   --gutter: 1rem; /* mindestens 16 px Seitenrand */
   --radius: 0.75rem;
@@ -39,6 +41,7 @@
   --color-violet: var(--violet);
   --color-mint: var(--mint);
   --color-sun: var(--sun-core);
+  --color-red: var(--red);
 
   --font-script: var(--nf-script), cursive;
   --font-display: var(--nf-display), "Arial Narrow", sans-serif;
@@ -236,24 +239,35 @@
     position: relative;
   }
 
-  /* ---- Hero: Himmel, gestreifte Sonne, Raster ------------------- */
+  /* ---- Hero: Rotlicht, Lichtpunkte, Raster ------------------------ */
   .hero-sky {
-    /* Höhe des Bodens (Horizont) und Sonnendurchmesser */
+    /* Höhe des Bodens (Horizont) */
     --horizon: clamp(5.5rem, 17svh, 12rem);
-    --sun: min(64vw, 22rem, 34svh);
     position: relative;
     isolation: isolate;
     overflow: hidden;
     background:
+      /* rotes Licht, das vom Boden aufsteigt */
       radial-gradient(
-        120% 70% at 50% 100%,
-        color-mix(in oklab, var(--pink) 38%, transparent) 0%,
-        color-mix(in oklab, var(--violet) 26%, transparent) 38%,
+        110% 65% at 50% 100%,
+        color-mix(in oklab, var(--red) 42%, transparent) 0%,
+        color-mix(in oklab, var(--red-deep) 70%, transparent) 42%,
+        transparent 75%
+      ),
+      /* seitliche Lichtkegel wie von roten Wandleuchten */
+        radial-gradient(
+          45% 60% at 0% 35%,
+          color-mix(in oklab, var(--red) 22%, transparent) 0%,
+          transparent 70%
+        ),
+      radial-gradient(
+        45% 60% at 100% 35%,
+        color-mix(in oklab, var(--pink) 16%, transparent) 0%,
         transparent 70%
       ),
-      linear-gradient(180deg, var(--night) 0%, var(--night-2) 55%, #241a4a 100%);
+      linear-gradient(180deg, #0b0610 0%, #16070f 55%, #2a0614 100%);
   }
-  /* Video-/Bild-Hintergrund unter der Neon-Szene */
+  /* Video-/Bild-Hintergrund unter der Lichtszene */
   .hero-media {
     position: absolute;
     inset: 0 0 var(--horizon) 0;
@@ -266,10 +280,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.85;
-    filter: saturate(1.2) contrast(1.05);
+    opacity: 0.9;
+    /* warm, rot und gedämpft – wie unter Rotlicht */
+    filter: sepia(0.35) saturate(1.5) hue-rotate(-18deg) contrast(1.08)
+      brightness(0.9);
   }
-  /* Abdunkeln und in die Markenfarben einfärben: Text bleibt gut lesbar */
+  /* Abdunkeln und rot einfärben: Text bleibt gut lesbar */
   .hero-tint {
     position: absolute;
     inset: 0;
@@ -278,69 +294,55 @@
     background:
       linear-gradient(
         180deg,
-        color-mix(in oklab, var(--night) 72%, transparent) 0%,
-        color-mix(in oklab, var(--night) 48%, transparent) 45%,
-        color-mix(in oklab, var(--violet) 22%, transparent) 78%,
-        color-mix(in oklab, var(--pink) 30%, transparent) 100%
+        color-mix(in oklab, #0b0610 70%, transparent) 0%,
+        color-mix(in oklab, var(--red-deep) 45%, transparent) 45%,
+        color-mix(in oklab, var(--red) 26%, transparent) 82%,
+        color-mix(in oklab, var(--red) 40%, transparent) 100%
       ),
       radial-gradient(
         120% 80% at 50% 40%,
         transparent 0%,
-        color-mix(in oklab, var(--night) 60%, transparent) 100%
+        color-mix(in oklab, #0b0610 65%, transparent) 100%
       );
   }
 
-  .hero-stars {
+  /* Unscharfe Lichtpunkte (Bokeh) statt Sternen */
+  .hero-glow {
     position: absolute;
-    inset: 0 0 45% 0;
+    inset: 0 0 var(--horizon) 0;
     z-index: -2;
+    pointer-events: none;
+    filter: blur(14px);
     background-image:
-      radial-gradient(1px 1px at 12% 20%, #fff8 50%, transparent 51%),
-      radial-gradient(1px 1px at 28% 62%, #fff6 50%, transparent 51%),
-      radial-gradient(1.5px 1.5px at 44% 14%, #fff9 50%, transparent 51%),
-      radial-gradient(1px 1px at 63% 38%, #fff6 50%, transparent 51%),
-      radial-gradient(1.5px 1.5px at 78% 18%, #fff8 50%, transparent 51%),
-      radial-gradient(1px 1px at 88% 55%, #fff5 50%, transparent 51%),
-      radial-gradient(1px 1px at 6% 72%, #fff5 50%, transparent 51%);
+      radial-gradient(
+        3rem 3rem at 10% 28%,
+        color-mix(in oklab, var(--red) 55%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        2rem 2rem at 24% 70%,
+        color-mix(in oklab, var(--pink) 40%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        4rem 4rem at 86% 22%,
+        color-mix(in oklab, var(--red) 45%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        2.5rem 2.5rem at 74% 62%,
+        color-mix(in oklab, var(--sunset) 35%, transparent) 0%,
+        transparent 60%
+      ),
+      radial-gradient(
+        1.75rem 1.75rem at 52% 12%,
+        color-mix(in oklab, var(--red) 40%, transparent) 0%,
+        transparent 60%
+      );
   }
-  .hero-sun {
-    position: absolute;
-    left: 50%;
-    bottom: var(--horizon);
-    z-index: -1;
-    width: var(--sun);
-    aspect-ratio: 1;
-    /* ein gutes Fünftel der Sonne liegt hinter dem Horizont */
-    translate: -50% 22%;
-    border-radius: 50%;
-    background: linear-gradient(
-      180deg,
-      color-mix(in oklab, var(--sun-core) 85%, var(--sunset)) 0%,
-      var(--sunset) 38%,
-      var(--pink) 72%,
-      color-mix(in oklab, var(--pink) 60%, var(--violet)) 100%
-    );
-    opacity: 0.88;
-    box-shadow:
-      0 0 50px color-mix(in oklab, var(--sunset) 35%, transparent),
-      0 0 120px color-mix(in oklab, var(--pink) 25%, transparent);
-    /* oben voll, nach unten Streifen mit wachsenden Lücken */
-    mask-image: linear-gradient(
-      180deg,
-      #000 0 40%,
-      transparent 40% 42%,
-      #000 42% 50%,
-      transparent 50% 53.5%,
-      #000 53.5% 60%,
-      transparent 60% 64.5%,
-      #000 64.5% 70%,
-      transparent 70% 75.5%,
-      #000 75.5% 100%
-    );
-  }
-  /* Freiraum unter Hero-Inhalten: Boden + sichtbarer Teil der Sonne */
+  /* Freiraum unter Hero-Inhalten: Boden + etwas Luft */
   .hero-clearance {
-    padding-bottom: calc(var(--horizon) + var(--sun) * 0.78 + 1.5rem);
+    padding-bottom: calc(var(--horizon) + 2rem);
   }
 
   .hero-horizon {
@@ -353,14 +355,14 @@
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in oklab, var(--pink) 80%, transparent) 20%,
+      color-mix(in oklab, var(--red) 85%, transparent) 20%,
       #fff 50%,
-      color-mix(in oklab, var(--pink) 80%, transparent) 80%,
+      color-mix(in oklab, var(--red) 85%, transparent) 80%,
       transparent
     );
     box-shadow:
-      0 0 6px var(--pink),
-      0 0 22px color-mix(in oklab, var(--pink) 55%, transparent);
+      0 0 6px var(--red),
+      0 0 22px color-mix(in oklab, var(--red) 60%, transparent);
   }
   .hero-floor {
     position: absolute;
@@ -372,7 +374,7 @@
     overflow: hidden;
     perspective: 18rem;
     perspective-origin: 50% 0%;
-    background: linear-gradient(180deg, #1f1240 0%, var(--night) 90%);
+    background: linear-gradient(180deg, #3a0816 0%, #0b0610 90%);
   }
   .hero-grid {
     position: absolute;
@@ -385,12 +387,12 @@
     transform: rotateX(62deg);
     background-image:
       linear-gradient(
-        color-mix(in oklab, var(--pink) 55%, transparent) 1px,
+        color-mix(in oklab, var(--red) 55%, transparent) 1px,
         transparent 1px
       ),
       linear-gradient(
         90deg,
-        color-mix(in oklab, var(--cyan) 42%, transparent) 1px,
+        color-mix(in oklab, var(--pink) 32%, transparent) 1px,
         transparent 1px
       );
     background-size: 3rem 3rem;
