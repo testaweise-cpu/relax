@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Faq } from "@/components/faq";
@@ -12,7 +13,12 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/preise">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "prices" });
-  return { title: t("title"), description: t("metaDescription") };
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/preise",
+    title: t("title"),
+    description: t("metaDescription"),
+  });
 }
 
 export default async function PricesPage({

@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { imageSize } from "@/lib/image-size";
@@ -11,7 +12,12 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/galerie">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "gallery" });
-  return { title: t("title"), description: t("metaDescription") };
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/galerie",
+    title: t("title"),
+    description: t("metaDescription"),
+  });
 }
 
 export default async function GalleryPage({

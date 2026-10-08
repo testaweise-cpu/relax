@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
@@ -11,7 +13,12 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/jetzt-da">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "now" });
-  return { title: t("title"), description: t("metaDescription") };
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/jetzt-da",
+    title: t("title"),
+    description: t("metaDescription"),
+  });
 }
 
 export default async function NowPage({

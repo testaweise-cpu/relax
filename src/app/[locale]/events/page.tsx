@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -15,7 +16,12 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/events">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "events" });
-  return { title: t("title"), description: t("metaDescription") };
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/events",
+    title: t("title"),
+    description: t("metaDescription"),
+  });
 }
 
 function formatDate(date: string, locale: string) {

@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { RichText } from "@/components/rich-text";
@@ -10,7 +11,11 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/impressum">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "legal" });
-  return { title: t("imprint") };
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/impressum",
+    title: t("imprint"),
+  });
 }
 
 export default async function ImprintPage({

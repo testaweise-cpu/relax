@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { FilterChips } from "@/components/profiles/filter-chips";
@@ -18,12 +20,14 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "profiles" });
   const filtered = hasActiveFilters(parseFilters(await searchParams));
-  return {
+  // Gefilterte Varianten nicht indexieren (Duplicate Content)
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/mieterinnen",
     title: t("title"),
     description: t("metaDescription"),
-    // Gefilterte Varianten nicht indexieren (Duplicate Content)
-    robots: filtered ? { index: false, follow: true } : undefined,
-  };
+    noindex: filtered,
+  });
 }
 
 export default async function ProfilesPage({

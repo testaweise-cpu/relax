@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -31,17 +33,15 @@ export async function generateMetadata({
   const langs = profile.languages
     .map((l) => languageName(l, locale))
     .join(", ");
-  return {
+  // Profile ohne Schicht in den nächsten 30 Tagen bleiben erreichbar, aber noindex.
+  // Das Vorschaubild erzeugt opengraph-image.tsx im selben Ordner.
+  return pageMetadata({
+    locale: locale as Locale,
+    path: `/mieterinnen/${profile.slug}`,
     title: profile.name,
     description: `${profile.name} – Mona Roses Berlin-Steglitz. ${t("languages")}: ${langs}.`,
-    // Profile ohne Schicht in den nächsten 30 Tagen bleiben erreichbar, aber noindex.
-    robots: hasUpcomingShift(shifts, now, 30)
-      ? undefined
-      : { index: false, follow: true },
-    openGraph: profile.images[0]
-      ? { images: [{ url: profile.images[0].url }] }
-      : undefined,
-  };
+    noindex: !hasUpcomingShift(shifts, now, 30),
+  });
 }
 
 function Fact({ label, children }: { label: string; children: ReactNode }) {

@@ -14,6 +14,22 @@ export default defineConfig({
     trace: "retain-on-failure",
     timezoneId: "Europe/Berlin",
     locale: "de-DE",
+    // Altersabfrage für alle Tests bestätigt (eigener Test prüft das Overlay)
+    storageState: {
+      cookies: [
+        {
+          name: "age_ok",
+          value: "1",
+          domain: new URL(baseURL).hostname,
+          path: "/",
+          expires: -1,
+          httpOnly: false,
+          secure: false,
+          sameSite: "Lax",
+        },
+      ],
+      origins: [],
+    },
     // Optional vorinstalliertes Chromium nutzen (z. B. in CI-Containern).
     launchOptions: process.env.PW_CHROMIUM_PATH
       ? { executablePath: process.env.PW_CHROMIUM_PATH }

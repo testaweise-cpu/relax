@@ -1,3 +1,6 @@
+import { LocalBusinessJsonLd } from "@/components/structured-data";
+import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/site";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
@@ -30,6 +33,21 @@ import { HERO_VIDEO } from "@/lib/media/hero";
 import { telHref } from "@/lib/phone";
 import { berlinDayKey } from "@/lib/time/berlin";
 
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta" });
+  return {
+    ...pageMetadata({
+      locale: locale as Locale,
+      path: "/",
+      description: t("defaultDescription"),
+    }),
+    title: { absolute: t("defaultTitle") },
+  };
+}
+
 // Auf schmalen Handys kompaktere Buttons, damit beide in eine Zeile passen.
 const compact = "max-sm:min-h-12 max-sm:px-4 max-sm:text-base";
 
@@ -55,6 +73,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   return (
     <>
+      <LocalBusinessJsonLd locale={locale as Locale} />
       <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
         <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
           <p className="eyebrow">{t("heroEyebrow")}</p>

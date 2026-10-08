@@ -1,3 +1,5 @@
+import { LocalBusinessJsonLd } from "@/components/structured-data";
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
@@ -15,7 +17,12 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/kontakt">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "contact" });
-  return { title: t("title"), description: t("metaDescription") };
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/kontakt",
+    title: t("title"),
+    description: t("metaDescription"),
+  });
 }
 
 function Card({
@@ -49,58 +56,61 @@ export default async function ContactPage({
   const s = await getSettings();
 
   return (
-    <Section eyebrow={t("eyebrow")} title={t("title")}>
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card icon={<MapPinIcon />} title={t("address")}>
-          <address className="not-italic">
-            Mona Roses
-            <br />
-            {s.street}
-            <br />
-            {s.postalCode} {s.city}-{s.district}
-          </address>
-          {s.mapsUrl && (
-            <>
-              <a
-                href={s.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-flex min-h-11 items-center font-mono text-base"
-              >
-                {t("maps")} ↗
-              </a>
-              <p className="text-sm text-muted">{t("mapsNote")}</p>
-            </>
-          )}
-        </Card>
-        <Card icon={<PhoneIcon />} title={t("phone")}>
-          <a href={telHref(s.phoneE164)} className="font-mono text-2xl">
-            {s.phone}
-          </a>
-          {s.email && (
-            <p className="mt-2">
-              <a href={`mailto:${s.email}`}>{s.email}</a>
-            </p>
-          )}
-          <ButtonAnchor href={telHref(s.phoneE164)} className="mt-5">
-            <PhoneIcon />
-            {tc("call")}
-          </ButtonAnchor>
-        </Card>
-        <Card icon={<ClockIcon />} title={t("hours")}>
-          <p>{pick(s.openingHours, l)}</p>
-        </Card>
-        <Card icon={<MapPinIcon />} title={t("directions")}>
-          <Paragraphs
-            text={pick(s.directions, l)}
-            className="text-base text-muted"
-          />
-        </Card>
-      </div>
-      <p className="mt-8 text-muted">
-        {t("jobs")}: <Link href="/jobs">/jobs</Link> · {s.jobsPhone} ·{" "}
-        {s.jobsEmail && <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>}
-      </p>
-    </Section>
+    <>
+      <LocalBusinessJsonLd locale={locale as Locale} />
+      <Section eyebrow={t("eyebrow")} title={t("title")}>
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card icon={<MapPinIcon />} title={t("address")}>
+            <address className="not-italic">
+              Mona Roses
+              <br />
+              {s.street}
+              <br />
+              {s.postalCode} {s.city}-{s.district}
+            </address>
+            {s.mapsUrl && (
+              <>
+                <a
+                  href={s.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 inline-flex min-h-11 items-center font-mono text-base"
+                >
+                  {t("maps")} ↗
+                </a>
+                <p className="text-sm text-muted">{t("mapsNote")}</p>
+              </>
+            )}
+          </Card>
+          <Card icon={<PhoneIcon />} title={t("phone")}>
+            <a href={telHref(s.phoneE164)} className="font-mono text-2xl">
+              {s.phone}
+            </a>
+            {s.email && (
+              <p className="mt-2">
+                <a href={`mailto:${s.email}`}>{s.email}</a>
+              </p>
+            )}
+            <ButtonAnchor href={telHref(s.phoneE164)} className="mt-5">
+              <PhoneIcon />
+              {tc("call")}
+            </ButtonAnchor>
+          </Card>
+          <Card icon={<ClockIcon />} title={t("hours")}>
+            <p>{pick(s.openingHours, l)}</p>
+          </Card>
+          <Card icon={<MapPinIcon />} title={t("directions")}>
+            <Paragraphs
+              text={pick(s.directions, l)}
+              className="text-base text-muted"
+            />
+          </Card>
+        </div>
+        <p className="mt-8 text-muted">
+          {t("jobs")}: <Link href="/jobs">/jobs</Link> · {s.jobsPhone} ·{" "}
+          {s.jobsEmail && <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>}
+        </p>
+      </Section>
+    </>
   );
 }

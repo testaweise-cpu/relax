@@ -579,3 +579,11 @@
     font-size: 0.875rem;
   }
 }
+
+/* Altersabfrage: ausgeblendet, sobald bestätigt; Seite darunter nicht scrollbar */
+.age-ok .age-gate {
+  display: none;
+}
+html:not(.age-ok):has(.age-gate) body {
+  overflow: hidden;
+}

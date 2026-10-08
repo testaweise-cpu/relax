@@ -47,3 +47,6 @@ next-env.d.ts
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Lokale Arbeitsdateien (enthalten Namen echter Mieterinnen)
+/redirects/products.todo.json

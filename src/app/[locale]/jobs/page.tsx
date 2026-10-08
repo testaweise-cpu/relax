@@ -1,3 +1,4 @@
+import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Faq } from "@/components/faq";
@@ -14,10 +15,12 @@ export async function generateMetadata({
   const { locale } = await params;
   const jobs = await getJobs();
   const t = await getTranslations({ locale, namespace: "jobs" });
-  return {
+  return pageMetadata({
+    locale: locale as Locale,
+    path: "/jobs",
     title: pick(jobs.title, locale as Locale),
     description: t("metaDescription"),
-  };
+  });
 }
 
 export default async function JobsPage({

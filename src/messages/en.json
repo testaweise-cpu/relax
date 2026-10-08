@@ -221,5 +221,14 @@
   "legal": {
     "imprint": "Legal notice",
     "privacy": "Privacy policy"
+  },
+  "ageGate": {
+    "eyebrow": "Adults {age}+ only",
+    "title": "Welcome",
+    "text": "This website is intended for adults only. Please confirm that you are at least {age} years old.",
+    "confirm": "I am at least {age} years old",
+    "leave": "Leave",
+    "imprint": "Legal notice",
+    "privacy": "Privacy"
   }
 }

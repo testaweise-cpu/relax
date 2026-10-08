@@ -221,5 +221,14 @@
   "legal": {
     "imprint": "Impressum",
     "privacy": "Datenschutzerklärung"
+  },
+  "ageGate": {
+    "eyebrow": "Nur ab {age}",
+    "title": "Willkommen",
+    "text": "Diese Website richtet sich ausschließlich an Erwachsene. Bitte bestätige, dass du mindestens {age} Jahre alt bist.",
+    "confirm": "Ich bin mindestens {age} Jahre alt",
+    "leave": "Verlassen",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz"
   }
 }

@@ -1,0 +1,4 @@
+{
+  "$comment": "Alte WooCommerce-Produkt-Slugs (/product/<alt>) → neue Sedcard-Slugs (/mieterinnen/<neu>). Ohne Treffer leitet die Seite auf /mieterinnen um. Befüllen, sobald die VyceON-Slugs feststehen (siehe README, Abschnitt Weiterleitungen).",
+  "map": {}
+}
