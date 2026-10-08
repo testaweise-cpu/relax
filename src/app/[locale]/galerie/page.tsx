@@ -42,7 +42,12 @@ export default async function GalleryPage({
 
   return (
     <>
-      <Section eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")}>
+      <Section
+        level={1}
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+        intro={t("intro")}
+      >
         <h2 className="mb-5 font-display text-2xl text-ink">{t("club")}</h2>
         <GalleryGrid items={items("club")} label={t("club")} />
         <h2 className="mt-12 mb-5 font-display text-2xl text-ink">

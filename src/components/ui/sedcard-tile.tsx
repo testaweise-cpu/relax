@@ -51,7 +51,8 @@ export function SedcardTile({
             alt={image.alt}
             fill
             sizes={sizes}
-            priority={priority}
+            loading={priority ? "eager" : undefined}
+            fetchPriority={priority ? "high" : undefined}
             className="object-cover"
           />
         ) : (

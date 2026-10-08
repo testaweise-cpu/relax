@@ -42,7 +42,7 @@ test.describe("Altersabfrage", () => {
     await page.getByRole("link", { name: "English" }).first().click();
     await expect(page).toHaveURL(/\/en\/preise$/);
     await expect(
-      page.getByRole("heading", { level: 2, name: "Prices" }),
+      page.getByRole("heading", { level: 1, name: "Prices" }),
     ).toBeVisible();
     await expect(page.getByRole("dialog", { name: "Welcome" })).toBeHidden();
     await expect(page.locator("#seite")).not.toHaveAttribute("inert", "");
@@ -62,7 +62,7 @@ test.describe("Altersabfrage", () => {
     await page.goto("/impressum");
     await expect(page.getByRole("dialog")).toHaveCount(0);
     await expect(
-      page.getByRole("heading", { level: 2, name: "Impressum" }),
+      page.getByRole("heading", { level: 1, name: "Impressum" }),
     ).toBeVisible();
   });
 

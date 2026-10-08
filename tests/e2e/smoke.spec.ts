@@ -1,6 +1,26 @@
 import { expect, test } from "@playwright/test";
+import { en, MAIN_PAGES } from "./pages";
 
-// Phase 1: Grundgerüst. Die Smoke-Tests aller Hauptseiten folgen in Phase 8.
+// Jede Hauptseite in beiden Sprachen: lädt mit 200, hat genau eine H1,
+// wirft keine Fehler in der Konsole und scrollt nicht seitlich.
+for (const path of MAIN_PAGES.flatMap((p) => [p, en(p)])) {
+  test(`Smoke: ${path}`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on("pageerror", (e) => errors.push(e.message));
+    page.on("console", (msg) => {
+      if (msg.type() === "error") errors.push(msg.text());
+    });
+    const res = await page.goto(path);
+    expect(res?.status()).toBe(200);
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+    await page.waitForLoadState("networkidle");
+    expect(errors).toEqual([]);
+    expect(
+      await page.evaluate(() => document.documentElement.scrollWidth),
+    ).toBeLessThanOrEqual(page.viewportSize()!.width);
+  });
+}
 
 test("Startseite DE lädt ohne horizontales Scrollen", async ({ page }) => {
   await page.goto("/");

@@ -15,6 +15,7 @@ export async function generateMetadata({
     locale: locale as Locale,
     path: "/impressum",
     title: t("imprint"),
+    description: t("imprintDescription"),
   });
 }
 
@@ -26,7 +27,7 @@ export default async function ImprintPage({
   const t = await getTranslations("legal");
   const imprint = await getImprint();
   return (
-    <Section title={t("imprint")}>
+    <Section level={1} title={t("imprint")}>
       <RichText node={pickRich(imprint.body, locale as Locale)} />
     </Section>
   );

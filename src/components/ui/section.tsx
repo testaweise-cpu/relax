@@ -1,9 +1,13 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-/** Abschnitt mit einheitlichen Abständen und optionaler Überschrift. */
+/**
+ * Abschnitt mit einheitlichen Abständen und optionaler Überschrift.
+ * Der erste Abschnitt einer Unterseite trägt den Seitentitel: `level={1}`.
+ */
 export function Section({
   id,
+  level = 2,
   eyebrow,
   title,
   intro,
@@ -12,6 +16,8 @@ export function Section({
   className,
 }: {
   id?: string;
+  /** Überschriftenebene des Titels (1 = Seitentitel) */
+  level?: 1 | 2;
   eyebrow?: string;
   title?: string;
   intro?: ReactNode;
@@ -20,6 +26,7 @@ export function Section({
   className?: string;
 }) {
   const headingId = id ? `${id}-title` : undefined;
+  const Heading = level === 1 ? "h1" : "h2";
   return (
     <section
       id={id}
@@ -36,12 +43,12 @@ export function Section({
           <header className="mb-10 max-w-2xl sm:mb-14">
             {eyebrow && <p className="eyebrow">{eyebrow}</p>}
             {title && (
-              <h2
+              <Heading
                 id={headingId}
                 className="mt-4 text-4xl text-ink sm:text-[3.4rem]"
               >
                 {title}
-              </h2>
+              </Heading>
             )}
             {intro && (
               <div className="mt-5 text-lg leading-relaxed text-muted">

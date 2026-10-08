@@ -42,7 +42,12 @@ export default async function ProfilesPage({
   const visible = applyFilters(cards, filters);
 
   return (
-    <Section eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")}>
+    <Section
+      level={1}
+      eyebrow={t("eyebrow")}
+      title={t("title")}
+      intro={t("intro")}
+    >
       <FilterChips
         filters={filters}
         options={filterOptions(cards)}

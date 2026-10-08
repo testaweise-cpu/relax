@@ -1,12 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import {
+  getMessages,
+  getTranslations,
+  setRequestLocale,
+} from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { AgeGate } from "@/components/age-gate/age-gate";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { StickyCall } from "@/components/layout/sticky-call";
+import { clientMessages } from "@/i18n/client-messages";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
 import { AGE_GATE_HEAD_SCRIPT } from "@/lib/age-gate";
@@ -54,6 +59,7 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "common" });
+  const messages = clientMessages(await getMessages());
 
   return (
     <html lang={locale} className={fontVariables} suppressHydrationWarning>
@@ -62,7 +68,7 @@ export default async function LocaleLayout({
         <script dangerouslySetInnerHTML={{ __html: AGE_GATE_HEAD_SCRIPT }} />
       </head>
       <body className="flex min-h-dvh flex-col">
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages}>
           <AgeGate />
           <div id="seite" className="flex min-h-dvh flex-col">
             <a

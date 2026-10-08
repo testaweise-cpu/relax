@@ -58,7 +58,7 @@ export default async function ContactPage({
   return (
     <>
       <LocalBusinessJsonLd locale={locale as Locale} />
-      <Section eyebrow={t("eyebrow")} title={t("title")}>
+      <Section level={1} eyebrow={t("eyebrow")} title={t("title")}>
         <div className="grid gap-4 md:grid-cols-2">
           <Card icon={<MapPinIcon />} title={t("address")}>
             <address className="not-italic">

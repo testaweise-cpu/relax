@@ -15,6 +15,7 @@ export async function generateMetadata({
     locale: locale as Locale,
     path: "/datenschutz",
     title: t("privacy"),
+    description: t("privacyDescription"),
   });
 }
 
@@ -26,7 +27,7 @@ export default async function PrivacyPage({
   const t = await getTranslations("legal");
   const privacy = await getPrivacy();
   return (
-    <Section title={t("privacy")}>
+    <Section level={1} title={t("privacy")}>
       <RichText node={pickRich(privacy.body, locale as Locale)} />
     </Section>
   );

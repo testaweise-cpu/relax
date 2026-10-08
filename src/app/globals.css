@@ -98,6 +98,19 @@
   a {
     color: var(--cyan);
   }
+  /* Links im Fließtext nicht nur über die Farbe erkennbar machen (WCAG 1.4.1):
+     feine Unterstreichung, beim Überfahren kräftiger */
+  :where(p, dd, address, td) > a,
+  .rich-text a {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    text-decoration-color: color-mix(in oklab, currentColor 45%, transparent);
+  }
+  :where(p, dd, address, td) > a:hover,
+  .rich-text a:hover {
+    text-decoration-color: currentColor;
+  }
 
   /* Sichtbarer Fokus-Rahmen (Cyan) auf allen interaktiven Elementen */
   :focus-visible {
@@ -279,9 +292,8 @@
     height: 100%;
     object-fit: cover;
     opacity: 0.9;
-    /* warm, rot und gedämpft – wie unter Rotlicht */
-    filter: sepia(0.35) saturate(1.5) hue-rotate(-18deg) contrast(1.08)
-      brightness(0.9);
+    /* Rotlicht-Farblook ist in Video und Standbild eingerechnet (kein CSS-Filter:
+       der würde jedes Videobild neu berechnen) */
   }
   /* Abdunkeln und rot einfärben: Text bleibt gut lesbar */
   .hero-tint {
@@ -310,32 +322,31 @@
     inset: 0;
     z-index: -2;
     pointer-events: none;
-    filter: blur(14px);
     background-image:
       radial-gradient(
-        3rem 3rem at 10% 28%,
+        4.5rem 4.5rem at 10% 28%,
         color-mix(in oklab, var(--red) 55%, transparent) 0%,
-        transparent 60%
+        transparent 72%
       ),
       radial-gradient(
-        2rem 2rem at 24% 70%,
+        3rem 3rem at 24% 70%,
         color-mix(in oklab, var(--pink) 40%, transparent) 0%,
-        transparent 60%
+        transparent 72%
       ),
       radial-gradient(
-        4rem 4rem at 86% 22%,
+        6rem 6rem at 86% 22%,
         color-mix(in oklab, var(--red) 45%, transparent) 0%,
-        transparent 60%
+        transparent 72%
       ),
       radial-gradient(
-        2.5rem 2.5rem at 74% 62%,
+        3.75rem 3.75rem at 74% 62%,
         color-mix(in oklab, var(--sunset) 35%, transparent) 0%,
-        transparent 60%
+        transparent 72%
       ),
       radial-gradient(
-        1.75rem 1.75rem at 52% 12%,
+        2.75rem 2.75rem at 52% 12%,
         color-mix(in oklab, var(--red) 40%, transparent) 0%,
-        transparent 60%
+        transparent 72%
       );
   }
   /* Weicher Übergang in den nächsten Abschnitt */
@@ -422,6 +433,7 @@
   }
 }
 
+/* Neon nur über die Deckkraft animieren: läuft im Compositor, ohne Neuzeichnen */
 @keyframes neon-flicker {
   0%,
   91%,
@@ -433,28 +445,24 @@
   92%,
   94.5% {
     opacity: 0.55;
-    text-shadow: 0 0 2px var(--neon);
   }
 }
 
 @keyframes neon-ignite {
   0% {
     opacity: 0.12;
-    text-shadow: none;
   }
   12% {
     opacity: 1;
   }
   18% {
     opacity: 0.2;
-    text-shadow: none;
   }
   30% {
     opacity: 1;
   }
   36% {
     opacity: 0.35;
-    text-shadow: none;
   }
   48%,
   100% {

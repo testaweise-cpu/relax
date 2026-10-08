@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "lighthouse": "node scripts/lighthouse.mjs",
     "check": "pnpm lint && pnpm typecheck && pnpm test"
   },
   "dependencies": {
@@ -28,6 +29,7 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.63.0",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
@@ -37,6 +39,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.0",
     "eslint-config-prettier": "^10.1.8",
+    "lighthouse": "^13.5.0",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4",

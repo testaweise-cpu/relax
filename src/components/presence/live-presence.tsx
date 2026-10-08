@@ -92,7 +92,7 @@ export function NowStrip({
       </div>
       {data.present.length > 0 ? (
         <ul className="container-page mt-6 flex snap-x snap-mandatory scroll-px-4 [scrollbar-width:thin] gap-3 overflow-x-auto pb-4 sm:scroll-px-8 sm:gap-4">
-          {data.present.map((p, i) => (
+          {data.present.map((p) => (
             <li
               key={p.slug}
               className="w-[44%] shrink-0 snap-start sm:w-[30%] lg:w-[22%]"
@@ -106,7 +106,6 @@ export function NowStrip({
                 isBack={p.isBack}
                 timeLabel={presenceLabel(p, locale)}
                 image={p.image ?? undefined}
-                priority={i < 2}
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 44vw"
               />
             </li>

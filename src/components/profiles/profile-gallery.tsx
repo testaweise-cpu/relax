@@ -57,7 +57,8 @@ export function ProfileGallery({
               src={img.url}
               alt={img.alt}
               fill
-              priority={i === 0}
+              loading={i === 0 ? "eager" : undefined}
+              fetchPriority={i === 0 ? "high" : undefined}
               sizes="(min-width: 1024px) 40vw, 100vw"
               className="object-cover"
             />

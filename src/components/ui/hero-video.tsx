@@ -6,7 +6,9 @@ import type { HeroMedia } from "@/lib/media/hero";
 
 /**
  * Video-Hintergrund für den Hero.
- * - Zuerst nur das Standbild (schnell, gut für LCP).
+ * - Zuerst nur das Standbild (schnell, gut für LCP). Das Video bekommt kein
+ *   eigenes poster – das Standbild liegt darunter, sonst würde es doppelt
+ *   geladen und das Video zum späten LCP-Element.
  * - Das Video wird erst nach dem Laden der Seite nachgeladen und nur, wenn
  *   keine reduzierte Bewegung und kein Datensparmodus gewünscht ist.
  * - Pausiert, wenn der Hero nicht sichtbar oder der Tab im Hintergrund ist.
@@ -55,7 +57,8 @@ export function HeroVideo({ media }: { media: HeroMedia }) {
         alt=""
         width={media.posterWidth}
         height={media.posterHeight}
-        priority
+        loading="eager"
+        fetchPriority="high"
         sizes="100vw"
         className="hero-media-el"
       />
@@ -63,7 +66,6 @@ export function HeroVideo({ media }: { media: HeroMedia }) {
         <video
           ref={ref}
           className="hero-media-el"
-          poster={media.poster}
           muted
           loop
           playsInline

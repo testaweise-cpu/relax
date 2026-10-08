@@ -31,7 +31,12 @@ export default async function NowPage({
   const initial = toPresenceResponse(await getPresentProfiles());
 
   return (
-    <Section eyebrow={t("eyebrow")} title={t("title")} intro={t("intro")}>
+    <Section
+      level={1}
+      eyebrow={t("eyebrow")}
+      title={t("title")}
+      intro={t("intro")}
+    >
       <LivePresenceGrid initial={initial} />
     </Section>
   );

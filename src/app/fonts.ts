@@ -30,18 +30,20 @@ export const fontDisplay = Big_Shoulders({
 
 /** Fließtext. */
 export const fontSans = IBM_Plex_Sans({
-  weight: ["400", "500", "600"],
+  weight: ["400", "600"],
   subsets: ["latin"],
   variable: "--nf-sans",
   display: "swap",
 });
 
-/** Labels, Zeiten, Badges. */
+/** Labels, Zeiten, Badges. Nur kleine Texte – nicht vorladen, damit die
+ * Bandbreite beim ersten Laden für Logo, Überschriften und Hero-Bild bleibt. */
 export const fontMono = IBM_Plex_Mono({
   weight: ["400", "500"],
   subsets: ["latin"],
   variable: "--nf-mono",
   display: "swap",
+  preload: false,
 });
 
 export const fontVariables = [

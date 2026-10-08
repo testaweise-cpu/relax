@@ -1,10 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import {
-  presenceResponseSchema,
-  type PresenceResponse,
-} from "@/lib/data/presence-dto";
+import type { PresenceResponse } from "@/lib/data/presence-dto";
+import { parsePresenceResponse } from "@/lib/data/presence-guard";
 
 export const POLL_MS = 60_000;
 
@@ -31,9 +29,9 @@ export function usePresence(initial: PresenceResponse) {
           signal: controller.signal,
         });
         if (!res.ok) throw new Error(String(res.status));
-        const parsed = presenceResponseSchema.safeParse(await res.json());
-        if (!parsed.success) throw new Error("ungültige Antwort");
-        setData(parsed.data);
+        const parsed = parsePresenceResponse(await res.json());
+        if (!parsed) throw new Error("ungültige Antwort");
+        setData(parsed);
         setStale(false);
         last.current = Date.now();
       } catch (e) {

@@ -33,6 +33,7 @@ export default async function PricesPage({
   return (
     <>
       <Section
+        level={1}
         eyebrow={t("eyebrow")}
         title={t("title")}
         intro={pick(prices.intro, l)}

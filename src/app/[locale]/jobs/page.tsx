@@ -38,7 +38,7 @@ export default async function JobsPage({
 
   return (
     <>
-      <Section eyebrow={t("eyebrow")} title={pick(jobs.title, l)}>
+      <Section level={1} eyebrow={t("eyebrow")} title={pick(jobs.title, l)}>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
           <Paragraphs text={pick(jobs.intro, l)} className="text-lg text-ink" />
           <div className="panel p-6">

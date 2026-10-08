@@ -220,7 +220,9 @@
   },
   "legal": {
     "imprint": "Impressum",
-    "privacy": "Datenschutzerklärung"
+    "privacy": "Datenschutzerklärung",
+    "imprintDescription": "Impressum von Mona Roses, Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz: Anbieter, Kontakt und Verantwortliche.",
+    "privacyDescription": "Datenschutzerklärung von Mona Roses: welche Daten wir verarbeiten, wofür, wie lange – und welche Rechte du hast."
   },
   "ageGate": {
     "eyebrow": "Nur ab {age}",

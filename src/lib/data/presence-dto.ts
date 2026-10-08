@@ -3,7 +3,7 @@ import { imageSchema } from "./types";
 
 /**
  * Antwortformat von GET /api/presence – schlank, nur was die
- * Jetzt-da-Leiste braucht. Wird auch im Browser mit zod geprüft.
+ * Jetzt-da-Leiste braucht. Im Browser prüft presence-guard.ts (ohne zod).
  */
 export const presentEntrySchema = z.object({
   slug: z.string(),

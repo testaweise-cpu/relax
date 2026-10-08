@@ -97,7 +97,7 @@ export default async function EventsPage({
 
   return (
     <>
-      <Section eyebrow={t("eyebrow")} title={t("title")}>
+      <Section level={1} eyebrow={t("eyebrow")} title={t("title")}>
         <h2 className="sr-only">{t("upcoming")}</h2>
         {upcoming.length ? (
           list(upcoming, true)
