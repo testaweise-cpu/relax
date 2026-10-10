@@ -282,33 +282,21 @@
     position: relative;
   }
 
-  /* ---- Hero: Rotlicht und Lichtpunkte ---------------------------- */
+  /* ---- Hero: gedämpftes Licht, Hauch von Rot, warme Lichtpunkte ---- */
   .hero-sky {
     position: relative;
     isolation: isolate;
     overflow: hidden;
     background:
-      /* rotes Licht, das vom Boden aufsteigt */
+      /* nur ein Hauch von Rotlicht am Boden */
       radial-gradient(
-        110% 65% at 50% 100%,
-        color-mix(in oklab, var(--red) 42%, transparent) 0%,
-        color-mix(in oklab, var(--red-deep) 70%, transparent) 42%,
-        transparent 75%
-      ),
-      /* seitliche Lichtkegel wie von roten Wandleuchten */
-        radial-gradient(
-          45% 60% at 0% 35%,
-          color-mix(in oklab, var(--red) 22%, transparent) 0%,
-          transparent 70%
-        ),
-      radial-gradient(
-        45% 60% at 100% 35%,
-        color-mix(in oklab, var(--red) 16%, transparent) 0%,
+        110% 55% at 50% 100%,
+        color-mix(in oklab, var(--wine) 26%, transparent) 0%,
         transparent 70%
       ),
-      linear-gradient(180deg, var(--night) 0%, #16070f 55%, #2a0614 100%);
+      linear-gradient(180deg, var(--night) 0%, var(--night-2) 100%);
   }
-  /* Video-/Bild-Hintergrund unter der Lichtszene */
+  /* Video-/Bild-Hintergrund */
   .hero-media {
     position: absolute;
     inset: 0;
@@ -322,10 +310,10 @@
     height: 100%;
     object-fit: cover;
     opacity: 0.9;
-    /* Rotlicht-Farblook ist in Video und Standbild eingerechnet (kein CSS-Filter:
-       der würde jedes Videobild neu berechnen) */
+    /* Farblook (leicht warm, gedämpft) ist in Video und Standbild eingerechnet –
+       ein CSS-Filter würde jedes Videobild neu berechnen */
   }
-  /* Abdunkeln und rot einfärben: Text bleibt gut lesbar */
+  /* Abdunkeln, damit Text gut lesbar bleibt; unten ein leiser Weinton */
   .hero-tint {
     position: absolute;
     inset: 0;
@@ -334,19 +322,19 @@
     background:
       linear-gradient(
         180deg,
-        color-mix(in oklab, var(--night) 70%, transparent) 0%,
-        color-mix(in oklab, var(--red-deep) 45%, transparent) 45%,
-        color-mix(in oklab, var(--red) 26%, transparent) 82%,
-        color-mix(in oklab, var(--red) 40%, transparent) 100%
+        color-mix(in oklab, var(--night) 72%, transparent) 0%,
+        color-mix(in oklab, var(--night) 52%, transparent) 45%,
+        color-mix(in oklab, var(--night) 58%, transparent) 75%,
+        color-mix(in oklab, var(--wine) 22%, var(--night) 60%) 100%
       ),
       radial-gradient(
         120% 80% at 50% 40%,
         transparent 0%,
-        color-mix(in oklab, var(--night) 65%, transparent) 100%
+        color-mix(in oklab, var(--night) 70%, transparent) 100%
       );
   }
 
-  /* Unscharfe Lichtpunkte (Bokeh) statt Sternen */
+  /* Wenige, leise Lichtpunkte (Bokeh) – überwiegend warm, einer rot */
   .hero-glow {
     position: absolute;
     inset: 0;
@@ -355,27 +343,17 @@
     background-image:
       radial-gradient(
         4.5rem 4.5rem at 10% 28%,
-        color-mix(in oklab, var(--red) 55%, transparent) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        3rem 3rem at 24% 70%,
-        color-mix(in oklab, var(--red) 40%, transparent) 0%,
+        color-mix(in oklab, var(--gold) 18%, transparent) 0%,
         transparent 72%
       ),
       radial-gradient(
         6rem 6rem at 86% 22%,
-        color-mix(in oklab, var(--red) 45%, transparent) 0%,
+        color-mix(in oklab, var(--red) 20%, transparent) 0%,
         transparent 72%
       ),
       radial-gradient(
         3.75rem 3.75rem at 74% 62%,
-        color-mix(in oklab, var(--sunset) 35%, transparent) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        2.75rem 2.75rem at 52% 12%,
-        color-mix(in oklab, var(--red) 40%, transparent) 0%,
+        color-mix(in oklab, var(--gold) 16%, transparent) 0%,
         transparent 72%
       );
   }
