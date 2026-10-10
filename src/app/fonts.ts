@@ -1,14 +1,9 @@
-import {
-  Big_Shoulders,
-  IBM_Plex_Mono,
-  IBM_Plex_Sans,
-  Mr_Dafoe,
-} from "next/font/google";
+import { Cormorant_Garamond, Jost, Mr_Dafoe } from "next/font/google";
 
 // next/font lädt die Schriften beim Build herunter und liefert sie selbst aus:
 // Im Browser entstehen keine Requests zu Google.
 
-/** Neon-Schreibschrift für Logo und Namen auf Sedcards – sparsam einsetzen. */
+/** Neon-Schreibschrift – nur für das Logo. */
 export const fontScript = Mr_Dafoe({
   weight: "400",
   subsets: ["latin"],
@@ -17,43 +12,29 @@ export const fontScript = Mr_Dafoe({
 });
 
 /**
- * Überschriften. Google führt "Big Shoulders Display" inzwischen als
- * "Big Shoulders" mit optischer Größenachse (opsz); bei großen Größen ergibt
- * das automatisch den Display-Schnitt. Genutzt werden 600 und 800.
+ * Überschriften, Namen, Preise: klassische Antiqua mit hohem Kontrast –
+ * wirkt hochwertig, auch kursiv. Variable Schrift (300–700).
  */
-export const fontDisplay = Big_Shoulders({
+export const fontDisplay = Cormorant_Garamond({
   subsets: ["latin"],
-  axes: ["opsz"],
+  style: ["normal", "italic"],
   variable: "--nf-display",
   display: "swap",
-  // next/font kennt für Big Shoulders keine Metriken für eine angepasste
-  // Ersatzschrift (Build-Warnung). Die Schrift wird vorgeladen; bis dahin
-  // greift die schmale Systemschrift.
-  adjustFontFallback: false,
-  fallback: ["Arial Narrow", "sans-serif"],
+  fallback: ["Georgia", "serif"],
 });
 
-/** Fließtext. */
-export const fontSans = IBM_Plex_Sans({
-  weight: ["400", "600"],
+/**
+ * Fließtext und Labels: geometrische Grotesk im Art-déco-Geist.
+ * Variable Schrift; Labels als Versalien mit weiter Laufweite.
+ */
+export const fontSans = Jost({
   subsets: ["latin"],
   variable: "--nf-sans",
   display: "swap",
-});
-
-/** Labels, Zeiten, Badges. Nur kleine Texte – nicht vorladen, damit die
- * Bandbreite beim ersten Laden für Logo, Überschriften und Hero-Bild bleibt. */
-export const fontMono = IBM_Plex_Mono({
-  weight: ["400", "500"],
-  subsets: ["latin"],
-  variable: "--nf-mono",
-  display: "swap",
-  preload: false,
 });
 
 export const fontVariables = [
   fontScript.variable,
   fontDisplay.variable,
   fontSans.variable,
-  fontMono.variable,
 ].join(" ");

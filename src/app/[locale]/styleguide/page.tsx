@@ -9,7 +9,6 @@ import { Button, ButtonAnchor, ButtonLink } from "@/components/ui/button";
 import { HeroBackdrop } from "@/components/ui/hero";
 import { ArrowRightIcon, PhoneIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
-import { NeonText } from "@/components/ui/neon-text";
 import { SedcardTile } from "@/components/ui/sedcard-tile";
 import type { Locale } from "@/i18n/routing";
 import { getGallery, pick } from "@/lib/content";
@@ -117,7 +116,7 @@ export default async function StyleguidePage({
                 aria-hidden
               />
               <div className="px-3 py-2">
-                <p className="font-mono text-sm text-ink">{name}</p>
+                <p className="font-label text-sm text-ink">{name}</p>
                 <p className="text-xs text-muted">{use}</p>
               </div>
             </li>
@@ -125,53 +124,50 @@ export default async function StyleguidePage({
         </ul>
       </Block>
 
-      <Block title="Typografie">
+      <Block
+        title="Typografie"
+        note="Zwei Schriften: Cormorant Garamond (Antiqua, auch kursiv) für Überschriften, Namen und Preise; Jost für Fließtext und Labels. Mr Dafoe nur im Neon-Logo."
+      >
         <div className="space-y-6">
           <div>
-            <p className="eyebrow">Eyebrow · IBM Plex Mono 500</p>
-            <p className="mt-2 font-display text-6xl font-extrabold tracking-[0.04em] text-ink uppercase">
+            <p className="eyebrow">Eyebrow · Jost 500, Versalien</p>
+            <p className="mt-3 font-display text-7xl font-medium text-ink">
               Überschrift H1
             </p>
-            <p className="font-display text-4xl font-extrabold tracking-[0.04em] text-ink uppercase">
+            <p className="font-display text-5xl font-medium text-ink">
               Überschrift H2
             </p>
-            <p className="font-display text-2xl font-semibold tracking-[0.08em] text-ink uppercase">
-              Überschrift H3 · 600
+            <p className="font-display text-4xl font-medium text-ink italic">
+              Kursiv für Namen und Zitate
             </p>
           </div>
           <p className="max-w-prose text-lg text-ink">
-            Fließtext in IBM Plex Sans. Ruhig und gut lesbar, mit großzügiger
-            Zeilenhöhe – auch für längere Absätze auf dem Handy.{" "}
+            Fließtext in Jost. Ruhig und gut lesbar, mit großzügiger Zeilenhöhe
+            – auch für längere Absätze auf dem Handy.{" "}
             <a href="#">Links sind gold</a>.
           </p>
           <p className="max-w-prose text-muted">
             Nebentext in „muted“ für ergänzende Hinweise.
           </p>
-          <p className="font-mono text-sm text-gold">
+          <p className="font-label text-xs tracking-[0.24em] text-gold uppercase">
             heute 16–24 Uhr · morgen ab 10 Uhr · ab 24.10.
           </p>
+          <div className="ornament max-w-md" aria-hidden>
+            ◆
+          </div>
         </div>
       </Block>
 
       <Block
-        title="Neon-Schriftzug"
-        note="Mehrlagiger text-shadow mit weißem Kern, leicht schräg. Flackern selten; bei reduzierter Bewegung aus."
+        title="Neon-Logo"
+        note="Rote Leuchtröhre mit weißem Kern, leicht schräg. Nur für das Logo – alles andere bleibt ruhig. Flackern selten; bei reduzierter Bewegung aus."
       >
-        <div className="flex flex-wrap items-center gap-x-12 gap-y-6">
-          <Logo size="lg" animated link={false} />
-          <NeonText tilt color="gold" className="text-5xl">
-            Jetzt da
-          </NeonText>
-          <NeonText tilt color="sunset" className="text-5xl">
-            Tabledance
-          </NeonText>
-          <NeonText className="text-5xl">ohne Neigung</NeonText>
-        </div>
+        <Logo size="lg" animated link={false} />
       </Block>
 
       <Block
         title="Buttons"
-        note="Mindesthöhe 44 px. Primär mit dunkler Schrift auf Rot (5,5:1)."
+        note="Mindesthöhe 44 px. Primär: tiefes Rot mit Goldkante und heller Schrift; sekundär: Goldkante."
       >
         <div className="flex flex-wrap items-center gap-3">
           <ButtonLink href="/jetzt-da">
@@ -200,7 +196,7 @@ export default async function StyleguidePage({
 
       <Block
         title="Sedcard-Kachel"
-        note="Bild 3:4 (hier Platzhalter in Markenfarben), Name in Neon-Schrift, Sprachen und Zeiten in Mono. Hover: stärkeres Glühen, leicht angehoben."
+        note="Bild 3:4 (hier Platzhalter in Markenfarben), Name kursiv in der Antiqua, Sprachen und Zeiten als Label. Hover: feiner Goldrahmen, Bild zoomt langsam."
       >
         <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {SAMPLE_TILES.map((tile) => (

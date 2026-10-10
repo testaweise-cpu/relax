@@ -48,9 +48,11 @@ export default async function GalleryPage({
         title={t("title")}
         intro={t("intro")}
       >
-        <h2 className="mb-5 font-display text-2xl text-ink">{t("club")}</h2>
+        <h2 className="mb-6 font-display text-3xl text-ink italic">
+          {t("club")}
+        </h2>
         <GalleryGrid items={items("club")} label={t("club")} />
-        <h2 className="mt-12 mb-5 font-display text-2xl text-ink">
+        <h2 className="mt-14 mb-6 font-display text-3xl text-ink italic">
           {t("rooms")}
         </h2>
         <GalleryGrid items={items("rooms")} label={t("rooms")} />

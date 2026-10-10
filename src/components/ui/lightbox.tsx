@@ -77,13 +77,13 @@ export const Lightbox = forwardRef<
     >
       <div className="relative flex h-full flex-col">
         <div className="flex items-center justify-between px-4 py-3">
-          <p className="font-mono text-sm text-muted" aria-live="polite">
+          <p className="font-label text-sm text-muted" aria-live="polite">
             {t("imageOf", { n: index + 1, total })}
           </p>
           <button
             type="button"
             onClick={() => dialog.current?.close()}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line hover:border-gold"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-card border border-line hover:border-gold"
             autoFocus
           >
             <CloseIcon />
@@ -108,7 +108,7 @@ export const Lightbox = forwardRef<
                 {/* Ladering – liegt hinter dem Bild und verschwindet, sobald es gemalt ist */}
                 <span
                   aria-hidden
-                  className="absolute top-1/2 left-1/2 size-10 -translate-1/2 animate-spin rounded-full border-2 border-red/20 border-t-red motion-reduce:animate-none"
+                  className="absolute top-1/2 left-1/2 size-10 -translate-1/2 animate-spin rounded-full border-2 border-gold/20 border-t-gold motion-reduce:animate-none"
                 />
                 <Image
                   src={img.url}
@@ -127,7 +127,7 @@ export const Lightbox = forwardRef<
               type="button"
               onClick={() => step(-1)}
               disabled={index === 0}
-              className="pointer-events-auto min-h-12 min-w-12 rounded-full border border-line bg-night/80 text-2xl disabled:opacity-30"
+              className="pointer-events-auto min-h-12 min-w-12 rounded-card border border-line bg-night/80 text-2xl disabled:opacity-30"
               aria-label={t("prev")}
             >
               ‹
@@ -136,7 +136,7 @@ export const Lightbox = forwardRef<
               type="button"
               onClick={() => step(1)}
               disabled={index === total - 1}
-              className="pointer-events-auto min-h-12 min-w-12 rounded-full border border-line bg-night/80 text-2xl disabled:opacity-30"
+              className="pointer-events-auto min-h-12 min-w-12 rounded-card border border-line bg-night/80 text-2xl disabled:opacity-30"
               aria-label={t("next")}
             >
               ›

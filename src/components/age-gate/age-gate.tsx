@@ -97,7 +97,7 @@ export function AgeGate() {
             {t("leave")}
           </a>
         </form>
-        <p className="mt-8 flex justify-center gap-5 font-mono text-xs text-muted">
+        <p className="mt-8 flex justify-center gap-5 font-label text-xs text-muted">
           <Link href="/impressum" className="text-muted hover:text-gold">
             {t("imprint")}
           </Link>

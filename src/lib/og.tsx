@@ -12,8 +12,8 @@ export const OG_SIZE = { width: 1200, height: 630 };
 const fontDir = join(process.cwd(), "src/assets/fonts");
 const fonts = Promise.all([
   readFile(join(fontDir, "MrDafoe-Regular.ttf")),
-  readFile(join(fontDir, "BigShoulders-SemiBold.ttf")),
-  readFile(join(fontDir, "IBMPlexMono-Medium.ttf")),
+  readFile(join(fontDir, "CormorantGaramond-MediumItalic.ttf")),
+  readFile(join(fontDir, "Jost-Medium.ttf")),
 ]);
 
 // Werte wie die Design-Tokens in globals.css
@@ -41,7 +41,7 @@ export async function ogImage({
   footer?: string;
   badge?: string;
 }) {
-  const [dafoe, shoulders, mono] = await fonts;
+  const [dafoe, cormorant, jost] = await fonts;
 
   return new ImageResponse(
     <div
@@ -52,7 +52,7 @@ export async function ogImage({
         position: "relative",
         background:
           "linear-gradient(180deg, #0b0610 0%, #16070f 55%, #2a0614 100%)",
-        fontFamily: "Shoulders",
+        fontFamily: "Cormorant",
         color: C.ink,
       }}
     >
@@ -105,9 +105,9 @@ export async function ogImage({
         {eyebrow && (
           <div
             style={{
-              fontFamily: "Mono",
-              fontSize: 24,
-              letterSpacing: 8,
+              fontFamily: "Jost",
+              fontSize: 20,
+              letterSpacing: 10,
               color: C.gold,
               textTransform: "uppercase",
               display: "flex",
@@ -132,9 +132,8 @@ export async function ogImage({
         {title && (
           <div
             style={{
-              fontSize: 44,
-              letterSpacing: 4,
-              textTransform: "uppercase",
+              fontSize: 58,
+              fontStyle: "italic",
               marginTop: 4,
               display: "flex",
             }}
@@ -149,11 +148,11 @@ export async function ogImage({
               display: "flex",
               alignItems: "center",
               gap: 12,
-              fontFamily: "Mono",
+              fontFamily: "Jost",
               fontSize: 24,
               color: C.gold,
               border: `2px solid ${C.gold}88`,
-              borderRadius: 999,
+              borderRadius: 4,
               padding: "6px 20px",
             }}
           >
@@ -179,7 +178,7 @@ export async function ogImage({
             width: "100%",
             display: "flex",
             justifyContent: "center",
-            fontFamily: "Mono",
+            fontFamily: "Jost",
             fontSize: 22,
             letterSpacing: 4,
             color: C.muted,
@@ -193,8 +192,8 @@ export async function ogImage({
       ...OG_SIZE,
       fonts: [
         { name: "Dafoe", data: dafoe, weight: 400, style: "normal" },
-        { name: "Shoulders", data: shoulders, weight: 600, style: "normal" },
-        { name: "Mono", data: mono, weight: 500, style: "normal" },
+        { name: "Cormorant", data: cormorant, weight: 500, style: "italic" },
+        { name: "Jost", data: jost, weight: 500, style: "normal" },
       ],
     },
   );

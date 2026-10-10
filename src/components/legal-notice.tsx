@@ -23,7 +23,7 @@ export async function LegalNotice({
     <p
       className={cn(
         variant === "long"
-          ? "rounded-card border border-sunset/40 bg-panel p-4 text-sm text-ink sm:p-5"
+          ? "rounded-card border-l border-gold/50 bg-panel/60 py-4 pr-4 pl-5 text-sm leading-relaxed text-ink/90 sm:py-5 sm:pr-5 sm:pl-6"
           : "text-sm text-muted",
         className,
       )}

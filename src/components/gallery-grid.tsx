@@ -25,7 +25,7 @@ export function GalleryGrid({
             <button
               type="button"
               onClick={() => box.current?.open(i)}
-              className="group relative block w-full cursor-zoom-in overflow-hidden rounded-card border border-line transition-[border-color,box-shadow] hover:border-red hover:shadow-[0_0_18px_color-mix(in_oklab,var(--red)_45%,transparent)]"
+              className="group relative block w-full cursor-zoom-in overflow-hidden rounded-card border border-line transition-[border-color,box-shadow] hover:border-gold/60"
               style={{ aspectRatio: item.portrait ? "3 / 4" : "3 / 2" }}
               aria-label={t("openImage", { n: i + 1, total: items.length })}
             >

@@ -19,7 +19,7 @@ export async function PriceTable({
     maximumFractionDigits: 0,
   });
   return (
-    <table className="w-full border-separate border-spacing-0">
+    <table className="w-full border-separate border-spacing-0 [font-variant-numeric:lining-nums_tabular-nums]">
       <caption className="sr-only">{t("tableCaption")}</caption>
       <thead className="sr-only">
         <tr>
@@ -33,22 +33,22 @@ export async function PriceTable({
             <th
               scope="row"
               className={cn(
-                "border-b border-line/70 text-left font-display font-semibold tracking-[0.14em] text-ink uppercase group-last:border-b-0",
-                compact ? "py-3.5 text-lg" : "py-5 text-xl sm:text-2xl",
+                "border-b border-line/70 text-left font-display font-medium text-ink group-last:border-b-0",
+                compact ? "py-3.5 text-2xl" : "py-5 text-2xl sm:text-3xl",
               )}
             >
               <span className="flex items-baseline gap-3">
                 {t("minutes", { count: r.minutes ?? 0 })}
                 <span
                   aria-hidden
-                  className="mb-1 flex-1 border-b border-dotted border-muted/30"
+                  className="mb-1.5 flex-1 border-b border-dotted border-gold/30"
                 />
               </span>
             </th>
             <td
               className={cn(
-                "border-b border-line/70 pl-3 text-right font-mono text-ink tabular-nums group-last:border-b-0",
-                compact ? "py-3.5 text-lg" : "py-5 text-xl sm:text-2xl",
+                "border-b border-line/70 pl-3 text-right font-display font-medium text-gold tabular-nums group-last:border-b-0",
+                compact ? "py-3.5 text-2xl" : "py-5 text-2xl sm:text-3xl",
               )}
             >
               {money.format(r.priceEur ?? 0)}

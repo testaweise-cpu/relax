@@ -15,7 +15,11 @@ export async function Footer() {
   const s = await getSettings();
 
   return (
-    <footer className="border-t border-line bg-night-2 pb-24 md:pb-0">
+    <footer className="bg-night-2 pb-24 md:pb-0">
+      {/* Goldlinie mit Raute statt einfacher Trennlinie */}
+      <div className="ornament container-page text-[0.6rem]" aria-hidden>
+        ◆
+      </div>
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
           <NeonText tilt className="text-5xl">
@@ -26,12 +30,12 @@ export async function Footer() {
         </div>
 
         <div>
-          <h2 className="font-display text-lg font-semibold tracking-[0.14em] text-ink">
+          <h2 className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
             {tf("visit")}
           </h2>
           <ul className="mt-4 space-y-3 text-ink">
             <li className="flex gap-3">
-              <MapPinIcon className="mt-1 shrink-0 text-red" />
+              <MapPinIcon className="mt-1 shrink-0 text-gold" />
               <address className="not-italic">
                 {s.street}
                 <br />
@@ -40,18 +44,18 @@ export async function Footer() {
               </address>
             </li>
             <li className="flex gap-3">
-              <PhoneIcon className="mt-1 shrink-0 text-red" />
+              <PhoneIcon className="mt-1 shrink-0 text-gold" />
               <a href={telHref(s.phoneE164)}>{s.phone}</a>
             </li>
             <li className="flex gap-3">
-              <ClockIcon className="mt-1 shrink-0 text-red" />
+              <ClockIcon className="mt-1 shrink-0 text-gold" />
               <span>{pick(s.openingHours, locale)}</span>
             </li>
           </ul>
         </div>
 
         <nav aria-label={t("footer")}>
-          <h2 className="font-display text-lg font-semibold tracking-[0.14em] text-ink">
+          <h2 className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
             {tf("explore")}
           </h2>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
@@ -67,7 +71,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-line">
-        <div className="container-page flex flex-col gap-3 py-6 font-mono text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col gap-3 py-6 font-label text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} Mona Roses · {tf("adultsOnly")}
           </p>

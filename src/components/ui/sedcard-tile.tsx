@@ -67,11 +67,11 @@ export function SedcardTile({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 px-3 pb-3">
-          <p className="neon neon-tilt max-w-full origin-left pb-1 text-[2.1rem] leading-[0.95] break-words sm:text-[2.4rem]">
+          <p className="max-w-full font-display text-[1.9rem] leading-none font-medium break-words text-ink italic [text-shadow:0_2px_18px_rgb(0_0_0/0.6)] sm:text-[2.2rem]">
             {name}
           </p>
           {languages.length > 0 && (
-            <p className="mt-1 truncate font-mono text-xs tracking-wide text-ink uppercase">
+            <p className="mt-2 truncate font-label text-[0.62rem] tracking-[0.24em] text-ink/85 uppercase">
               <span className="sr-only">{t("languages")}: </span>
               {languages.join(" · ")}
             </p>
@@ -79,7 +79,7 @@ export function SedcardTile({
           {timeLabel && (
             <p
               className={cn(
-                "mt-0.5 truncate font-mono text-xs",
+                "mt-1 truncate font-label text-xs tracking-wide",
                 isLive ? "text-gold" : "text-muted",
               )}
             >

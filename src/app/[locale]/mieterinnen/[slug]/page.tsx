@@ -9,7 +9,6 @@ import { WeekPlan } from "@/components/profiles/week-plan";
 import { Badge } from "@/components/ui/badge";
 import { ButtonAnchor } from "@/components/ui/button";
 import { PhoneIcon } from "@/components/ui/icons";
-import { NeonText } from "@/components/ui/neon-text";
 import { Link } from "@/i18n/navigation";
 import { getSettings } from "@/lib/content";
 import { languageName, regionName } from "@/lib/display-names";
@@ -74,7 +73,7 @@ export default async function SedcardPage({
 
   return (
     <article className="container-page py-8 sm:py-14">
-      <Link href="/mieterinnen" className="font-mono text-sm">
+      <Link href="/mieterinnen" className="font-label text-sm">
         ← {t("back")}
       </Link>
 
@@ -94,17 +93,15 @@ export default async function SedcardPage({
             )}
           </div>
 
-          <h1 className="mt-4">
-            <NeonText tilt className="origin-left text-7xl sm:text-8xl">
-              {profile.name}
-            </NeonText>
+          <h1 className="mt-5 font-display text-7xl font-medium text-ink italic sm:text-8xl">
+            {profile.name}
           </h1>
 
           <p
             className={
               presence
-                ? "mt-4 font-mono text-gold"
-                : "mt-4 font-mono text-muted"
+                ? "mt-4 font-label text-gold"
+                : "mt-4 font-label text-muted"
             }
           >
             {next ?? t("noShift")}
@@ -179,7 +176,7 @@ export default async function SedcardPage({
                 {profile.services.map((s) => (
                   <li
                     key={s}
-                    className="rounded-full border border-line bg-panel px-3 py-1 text-sm text-ink"
+                    className="rounded-card border border-line bg-panel px-3 py-1 text-sm text-ink"
                   >
                     {s}
                   </li>

@@ -111,13 +111,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           {nextEvent && (
             <Link
               href="/events"
-              className="panel panel-accent block p-6 no-underline transition-colors hover:border-red/50"
+              className="panel panel-accent block p-7 no-underline transition-colors hover:border-gold/50"
             >
               <p className="eyebrow">{te("teaser")}</p>
-              <p className="mt-2 font-display text-3xl font-extrabold tracking-[0.04em] text-ink uppercase">
+              <p className="mt-3 font-display text-4xl font-medium text-ink italic">
                 {pick(nextEvent.title, l)}
               </p>
-              <p className="mt-1 font-mono text-sm text-gold">
+              <p className="mt-2 font-label text-xs tracking-[0.2em] text-gold uppercase">
                 {new Intl.DateTimeFormat(l === "en" ? "en-GB" : "de-DE", {
                   day: "numeric",
                   month: "long",
@@ -131,7 +131,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         <ul className="mt-14 grid gap-px overflow-hidden rounded-card border border-line/70 bg-line/70 sm:grid-cols-3">
           {(t.raw("values") as { title: string; text: string }[]).map((v) => (
             <li key={v.title} className="bg-night p-6 sm:p-8">
-              <p className="font-display text-2xl font-semibold tracking-[0.14em] text-ink uppercase">
+              <p className="font-display text-3xl font-medium text-ink italic">
                 {v.title}
               </p>
               <p className="mt-2 text-sm leading-relaxed text-muted">
@@ -167,10 +167,12 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--night)_10%,transparent)_0%,color-mix(in_oklab,var(--night)_35%,transparent)_45%,color-mix(in_oklab,var(--night)_95%,transparent)_100%)]"
               />
               <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-                <p className="font-mono text-xs tracking-[0.3em] text-red">
+                <p className="font-label text-[0.65rem] tracking-[0.34em] text-gold">
                   0{i + 1}
                 </p>
-                <h3 className="mt-2 text-3xl text-ink">{pick(h.title, l)}</h3>
+                <h3 className="mt-2 text-4xl text-ink italic">
+                  {pick(h.title, l)}
+                </h3>
                 <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/80">
                   {pick(h.text, l)}
                 </p>
@@ -179,7 +181,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           ))}
         </ul>
         <p className="mt-8">
-          <Link href="/galerie" className="font-mono">
+          <Link
+            href="/galerie"
+            className="font-label text-xs tracking-[0.3em] uppercase"
+          >
             {t("gallery")} →
           </Link>
         </p>
@@ -194,7 +199,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </p>
           </div>
           <div className="flex flex-col justify-center gap-8">
-            <p className="font-display text-4xl leading-tight font-semibold tracking-[0.06em] text-ink uppercase sm:text-5xl">
+            <p className="font-display text-5xl leading-[1.05] font-light text-ink italic sm:text-6xl">
               {t("promise")}
             </p>
             <LegalNotice />
@@ -216,7 +221,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       >
         <div className="grid gap-6 md:grid-cols-3">
           <div className="flex gap-3">
-            <MapPinIcon className="mt-1 shrink-0 text-red" />
+            <MapPinIcon className="mt-1 shrink-0 text-gold" />
             <div>
               <address className="text-lg text-ink not-italic">
                 {settings.street}
@@ -228,7 +233,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   href={settings.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-flex min-h-11 items-center font-mono text-sm"
+                  className="mt-2 inline-flex min-h-11 items-center font-label text-sm"
                 >
                   {tc("maps")} ↗
                 </a>
@@ -236,13 +241,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </div>
           </div>
           <div className="flex gap-3">
-            <ClockIcon className="mt-1 shrink-0 text-red" />
+            <ClockIcon className="mt-1 shrink-0 text-gold" />
             <p className="text-lg text-ink">{pick(settings.openingHours, l)}</p>
           </div>
           <div className="flex flex-col items-start gap-3">
             <a
               href={telHref(settings.phoneE164)}
-              className="font-mono text-2xl"
+              className="font-label text-2xl"
             >
               {settings.phone}
             </a>

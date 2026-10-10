@@ -35,9 +35,9 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="font-mono text-sm tracking-wide text-ink">
+      <label htmlFor={id} className="font-label text-sm tracking-wide text-ink">
         {label}
-        {required && <span className="text-red"> *</span>}
+        {required && <span className="text-gold"> *</span>}
       </label>
       {children}
       {hint && !error && (
@@ -224,7 +224,7 @@ export function ApplicationForm({ minAge }: { minAge: number }) {
             {...aria("photos", true)}
             className={cn(
               aria("photos").className,
-              "file:mr-4 file:rounded-full file:border-0 file:bg-red file:px-4 file:py-2 file:font-display file:tracking-wider file:text-night file:uppercase",
+              "file:mr-4 file:rounded-card file:border file:border-gold/45 file:bg-transparent file:px-4 file:py-2 file:font-label file:text-xs file:tracking-[0.2em] file:text-ink file:uppercase",
             )}
           />
         </Field>
@@ -251,7 +251,7 @@ export function ApplicationForm({ minAge }: { minAge: number }) {
           />
           <span>
             {t("consent")} <Link href="/datenschutz">{t("consentLink")}</Link>.
-            <span className="text-red"> *</span>
+            <span className="text-gold"> *</span>
           </span>
         </label>
         {errors.consent && (

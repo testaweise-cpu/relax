@@ -19,7 +19,7 @@ export function LivePresenceGrid({ initial }: Props) {
 
   return (
     <div>
-      <p className="mb-4 font-mono text-sm text-muted" aria-live="polite">
+      <p className="mb-4 font-label text-sm text-muted" aria-live="polite">
         <span className="live-dot mr-2 inline-block align-middle" aria-hidden />
         {t("updated", { time: formatClock(new Date(data.updatedAt), locale) })}
         {stale && <span className="ml-3 text-sunset">{t("stale")}</span>}
@@ -74,10 +74,10 @@ export function NowStrip({
           <p className="eyebrow">Live</p>
           <h2
             id="now-strip"
-            className="mt-3 flex items-center gap-4 text-3xl text-ink sm:text-4xl"
+            className="mt-4 flex items-center gap-4 text-4xl text-ink sm:text-5xl"
           >
             {t("stripTitle")}
-            <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 px-3 py-1 font-mono text-sm font-normal tracking-normal text-gold">
+            <span className="inline-flex items-center gap-2 rounded-card border border-gold/40 px-3 py-1 font-label text-sm font-normal tracking-normal text-gold">
               <span className="live-dot" aria-hidden />
               {data.present.length}
             </span>
@@ -85,7 +85,7 @@ export function NowStrip({
         </div>
         <Link
           href="/jetzt-da"
-          className="inline-flex min-h-11 items-center gap-1 font-mono text-sm"
+          className="inline-flex min-h-11 items-center gap-1 font-label text-sm"
         >
           {t("stripAll")} <ArrowRightIcon width={16} height={16} />
         </Link>

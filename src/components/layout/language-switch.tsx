@@ -17,7 +17,7 @@ export function LanguageSwitch({ className }: { className?: string }) {
       locale={other}
       hrefLang={other}
       className={cn(
-        "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line px-3 font-mono text-sm text-ink no-underline transition-colors hover:border-gold hover:text-gold",
+        "inline-flex min-h-11 min-w-11 items-center justify-center rounded-card border border-line px-3 font-label text-sm text-ink no-underline transition-colors hover:border-gold hover:text-gold",
         className,
       )}
     >

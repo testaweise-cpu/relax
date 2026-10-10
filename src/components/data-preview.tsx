@@ -31,7 +31,7 @@ export async function DataPreview({ locale }: { locale: TimeLocale }) {
 
   return (
     <div>
-      <p className="font-mono text-sm text-muted">
+      <p className="font-label text-sm text-muted">
         Quelle: <span className="text-gold">{ds.name}</span> · {profiles.length}{" "}
         Profile · {presence.length} jetzt da · {shifts.length} Schichten (8
         Tage)
@@ -59,7 +59,7 @@ export async function DataPreview({ locale }: { locale: TimeLocale }) {
           <h3 className="font-display text-xl text-ink">
             Wochenplan {sample.name}
           </h3>
-          <dl className="mt-4 divide-y divide-line font-mono text-sm">
+          <dl className="mt-4 divide-y divide-line font-label text-sm">
             {plan.map((d) => (
               <div key={d.key} className="flex justify-between gap-4 py-2">
                 <dt className={d.isToday ? "text-gold" : "text-muted"}>

@@ -38,7 +38,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
       <button
         type="button"
         onClick={open}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-ink hover:border-gold hover:text-gold"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-card border border-line text-ink hover:border-gold hover:text-gold"
         aria-haspopup="dialog"
       >
         <MenuIcon />
@@ -61,7 +61,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
             <button
               type="button"
               onClick={close}
-              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-ink hover:border-gold hover:text-gold"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-card border border-line text-ink hover:border-gold hover:text-gold"
               autoFocus
             >
               <CloseIcon />
@@ -77,8 +77,8 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
                   onClick={close}
                   aria-current={pathname === "/" ? "page" : undefined}
                   className={cn(
-                    "block border-b border-line py-3 font-display text-3xl font-extrabold tracking-[0.06em] uppercase no-underline",
-                    pathname === "/" ? "text-red" : "text-ink",
+                    "block border-b border-line py-3 font-display text-4xl font-medium no-underline",
+                    pathname === "/" ? "text-gold" : "text-ink",
                   )}
                 >
                   {t("home")}
@@ -93,10 +93,8 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
                       onClick={close}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "flex items-center gap-3 border-b border-line py-3 font-display text-3xl font-extrabold tracking-[0.06em] uppercase no-underline",
-                        active
-                          ? "text-red [text-shadow:0_0_12px_var(--red)]"
-                          : "text-ink",
+                        "flex items-center gap-3 border-b border-line py-3 font-display text-4xl font-medium no-underline",
+                        active ? "text-gold" : "text-ink",
                       )}
                     >
                       {item.key === "now" && (

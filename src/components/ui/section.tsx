@@ -45,7 +45,7 @@ export function Section({
             {title && (
               <Heading
                 id={headingId}
-                className="mt-4 text-4xl text-ink sm:text-[3.4rem]"
+                className="mt-5 text-5xl text-ink sm:text-[4.2rem]"
               >
                 {title}
               </Heading>

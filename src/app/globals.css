@@ -25,7 +25,7 @@
   --sun-core: #ffd84d; /* Goldton (nur in Verläufen) */
 
   --gutter: 1rem; /* mindestens 16 px Seitenrand */
-  --radius: 0.75rem;
+  --radius: 0.25rem; /* knappe Rundungen wirken edler als Pillen */
 }
 
 @theme inline {
@@ -43,9 +43,10 @@
   --color-sun: var(--sun-core);
 
   --font-script: var(--nf-script), cursive;
-  --font-display: var(--nf-display), "Arial Narrow", sans-serif;
+  --font-display: var(--nf-display), Georgia, serif;
   --font-sans: var(--nf-sans), system-ui, sans-serif;
-  --font-mono: var(--nf-mono), ui-monospace, monospace;
+  /* Labels, Zeiten, Badges: dieselbe Grotesk, als Versalien gesetzt */
+  --font-label: var(--nf-sans), system-ui, sans-serif;
 
   --radius-card: var(--radius);
 }
@@ -79,15 +80,18 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
+  /* Überschriften: Antiqua, gemischte Schreibung, eng gesetzt */
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.04;
     text-wrap: balance;
+    /* lange deutsche Wörter (Datenschutzerklärung) auf dem Handy trennen */
+    hyphens: auto;
+    overflow-wrap: break-word;
   }
 
   p {
@@ -152,30 +156,57 @@
     }
   }
 
-  /* Kleine Überzeile in Mono */
+  /* Kleine Überzeile: Versalien mit Goldlinie */
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
+    gap: 0.9rem;
+    font-family: var(--font-label);
+    font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.34em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--gold);
   }
   .eyebrow::before {
     content: "";
-    width: 1.75rem;
+    width: 2.5rem;
     height: 1px;
-    background: linear-gradient(90deg, var(--red), transparent);
+    background: linear-gradient(90deg, transparent, var(--gold));
   }
   .text-center .eyebrow::after,
   .eyebrow-center::after {
     content: "";
-    width: 1.75rem;
+    width: 2.5rem;
     height: 1px;
-    background: linear-gradient(270deg, var(--red), transparent);
+    background: linear-gradient(270deg, transparent, var(--gold));
+  }
+
+  /* Label in Versalien (Badges, Filter, Navigation, Zeiten) */
+  .font-label {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Zierelement: Goldlinie mit Raute in der Mitte */
+  .ornament {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--gold);
+  }
+  .ornament::before,
+  .ornament::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 55%, transparent)
+    );
+  }
+  .ornament::after {
+    transform: scaleX(-1);
   }
 
   /* Edle Fläche: Hauch von Licht oben, feine Kante, kein Glühen */
@@ -195,14 +226,14 @@
       inset 0 1px 0 rgb(255 255 255 / 0.05),
       0 24px 48px -32px rgb(0 0 0 / 0.8);
   }
-  /* Fläche mit rotem Haarlinien-Akzent oben */
+  /* Fläche mit goldener Haarlinie oben */
   .panel-accent::before {
     content: "";
     position: absolute;
-    inset: -1px 15% auto;
+    inset: -1px 12% auto;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--red), transparent);
-    opacity: 0.8;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
   }
 
   /* ---- Neon-Schriftzug ------------------------------------------ */
@@ -377,13 +408,23 @@
       transform 300ms ease,
       border-color 300ms ease;
   }
+  /* Hover: feiner Goldrahmen statt Leuchten */
   .sedcard:hover,
   .sedcard:focus-visible {
-    border-color: color-mix(in oklab, var(--red) 80%, transparent);
+    border-color: color-mix(in oklab, var(--gold) 60%, transparent);
     box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--red) 50%, transparent),
-      0 0 26px color-mix(in oklab, var(--red) 35%, transparent),
+      inset 0 0 0 1px color-mix(in oklab, var(--gold) 25%, transparent),
       0 28px 48px -28px rgb(0 0 0 / 0.9);
+  }
+  .sedcard img,
+  .sedcard .placeholder-art {
+    transition: transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .sedcard:hover img,
+    .sedcard:hover .placeholder-art {
+      transform: scale(1.04);
+    }
   }
   @media (prefers-reduced-motion: no-preference) {
     .sedcard:hover,
@@ -519,7 +560,7 @@
     padding: 0.5rem 1rem;
     background: var(--panel);
     color: var(--sunset);
-    font-family: var(--font-mono);
+    font-family: var(--font-label);
     font-size: 0.875rem;
   }
 }

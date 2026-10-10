@@ -37,8 +37,8 @@ function Card({
 }) {
   return (
     <div className="panel p-5 sm:p-6">
-      <h2 className="flex items-center gap-3 font-display text-xl font-semibold tracking-[0.12em] text-ink uppercase">
-        <span className="text-red">{icon}</span>
+      <h2 className="flex items-center gap-3 font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
+        <span className="text-gold">{icon}</span>
         {title}
       </h2>
       <div className="mt-3 text-lg text-ink">{children}</div>
@@ -75,7 +75,7 @@ export default async function ContactPage({
                   href={s.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex min-h-11 items-center font-mono text-base"
+                  className="mt-4 inline-flex min-h-11 items-center font-label text-base"
                 >
                   {t("maps")} ↗
                 </a>
@@ -84,7 +84,7 @@ export default async function ContactPage({
             )}
           </Card>
           <Card icon={<PhoneIcon />} title={t("phone")}>
-            <a href={telHref(s.phoneE164)} className="font-mono text-2xl">
+            <a href={telHref(s.phoneE164)} className="font-label text-2xl">
               {s.phone}
             </a>
             {s.email && (

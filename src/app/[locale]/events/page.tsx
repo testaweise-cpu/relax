@@ -73,7 +73,7 @@ export default async function EventsPage({
                 </div>
               )}
               <div className="p-5 sm:p-6">
-                <p className="font-mono text-sm text-gold">
+                <p className="font-label text-sm text-gold">
                   <time dateTime={e.date}>{formatDate(e.date, locale)}</time>
                   {pick(e.time, l) ? ` · ${pick(e.time, l)}` : ""}
                 </p>

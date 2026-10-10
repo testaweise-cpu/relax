@@ -28,12 +28,12 @@ function Chip({
       href={href}
       scroll={false}
       className={cn(
-        "inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-sm whitespace-nowrap no-underline transition-colors",
+        "inline-flex min-h-11 shrink-0 items-center gap-2 rounded-card border px-4 font-label text-[0.8rem] tracking-wide whitespace-nowrap no-underline transition-colors",
         active
           ? tone === "gold"
             ? "border-gold bg-gold/15 text-gold"
-            : "border-red bg-red/15 text-red"
-          : "border-line bg-panel text-ink hover:border-gold",
+            : "border-gold/70 bg-gold/10 text-gold"
+          : "border-line bg-panel/60 text-ink hover:border-gold/60",
       )}
     >
       {children}
@@ -121,7 +121,7 @@ export async function FilterChips({
         <Link
           href="/mieterinnen"
           scroll={false}
-          className="inline-block font-mono text-sm"
+          className="inline-block font-label text-sm"
         >
           {t("reset")}
         </Link>

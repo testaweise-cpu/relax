@@ -23,8 +23,11 @@ export function NavLinks() {
               href={item.href}
               aria-current={active ? "page" : undefined}
               className={cn(
-                "inline-flex min-h-11 items-center rounded-full px-3 font-display text-[0.85rem] font-semibold tracking-[0.22em] uppercase no-underline transition-colors",
-                active ? "text-red" : "text-ink/85 hover:text-ink",
+                "relative inline-flex min-h-11 items-center px-3 font-label text-[0.7rem] font-medium tracking-[0.28em] uppercase no-underline transition-colors",
+                // aktive Seite: Gold mit feiner Linie darunter
+                active
+                  ? "text-gold after:absolute after:inset-x-3 after:bottom-2 after:h-px after:bg-gold/60"
+                  : "text-ink/80 hover:text-ink",
               )}
             >
               {item.key === "now" && (

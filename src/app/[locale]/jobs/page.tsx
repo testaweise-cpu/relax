@@ -46,7 +46,10 @@ export default async function JobsPage({
             <ul className="mt-5 space-y-3">
               {jobs.offers.map((o, i) => (
                 <li key={i} className="flex gap-3 text-ink">
-                  <span aria-hidden className="mt-3 h-px w-4 shrink-0 bg-red" />
+                  <span
+                    aria-hidden
+                    className="mt-3 h-px w-4 shrink-0 bg-gold"
+                  />
                   {pick(o, l)}
                 </li>
               ))}
@@ -70,7 +73,7 @@ export default async function JobsPage({
               <p className="mt-3">
                 <a
                   href={telHref(s.jobsPhoneE164)}
-                  className="font-mono text-2xl"
+                  className="font-label text-2xl"
                 >
                   {s.jobsPhone}
                 </a>

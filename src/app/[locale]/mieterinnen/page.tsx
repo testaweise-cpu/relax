@@ -54,7 +54,7 @@ export default async function ProfilesPage({
         locale={locale}
       />
 
-      <p className="mt-8 mb-4 font-mono text-sm text-muted" aria-live="polite">
+      <p className="mt-8 mb-4 font-label text-sm text-muted" aria-live="polite">
         {t("count", { count: visible.length })}
       </p>
 

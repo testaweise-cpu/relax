@@ -5,7 +5,7 @@ import type { WeekPlanDay } from "@/lib/time/shifts";
 export async function WeekPlan({ days }: { days: WeekPlanDay[] }) {
   const t = await getTranslations("sedcard");
   return (
-    <table className="w-full font-mono text-sm">
+    <table className="w-full font-label text-sm">
       <caption className="sr-only">{t("week")}</caption>
       <tbody className="divide-y divide-line">
         {days.map((d) => (
