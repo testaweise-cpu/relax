@@ -103,7 +103,7 @@ export default async function SedcardPage({
           <p
             className={
               presence
-                ? "mt-4 font-mono text-cyan"
+                ? "mt-4 font-mono text-gold"
                 : "mt-4 font-mono text-muted"
             }
           >

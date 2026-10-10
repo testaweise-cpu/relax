@@ -4,7 +4,7 @@ import { cn } from "@/lib/cn";
 type NeonTextProps = {
   children: ReactNode;
   as?: ElementType;
-  color?: "pink" | "cyan" | "sunset";
+  color?: "red" | "gold" | "sunset";
   /** leicht schräg gestellt (rotate -4deg) */
   tilt?: boolean;
   /** seltenes Flackern */
@@ -18,7 +18,7 @@ type NeonTextProps = {
 export function NeonText({
   children,
   as: Tag = "span",
-  color = "pink",
+  color = "red",
   tilt = false,
   flicker = false,
   ignite = false,
@@ -28,7 +28,7 @@ export function NeonText({
     <Tag
       className={cn(
         "neon",
-        color === "cyan" && "neon-cyan",
+        color === "gold" && "neon-gold",
         color === "sunset" && "neon-sunset",
         tilt && "neon-tilt",
         flicker && "neon-flicker",

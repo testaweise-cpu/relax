@@ -111,13 +111,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           {nextEvent && (
             <Link
               href="/events"
-              className="panel panel-accent block p-6 no-underline transition-colors hover:border-pink/50"
+              className="panel panel-accent block p-6 no-underline transition-colors hover:border-red/50"
             >
               <p className="eyebrow">{te("teaser")}</p>
               <p className="mt-2 font-display text-3xl font-extrabold tracking-[0.04em] text-ink uppercase">
                 {pick(nextEvent.title, l)}
               </p>
-              <p className="mt-1 font-mono text-sm text-cyan">
+              <p className="mt-1 font-mono text-sm text-gold">
                 {new Intl.DateTimeFormat(l === "en" ? "en-GB" : "de-DE", {
                   day: "numeric",
                   month: "long",
@@ -164,10 +164,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               )}
               <div
                 aria-hidden
-                className="absolute inset-0 bg-[linear-gradient(180deg,rgb(13_11_30/0.1)_0%,rgb(13_11_30/0.35)_45%,rgb(13_11_30/0.95)_100%)]"
+                className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--night)_10%,transparent)_0%,color-mix(in_oklab,var(--night)_35%,transparent)_45%,color-mix(in_oklab,var(--night)_95%,transparent)_100%)]"
               />
               <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-                <p className="font-mono text-xs tracking-[0.3em] text-pink">
+                <p className="font-mono text-xs tracking-[0.3em] text-red">
                   0{i + 1}
                 </p>
                 <h3 className="mt-2 text-3xl text-ink">{pick(h.title, l)}</h3>
@@ -216,7 +216,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       >
         <div className="grid gap-6 md:grid-cols-3">
           <div className="flex gap-3">
-            <MapPinIcon className="mt-1 shrink-0 text-pink" />
+            <MapPinIcon className="mt-1 shrink-0 text-red" />
             <div>
               <address className="text-lg text-ink not-italic">
                 {settings.street}
@@ -236,7 +236,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </div>
           </div>
           <div className="flex gap-3">
-            <ClockIcon className="mt-1 shrink-0 text-pink" />
+            <ClockIcon className="mt-1 shrink-0 text-red" />
             <p className="text-lg text-ink">{pick(settings.openingHours, l)}</p>
           </div>
           <div className="flex flex-col items-start gap-3">

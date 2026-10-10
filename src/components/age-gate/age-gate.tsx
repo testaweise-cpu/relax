@@ -98,10 +98,10 @@ export function AgeGate() {
           </a>
         </form>
         <p className="mt-8 flex justify-center gap-5 font-mono text-xs text-muted">
-          <Link href="/impressum" className="text-muted hover:text-cyan">
+          <Link href="/impressum" className="text-muted hover:text-gold">
             {t("imprint")}
           </Link>
-          <Link href="/datenschutz" className="text-muted hover:text-cyan">
+          <Link href="/datenschutz" className="text-muted hover:text-gold">
             {t("privacy")}
           </Link>
         </p>

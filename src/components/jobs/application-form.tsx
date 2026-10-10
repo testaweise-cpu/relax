@@ -16,7 +16,7 @@ import {
 import { Button } from "../ui/button";
 
 const input =
-  "mt-2 block w-full rounded-lg border bg-night px-4 py-3 text-ink placeholder:text-muted/70 focus-visible:outline-2 focus-visible:outline-cyan";
+  "mt-2 block w-full rounded-lg border bg-night px-4 py-3 text-ink placeholder:text-muted/70 focus-visible:outline-2 focus-visible:outline-gold";
 
 function Field({
   id,
@@ -37,7 +37,7 @@ function Field({
     <div>
       <label htmlFor={id} className="font-mono text-sm tracking-wide text-ink">
         {label}
-        {required && <span className="text-pink"> *</span>}
+        {required && <span className="text-red"> *</span>}
       </label>
       {children}
       {hint && !error && (
@@ -224,7 +224,7 @@ export function ApplicationForm({ minAge }: { minAge: number }) {
             {...aria("photos", true)}
             className={cn(
               aria("photos").className,
-              "file:mr-4 file:rounded-full file:border-0 file:bg-pink file:px-4 file:py-2 file:font-display file:tracking-wider file:text-night file:uppercase",
+              "file:mr-4 file:rounded-full file:border-0 file:bg-red file:px-4 file:py-2 file:font-display file:tracking-wider file:text-night file:uppercase",
             )}
           />
         </Field>
@@ -247,11 +247,11 @@ export function ApplicationForm({ minAge }: { minAge: number }) {
             required
             aria-invalid={errors.consent ? true : undefined}
             aria-describedby={errors.consent ? "consent-error" : undefined}
-            className="mt-1 size-5 shrink-0 accent-pink"
+            className="mt-1 size-5 shrink-0 accent-red"
           />
           <span>
             {t("consent")} <Link href="/datenschutz">{t("consentLink")}</Link>.
-            <span className="text-pink"> *</span>
+            <span className="text-red"> *</span>
           </span>
         </label>
         {errors.consent && (

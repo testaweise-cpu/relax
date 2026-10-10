@@ -27,12 +27,11 @@ const COLORS = [
   ["line", "Rahmen"],
   ["ink", "Text"],
   ["muted", "Nebentext"],
-  ["pink", "Hauptakzent"],
-  ["cyan", "Live, Links"],
+  ["red", "Hauptakzent, Neon"],
+  ["gold", "Live, Links, Fokus"],
   ["sunset", "Verläufe, Hinweise"],
-  ["violet", "Verläufe"],
+  ["wine", "Verläufe"],
   ["mint", "Erfolg, Preise"],
-  ["red", "Rotlicht (nur Licht)"],
 ] as const;
 
 // Fiktive Beispiele – keine echten Personen.
@@ -101,13 +100,13 @@ export default async function StyleguidePage({
       <p className="eyebrow">Intern · Designsystem</p>
       <h1 className="mt-3 text-5xl text-ink sm:text-6xl">Styleguide</h1>
       <p className="mt-4 max-w-2xl text-lg text-muted">
-        „Miami Nights“: nächtliches Violett, pinke und türkise Leuchtschrift,
-        Sonnenuntergangs-Verläufe. Neon nur als Akzent, Fließtext ruhig.
+        „Rotlicht-Neon“: Schwarz mit Rotstich, rote Leuchtröhren, warmes Gold
+        für Akzente. Neon nur als Akzent, Fließtext ruhig.
       </p>
 
       <Block
         title="Farben"
-        note="Nur über Tokens verwenden. Violett nicht als Textfarbe (Kontrast unter 4,5:1)."
+        note="Nur über Tokens verwenden. Wine nicht als Textfarbe (Kontrast unter 4,5:1)."
       >
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
           {COLORS.map(([name, use]) => (
@@ -143,12 +142,12 @@ export default async function StyleguidePage({
           <p className="max-w-prose text-lg text-ink">
             Fließtext in IBM Plex Sans. Ruhig und gut lesbar, mit großzügiger
             Zeilenhöhe – auch für längere Absätze auf dem Handy.{" "}
-            <a href="#">Links sind türkis</a>.
+            <a href="#">Links sind gold</a>.
           </p>
           <p className="max-w-prose text-muted">
             Nebentext in „muted“ für ergänzende Hinweise.
           </p>
-          <p className="font-mono text-sm text-cyan">
+          <p className="font-mono text-sm text-gold">
             heute 16–24 Uhr · morgen ab 10 Uhr · ab 24.10.
           </p>
         </div>
@@ -160,7 +159,7 @@ export default async function StyleguidePage({
       >
         <div className="flex flex-wrap items-center gap-x-12 gap-y-6">
           <Logo size="lg" animated link={false} />
-          <NeonText tilt color="cyan" className="text-5xl">
+          <NeonText tilt color="gold" className="text-5xl">
             Jetzt da
           </NeonText>
           <NeonText tilt color="sunset" className="text-5xl">
@@ -172,7 +171,7 @@ export default async function StyleguidePage({
 
       <Block
         title="Buttons"
-        note="Mindesthöhe 44 px. Primär mit dunkler Schrift auf Pink (5,6:1)."
+        note="Mindesthöhe 44 px. Primär mit dunkler Schrift auf Rot (5,5:1)."
       >
         <div className="flex flex-wrap items-center gap-3">
           <ButtonLink href="/jetzt-da">

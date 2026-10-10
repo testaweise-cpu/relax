@@ -16,7 +16,8 @@ export function PlaceholderArt({
   return (
     <div
       className={cn("placeholder-art absolute inset-0", className)}
-      style={{ filter: `hue-rotate(${(seed * 37) % 90}deg)` }}
+      // leichte Variation um Rot herum, nicht in fremde Farbtöne
+      style={{ filter: `hue-rotate(${((seed * 13) % 40) - 20}deg)` }}
       role={label ? "img" : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}

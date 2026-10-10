@@ -11,10 +11,10 @@ const base =
 const variants: Record<ButtonVariant, string> = {
   // Dunkle Schrift auf Pink: Kontrast 5,6:1
   primary:
-    "bg-pink text-night shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] hover:bg-[color-mix(in_oklab,var(--pink)_88%,white)] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_0_28px_color-mix(in_oklab,var(--pink)_45%,transparent)]",
+    "bg-red text-night shadow-[inset_0_1px_0_rgb(255_255_255/0.25)] hover:bg-[color-mix(in_oklab,var(--red)_88%,white)] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_0_28px_color-mix(in_oklab,var(--red)_45%,transparent)]",
   secondary:
-    "border border-ink/25 bg-night/40 text-ink backdrop-blur-sm hover:border-cyan hover:text-cyan",
-  ghost: "text-ink hover:text-cyan",
+    "border border-ink/25 bg-night/40 text-ink backdrop-blur-sm hover:border-gold hover:text-gold",
+  ghost: "text-ink hover:text-gold",
 };
 
 const sizes: Record<ButtonSize, string> = {

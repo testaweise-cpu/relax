@@ -1,28 +1,28 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design-Tokens "Miami Nights"
+   Design-Tokens "Rotlicht-Neon"
    Einzige Quelle für Farben. Komponenten nutzen ausschließlich diese
-   Variablen bzw. die daraus erzeugten Tailwind-Klassen (bg-night, text-pink …).
-   Nur dunkles Theme – bewusste Entscheidung.
+   Variablen bzw. die daraus erzeugten Tailwind-Klassen (bg-night, text-red …).
+   Nur dunkles Theme – bewusste Entscheidung. Rot leuchtet, Gold setzt warme
+   Akzente; Fließtext bleibt ruhig in Ink.
    ------------------------------------------------------------------ */
 :root {
   color-scheme: dark;
 
-  --night: #0d0b1e; /* Seitenhintergrund */
-  --night-2: #15122e; /* Abschnitte */
-  --panel: #1b1738; /* Karten */
-  --line: #2e2856; /* Rahmen, Trennlinien */
-  --ink: #ece8ff; /* Text */
-  --muted: #a39dc9; /* Nebentext */
-  --pink: #ff2e97; /* Hauptakzent, Neon */
-  --cyan: #22e4ff; /* Live-Status, Links */
-  --sunset: #ff8a3d; /* Verläufe, Hinweise */
-  --violet: #8a5cff; /* Verläufe */
-  --mint: #6bffc8; /* Erfolg, Preise */
-  --sun-core: #ffd84d; /* Goldton (nur in Verläufen) */
-  --red: #ff1f3d; /* Rotlicht – nur Licht und Glühen, nie als Textfarbe */
+  --night: #0e0709; /* Seitenhintergrund, Schwarz mit Rotstich */
+  --night-2: #170a0e; /* Abschnitte */
+  --panel: #1f0d13; /* Karten */
+  --line: #3e1c27; /* Rahmen, Trennlinien */
+  --ink: #fbeef1; /* Text */
+  --muted: #c9a5ae; /* Nebentext */
+  --red: #ff2d55; /* Hauptakzent: Neonröhre, Buttons, Rotlicht */
   --red-deep: #4a0718; /* Rotlicht, tiefer Schatten */
+  --wine: #8c1d40; /* Verläufe */
+  --gold: #ffc46b; /* Live-Status, Links, Fokus */
+  --sunset: #ff8a3d; /* Hinweise, Verläufe */
+  --mint: #6bffc8; /* Erfolg */
+  --sun-core: #ffd84d; /* Goldton (nur in Verläufen) */
 
   --gutter: 1rem; /* mindestens 16 px Seitenrand */
   --radius: 0.75rem;
@@ -35,13 +35,12 @@
   --color-line: var(--line);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
-  --color-pink: var(--pink);
-  --color-cyan: var(--cyan);
+  --color-red: var(--red);
+  --color-wine: var(--wine);
+  --color-gold: var(--gold);
   --color-sunset: var(--sunset);
-  --color-violet: var(--violet);
   --color-mint: var(--mint);
   --color-sun: var(--sun-core);
-  --color-red: var(--red);
 
   --font-script: var(--nf-script), cursive;
   --font-display: var(--nf-display), "Arial Narrow", sans-serif;
@@ -96,7 +95,7 @@
   }
 
   a {
-    color: var(--cyan);
+    color: var(--gold);
   }
   /* Links im Fließtext nicht nur über die Farbe erkennbar machen (WCAG 1.4.1):
      feine Unterstreichung, beim Überfahren kräftiger */
@@ -114,13 +113,13 @@
 
   /* Sichtbarer Fokus-Rahmen (Cyan) auf allen interaktiven Elementen */
   :focus-visible {
-    outline: 2px solid var(--cyan);
+    outline: 2px solid var(--gold);
     outline-offset: 3px;
     border-radius: 4px;
   }
 
   ::selection {
-    background: var(--pink);
+    background: var(--red);
     color: var(--night);
   }
 }
@@ -169,14 +168,14 @@
     content: "";
     width: 1.75rem;
     height: 1px;
-    background: linear-gradient(90deg, var(--pink), transparent);
+    background: linear-gradient(90deg, var(--red), transparent);
   }
   .text-center .eyebrow::after,
   .eyebrow-center::after {
     content: "";
     width: 1.75rem;
     height: 1px;
-    background: linear-gradient(270deg, var(--pink), transparent);
+    background: linear-gradient(270deg, var(--red), transparent);
   }
 
   /* Edle Fläche: Hauch von Licht oben, feine Kante, kein Glühen */
@@ -196,19 +195,19 @@
       inset 0 1px 0 rgb(255 255 255 / 0.05),
       0 24px 48px -32px rgb(0 0 0 / 0.8);
   }
-  /* Fläche mit pinkem Haarlinien-Akzent oben */
+  /* Fläche mit rotem Haarlinien-Akzent oben */
   .panel-accent::before {
     content: "";
     position: absolute;
     inset: -1px 15% auto;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--pink), transparent);
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
     opacity: 0.8;
   }
 
   /* ---- Neon-Schriftzug ------------------------------------------ */
   .neon {
-    --neon: var(--pink);
+    --neon: var(--red);
     font-family: var(--font-script);
     font-weight: 400;
     text-transform: none;
@@ -223,8 +222,8 @@
       0 0 20px color-mix(in oklab, var(--neon) 60%, transparent),
       0 0 42px color-mix(in oklab, var(--neon) 35%, transparent);
   }
-  .neon-cyan {
-    --neon: var(--cyan);
+  .neon-gold {
+    --neon: var(--gold);
   }
   .neon-sunset {
     --neon: var(--sunset);
@@ -273,10 +272,10 @@
         ),
       radial-gradient(
         45% 60% at 100% 35%,
-        color-mix(in oklab, var(--pink) 16%, transparent) 0%,
+        color-mix(in oklab, var(--red) 16%, transparent) 0%,
         transparent 70%
       ),
-      linear-gradient(180deg, #0b0610 0%, #16070f 55%, #2a0614 100%);
+      linear-gradient(180deg, var(--night) 0%, #16070f 55%, #2a0614 100%);
   }
   /* Video-/Bild-Hintergrund unter der Lichtszene */
   .hero-media {
@@ -304,7 +303,7 @@
     background:
       linear-gradient(
         180deg,
-        color-mix(in oklab, #0b0610 70%, transparent) 0%,
+        color-mix(in oklab, var(--night) 70%, transparent) 0%,
         color-mix(in oklab, var(--red-deep) 45%, transparent) 45%,
         color-mix(in oklab, var(--red) 26%, transparent) 82%,
         color-mix(in oklab, var(--red) 40%, transparent) 100%
@@ -312,7 +311,7 @@
       radial-gradient(
         120% 80% at 50% 40%,
         transparent 0%,
-        color-mix(in oklab, #0b0610 65%, transparent) 100%
+        color-mix(in oklab, var(--night) 65%, transparent) 100%
       );
   }
 
@@ -330,7 +329,7 @@
       ),
       radial-gradient(
         3rem 3rem at 24% 70%,
-        color-mix(in oklab, var(--pink) 40%, transparent) 0%,
+        color-mix(in oklab, var(--red) 40%, transparent) 0%,
         transparent 72%
       ),
       radial-gradient(
@@ -380,10 +379,10 @@
   }
   .sedcard:hover,
   .sedcard:focus-visible {
-    border-color: color-mix(in oklab, var(--pink) 80%, transparent);
+    border-color: color-mix(in oklab, var(--red) 80%, transparent);
     box-shadow:
-      0 0 0 1px color-mix(in oklab, var(--pink) 50%, transparent),
-      0 0 26px color-mix(in oklab, var(--pink) 35%, transparent),
+      0 0 0 1px color-mix(in oklab, var(--red) 50%, transparent),
+      0 0 26px color-mix(in oklab, var(--red) 35%, transparent),
       0 28px 48px -28px rgb(0 0 0 / 0.9);
   }
   @media (prefers-reduced-motion: no-preference) {
@@ -409,15 +408,15 @@
     background:
       radial-gradient(
         70% 55% at 65% 25%,
-        color-mix(in oklab, var(--pink) 30%, transparent),
+        color-mix(in oklab, var(--red) 30%, transparent),
         transparent 70%
       ),
       radial-gradient(
         80% 60% at 25% 75%,
-        color-mix(in oklab, var(--violet) 30%, transparent),
+        color-mix(in oklab, var(--wine) 30%, transparent),
         transparent 70%
       ),
-      linear-gradient(165deg, #241b45, var(--night-2) 70%);
+      linear-gradient(165deg, #2a0e18, var(--night-2) 70%);
   }
 
   /* ---- Live-Punkt ----------------------------------------------- */
@@ -425,10 +424,10 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background: var(--cyan);
+    background: var(--gold);
     box-shadow:
-      0 0 6px var(--cyan),
-      0 0 12px var(--cyan);
+      0 0 6px var(--gold),
+      0 0 12px var(--gold);
     animation: live-pulse 2.4s ease-in-out infinite;
   }
 }
@@ -510,7 +509,7 @@
     margin-top: 0.4rem;
   }
   .rich-text li::marker {
-    color: var(--pink);
+    color: var(--red);
   }
   .rich-text strong {
     font-weight: 600;

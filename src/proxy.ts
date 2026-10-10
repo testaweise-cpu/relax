@@ -26,5 +26,9 @@ export default function proxy(request: NextRequest) {
 export const config = {
   // Alles außer API, Keystatic-Admin, Next-Interna und Dateien mit Endung –
   // plus alte WordPress-Pfade mit Endung (wp-login.php, Uploads).
-  matcher: ["/((?!api|keystatic|_next|_vercel|.*\\..*).*)", "/(wp-.*)"],
+  // apple-icon: Metadaten-Route ohne Dateiendung, darf nicht ins Sprach-Routing
+  matcher: [
+    "/((?!api|keystatic|_next|_vercel|apple-icon|.*\\..*).*)",
+    "/(wp-.*)",
+  ],
 };

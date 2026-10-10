@@ -13,7 +13,7 @@ export function Faq({ items, locale }: { items: FaqItem[]; locale: Locale }) {
             {pick(item.question, locale)}
             <span
               aria-hidden
-              className="font-mono text-2xl text-pink transition-transform duration-200 group-open:rotate-45"
+              className="font-mono text-2xl text-red transition-transform duration-200 group-open:rotate-45"
             >
               +
             </span>

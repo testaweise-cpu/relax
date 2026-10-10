@@ -1,70 +1,46 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** Homescreen-Icon: gestreifte Sonne über dem Horizont. */
-export default function AppleIcon() {
+/** Homescreen-Icon: rotes Neon-„M“ in der Logo-Schrift. */
+export default async function AppleIcon() {
+  const dafoe = await readFile(
+    join(process.cwd(), "src/assets/fonts/MrDafoe-Regular.ttf"),
+  );
   return new ImageResponse(
     <div
       style={{
         width: "100%",
         height: "100%",
         display: "flex",
-        position: "relative",
-        background: "#0d0b1e",
+        alignItems: "center",
+        justifyContent: "center",
+        background:
+          "radial-gradient(circle at 50% 60%, #3a0a18 0%, #0e0709 70%)",
       }}
     >
       <div
         style={{
-          position: "absolute",
-          left: 30,
-          top: 50,
-          width: 120,
-          height: 120,
-          borderRadius: 120,
-          background:
-            "linear-gradient(180deg, #ffd84d 0%, #ff8a3d 45%, #ff2e97 85%)",
+          fontFamily: "Dafoe",
+          fontSize: 150,
+          lineHeight: 1,
+          marginTop: 10,
+          color: "#ffe3ea",
+          textShadow:
+            "0 0 2px #fff, 0 0 8px #ff2d55, 0 0 20px #ff2d55, 0 0 40px #ff2d55",
+          transform: "rotate(-6deg)",
           display: "flex",
         }}
-      />
-      {[92, 106].map((y, i) => (
-        <div
-          key={y}
-          style={{
-            position: "absolute",
-            left: 20,
-            top: y,
-            width: 140,
-            height: 6 + i * 2,
-            background: "#0d0b1e",
-            display: "flex",
-          }}
-        />
-      ))}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 122,
-          width: 180,
-          height: 58,
-          background: "#0d0b1e",
-          display: "flex",
-        }}
-      />
-      <div
-        style={{
-          position: "absolute",
-          left: 10,
-          top: 122,
-          width: 160,
-          height: 4,
-          background: "#ff2e97",
-          display: "flex",
-        }}
-      />
+      >
+        M
+      </div>
     </div>,
-    size,
+    {
+      ...size,
+      fonts: [{ name: "Dafoe", data: dafoe, weight: 400, style: "normal" }],
+    },
   );
 }

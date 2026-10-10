@@ -78,7 +78,7 @@ export function ProfileGallery({
               className={cn(
                 "relative aspect-[3/4] w-16 overflow-hidden rounded-md border transition-colors",
                 i === index
-                  ? "border-pink"
+                  ? "border-red"
                   : "border-line opacity-70 hover:opacity-100",
               )}
             >

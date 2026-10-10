@@ -16,13 +16,13 @@ const fonts = Promise.all([
   readFile(join(fontDir, "IBMPlexMono-Medium.ttf")),
 ]);
 
+// Werte wie die Design-Tokens in globals.css
 const C = {
-  ink: "#ece8ff",
-  muted: "#a39dc9",
-  pink: "#ff2e97",
-  cyan: "#22e4ff",
+  ink: "#fbeef1",
+  muted: "#c9a5ae",
+  red: "#ff2d55",
+  gold: "#ffc46b",
   sunset: "#ff8a3d",
-  red: "#ff1f3d",
 };
 
 const neon = (color: string) =>
@@ -73,7 +73,7 @@ export async function ogImage({
         [90, 150, 140, C.red],
         [1060, 120, 180, C.red],
         [980, 420, 120, C.sunset],
-        [230, 450, 110, C.pink],
+        [230, 450, 110, C.red],
       ].map(([x, y, d, c], i) => (
         <div
           key={i}
@@ -108,7 +108,7 @@ export async function ogImage({
               fontFamily: "Mono",
               fontSize: 24,
               letterSpacing: 8,
-              color: C.cyan,
+              color: C.gold,
               textTransform: "uppercase",
               display: "flex",
             }}
@@ -120,8 +120,8 @@ export async function ogImage({
           style={{
             fontFamily: "Dafoe",
             fontSize: script.length > 12 ? 130 : 150,
-            color: "#ffe9f4",
-            textShadow: neon(C.pink),
+            color: "#ffe3ea",
+            textShadow: neon(C.red),
             transform: "rotate(-4deg)",
             marginTop: 6,
             display: "flex",
@@ -151,8 +151,8 @@ export async function ogImage({
               gap: 12,
               fontFamily: "Mono",
               fontSize: 24,
-              color: C.cyan,
-              border: `2px solid ${C.cyan}88`,
+              color: C.gold,
+              border: `2px solid ${C.gold}88`,
               borderRadius: 999,
               padding: "6px 20px",
             }}
@@ -162,8 +162,8 @@ export async function ogImage({
                 width: 12,
                 height: 12,
                 borderRadius: 12,
-                background: C.cyan,
-                boxShadow: `0 0 10px ${C.cyan}`,
+                background: C.gold,
+                boxShadow: `0 0 10px ${C.gold}`,
                 display: "flex",
               }}
             />

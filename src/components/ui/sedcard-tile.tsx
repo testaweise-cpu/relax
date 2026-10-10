@@ -80,7 +80,7 @@ export function SedcardTile({
             <p
               className={cn(
                 "mt-0.5 truncate font-mono text-xs",
-                isLive ? "text-cyan" : "text-muted",
+                isLive ? "text-gold" : "text-muted",
               )}
             >
               {timeLabel}

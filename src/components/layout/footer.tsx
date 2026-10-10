@@ -31,7 +31,7 @@ export async function Footer() {
           </h2>
           <ul className="mt-4 space-y-3 text-ink">
             <li className="flex gap-3">
-              <MapPinIcon className="mt-1 shrink-0 text-pink" />
+              <MapPinIcon className="mt-1 shrink-0 text-red" />
               <address className="not-italic">
                 {s.street}
                 <br />
@@ -40,11 +40,11 @@ export async function Footer() {
               </address>
             </li>
             <li className="flex gap-3">
-              <PhoneIcon className="mt-1 shrink-0 text-pink" />
+              <PhoneIcon className="mt-1 shrink-0 text-red" />
               <a href={telHref(s.phoneE164)}>{s.phone}</a>
             </li>
             <li className="flex gap-3">
-              <ClockIcon className="mt-1 shrink-0 text-pink" />
+              <ClockIcon className="mt-1 shrink-0 text-red" />
               <span>{pick(s.openingHours, locale)}</span>
             </li>
           </ul>
@@ -57,7 +57,7 @@ export async function Footer() {
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2">
             {NAV_ITEMS.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="text-muted hover:text-cyan">
+                <Link href={item.href} className="text-muted hover:text-gold">
                   {t(item.key)}
                 </Link>
               </li>
@@ -73,12 +73,12 @@ export async function Footer() {
           </p>
           <ul className="flex gap-5">
             <li>
-              <Link href="/impressum" className="text-muted hover:text-cyan">
+              <Link href="/impressum" className="text-muted hover:text-gold">
                 {t("imprint")}
               </Link>
             </li>
             <li>
-              <Link href="/datenschutz" className="text-muted hover:text-cyan">
+              <Link href="/datenschutz" className="text-muted hover:text-gold">
                 {t("privacy")}
               </Link>
             </li>

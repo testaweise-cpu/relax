@@ -6,8 +6,8 @@ export default function GlobalNotFound() {
     <html lang="de">
       <body
         style={{
-          background: "#0d0b1e",
-          color: "#ece8ff",
+          background: "#0e0709",
+          color: "#fbeef1",
           fontFamily: "system-ui",
           padding: "4rem 1rem",
           textAlign: "center",
@@ -15,7 +15,7 @@ export default function GlobalNotFound() {
       >
         <h1>404 – Seite nicht gefunden</h1>
         <p>
-          <Link href="/" style={{ color: "#22e4ff" }}>
+          <Link href="/" style={{ color: "#ffc46b" }}>
             Zur Startseite
           </Link>
         </p>

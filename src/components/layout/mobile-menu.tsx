@@ -38,7 +38,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
       <button
         type="button"
         onClick={open}
-        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-ink hover:border-cyan hover:text-cyan"
+        className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-ink hover:border-gold hover:text-gold"
         aria-haspopup="dialog"
       >
         <MenuIcon />
@@ -61,7 +61,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
             <button
               type="button"
               onClick={close}
-              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-ink hover:border-cyan hover:text-cyan"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-line text-ink hover:border-gold hover:text-gold"
               autoFocus
             >
               <CloseIcon />
@@ -78,7 +78,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
                   aria-current={pathname === "/" ? "page" : undefined}
                   className={cn(
                     "block border-b border-line py-3 font-display text-3xl font-extrabold tracking-[0.06em] uppercase no-underline",
-                    pathname === "/" ? "text-pink" : "text-ink",
+                    pathname === "/" ? "text-red" : "text-ink",
                   )}
                 >
                   {t("home")}
@@ -95,7 +95,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
                       className={cn(
                         "flex items-center gap-3 border-b border-line py-3 font-display text-3xl font-extrabold tracking-[0.06em] uppercase no-underline",
                         active
-                          ? "text-pink [text-shadow:0_0_12px_var(--pink)]"
+                          ? "text-red [text-shadow:0_0_12px_var(--red)]"
                           : "text-ink",
                       )}
                     >

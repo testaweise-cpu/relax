@@ -9,9 +9,9 @@ export async function WeekPlan({ days }: { days: WeekPlanDay[] }) {
       <caption className="sr-only">{t("week")}</caption>
       <tbody className="divide-y divide-line">
         {days.map((d) => (
-          <tr key={d.key} className={cn(d.isToday && "text-cyan")}>
+          <tr key={d.key} className={cn(d.isToday && "text-gold")}>
             <th scope="row" className="py-2.5 pr-4 text-left font-normal">
-              <span className={d.isToday ? "text-cyan" : "text-ink"}>
+              <span className={d.isToday ? "text-gold" : "text-ink"}>
                 {d.weekday}
               </span>{" "}
               <span className="text-muted">{d.date}</span>
@@ -28,7 +28,7 @@ export async function WeekPlan({ days }: { days: WeekPlanDay[] }) {
                 d.slots.map((s) => (
                   <span
                     key={s.range}
-                    className={cn("block", s.active ? "text-cyan" : "text-ink")}
+                    className={cn("block", s.active ? "text-gold" : "text-ink")}
                   >
                     {s.active && (
                       <span

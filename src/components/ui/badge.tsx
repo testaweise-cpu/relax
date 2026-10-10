@@ -4,8 +4,8 @@ import { cn } from "@/lib/cn";
 type BadgeVariant = "live" | "new" | "back" | "neutral";
 
 const variants: Record<BadgeVariant, string> = {
-  live: "border-cyan/40 bg-night/85 text-cyan",
-  new: "border-pink/50 bg-night/85 text-pink",
+  live: "border-gold/40 bg-night/85 text-gold",
+  new: "border-red/50 bg-night/85 text-red",
   back: "border-sunset/45 bg-night/85 text-sunset",
   neutral: "border-line bg-night/80 text-muted",
 };

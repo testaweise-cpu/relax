@@ -15,13 +15,13 @@ function Chip({
   active,
   children,
   activeLabel,
-  tone = "pink",
+  tone = "red",
 }: {
   href: { pathname: "/mieterinnen"; query: Record<string, string> };
   active: boolean;
   children: ReactNode;
   activeLabel: string;
-  tone?: "pink" | "cyan";
+  tone?: "red" | "gold";
 }) {
   return (
     <Link
@@ -30,10 +30,10 @@ function Chip({
       className={cn(
         "inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 font-mono text-sm whitespace-nowrap no-underline transition-colors",
         active
-          ? tone === "cyan"
-            ? "border-cyan bg-cyan/15 text-cyan"
-            : "border-pink bg-pink/15 text-pink"
-          : "border-line bg-panel text-ink hover:border-cyan",
+          ? tone === "gold"
+            ? "border-gold bg-gold/15 text-gold"
+            : "border-red bg-red/15 text-red"
+          : "border-line bg-panel text-ink hover:border-gold",
       )}
     >
       {children}
@@ -70,7 +70,7 @@ export async function FilterChips({
           href={href({ now: !filters.now })}
           active={filters.now}
           activeLabel={active}
-          tone="cyan"
+          tone="gold"
         >
           <span className="live-dot" aria-hidden />
           {t("onlyNow")} <span className="text-muted">{options.live}</span>

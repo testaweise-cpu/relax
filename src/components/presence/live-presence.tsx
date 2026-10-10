@@ -77,7 +77,7 @@ export function NowStrip({
             className="mt-3 flex items-center gap-4 text-3xl text-ink sm:text-4xl"
           >
             {t("stripTitle")}
-            <span className="inline-flex items-center gap-2 rounded-full border border-cyan/40 px-3 py-1 font-mono text-sm font-normal tracking-normal text-cyan">
+            <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 px-3 py-1 font-mono text-sm font-normal tracking-normal text-gold">
               <span className="live-dot" aria-hidden />
               {data.present.length}
             </span>

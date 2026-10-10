@@ -41,7 +41,7 @@ export async function generateMetadata({
 }
 
 export const viewport: Viewport = {
-  themeColor: "#0d0b1e",
+  themeColor: "#0e0709",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -73,7 +73,7 @@ export default async function LocaleLayout({
           <div id="seite" className="flex min-h-dvh flex-col">
             <a
               href="#inhalt"
-              className="sr-only z-50 rounded-full bg-cyan px-4 py-2 font-mono text-night focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+              className="sr-only z-50 rounded-full bg-gold px-4 py-2 font-mono text-night focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
             >
               {t("skipToContent")}
             </a>

@@ -38,7 +38,7 @@ function Card({
   return (
     <div className="panel p-5 sm:p-6">
       <h2 className="flex items-center gap-3 font-display text-xl font-semibold tracking-[0.12em] text-ink uppercase">
-        <span className="text-pink">{icon}</span>
+        <span className="text-red">{icon}</span>
         {title}
       </h2>
       <div className="mt-3 text-lg text-ink">{children}</div>

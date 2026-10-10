@@ -24,7 +24,7 @@ export function NavLinks() {
               aria-current={active ? "page" : undefined}
               className={cn(
                 "inline-flex min-h-11 items-center rounded-full px-3 font-display text-[0.85rem] font-semibold tracking-[0.22em] uppercase no-underline transition-colors",
-                active ? "text-pink" : "text-ink/85 hover:text-ink",
+                active ? "text-red" : "text-ink/85 hover:text-ink",
               )}
             >
               {item.key === "now" && (

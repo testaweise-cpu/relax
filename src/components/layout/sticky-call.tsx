@@ -16,7 +16,7 @@ export async function StickyCall() {
       >
         <PhoneIcon />
         {t("call")}
-        <span className="font-mono text-sm font-medium tracking-normal normal-case opacity-80">
+        <span className="font-mono text-sm font-medium tracking-normal normal-case">
           · {t("open247")}
         </span>
       </a>

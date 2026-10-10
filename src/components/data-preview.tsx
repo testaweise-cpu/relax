@@ -32,7 +32,7 @@ export async function DataPreview({ locale }: { locale: TimeLocale }) {
   return (
     <div>
       <p className="font-mono text-sm text-muted">
-        Quelle: <span className="text-cyan">{ds.name}</span> · {profiles.length}{" "}
+        Quelle: <span className="text-gold">{ds.name}</span> · {profiles.length}{" "}
         Profile · {presence.length} jetzt da · {shifts.length} Schichten (8
         Tage)
       </p>
@@ -62,7 +62,7 @@ export async function DataPreview({ locale }: { locale: TimeLocale }) {
           <dl className="mt-4 divide-y divide-line font-mono text-sm">
             {plan.map((d) => (
               <div key={d.key} className="flex justify-between gap-4 py-2">
-                <dt className={d.isToday ? "text-cyan" : "text-muted"}>
+                <dt className={d.isToday ? "text-gold" : "text-muted"}>
                   {d.weekday} {d.date}
                 </dt>
                 <dd className="text-right text-ink">
@@ -71,7 +71,7 @@ export async function DataPreview({ locale }: { locale: TimeLocale }) {
                     : d.slots.map((s) => (
                         <span
                           key={s.range}
-                          className={s.active ? "block text-cyan" : "block"}
+                          className={s.active ? "block text-gold" : "block"}
                         >
                           {s.range}
                         </span>
