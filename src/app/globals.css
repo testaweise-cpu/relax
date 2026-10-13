@@ -322,15 +322,15 @@
     background:
       linear-gradient(
         180deg,
-        color-mix(in oklab, var(--night) 72%, transparent) 0%,
-        color-mix(in oklab, var(--night) 52%, transparent) 45%,
-        color-mix(in oklab, var(--night) 58%, transparent) 75%,
+        color-mix(in oklab, var(--night) 62%, transparent) 0%,
+        color-mix(in oklab, var(--night) 36%, transparent) 45%,
+        color-mix(in oklab, var(--night) 46%, transparent) 75%,
         color-mix(in oklab, var(--wine) 22%, var(--night) 60%) 100%
       ),
       radial-gradient(
         120% 80% at 50% 40%,
         transparent 0%,
-        color-mix(in oklab, var(--night) 70%, transparent) 100%
+        color-mix(in oklab, var(--night) 60%, transparent) 100%
       );
   }
 

@@ -1,6 +1,7 @@
 /**
- * Hero-Hintergrund: kurzer Ambiente-Loop (10 s, ohne Ton) aus dem Werbevideo
- * der Altseite – nur Bar-, Lounge- und Raumszenen. Das vollständige Video
+ * Hero-Hintergrund: kurzer Ambiente-Loop (ca. 7 s, ohne Ton, leicht verlangsamt)
+ * aus dem Werbevideo der Altseite – nur Raumszenen ohne erkennbare Personen
+ * (Spiegelrahmen, Kamin, Zimmer). Standbild: Kamin. Das vollständige Video
  * liegt unter /media/mona-roses-werbevideo.mp4 (Galerie, Start per Klick).
  */
 export const HERO_VIDEO = {
