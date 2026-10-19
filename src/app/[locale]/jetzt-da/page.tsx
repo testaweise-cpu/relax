@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
 import { LivePresenceGrid } from "@/components/presence/live-presence";
 import { Section } from "@/components/ui/section";
+import { PAGE_VIDEO } from "@/lib/media/hero";
 import { getPresentProfiles } from "@/lib/data";
 import { toPresenceResponse } from "@/lib/data/presence-map";
 
@@ -33,6 +34,7 @@ export default async function NowPage({
   return (
     <Section
       level={1}
+      media={PAGE_VIDEO}
       eyebrow={t("eyebrow")}
       title={t("title")}
       intro={t("intro")}

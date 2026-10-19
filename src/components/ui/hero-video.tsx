@@ -61,11 +61,13 @@ export function HeroVideo({ media }: { media: HeroMedia }) {
         fetchPriority="high"
         sizes="100vw"
         className="hero-media-el"
+        style={{ objectPosition: media.position }}
       />
       {enabled && (
         <video
           ref={ref}
           className="hero-media-el"
+          style={{ objectPosition: media.position }}
           muted
           loop
           playsInline

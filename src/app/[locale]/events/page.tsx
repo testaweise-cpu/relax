@@ -6,6 +6,7 @@ import { connection } from "next/server";
 import { Paragraphs } from "@/components/rich-text";
 import { Badge } from "@/components/ui/badge";
 import { Section } from "@/components/ui/section";
+import { PAGE_VIDEO } from "@/lib/media/hero";
 import type { Locale } from "@/i18n/routing";
 import { getEvents, pick } from "@/lib/content";
 import { imageSize } from "@/lib/image-size";
@@ -97,7 +98,12 @@ export default async function EventsPage({
 
   return (
     <>
-      <Section level={1} eyebrow={t("eyebrow")} title={t("title")}>
+      <Section
+        level={1}
+        media={PAGE_VIDEO}
+        eyebrow={t("eyebrow")}
+        title={t("title")}
+      >
         <h2 className="sr-only">{t("upcoming")}</h2>
         {upcoming.length ? (
           list(upcoming, true)

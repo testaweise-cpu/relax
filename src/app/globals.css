@@ -357,6 +357,14 @@
         transparent 72%
       );
   }
+  /* Kopfbereich der Unterseiten: Video deutlich sichtbarer, nur eine
+     Überschrift darüber */
+  .hero-sky-soft .hero-tint {
+    opacity: 0.5;
+  }
+  .hero-sky-soft .hero-glow {
+    display: none;
+  }
   /* Weicher Übergang in den nächsten Abschnitt */
   .hero-sky::after {
     content: "";

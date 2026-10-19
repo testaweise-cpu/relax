@@ -227,7 +227,7 @@ export default async function StyleguidePage({
 
       <Block
         title="Medien aus der Altseite"
-        note="Raumfotos (Feb. 2025) in Keystatic unter „Galerie“, Metadaten entfernt. Das Werbevideo startet erst per Klick; der Hero nutzt nur einen 10-s-Ausschnitt mit Bar- und Raumszenen."
+        note="Raumfotos (Feb. 2025) in Keystatic unter „Galerie“, Metadaten entfernt. Das Werbevideo startet erst per Klick. Hintergrundvideos wie auf der Originalseite: Startseite (Stock-Video), Kopfbereich von Jetzt da, Events und Jobs (Silhouetten)."
       >
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {gallery.map((g) => (

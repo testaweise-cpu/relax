@@ -5,6 +5,7 @@ import { Faq } from "@/components/faq";
 import { ApplicationForm } from "@/components/jobs/application-form";
 import { Paragraphs } from "@/components/rich-text";
 import { Section } from "@/components/ui/section";
+import { PAGE_VIDEO } from "@/lib/media/hero";
 import type { Locale } from "@/i18n/routing";
 import { getFaq, getJobs, getSettings, pick } from "@/lib/content";
 import { telHref } from "@/lib/phone";
@@ -38,7 +39,12 @@ export default async function JobsPage({
 
   return (
     <>
-      <Section level={1} eyebrow={t("eyebrow")} title={pick(jobs.title, l)}>
+      <Section
+        level={1}
+        media={PAGE_VIDEO}
+        eyebrow={t("eyebrow")}
+        title={pick(jobs.title, l)}
+      >
         <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
           <Paragraphs text={pick(jobs.intro, l)} className="text-lg text-ink" />
           <div className="panel p-6">
