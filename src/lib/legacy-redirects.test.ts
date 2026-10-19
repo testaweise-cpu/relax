@@ -44,4 +44,10 @@ describe("Weiterleitungen der Altseite", () => {
       location: "/mieterinnen",
     });
   });
+  it.each(["//evil.com/", "/\\evil.com/", "//"])(
+    "leitet %s nie auf einen fremden Host um",
+    (path) => {
+      expect(resolveLegacy(path)).toBeNull();
+    },
+  );
 });

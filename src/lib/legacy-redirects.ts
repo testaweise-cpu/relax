@@ -24,6 +24,10 @@ const productMap: Record<string, string> = (
   products as { map: Record<string, string> }
 ).map;
 
+function isSafeLocalPath(path: string) {
+  return path.startsWith("/") && !path.startsWith("//") && !path.includes("\\");
+}
+
 export function resolveLegacy(pathname: string): LegacyResult {
   // WordPress nutzte abschließende Schrägstriche: /anwesenheit/ = /anwesenheit
   const path = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
@@ -58,8 +62,11 @@ export function resolveLegacy(pathname: string): LegacyResult {
   const target = STATIC_301[path];
   if (target) return { status: 301, location: target };
 
-  // Übrige Altadressen mit Schrägstrich am Ende → ohne Schrägstrich (z. B. /preise/)
-  if (pathname !== path) return { status: 301, location: path };
+  // Übrige Altadressen mit Schrägstrich am Ende → ohne Schrägstrich (z. B. /preise/).
+  // Nie auf "//host" oder Pfade mit "\\" umleiten (wären protokollrelativ, also
+  // fremde Hosts) – auch wenn Next.js solche Pfade heute schon vorher normalisiert.
+  if (pathname !== path && isSafeLocalPath(path))
+    return { status: 301, location: path };
 
   return null;
 }
