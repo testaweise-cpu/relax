@@ -17,6 +17,13 @@ const limiter = createRateLimiter({
   limit: env.RATE_LIMIT_PER_HOUR,
   windowMs: 3600_000,
 });
+// Ohne verlässliche Client-IP (TRUST_PROXY=false oder kein Header) teilen sich
+// alle einen Topf – damit nicht wenige Bewerbungen alle anderen sperren, ist er
+// großzügiger und begrenzt nur Massenversand.
+const sharedLimiter = createRateLimiter({
+  limit: env.RATE_LIMIT_PER_HOUR * 10,
+  windowMs: 3600_000,
+});
 
 async function clientIp() {
   const h = await headers();
@@ -62,14 +69,18 @@ export async function submitApplication(
     };
   }
 
-  if (!limiter.check(await clientIp()))
-    return { status: "error", reason: "rateLimited" };
+  // Erst Konfiguration prüfen: ein Versuch, der nie verschickt werden kann,
+  // soll nicht gegen das Limit zählen.
   if (!mailConfigured()) {
     console.error(
       "[jobs] SMTP nicht konfiguriert (SMTP_HOST, SMTP_FROM, JOBS_MAIL_TO)",
     );
     return { status: "error", reason: "notConfigured" };
   }
+  const ip = await clientIp();
+  const allowed =
+    ip === "unknown" ? sharedLimiter.check("all") : limiter.check(ip);
+  if (!allowed) return { status: "error", reason: "rateLimited" };
 
   const d = parsed.data;
   const rows: [string, string][] = [

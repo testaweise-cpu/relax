@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { AGE_COOKIE_MAX_AGE, AGE_GATE } from "@/lib/age-gate";
+import { AGE_COOKIE_MAX_AGE, AGE_GATE, sameOriginTarget } from "@/lib/age-gate";
 
 /**
  * Rückfall ohne JavaScript: Das Formular der Altersabfrage schickt hierher.
@@ -7,9 +7,10 @@ import { AGE_COOKIE_MAX_AGE, AGE_GATE } from "@/lib/age-gate";
  */
 export async function POST(request: NextRequest) {
   const form = await request.formData();
-  const back = String(form.get("return") ?? "/");
-  const target = back.startsWith("/") && !back.startsWith("//") ? back : "/";
-  const res = NextResponse.redirect(new URL(target, request.url), 303);
+  const res = NextResponse.redirect(
+    sameOriginTarget(String(form.get("return") ?? "/"), request.url),
+    303,
+  );
   res.cookies.set(AGE_GATE.cookieName, AGE_GATE.cookieValue, {
     maxAge: AGE_COOKIE_MAX_AGE,
     path: "/",

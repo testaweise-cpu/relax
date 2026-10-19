@@ -5,7 +5,11 @@ import { z } from "zod";
  * diese Schemas geprüft; ungültige Einträge werden geloggt und übersprungen.
  */
 
-const isoDateTime = z.iso.datetime({ offset: true });
+// ISO 8601 mit beliebigem Offset annehmen, aber einheitlich als UTC ("…Z")
+// weitergeben – so sind Zeichenkettenvergleiche (Sortierung) zugleich Zeitvergleiche.
+const isoDateTime = z.iso
+  .datetime({ offset: true })
+  .transform((s) => new Date(s).toISOString());
 
 export const imageSchema = z.object({
   url: z.string().min(1),

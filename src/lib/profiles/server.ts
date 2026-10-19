@@ -1,5 +1,6 @@
 import "server-only";
 import { connection } from "next/server";
+import { cache } from "react";
 import { getDataSource } from "@/lib/data";
 import type { TimeLocale } from "@/lib/time/shifts";
 import { buildCards, sortCards } from "./cards";
@@ -31,8 +32,12 @@ export async function getProfileCards(locale: TimeLocale) {
   };
 }
 
-/** Ein Profil mit Anwesenheit und Schichten der nächsten 30 Tage. */
-export async function getProfileDetail(slug: string) {
+/**
+ * Ein Profil mit Anwesenheit und Schichten der nächsten 30 Tage.
+ * Pro Request nur einmal geladen (Metadaten und Seite teilen sich das Ergebnis
+ * und damit denselben Zeitpunkt für die noindex-Entscheidung).
+ */
+export const getProfileDetail = cache(async (slug: string) => {
   await connection();
   const ds = getDataSource();
   const now = new Date();
@@ -51,4 +56,4 @@ export async function getProfileDetail(slug: string) {
     presence: presence.find((p) => p.profileId === profile.id) ?? null,
     shifts: shifts.filter((s) => s.profileId === profile.id),
   };
-}
+});

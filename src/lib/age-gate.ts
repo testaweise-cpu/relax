@@ -41,3 +41,18 @@ export function hasAgeConsent(cookie: string) {
     .split("; ")
     .includes(`${AGE_GATE.cookieName}=${AGE_GATE.cookieValue}`);
 }
+
+/**
+ * Rücksprungziel nur auf derselben Herkunft. Erst auflösen, dann vergleichen:
+ * Browser und `URL` lesen z. B. `/\\evil.com` als `//evil.com` (fremder Host).
+ */
+export function sameOriginTarget(back: string, requestUrl: string): URL {
+  const base = new URL(requestUrl);
+  try {
+    const target = new URL(back, base);
+    if (target.origin === base.origin) return target;
+  } catch {
+    // ungültige Angabe → Startseite
+  }
+  return new URL("/", base);
+}

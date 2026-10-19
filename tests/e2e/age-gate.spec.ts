@@ -83,6 +83,23 @@ test.describe("Altersabfrage", () => {
     expect((await ctx.cookies()).some((c) => c.name === "age_ok")).toBe(true);
     await ctx.close();
   });
+
+  test("ohne JavaScript bleibt die englische Seite englisch", async ({
+    browser,
+    baseURL,
+  }) => {
+    const ctx = await browser.newContext({
+      javaScriptEnabled: false,
+      storageState: { cookies: [], origins: [] },
+    });
+    const page = await ctx.newPage();
+    await page.goto(`${baseURL}/en/galerie`);
+    await page
+      .getByRole("button", { name: "I am at least 18 years old" })
+      .click();
+    await expect(page).toHaveURL(/\/en\/galerie$/);
+    await ctx.close();
+  });
 });
 
 test.describe("SEO-Grundlagen", () => {

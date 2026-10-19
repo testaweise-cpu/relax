@@ -157,7 +157,9 @@ docker run -d --name mona-roses --restart unless-stopped \
 - **Reverse Proxy:** TLS übernimmt der Proxy davor (z. B. Traefik in Coolify).
   `TRUST_PROXY=true` setzt voraus, dass genau **ein** Proxy den Header
   `X-Forwarded-For` ergänzt. Bei mehreren Proxys oder direktem Betrieb ohne
-  Proxy `TRUST_PROXY=false` setzen.
+  Proxy `TRUST_PROXY=false` setzen. Dann gibt es keine verlässliche Client-IP:
+  Das Bewerbungsformular nutzt ein gemeinsames Limit für alle (10 × `RATE_LIMIT_PER_HOUR`
+  pro Stunde), das nur Massenversand bremst.
 - **Eine Instanz:** Daten-Cache und Rate-Limit liegen im Container. Für diese
   Seite reicht eine Instanz. Bei mehreren Instanzen wären ein gemeinsamer
   Cache und ein gemeinsames Rate-Limit nötig.

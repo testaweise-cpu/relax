@@ -1,8 +1,9 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
 import {
   AGE_COOKIE_MAX_AGE,
   AGE_GATE,
@@ -29,6 +30,12 @@ function setInert(on: boolean) {
 export function AgeGate() {
   const t = useTranslations("ageGate");
   const pathname = usePathname();
+  const locale = useLocale();
+  // Rücksprung für das Formular ohne JavaScript: mit Sprachpräfix (EN unter /en)
+  const returnPath =
+    locale === routing.defaultLocale
+      ? pathname
+      : `/${locale}${pathname === "/" ? "" : pathname}`;
   const confirmRef = useRef<HTMLButtonElement>(null);
   const exempt = isExemptPath(pathname);
 
@@ -82,7 +89,7 @@ export function AgeGate() {
           onSubmit={confirm}
           className="mt-8 flex flex-col gap-3"
         >
-          <input type="hidden" name="return" value={pathname} />
+          <input type="hidden" name="return" value={returnPath} />
           <button
             ref={confirmRef}
             type="submit"

@@ -38,4 +38,10 @@ describe("Weiterleitungen der Altseite", () => {
     expect(resolveLegacy("/mieterinnen/aurora")).toBeNull();
     expect(resolveLegacy("/en/preise")).toBeNull();
   });
+  it("kaputte %-Kodierung im Produkt-Slug führt nicht zum Fehler", () => {
+    expect(resolveLegacy("/product/100%")).toEqual({
+      status: 301,
+      location: "/mieterinnen",
+    });
+  });
 });

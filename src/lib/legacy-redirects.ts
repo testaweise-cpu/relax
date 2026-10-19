@@ -39,9 +39,12 @@ export function resolveLegacy(pathname: string): LegacyResult {
   }
 
   if (path.startsWith("/product/")) {
-    const slug = decodeURIComponent(
-      path.slice("/product/".length).split("/")[0] ?? "",
-    );
+    const raw = path.slice("/product/".length).split("/")[0] ?? "";
+    // kaputte %-Kodierung (z. B. "/product/100%") → keine Zuordnung, kein Fehler
+    let slug = "";
+    try {
+      slug = decodeURIComponent(raw);
+    } catch {}
     const target = productMap[slug];
     return {
       status: 301,

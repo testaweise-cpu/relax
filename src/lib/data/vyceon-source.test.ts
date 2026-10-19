@@ -1,5 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createVyceonSource, resetVyceonFallbackCache } from "./vyceon-source";
+import {
+  createVyceonSource,
+  PRESENCE_FALLBACK_MAX_AGE_MS,
+  resetVyceonFallbackCache,
+} from "./vyceon-source";
 
 const config = {
   apiUrl: "https://api.vyceon.test/v1/",
@@ -75,6 +79,42 @@ describe("VyceON-Quelle", () => {
     fetchMock.mockResolvedValueOnce(respond({ error: "down" }, 503));
     const again = await source.listProfiles();
     expect(again.map((p) => p.slug)).toEqual(["lydia"]);
+  });
+
+  it("Antwort ohne Liste gilt als Ausfall und überschreibt nicht die letzten Daten", async () => {
+    const source = createVyceonSource(config);
+    fetchMock.mockResolvedValueOnce(respond([validProfile]));
+    await source.listProfiles();
+    fetchMock.mockResolvedValueOnce(respond({ error: "maintenance" }));
+    const during = await source.listProfiles();
+    expect(during.map((p) => p.slug)).toEqual(["lydia"]);
+  });
+
+  it("Zeitstempel mit Offset werden als UTC normalisiert", async () => {
+    fetchMock.mockResolvedValue(respond([validProfile]));
+    const [p] = await createVyceonSource(config).listProfiles();
+    expect(p.updatedAt).toBe("2026-10-01T08:00:00.000Z");
+  });
+
+  it("veraltete Anwesenheit wird bei Ausfall nicht endlos weiter gezeigt", async () => {
+    vi.useFakeTimers({ now: new Date("2026-10-19T18:00:00Z") });
+    try {
+      const source = createVyceonSource(config);
+      fetchMock.mockResolvedValueOnce(
+        respond([{ profileId: "p1", since: "2026-10-19T19:00:00+02:00" }]),
+      );
+      expect(await source.getPresence()).toHaveLength(1);
+
+      fetchMock.mockRejectedValueOnce(new Error("ECONNREFUSED"));
+      vi.advanceTimersByTime(PRESENCE_FALLBACK_MAX_AGE_MS - 60_000);
+      expect(await source.getPresence()).toHaveLength(1);
+
+      fetchMock.mockRejectedValueOnce(new Error("ECONNREFUSED"));
+      vi.advanceTimersByTime(2 * 60_000);
+      expect(await source.getPresence()).toEqual([]);
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it("unbekanntes Profil (404) ergibt null", async () => {

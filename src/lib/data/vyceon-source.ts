@@ -29,16 +29,20 @@ export type VyceonConfig = {
 class NotFoundError extends Error {}
 
 /** Letzte erfolgreiche Antworten pro Prozess – Rückfall, falls VyceON ausfällt. */
-const lastGood = new Map<string, unknown>();
+const lastGood = new Map<string, { value: unknown; at: number }>();
+
+/** Anwesenheit veraltet schnell: länger als 15 Minuten nicht als „jetzt da“ zeigen. */
+export const PRESENCE_FALLBACK_MAX_AGE_MS = 15 * 60_000;
 
 async function withFallback<T>(
   key: string,
   load: () => Promise<T>,
   empty: T,
+  maxAgeMs = Infinity,
 ): Promise<T> {
   try {
     const value = await load();
-    lastGood.set(key, value);
+    lastGood.set(key, { value, at: Date.now() });
     return value;
   } catch (error) {
     if (error instanceof NotFoundError) throw error;
@@ -46,7 +50,8 @@ async function withFallback<T>(
       `[vyceon] ${key} fehlgeschlagen – nutze letzte bekannte Daten:`,
       error,
     );
-    return lastGood.has(key) ? (lastGood.get(key) as T) : empty;
+    const last = lastGood.get(key);
+    return last && Date.now() - last.at <= maxAgeMs ? (last.value as T) : empty;
   }
 }
 
@@ -56,11 +61,15 @@ export function resetVyceonFallbackCache() {
 }
 
 // ANNAHME: Listen kommen entweder direkt als Array oder als { data: [...] }.
-function unwrapList(json: unknown): unknown {
-  if (Array.isArray(json)) return json;
-  if (json && typeof json === "object" && "data" in json)
-    return (json as { data: unknown }).data;
-  return json;
+// Alles andere gilt als Fehler, damit der Rückfall auf die letzten Daten greift
+// (statt eine leere Liste als „Erfolg“ zu speichern).
+function unwrapList(json: unknown): unknown[] {
+  const list =
+    json && typeof json === "object" && !Array.isArray(json) && "data" in json
+      ? (json as { data: unknown }).data
+      : json;
+  if (!Array.isArray(list)) throw new Error("VyceON: Liste erwartet");
+  return list;
 }
 
 // ANNAHME: Einzelobjekte kommen direkt oder als { data: {...} }.
@@ -121,7 +130,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
           const list = unwrapList(json);
           return parseList(
             profileSchema,
-            Array.isArray(list) ? list.map(fromApiProfile) : list,
+            list.map(fromApiProfile),
             "vyceon.profiles",
           );
         },
@@ -183,7 +192,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
           const list = unwrapList(json);
           return parseList(
             shiftSchema,
-            Array.isArray(list) ? list.map(fromApiShift) : list,
+            list.map(fromApiShift),
             "vyceon.shifts",
           );
         },
@@ -206,11 +215,12 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
           const list = unwrapList(json);
           return parseList(
             presenceSchema,
-            Array.isArray(list) ? list.map(fromApiPresence) : list,
+            list.map(fromApiPresence),
             "vyceon.presence",
           );
         },
         [],
+        PRESENCE_FALLBACK_MAX_AGE_MS,
       );
     },
   };
