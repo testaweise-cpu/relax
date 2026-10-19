@@ -5,19 +5,20 @@ mona-roses.com selbst ändern. Technische Kenntnisse sind nicht nötig.
 
 ## Auf einen Blick
 
-| Was                                                           | Wo wird es gepflegt?                                |
-| ------------------------------------------------------------- | --------------------------------------------------- |
-| Kontaktdaten, Öffnungszeiten, Anfahrt                         | Keystatic → **Kontakt & Öffnungszeiten**            |
-| Startseite (Untertitel, Vorstellung, Highlights)              | Keystatic → **Startseite**                          |
-| Zimmerpreise                                                  | Keystatic → **Zimmerpreise**                        |
-| Jobs-Seite (Texte, Mindestalter, Vorteile)                    | Keystatic → **Jobs**                                |
-| Häufige Fragen                                                | Keystatic → **FAQ**                                 |
-| Events und Neuigkeiten                                        | Keystatic → **Events & News**                       |
-| Raumfotos                                                     | Keystatic → **Galerie**                             |
-| Rechtlicher Hinweis („keine sexuellen Dienstleistungen“)      | Keystatic → **Rechtlicher Hinweis**                 |
-| Impressum, Datenschutzerklärung                               | Keystatic → **Impressum**, **Datenschutzerklärung** |
-| **Mieterinnen, Fotos der Mieterinnen, Schichten, „Jetzt da“** | **VyceON** – nicht in Keystatic                     |
-| Feste Texte der Oberfläche (Menü, Buttons, Formular)          | Entwickler (Datei `src/messages`)                   |
+| Was                                                           | Wo wird es gepflegt?                                 |
+| ------------------------------------------------------------- | ---------------------------------------------------- |
+| Kontaktdaten, Öffnungszeiten, Anfahrt                         | Keystatic → **Kontakt & Öffnungszeiten**             |
+| Startseite (Untertitel, Vorstellung, Highlights)              | Keystatic → **Startseite**                           |
+| Zimmerpreise                                                  | Keystatic → **Zimmerpreise**                         |
+| Jobs-Seite (Texte, Mindestalter, Vorteile)                    | Keystatic → **Jobs**                                 |
+| Häufige Fragen                                                | Keystatic → **FAQ**                                  |
+| Events und Neuigkeiten                                        | Keystatic → **Events & News**                        |
+| Raumfotos                                                     | Keystatic → **Galerie**                              |
+| Rechtlicher Hinweis („keine sexuellen Dienstleistungen“)      | Keystatic → **Rechtlicher Hinweis**                  |
+| Impressum, Datenschutzerklärung                               | Keystatic → **Impressum**, **Datenschutzerklärung**  |
+| **Mieterinnen, Fotos der Mieterinnen, Schichten, „Jetzt da“** | **VyceON** – nicht in Keystatic                      |
+| Feste Texte der Oberfläche (Menü, Buttons, Formular)          | Entwickler (Datei `src/messages`)                    |
+| Hintergrundvideos (Startseite, Kopf von Jetzt da/Events/Jobs) | Entwickler (`public/media`, `src/lib/media/hero.ts`) |
 
 ## Anmelden
 
