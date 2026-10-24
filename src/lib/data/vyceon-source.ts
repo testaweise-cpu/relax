@@ -13,9 +13,9 @@ import {
 /**
  * Anbindung an die VyceON-API (Vyce69).
  *
- * Die API wird parallel entwickelt. ALLE Annahmen über Endpunkte, Felder und
- * Authentifizierung stehen in dieser Datei und sind mit "ANNAHME:" markiert.
- * Offene Punkte: docs/vyceon-fragen.md
+ * Umgesetzt nach der verbindlichen Spezifikation docs/vyceon-schnittstelle.md
+ * (OpenAPI: docs/vyceon-api.yaml). Verweise "§n" beziehen sich auf deren
+ * Abschnitte. Die Beispiele in docs/vyceon-beispiele/ prüft ein Contract-Test.
  */
 
 export type VyceonConfig = {
@@ -60,7 +60,7 @@ export function resetVyceonFallbackCache() {
   lastGood.clear();
 }
 
-// ANNAHME: Listen kommen entweder direkt als Array oder als { data: [...] }.
+// §2: Antworten haben die Form { data: [...] }. Ein nacktes Array wird toleriert.
 // Alles andere gilt als Fehler, damit der Rückfall auf die letzten Daten greift
 // (statt eine leere Liste als „Erfolg“ zu speichern).
 function unwrapList(json: unknown): unknown[] {
@@ -72,16 +72,16 @@ function unwrapList(json: unknown): unknown[] {
   return list;
 }
 
-// ANNAHME: Einzelobjekte kommen direkt oder als { data: {...} }.
+// §2: Einzelobjekte kommen als { data: {...} }.
 function unwrapOne(json: unknown): unknown {
-  if (json && typeof json === "object" && "data" in json && !("slug" in json)) {
+  if (json && typeof json === "object" && "data" in json) {
     return (json as { data: unknown }).data;
   }
   return json;
 }
 
-// ANNAHME: Feldnamen der API entsprechen unserem Modell (camelCase).
-// Weicht die echte API ab, wird NUR diese Funktion angepasst.
+// §4: Die Feldnamen der API entsprechen dem Modell der Website (camelCase).
+// Sollte VyceON einmal abweichen, werden NUR diese Funktionen angepasst.
 function fromApiProfile(raw: unknown): unknown {
   return raw;
 }
@@ -102,7 +102,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
   ) {
     const res = await fetch(`${base}${path}`, {
       headers: {
-        // ANNAHME: Authentifizierung per Bearer-Token.
+        // §1: Bearer-Token, nur lesend, ein Schlüssel pro Club.
         Authorization: `Bearer ${config.apiKey}`,
         Accept: "application/json",
       },
@@ -122,7 +122,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
       return withFallback(
         "profiles",
         async () => {
-          // ANNAHME: GET /clubs/:clubId/profiles liefert alle aktiven Profile.
+          // §3.1: alle auf der Website sichtbaren Profile, ohne Paginierung.
           const json = await getJson(`/clubs/${club}/profiles`, {
             revalidate: REVALIDATE.profiles,
             tags: [TAGS.profiles],
@@ -143,7 +143,8 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
         return await withFallback(
           `profile:${slug}`,
           async () => {
-            // ANNAHME: GET /clubs/:clubId/profiles/:slug, 404 wenn unbekannt.
+            // §3.2: 404 bei unbekanntem Slug; ein alter Slug liefert das umbenannte
+            // Profil (die Seite leitet dann auf den neuen Slug um).
             const json = await getJson(
               `/clubs/${club}/profiles/${encodeURIComponent(slug)}`,
               {
@@ -179,8 +180,8 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
       const shifts = await withFallback(
         key,
         async () => {
-          // ANNAHME: GET /clubs/:clubId/shifts?from=ISO&to=ISO liefert Schichten,
-          // die den Zeitraum berühren; Zeiten als ISO 8601 mit Offset.
+          // §3.3: alle Schichten, die den Zeitraum berühren; Zeiten ISO 8601 mit
+          // Offset; höchstens 45 Tage pro Anfrage.
           const qs = new URLSearchParams({
             from: fromDay.toISOString(),
             to: toDay.toISOString(),
@@ -207,7 +208,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
       return withFallback(
         "presence",
         async () => {
-          // ANNAHME: GET /clubs/:clubId/presence liefert die aktuell Eingecheckten.
+          // §3.4: aktuell Eingecheckte (Check-in, nicht aus dem Schichtplan).
           const json = await getJson(`/clubs/${club}/presence`, {
             revalidate: REVALIDATE.presence,
             tags: [TAGS.presence],

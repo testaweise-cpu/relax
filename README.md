@@ -16,12 +16,13 @@ Berlin-Steglitz, rund um die Uhr geöffnet.
 
 Weitere Dokumente:
 
-| Datei                                            | Inhalt                                        |
-| ------------------------------------------------ | --------------------------------------------- |
-| [`docs/redaktion.md`](docs/redaktion.md)         | Anleitung für die Redaktion (Keystatic)       |
-| [`docs/offene-fragen.md`](docs/offene-fragen.md) | Offene Fragen an den Kunden                   |
-| [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md) | Offene Fragen an das VyceON-Team              |
-| [`src/content/todos.md`](src/content/todos.md)   | Widersprüche aus den Altinhalten (als `TODO`) |
+| Datei                                                          | Inhalt                                                         |
+| -------------------------------------------------------------- | -------------------------------------------------------------- |
+| [`docs/redaktion.md`](docs/redaktion.md)                       | Anleitung für die Redaktion (Keystatic)                        |
+| [`docs/offene-fragen.md`](docs/offene-fragen.md)               | Offene Fragen an den Kunden                                    |
+| [`docs/vyceon-schnittstelle.md`](docs/vyceon-schnittstelle.md) | Verbindliche VyceON-Schnittstelle (mit OpenAPI und Beispielen) |
+| [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md)               | Was VyceON noch liefern muss                                   |
+| [`src/content/todos.md`](src/content/todos.md)                 | Widersprüche aus den Altinhalten (als `TODO`)                  |
 
 ---
 
@@ -115,7 +116,7 @@ eingebettet. **Laufzeit** = wird beim Start des Containers gesetzt.
 | `VYCEON_API_URL`                        | Laufzeit | bei `vyceon`            | Basis-URL der API                                                                |
 | `VYCEON_API_KEY`                        | Laufzeit | bei `vyceon`            | API-Schlüssel                                                                    |
 | `VYCEON_CLUB_ID`                        | Laufzeit | bei `vyceon`            | Kennung von Mona Roses bei VyceON                                                |
-| `VYCEON_WEBHOOK_SECRET`                 | Laufzeit | für den Webhook         | Gemeinsames Geheimnis, mind. 16 Zeichen (`openssl rand -hex 32`)                 |
+| `VYCEON_WEBHOOK_SECRET`                 | Laufzeit | für den Webhook         | Gemeinsames Geheimnis, mind. 32 Zeichen (`openssl rand -hex 32`)                 |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | Laufzeit | fürs Bewerbungsformular | Mailserver; `SMTP_SECURE=true` bei Port 465, sonst `false` (STARTTLS)            |
 | `SMTP_USER`, `SMTP_PASS`                | Laufzeit | je nach Server          | Zugangsdaten                                                                     |
 | `SMTP_FROM`                             | Laufzeit | fürs Bewerbungsformular | Absender, z. B. `"Mona Roses Website <noreply@mona-roses.com>"`                  |
@@ -201,11 +202,16 @@ geprüft.
 aktuellen Uhrzeit. Fotos und Namen sind erfunden, keine echten Personen.
 `DATA_SOURCE=vyceon` holt die echten Daten (`src/lib/data/vyceon-source.ts`).
 
-Viele Details der VyceON-API sind noch **Annahmen** und mit `ANNAHME`
-markiert: Endpunkte, Felder, Ereignisnamen, Signaturformat. Die zugehörigen
-Fragen stehen in [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md). Sobald die
-API dokumentiert ist, werden nur `vyceon-source.ts` und `webhook.ts`
-angepasst. Die Seiten bleiben unverändert.
+Die Schnittstelle ist in
+[`docs/vyceon-schnittstelle.md`](docs/vyceon-schnittstelle.md) verbindlich
+festgelegt (OpenAPI: `docs/vyceon-api.yaml`, Beispiele:
+`docs/vyceon-beispiele/`). Die Website ist genau darauf gebaut; ein
+Contract-Test (`src/lib/data/vyceon-contract.test.ts`) prüft, dass sie die
+Beispiele korrekt verarbeitet. Was VyceON noch liefern muss (Testumgebung,
+Zugangsdaten, Bild-Host), steht in [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md).
+
+Umbenannte Profile: VyceON liefert sie auch unter dem alten Slug aus; die
+Website leitet dann dauerhaft (308) auf die neue Adresse um.
 
 ### Aktualität und Cache
 
@@ -228,20 +234,21 @@ Damit Änderungen sofort sichtbar sind (statt nach bis zu 5 Minuten), schickt
 VyceON bei jeder Änderung einen Webhook:
 
 - **Adresse:** `POST https://www.mona-roses.com/api/revalidate`
-- **Geheimnis:** `VYCEON_WEBHOOK_SECRET` (auf beiden Seiten gleich, mind. 16
+- **Geheimnis:** `VYCEON_WEBHOOK_SECRET` (auf beiden Seiten gleich, mind. 32
   Zeichen). Ohne Geheimnis antwortet der Endpunkt mit `503`.
 - **Header `X-Vyceon-Timestamp`:** Unix-Zeit in Sekunden. Darf höchstens
   5 Minuten abweichen, als Schutz gegen wiederholte Anfragen.
 - **Header `X-Vyceon-Signature`:** `sha256=` + HMAC-SHA256 als Hex über
   `<timestamp>.<roher Body>`.
-- **Body (JSON):** `{"type": "<ereignis>", "data": {"slug": "…"}}`
+- **Body (JSON):** `{"id": "evt_…", "type": "<ereignis>", "data": {"profileId": "…", "slug": "…", "previousSlug": "…"}}`
+  (Einzelheiten und Wiederholungsregeln: Spezifikation §6)
 
-| Ereignis (`type`)                       | Geleert                            |
-| --------------------------------------- | ---------------------------------- |
-| `profile.*` (z. B. `profile.updated`)   | Profilliste und betroffene Profile |
-| `shift.*`                               | Schichten                          |
-| `presence.*`, `checkin.*`, `checkout.*` | Anwesenheit                        |
-| unbekannt                               | alles                              |
+| Ereignis (`type`)                       | Geleert                                              |
+| --------------------------------------- | ---------------------------------------------------- |
+| `profile.*` (z. B. `profile.updated`)   | Profilliste und betroffene Profile (auch alter Slug) |
+| `shift.*`                               | Schichten                                            |
+| `presence.checkin`, `presence.checkout` | Anwesenheit                                          |
+| unbekannt                               | alles                                                |
 
 Antworten: `200 {"revalidated":[…]}`, `401` bei falscher oder veralteter
 Signatur, `400` bei ungültigem JSON.

@@ -1,0 +1,55 @@
+{
+  "data": [
+    {
+      "id": "prf_8f3k2",
+      "slug": "aurora",
+      "name": "Aurora",
+      "isNew": false,
+      "isBack": true,
+      "gender": "female",
+      "languages": ["de", "en"],
+      "origin": "DE",
+      "heightCm": 172,
+      "cupSize": "C",
+      "shoeSize": 39,
+      "weightKg": 58,
+      "services": [
+        { "id": "massage", "de": "Massage", "en": "Massage" },
+        { "id": "tabledance", "de": "Tabledance", "en": "Table dance" },
+        { "id": "bar", "de": "Gesellschaft an der Bar" }
+      ],
+      "personalNote": {
+        "de": "Ich liebe gute Gespräche an der Bar und lange Abende mit Musik.",
+        "en": "I love good conversations at the bar and long evenings with music."
+      },
+      "images": [
+        {
+          "url": "https://img.vyceon.example/clubs/mona-roses/prf_8f3k2/1.jpg",
+          "width": 1200,
+          "height": 1600,
+          "alt": "Aurora im roten Kleid an der Bar"
+        },
+        {
+          "url": "https://img.vyceon.example/clubs/mona-roses/prf_8f3k2/2.jpg",
+          "width": 1200,
+          "height": 1600
+        }
+      ],
+      "updatedAt": "2026-10-20T14:05:00+02:00"
+    },
+    {
+      "id": "prf_2m9qa",
+      "slug": "bella",
+      "name": "Bella",
+      "isNew": true,
+      "isBack": false,
+      "gender": "female",
+      "languages": ["ro", "en"],
+      "origin": "RO",
+      "services": [],
+      "images": [],
+      "updatedAt": "2026-10-22T09:30:00Z"
+    }
+  ],
+  "meta": { "generatedAt": "2026-10-24T18:00:00+02:00" }
+}

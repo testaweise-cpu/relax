@@ -1,0 +1,10 @@
+{
+  "id": "evt_01JB7Q2W8M",
+  "type": "profile.updated",
+  "occurredAt": "2026-10-24T18:01:12+02:00",
+  "data": {
+    "profileId": "prf_8f3k2",
+    "slug": "aurora",
+    "previousSlug": "aurora-berlin"
+  }
+}

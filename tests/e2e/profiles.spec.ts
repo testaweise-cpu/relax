@@ -82,3 +82,18 @@ test.describe("Jetzt da", () => {
     expect(calls).toBe(1);
   });
 });
+
+test("umbenanntes Profil: alte Adresse leitet dauerhaft auf die neue um", async ({
+  request,
+  isMobile,
+}) => {
+  test.skip(!!isMobile, "einmal reicht");
+  for (const [from, to] of [
+    ["/mieterinnen/aurora-berlin", "/mieterinnen/aurora"],
+    ["/en/mieterinnen/aurora-berlin", "/en/mieterinnen/aurora"],
+  ]) {
+    const res = await request.get(from, { maxRedirects: 0 });
+    expect(res.status(), from).toBe(308);
+    expect(new URL(res.headers().location, "http://x").pathname).toBe(to);
+  }
+});

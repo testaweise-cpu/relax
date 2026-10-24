@@ -17,7 +17,7 @@ const schema = z
     VYCEON_API_URL: z.url().optional(),
     VYCEON_API_KEY: z.string().min(1).optional(),
     VYCEON_CLUB_ID: z.string().min(1).optional(),
-    VYCEON_WEBHOOK_SECRET: z.string().min(16).optional(),
+    VYCEON_WEBHOOK_SECRET: z.string().min(32).optional(),
     VYCEON_IMAGE_HOST: z.string().optional(),
 
     SMTP_HOST: z.string().optional(),

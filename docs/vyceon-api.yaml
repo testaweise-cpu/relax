@@ -1,0 +1,357 @@
+openapi: 3.1.0
+info:
+  title: VyceON – Schnittstelle für mona-roses.com
+  version: 1.0.0
+  license:
+    name: Proprietär – nur für die Anbindung von mona-roses.com
+  description: |
+    Lesende Schnittstelle für Profile, Schichten und Anwesenheit eines Clubs
+    sowie der Webhook VyceON → Website. Erläuterungen und Regeln:
+    docs/vyceon-schnittstelle.md (Abschnittsnummern §n beziehen sich darauf).
+servers:
+  - url: https://{host}/v1
+    variables:
+      host:
+        default: api.vyceon.example
+        description: Host der VyceON-API (Website-Variable VYCEON_API_URL)
+security:
+  - bearer: []
+
+paths:
+  /clubs/{clubId}/profiles:
+    get:
+      operationId: listProfiles
+      summary: Alle auf der Website sichtbaren Profile (§3.1)
+      description: Vollständige Liste ohne Paginierung, höchstens 500 Einträge.
+      parameters:
+        - $ref: "#/components/parameters/clubId"
+      responses:
+        "200":
+          description: Profile
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    maxItems: 500
+                    items: { $ref: "#/components/schemas/Profile" }
+                  meta: { $ref: "#/components/schemas/ListMeta" }
+              examples:
+                beispiel:
+                  externalValue: vyceon-beispiele/profiles.json
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /clubs/{clubId}/profiles/{slug}:
+    get:
+      operationId: getProfile
+      summary: Ein Profil (§3.2)
+      description: |
+        Unbekannter, inaktiver oder gesperrter Slug → 404. Ein früherer Slug
+        eines umbenannten Profils liefert 200 mit dem aktuellen Profil (Feld
+        `slug` = neuer Slug); die Website leitet dann dauerhaft um.
+      parameters:
+        - $ref: "#/components/parameters/clubId"
+        - name: slug
+          in: path
+          required: true
+          schema: { $ref: "#/components/schemas/Slug" }
+      responses:
+        "200":
+          description: Profil
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data: { $ref: "#/components/schemas/Profile" }
+              examples:
+                beispiel:
+                  externalValue: vyceon-beispiele/profile.json
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404":
+          description: Profil unbekannt oder nicht sichtbar
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+              examples:
+                beispiel:
+                  externalValue: vyceon-beispiele/fehler-404.json
+
+  /clubs/{clubId}/shifts:
+    get:
+      operationId: listShifts
+      summary: Schichten, die den Zeitraum berühren (§3.3)
+      description: |
+        Alle Schichten sichtbarer Profile mit `start < to` und `end > from`.
+        Abgesagte Schichten fehlen. Zeitraum höchstens 45 Tage.
+      parameters:
+        - $ref: "#/components/parameters/clubId"
+        - name: from
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+        - name: to
+          in: query
+          required: true
+          schema: { type: string, format: date-time }
+      responses:
+        "200":
+          description: Schichten
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Shift" }
+                  meta: { $ref: "#/components/schemas/ListMeta" }
+              examples:
+                beispiel:
+                  externalValue: vyceon-beispiele/shifts.json
+        "400":
+          description: Zeitraum ungültig oder länger als 45 Tage
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+  /clubs/{clubId}/presence:
+    get:
+      operationId: getPresence
+      summary: Aktuell eingecheckte Profile (§3.4)
+      parameters:
+        - $ref: "#/components/parameters/clubId"
+      responses:
+        "200":
+          description: Anwesenheit
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/Presence" }
+                  meta: { $ref: "#/components/schemas/ListMeta" }
+              examples:
+                beispiel:
+                  externalValue: vyceon-beispiele/presence.json
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+
+webhooks:
+  vyceonEvent:
+    post:
+      operationId: receiveVyceonEvent
+      summary: Änderung in VyceON (§6)
+      description: |
+        Ziel: POST https://www.mona-roses.com/api/revalidate.
+        Signatur: `X-Vyceon-Signature: sha256=<hex>` mit
+        HMAC-SHA256(VYCEON_WEBHOOK_SECRET, "<X-Vyceon-Timestamp>.<roher Body>").
+        Zeitstempel höchstens 5 Minuten alt. Wiederholung bei Netzwerkfehler,
+        Zeitüberschreitung (10 s) oder 5xx bis zu 24 Stunden.
+      parameters:
+        - name: X-Vyceon-Timestamp
+          in: header
+          required: true
+          schema: { type: string, pattern: "^[0-9]+$" }
+          description: Unix-Zeit in Sekunden
+        - name: X-Vyceon-Signature
+          in: header
+          required: true
+          schema: { type: string, pattern: "^sha256=[0-9a-f]{64}$" }
+        - name: X-Vyceon-Event-Id
+          in: header
+          required: false
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/WebhookEvent" }
+            examples:
+              umbenennung:
+                externalValue: vyceon-beispiele/webhook-profile-updated.json
+              checkin:
+                externalValue: vyceon-beispiele/webhook-presence-checkin.json
+      responses:
+        "200": { description: Verarbeitet }
+        "400": { description: Body ungültig (nicht wiederholen) }
+        "401":
+          { description: Signatur oder Zeitstempel falsch (nicht wiederholen) }
+        "503": { description: Webhook auf der Website nicht eingerichtet }
+
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+      description: Nur lesender Schlüssel, einer pro Club (§1)
+
+  parameters:
+    clubId:
+      name: clubId
+      in: path
+      required: true
+      schema: { type: string }
+      description: Kennung des Clubs (Website-Variable VYCEON_CLUB_ID)
+
+  responses:
+    Unauthorized:
+      description: Schlüssel fehlt oder ungültig
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+    Forbidden:
+      description: Schlüssel gilt nicht für diesen Club
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+
+  schemas:
+    DateTime:
+      type: string
+      format: date-time
+      description: ISO 8601 mit Offset oder Z, z. B. 2026-10-24T16:00:00+02:00
+      pattern: "(Z|[+-][0-9]{2}:[0-9]{2})$"
+
+    Slug:
+      type: string
+      pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      examples: [aurora, mia-rose]
+
+    LocalizedText:
+      type: object
+      required: [de]
+      properties:
+        de: { type: string, minLength: 1 }
+        en:
+          {
+            type: string,
+            minLength: 1,
+            description: Fehlt → Website zeigt Deutsch,
+          }
+
+    Service:
+      allOf:
+        - $ref: "#/components/schemas/LocalizedText"
+        - type: object
+          properties:
+            id:
+              type: string
+              description: Stabiler Schlüssel aus fester Liste in VyceON (empfohlen)
+
+    Image:
+      type: object
+      required: [url, width, height]
+      properties:
+        url:
+          type: string
+          format: uri
+          description: Absolute https-URL auf dem festen Bild-Host (VYCEON_IMAGE_HOST)
+        width: { type: integer, minimum: 1 }
+        height: { type: integer, minimum: 1 }
+        alt: { type: string, description: Bildbeschreibung (Deutsch) }
+
+    Profile:
+      type: object
+      required: [id, slug, name, updatedAt]
+      properties:
+        id: { type: string, description: "Stabil, ändert sich nie" }
+        slug: { $ref: "#/components/schemas/Slug" }
+        name: { type: string, minLength: 1, maxLength: 40 }
+        isNew: { type: boolean, default: false }
+        isBack: { type: boolean, default: false }
+        gender: { type: string, default: female }
+        languages:
+          type: array
+          items: { type: string, pattern: "^[a-z]{2}$" }
+          description: ISO-639-1, klein
+        origin:
+          type: string
+          pattern: "^[A-Z]{2}$"
+          description: ISO-3166-1 alpha-2, groß
+        heightCm: { type: integer, minimum: 120, maximum: 230 }
+        cupSize: { type: string }
+        shoeSize: { type: number, minimum: 30, maximum: 50, description: EU }
+        weightKg: { type: number, minimum: 30, maximum: 200 }
+        services:
+          type: array
+          items: { $ref: "#/components/schemas/Service" }
+        personalNote: { $ref: "#/components/schemas/LocalizedText" }
+        images:
+          type: array
+          items: { $ref: "#/components/schemas/Image" }
+          description: Reihenfolge = Anzeige; erstes Bild = Titelbild
+        updatedAt: { $ref: "#/components/schemas/DateTime" }
+
+    Shift:
+      type: object
+      required: [id, profileId, start, end]
+      properties:
+        id: { type: string }
+        profileId: { type: string }
+        start: { $ref: "#/components/schemas/DateTime" }
+        end:
+          $ref: "#/components/schemas/DateTime"
+          description: Nach start; über Mitternacht erlaubt
+
+    Presence:
+      type: object
+      required: [profileId, since]
+      properties:
+        profileId: { type: string }
+        since: { $ref: "#/components/schemas/DateTime" }
+        until: { $ref: "#/components/schemas/DateTime" }
+
+    ListMeta:
+      type: object
+      properties:
+        generatedAt: { $ref: "#/components/schemas/DateTime" }
+
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, examples: [not_found, unauthorized] }
+            message: { type: string }
+
+    WebhookEvent:
+      type: object
+      required: [type]
+      properties:
+        id: { type: string }
+        type:
+          type: string
+          examples:
+            - profile.created
+            - profile.updated
+            - profile.deleted
+            - shift.created
+            - shift.updated
+            - shift.deleted
+            - presence.checkin
+            - presence.checkout
+        occurredAt: { $ref: "#/components/schemas/DateTime" }
+        data:
+          type: object
+          properties:
+            profileId: { type: string }
+            slug: { $ref: "#/components/schemas/Slug" }
+            previousSlug:
+              $ref: "#/components/schemas/Slug"
+              description: Alter Slug bei Umbenennung

@@ -1,0 +1,6 @@
+{
+  "id": "evt_01JB7Q3K1Z",
+  "type": "presence.checkin",
+  "occurredAt": "2026-10-24T16:05:00+02:00",
+  "data": { "profileId": "prf_8f3k2", "slug": "aurora" }
+}

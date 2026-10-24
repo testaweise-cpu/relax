@@ -11,7 +11,20 @@ import type { Presence, Profile, Shift } from "./types";
  * gleiche Schichten), damit Seiten und Tests stabil bleiben.
  */
 
-type Seed = Omit<Profile, "id" | "slug" | "images" | "updatedAt" | "gender"> & {
+/** Fester Service-Katalog wie in VyceON (stabile ID, Name DE/EN). */
+const SERVICES = {
+  massage: { id: "massage", de: "Massage", en: "Massage" },
+  tabledance: { id: "tabledance", de: "Tabledance", en: "Table dance" },
+  bar: { id: "bar", de: "Gesellschaft an der Bar", en: "Company at the bar" },
+  dessous: { id: "dessous", de: "Dessous-Show", en: "Lingerie show" },
+  rollenspiele: { id: "rollenspiele", de: "Rollenspiele", en: "Role play" },
+} satisfies Record<string, Profile["services"][number]>;
+
+type Seed = Omit<
+  Profile,
+  "id" | "slug" | "images" | "updatedAt" | "gender" | "services"
+> & {
+  services: (keyof typeof SERVICES)[];
   /** keine Schichten in den nächsten 30 Tagen (prüft die noindex-Regel) */
   inactive?: boolean;
 };
@@ -27,9 +40,11 @@ const SEEDS: Seed[] = [
     cupSize: "C",
     shoeSize: 39,
     weightKg: 58,
-    services: ["Massage", "Tabledance", "Gesellschaft an der Bar"],
-    personalNote:
-      "Ich liebe gute Gespräche an der Bar und lange Abende mit Musik.",
+    services: ["massage", "tabledance", "bar"],
+    personalNote: {
+      de: "Ich liebe gute Gespräche an der Bar und lange Abende mit Musik.",
+      en: "I love good conversations at the bar and long evenings with music.",
+    },
   },
   {
     name: "Bella",
@@ -41,8 +56,11 @@ const SEEDS: Seed[] = [
     cupSize: "B",
     shoeSize: 38,
     weightKg: 52,
-    services: ["Massage", "Dessous-Show"],
-    personalNote: "Neu in Berlin – ich freue mich darauf, dich kennenzulernen.",
+    services: ["massage", "dessous"],
+    personalNote: {
+      de: "Neu in Berlin – ich freue mich darauf, dich kennenzulernen.",
+      en: "New in Berlin – I look forward to meeting you.",
+    },
   },
   {
     name: "Carmen",
@@ -54,8 +72,11 @@ const SEEDS: Seed[] = [
     cupSize: "D",
     shoeSize: 38,
     weightKg: 60,
-    services: ["Tabledance", "Rollenspiele"],
-    personalNote: "Temperamentvoll, herzlich und immer für ein Lachen gut.",
+    services: ["tabledance", "rollenspiele"],
+    personalNote: {
+      de: "Temperamentvoll, herzlich und immer für ein Lachen gut.",
+      en: "Spirited, warm and always up for a laugh.",
+    },
   },
   {
     name: "Dalia",
@@ -67,8 +88,11 @@ const SEEDS: Seed[] = [
     cupSize: "B",
     shoeSize: 40,
     weightKg: 57,
-    services: ["Massage"],
-    personalNote: "Ruhig, aufmerksam und mit viel Zeit für dich.",
+    services: ["massage"],
+    personalNote: {
+      de: "Ruhig, aufmerksam und mit viel Zeit für dich.",
+      en: "Calm, attentive and with plenty of time for you.",
+    },
   },
   {
     name: "Elena",
@@ -80,7 +104,7 @@ const SEEDS: Seed[] = [
     cupSize: "C",
     shoeSize: 39,
     weightKg: 55,
-    services: ["Massage", "Gesellschaft an der Bar"],
+    services: ["massage", "bar"],
   },
   {
     name: "Fiona",
@@ -92,8 +116,11 @@ const SEEDS: Seed[] = [
     cupSize: "C",
     shoeSize: 37,
     weightKg: 54,
-    services: ["Tabledance", "Dessous-Show"],
-    personalNote: "Rote Haare, gute Laune, irischer Humor.",
+    services: ["tabledance", "dessous"],
+    personalNote: {
+      de: "Rote Haare, gute Laune, irischer Humor.",
+      en: "Red hair, good mood, Irish humour.",
+    },
   },
   {
     name: "Gina",
@@ -105,7 +132,7 @@ const SEEDS: Seed[] = [
     cupSize: "D",
     shoeSize: 38,
     weightKg: 59,
-    services: ["Massage", "Rollenspiele"],
+    services: ["massage", "rollenspiele"],
   },
   {
     name: "Hanna",
@@ -117,8 +144,11 @@ const SEEDS: Seed[] = [
     cupSize: "B",
     shoeSize: 41,
     weightKg: 63,
-    services: ["Gesellschaft an der Bar", "Massage"],
-    personalNote: "Berlinerin mit Herz und Schnauze.",
+    services: ["bar", "massage"],
+    personalNote: {
+      de: "Berlinerin mit Herz und Schnauze.",
+      en: "A Berliner with heart and a big mouth.",
+    },
   },
   {
     name: "Ivy",
@@ -130,7 +160,7 @@ const SEEDS: Seed[] = [
     cupSize: "A",
     shoeSize: 36,
     weightKg: 48,
-    services: ["Tabledance"],
+    services: ["tabledance"],
   },
   {
     name: "Jade",
@@ -142,8 +172,11 @@ const SEEDS: Seed[] = [
     cupSize: "C",
     shoeSize: 39,
     weightKg: 56,
-    services: ["Massage", "Dessous-Show", "Rollenspiele"],
-    personalNote: "Un peu de Paris in Steglitz.",
+    services: ["massage", "dessous", "rollenspiele"],
+    personalNote: {
+      de: "Un peu de Paris in Steglitz.",
+      en: "Un peu de Paris in Steglitz.",
+    },
   },
   {
     name: "Kira",
@@ -155,12 +188,15 @@ const SEEDS: Seed[] = [
     cupSize: "B",
     shoeSize: 40,
     weightKg: 58,
-    services: ["Massage"],
+    services: ["massage"],
     inactive: true,
   },
 ];
 
 const slugify = (name: string) => name.toLowerCase();
+
+/** Fiktive Umbenennung zum Testen der Weiterleitung alter Profil-Adressen. */
+const PREVIOUS_SLUGS: Record<string, string> = { "aurora-berlin": "aurora" };
 
 export const MOCK_PROFILES: Profile[] = SEEDS.map((seed, i) => {
   const rest = { ...seed };
@@ -168,6 +204,7 @@ export const MOCK_PROFILES: Profile[] = SEEDS.map((seed, i) => {
   const slug = slugify(seed.name);
   return {
     ...rest,
+    services: seed.services.map((key) => SERVICES[key]),
     id: `mock-${slug}`,
     slug,
     gender: "female",
@@ -266,7 +303,9 @@ export function createMockSource(
       return MOCK_PROFILES;
     },
     async getProfile(slug) {
-      return MOCK_PROFILES.find((p) => p.slug === slug) ?? null;
+      // Wie VyceON (Spezifikation §3.2): ein alter Slug liefert das umbenannte Profil
+      const current = PREVIOUS_SLUGS[slug] ?? slug;
+      return MOCK_PROFILES.find((p) => p.slug === current) ?? null;
     },
     async listShifts(from, to) {
       return generateMockShifts(clock()).filter(

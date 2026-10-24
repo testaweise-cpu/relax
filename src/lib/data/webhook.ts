@@ -5,7 +5,7 @@ import { TAGS } from "./source";
 /**
  * Webhook von VyceON → gezielte Cache-Invalidierung.
  *
- * ANNAHME (abzustimmen, siehe docs/vyceon-fragen.md):
+ * Nach Spezifikation docs/vyceon-schnittstelle.md §6:
  * - Header "X-Vyceon-Timestamp": Unix-Zeit in Sekunden
  * - Header "X-Vyceon-Signature": "sha256=" + HMAC-SHA256(secret, `${timestamp}.${rohBody}`) als Hex
  * - Zeitstempel darf höchstens 5 Minuten abweichen (Schutz gegen Wiederholung)
@@ -49,13 +49,18 @@ export function verifySignature({
   return { ok: true };
 }
 
-// ANNAHME: Ereignisnamen und Nutzlast.
+// §6: Ereignisse profile.*, shift.*, presence.*; unbekannte leeren alles.
 export const webhookPayloadSchema = z.object({
+  id: z.string().optional(),
   type: z.string().min(1),
+  occurredAt: z.string().optional(),
   data: z
     .object({
-      slug: z.string().optional(),
-      slugs: z.array(z.string()).optional(),
+      profileId: z.string(),
+      slug: z.string(),
+      /** alter Slug bei Umbenennung – dessen Cache wird ebenfalls geleert */
+      previousSlug: z.string(),
+      slugs: z.array(z.string()),
     })
     .partial()
     .optional(),
@@ -66,6 +71,7 @@ export type WebhookPayload = z.infer<typeof webhookPayloadSchema>;
 export function tagsForEvent(payload: WebhookPayload): string[] {
   const slugs = [
     ...(payload.data?.slug ? [payload.data.slug] : []),
+    ...(payload.data?.previousSlug ? [payload.data.previousSlug] : []),
     ...(payload.data?.slugs ?? []),
   ];
   const profileTags = slugs.map(TAGS.profile);

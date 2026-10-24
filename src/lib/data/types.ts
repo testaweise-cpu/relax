@@ -11,6 +11,17 @@ const isoDateTime = z.iso
   .datetime({ offset: true })
   .transform((s) => new Date(s).toISOString());
 
+/** Zweisprachiger Text: Deutsch Pflicht, Englisch optional (Spezifikation §4). */
+export const localizedTextSchema = z.object({
+  de: z.string().trim().min(1),
+  en: z.string().trim().min(1).optional(),
+});
+
+/** Service: zweisprachiger Name, optional mit stabiler ID aus VyceON. */
+export const serviceSchema = localizedTextSchema.extend({
+  id: z.string().min(1).optional(),
+});
+
 export const imageSchema = z.object({
   url: z.string().min(1),
   width: z.number().int().positive(),
@@ -38,8 +49,8 @@ export const profileSchema = z.object({
   cupSize: z.string().optional(),
   shoeSize: z.number().min(30).max(50).optional(),
   weightKg: z.number().min(30).max(200).optional(),
-  services: z.array(z.string().min(1)).default([]),
-  personalNote: z.string().optional(),
+  services: z.array(serviceSchema).default([]),
+  personalNote: localizedTextSchema.optional(),
   images: z.array(imageSchema).default([]),
   updatedAt: isoDateTime,
 });
@@ -61,6 +72,7 @@ export const presenceSchema = z.object({
   until: isoDateTime.optional(),
 });
 
+export type LocalizedText = z.infer<typeof localizedTextSchema>;
 export type ProfileImage = z.infer<typeof imageSchema>;
 export type Profile = z.infer<typeof profileSchema>;
 export type Shift = z.infer<typeof shiftSchema>;
@@ -89,4 +101,9 @@ export function parseList<T>(
       );
   });
   return out;
+}
+
+/** Text in der gewünschten Sprache; fehlt Englisch, gilt Deutsch. */
+export function localize(text: LocalizedText, locale: string): string {
+  return (locale === "en" && text.en) || text.de;
 }

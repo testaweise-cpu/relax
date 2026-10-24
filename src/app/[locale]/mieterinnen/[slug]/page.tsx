@@ -9,10 +9,11 @@ import { WeekPlan } from "@/components/profiles/week-plan";
 import { Badge } from "@/components/ui/badge";
 import { ButtonAnchor } from "@/components/ui/button";
 import { PhoneIcon } from "@/components/ui/icons";
-import { Link } from "@/i18n/navigation";
+import { Link, permanentRedirect } from "@/i18n/navigation";
 import { getSettings } from "@/lib/content";
 import { languageName, regionName } from "@/lib/display-names";
 import { telHref } from "@/lib/phone";
+import { localize } from "@/lib/data/types";
 import { getProfileDetail } from "@/lib/profiles/server";
 import {
   hasUpcomingShift,
@@ -59,6 +60,13 @@ export default async function SedcardPage({
   setRequestLocale(locale);
   const detail = await getProfileDetail(slug);
   if (!detail) notFound();
+  // Umbenanntes Profil: VyceON liefert es auch unter dem alten Slug aus
+  // (Spezifikation §3.2) – dauerhaft auf die neue Adresse umleiten.
+  if (detail.profile.slug !== slug)
+    permanentRedirect({
+      href: `/mieterinnen/${detail.profile.slug}`,
+      locale: locale as Locale,
+    });
 
   const t = await getTranslations("sedcard");
   const tc = await getTranslations("common");
@@ -122,7 +130,9 @@ export default async function SedcardPage({
               <h2 id="about" className="text-2xl text-ink">
                 {t("about")}
               </h2>
-              <p className="mt-4 text-lg text-ink">{profile.personalNote}</p>
+              <p className="mt-4 text-lg text-ink">
+                {localize(profile.personalNote, locale)}
+              </p>
             </section>
           )}
 
@@ -175,10 +185,10 @@ export default async function SedcardPage({
               <ul className="mt-4 flex flex-wrap gap-2">
                 {profile.services.map((s) => (
                   <li
-                    key={s}
+                    key={s.id ?? s.de}
                     className="rounded-card border border-line bg-panel px-3 py-1 text-sm text-ink"
                   >
-                    {s}
+                    {localize(s, locale)}
                   </li>
                 ))}
               </ul>

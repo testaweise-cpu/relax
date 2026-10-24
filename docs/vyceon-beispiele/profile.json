@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "prf_8f3k2",
+    "slug": "aurora",
+    "name": "Aurora",
+    "isNew": false,
+    "isBack": true,
+    "gender": "female",
+    "languages": ["de", "en"],
+    "origin": "DE",
+    "heightCm": 172,
+    "services": [{ "id": "massage", "de": "Massage", "en": "Massage" }],
+    "personalNote": {
+      "de": "Ich liebe gute Gespräche an der Bar und lange Abende mit Musik."
+    },
+    "images": [
+      {
+        "url": "https://img.vyceon.example/clubs/mona-roses/prf_8f3k2/1.jpg",
+        "width": 1200,
+        "height": 1600,
+        "alt": "Aurora im roten Kleid an der Bar"
+      }
+    ],
+    "updatedAt": "2026-10-20T14:05:00+02:00"
+  }
+}
