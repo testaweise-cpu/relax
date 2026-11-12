@@ -16,13 +16,13 @@ Berlin-Steglitz, rund um die Uhr geöffnet.
 
 Weitere Dokumente:
 
-| Datei                                                          | Inhalt                                                         |
-| -------------------------------------------------------------- | -------------------------------------------------------------- |
-| [`docs/redaktion.md`](docs/redaktion.md)                       | Anleitung für die Redaktion (Keystatic)                        |
-| [`docs/offene-fragen.md`](docs/offene-fragen.md)               | Offene Fragen an den Kunden                                    |
-| [`docs/vyceon-schnittstelle.md`](docs/vyceon-schnittstelle.md) | Verbindliche VyceON-Schnittstelle (mit OpenAPI und Beispielen) |
-| [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md)               | Was VyceON noch liefern muss                                   |
-| [`src/content/todos.md`](src/content/todos.md)                 | Widersprüche aus den Altinhalten (als `TODO`)                  |
+| Datei                                                          | Inhalt                                           |
+| -------------------------------------------------------------- | ------------------------------------------------ |
+| [`docs/redaktion.md`](docs/redaktion.md)                       | Anleitung für die Redaktion (Keystatic)          |
+| [`docs/offene-fragen.md`](docs/offene-fragen.md)               | Offene Fragen an den Kunden                      |
+| [`docs/vyceon-schnittstelle.md`](docs/vyceon-schnittstelle.md) | VYCE69 Bordell-Sync API und Zuordnung der Felder |
+| [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md)               | Was VyceON noch liefern muss                     |
+| [`src/content/todos.md`](src/content/todos.md)                 | Widersprüche aus den Altinhalten (als `TODO`)    |
 
 ---
 
@@ -113,9 +113,9 @@ eingebettet. **Laufzeit** = wird beim Start des Containers gesetzt.
 | `NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO`     | Build    | bei `github`            | Repository als `owner/repo`                                                      |
 | `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | Build    | bei `github`            | Name der GitHub-App (siehe Keystatic)                                            |
 | `DATA_SOURCE`                           | Laufzeit | –                       | `mock` (Standard) oder `vyceon`                                                  |
-| `VYCEON_API_URL`                        | Laufzeit | bei `vyceon`            | Basis-URL der API                                                                |
-| `VYCEON_API_KEY`                        | Laufzeit | bei `vyceon`            | API-Schlüssel                                                                    |
-| `VYCEON_CLUB_ID`                        | Laufzeit | bei `vyceon`            | Kennung von Mona Roses bei VyceON                                                |
+| `VYCEON_API_URL`                        | Laufzeit | bei `vyceon`            | Basis-URL der API, `https://vyce69.com/api/v1`                                   |
+| `VYCEON_API_KEY`                        | Laufzeit | bei `vyceon`            | Sync-Schlüssel `vyc_live_…` (läuft nach 365 Tagen ab)                            |
+| `VYCEON_ORGANIZATION_ID`                | Laufzeit | bei `vyceon`            | `organizationId` von Mona Roses bei VYCE69                                       |
 | `VYCEON_WEBHOOK_SECRET`                 | Laufzeit | für den Webhook         | Gemeinsames Geheimnis, mind. 32 Zeichen (`openssl rand -hex 32`)                 |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | Laufzeit | fürs Bewerbungsformular | Mailserver; `SMTP_SECURE=true` bei Port 465, sonst `false` (STARTTLS)            |
 | `SMTP_USER`, `SMTP_PASS`                | Laufzeit | je nach Server          | Zugangsdaten                                                                     |
@@ -202,36 +202,37 @@ geprüft.
 aktuellen Uhrzeit. Fotos und Namen sind erfunden, keine echten Personen.
 `DATA_SOURCE=vyceon` holt die echten Daten (`src/lib/data/vyceon-source.ts`).
 
-Die Schnittstelle ist in
-[`docs/vyceon-schnittstelle.md`](docs/vyceon-schnittstelle.md) verbindlich
-festgelegt (OpenAPI: `docs/vyceon-api.yaml`, Beispiele:
-`docs/vyceon-beispiele/`). Die Website ist genau darauf gebaut; ein
-Contract-Test (`src/lib/data/vyceon-contract.test.ts`) prüft, dass sie die
-Beispiele korrekt verarbeitet. Was VyceON noch liefern muss (Testumgebung,
-Zugangsdaten, Bild-Host), steht in [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md).
-
-Umbenannte Profile: VyceON liefert sie auch unter dem alten Slug aus; die
-Website leitet dann dauerhaft (308) auf die neue Adresse um.
+Angebunden ist die VYCE69 Bordell-Sync API v1, beschrieben in
+[`docs/vyceon-schnittstelle.md`](docs/vyceon-schnittstelle.md). Sie liefert
+die veröffentlichten Sedcards (Liste und Detail). Die Schichten stehen in der
+Zeitplanung der Sedcard; **live („Jetzt da“) ist, wer gerade in Schicht ist.**
+Was noch offen ist, steht in [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md).
 
 ### Aktualität und Cache
 
-| Daten       | Cache       | Cache-Tag                    |
-| ----------- | ----------- | ---------------------------- |
-| Profile     | 5 Minuten   | `profiles`, `profile:<slug>` |
-| Schichten   | 5 Minuten   | `shifts`                     |
-| Anwesenheit | 60 Sekunden | `presence`                   |
+| Daten     | Cache     | Cache-Tag                    |
+| --------- | --------- | ---------------------------- |
+| Profile   | 5 Minuten | `profiles`, `profile:<slug>` |
+| Schichten | 5 Minuten | `shifts`                     |
 
-Ist VyceON nicht erreichbar, zeigt die Seite den letzten erfolgreichen Stand.
+Live-Status: wird bei jeder Anfrage aus den Schichten berechnet und wechselt
+daher genau zu Schichtbeginn und -ende. Geänderte Schichten erscheinen nach
+spätestens 5 Minuten. Für die Schichten ruft die Website jede Sedcard einzeln
+ab (höchstens 4 gleichzeitig).
+
+Ist VyceON nicht erreichbar, zeigt die Seite den letzten erfolgreichen Stand,
+Schichten aber höchstens 6 Stunden lang.
 Die Seite „Jetzt da“ fragt `/api/presence` alle 60 Sekunden neu ab, aber nur,
 solange der Tab sichtbar ist.
 
 Profile ohne Schicht in den nächsten 30 Tagen bleiben erreichbar, sind aber
 `noindex` und nicht in der Sitemap.
 
-### Webhook einrichten
+### Webhook (optional, derzeit ungenutzt)
 
-Damit Änderungen sofort sichtbar sind (statt nach bis zu 5 Minuten), schickt
-VyceON bei jeder Änderung einen Webhook:
+VYCE69 bietet derzeit keine Webhooks. Die Website hat trotzdem einen Endpunkt,
+damit Änderungen sofort sichtbar werden könnten (statt nach bis zu 5 Minuten),
+falls VyceON das später nachrüstet:
 
 - **Adresse:** `POST https://www.mona-roses.com/api/revalidate`
 - **Geheimnis:** `VYCEON_WEBHOOK_SECRET` (auf beiden Seiten gleich, mind. 32
@@ -241,7 +242,6 @@ VyceON bei jeder Änderung einen Webhook:
 - **Header `X-Vyceon-Signature`:** `sha256=` + HMAC-SHA256 als Hex über
   `<timestamp>.<roher Body>`.
 - **Body (JSON):** `{"id": "evt_…", "type": "<ereignis>", "data": {"profileId": "…", "slug": "…", "previousSlug": "…"}}`
-  (Einzelheiten und Wiederholungsregeln: Spezifikation §6)
 
 | Ereignis (`type`)                       | Geleert                                              |
 | --------------------------------------- | ---------------------------------------------------- |
@@ -355,7 +355,7 @@ Erwähnenswert:
 - `[webhook] abgelehnt: …`: falsche Signatur oder Uhrzeit.
 - `[vyceon] … fehlgeschlagen`: API nicht erreichbar oder Fehler. Die Seite
   zeigt dann den letzten Stand.
-- `[vyceon] Profil "…" ungültig` bzw. `[data] … übersprungen`: ein Datensatz
+- `[vyceon] Sedcard "…" ungültig` bzw. `[data] … übersprungen`: ein Datensatz
   passt nicht zum erwarteten Format. Er wird ausgelassen, der Rest erscheint.
 - `[jobs] …`: SMTP fehlt oder der Versand einer Bewerbung ist fehlgeschlagen.
 

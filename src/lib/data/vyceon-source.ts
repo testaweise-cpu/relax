@@ -1,8 +1,6 @@
-import { startOfBerlinDay } from "@/lib/time/berlin";
 import { REVALIDATE, TAGS, type DataSource } from "./source";
 import {
   parseList,
-  presenceSchema,
   profileSchema,
   shiftSchema,
   type Presence,
@@ -11,28 +9,35 @@ import {
 } from "./types";
 
 /**
- * Anbindung an die VyceON-API (Vyce69).
+ * Anbindung an die VYCE69 Bordell-Sync API v1 (VyceON).
  *
- * Umgesetzt nach der verbindlichen Spezifikation docs/vyceon-schnittstelle.md
- * (OpenAPI: docs/vyceon-api.yaml). Verweise "§n" beziehen sich auf deren
- * Abschnitte. Die Beispiele in docs/vyceon-beispiele/ prüft ein Contract-Test.
+ * Beschreibung und Zuordnung der Felder: docs/vyceon-schnittstelle.md.
+ * Die API liefert nur Sedcards (Liste und Detail). Schichten stehen in der
+ * Zeitplanung der Sedcard; „live“ ist, wer gerade in Schicht ist.
  */
 
 export type VyceonConfig = {
+  /** z. B. https://vyce69.com/api/v1 */
   apiUrl: string;
   apiKey: string;
-  clubId: string;
+  organizationId: string;
   /** Timeout pro Request in ms */
   timeoutMs?: number;
 };
+
+/** API-Grenze für per_page */
+export const PAGE_SIZE = 100;
+/** Schutz vor Endlosschleifen bei fehlerhafter Paginierung */
+const MAX_PAGES = 20;
+/** Gleichzeitige Detail-Abrufe (Ratenbegrenzung pro Schlüssel) */
+const DETAIL_CONCURRENCY = 4;
+/** Ein Schichtplan von gestern ist noch brauchbar, einer von letzter Woche nicht. */
+export const SHIFTS_FALLBACK_MAX_AGE_MS = 6 * 60 * 60_000;
 
 class NotFoundError extends Error {}
 
 /** Letzte erfolgreiche Antworten pro Prozess – Rückfall, falls VyceON ausfällt. */
 const lastGood = new Map<string, { value: unknown; at: number }>();
-
-/** Anwesenheit veraltet schnell: länger als 15 Minuten nicht als „jetzt da“ zeigen. */
-export const PRESENCE_FALLBACK_MAX_AGE_MS = 15 * 60_000;
 
 async function withFallback<T>(
   key: string,
@@ -60,41 +65,87 @@ export function resetVyceonFallbackCache() {
   lastGood.clear();
 }
 
-// §2: Antworten haben die Form { data: [...] }. Ein nacktes Array wird toleriert.
-// Alles andere gilt als Fehler, damit der Rückfall auf die letzten Daten greift
-// (statt eine leere Liste als „Erfolg“ zu speichern).
-function unwrapList(json: unknown): unknown[] {
-  const list =
-    json && typeof json === "object" && !Array.isArray(json) && "data" in json
-      ? (json as { data: unknown }).data
-      : json;
+type Json = Record<string, unknown>;
+const isObject = (v: unknown): v is Json =>
+  !!v && typeof v === "object" && !Array.isArray(v);
+
+/** Fehlervertrag: {"success":false,"error":"code"} – auch bei Status 200 ein Fehler. */
+function assertSuccess(json: unknown, path: string) {
+  if (isObject(json) && json.success === false) {
+    throw new Error(`VyceON-Fehler "${String(json.error)}" für ${path}`);
+  }
+}
+
+/** Einträge einer Listenseite. Keine Liste gilt als Fehler (Rückfall greift). */
+function pageItems(json: unknown): unknown[] {
+  const list = isObject(json) ? (json.items ?? json.data) : json;
   if (!Array.isArray(list)) throw new Error("VyceON: Liste erwartet");
   return list;
 }
 
-// §2: Einzelobjekte kommen als { data: {...} }.
+/** Gibt es nach `page` noch eine Seite? Fehlen Angaben, zählt eine volle Seite. */
+function hasNextPage(json: unknown, page: number, count: number): boolean {
+  const p = isObject(json) && isObject(json.pagination) ? json.pagination : {};
+  const hasMore = p.has_more ?? p.hasMore;
+  if (typeof hasMore === "boolean") return hasMore;
+  const totalPages = p.total_pages ?? p.totalPages ?? p.pages;
+  if (typeof totalPages === "number") return page < totalPages;
+  return count === PAGE_SIZE;
+}
+
+/** Einzelobjekte: nackt oder in { data } bzw. { item }. */
 function unwrapOne(json: unknown): unknown {
-  if (json && typeof json === "object" && "data" in json) {
-    return (json as { data: unknown }).data;
+  if (isObject(json)) {
+    if (isObject(json.data)) return json.data;
+    if (isObject(json.item)) return json.item;
   }
   return json;
 }
 
-// §4: Die Feldnamen der API entsprechen dem Modell der Website (camelCase).
-// Sollte VyceON einmal abweichen, werden NUR diese Funktionen angepasst.
+// ---------------------------------------------------------------------------
+// Zuordnung API → Website. NUR hier wird an die Feldnamen von VYCE69 angepasst.
+// TODO(VyceON): Feldnamen nach der ersten echten Antwort festlegen
+// (docs/vyceon-schnittstelle.md, Abschnitt „Zuordnung“). Bis dahin wird das
+// Modell der Website erwartet; Abweichungen werden geloggt und übersprungen.
+// ---------------------------------------------------------------------------
+
 function fromApiProfile(raw: unknown): unknown {
   return raw;
 }
-function fromApiShift(raw: unknown): unknown {
-  return raw;
+
+/** Schichten aus der Zeitplanung einer Sedcard. */
+function fromApiSchedule(raw: unknown, profileId: string): unknown[] {
+  if (!isObject(raw)) return [];
+  const schedule = raw.shifts ?? raw.schedule;
+  if (!Array.isArray(schedule)) return [];
+  return schedule.map((entry, i) =>
+    isObject(entry) ? { id: `${profileId}-${i}`, ...entry, profileId } : entry,
+  );
 }
-function fromApiPresence(raw: unknown): unknown {
-  return raw;
+
+/** Läuft `fn` über alle Einträge, höchstens `limit` gleichzeitig. */
+async function mapLimited<T, R>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<R>,
+): Promise<R[]> {
+  const out = new Array<R>(items.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < items.length) {
+      const i = next++;
+      out[i] = await fn(items[i]);
+    }
+  };
+  await Promise.all(
+    Array.from({ length: Math.min(limit, items.length) }, worker),
+  );
+  return out;
 }
 
 export function createVyceonSource(config: VyceonConfig): DataSource {
   const base = config.apiUrl.replace(/\/+$/, "");
-  const club = encodeURIComponent(config.clubId);
+  const org = encodeURIComponent(config.organizationId);
 
   async function getJson(
     path: string,
@@ -102,7 +153,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
   ) {
     const res = await fetch(`${base}${path}`, {
       headers: {
-        // §1: Bearer-Token, nur lesend, ein Schlüssel pro Club.
+        // Schlüssel nur im Header, nie in der URL; nur serverseitig.
         Authorization: `Bearer ${config.apiKey}`,
         Accept: "application/json",
       },
@@ -112,52 +163,94 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
     if (res.status === 404) throw new NotFoundError(path);
     if (!res.ok)
       throw new Error(`VyceON ${res.status} ${res.statusText} für ${path}`);
-    return res.json() as Promise<unknown>;
+    const json = (await res.json()) as unknown;
+    assertSuccess(json, path);
+    return json;
+  }
+
+  /** Alle veröffentlichten Sedcards, Seite für Seite. */
+  async function fetchAllSedcards(): Promise<unknown[]> {
+    const all: unknown[] = [];
+    for (let page = 1; page <= MAX_PAGES; page++) {
+      const qs = new URLSearchParams({
+        page: String(page),
+        per_page: String(PAGE_SIZE),
+        order: "name",
+      });
+      const json = await getJson(`/bordells/${org}/sedcards?${qs}`, {
+        revalidate: REVALIDATE.profiles,
+        tags: [TAGS.profiles],
+      });
+      const items = pageItems(json);
+      all.push(...items);
+      if (!hasNextPage(json, page, items.length)) return all;
+    }
+    throw new Error(`VyceON: mehr als ${MAX_PAGES} Seiten`);
+  }
+
+  async function fetchSedcard(slugOrId: string): Promise<unknown> {
+    const json = await getJson(
+      `/bordells/${org}/sedcards/${encodeURIComponent(slugOrId)}`,
+      {
+        revalidate: REVALIDATE.shifts,
+        tags: [TAGS.profiles, TAGS.profile(slugOrId), TAGS.shifts],
+      },
+    );
+    return unwrapOne(json);
+  }
+
+  async function listProfiles(): Promise<Profile[]> {
+    return withFallback(
+      "profiles",
+      async () =>
+        parseList(
+          profileSchema,
+          (await fetchAllSedcards()).map(fromApiProfile),
+          "vyceon.sedcards",
+        ),
+      [],
+    );
+  }
+
+  /** Alle Schichten aus den Zeitplanungen aller Sedcards. */
+  async function allShifts(): Promise<Shift[]> {
+    return withFallback(
+      "shifts",
+      async () => {
+        const profiles = await listProfiles();
+        const details = await mapLimited(profiles, DETAIL_CONCURRENCY, (p) =>
+          fetchSedcard(p.slug).catch((error) => {
+            // Profil inzwischen nicht mehr freigegeben → keine Schichten.
+            if (error instanceof NotFoundError) return null;
+            throw error;
+          }),
+        );
+        const raw = details.flatMap((d, i) =>
+          fromApiSchedule(d, profiles[i].id),
+        );
+        return parseList(shiftSchema, raw, "vyceon.zeitplanung");
+      },
+      [] as Shift[],
+      SHIFTS_FALLBACK_MAX_AGE_MS,
+    );
   }
 
   return {
     name: "vyceon",
 
-    async listProfiles(): Promise<Profile[]> {
-      return withFallback(
-        "profiles",
-        async () => {
-          // §3.1: alle auf der Website sichtbaren Profile, ohne Paginierung.
-          const json = await getJson(`/clubs/${club}/profiles`, {
-            revalidate: REVALIDATE.profiles,
-            tags: [TAGS.profiles],
-          });
-          const list = unwrapList(json);
-          return parseList(
-            profileSchema,
-            list.map(fromApiProfile),
-            "vyceon.profiles",
-          );
-        },
-        [],
-      );
-    },
+    listProfiles,
 
     async getProfile(slug: string): Promise<Profile | null> {
       try {
         return await withFallback(
           `profile:${slug}`,
           async () => {
-            // §3.2: 404 bei unbekanntem Slug; ein alter Slug liefert das umbenannte
-            // Profil (die Seite leitet dann auf den neuen Slug um).
-            const json = await getJson(
-              `/clubs/${club}/profiles/${encodeURIComponent(slug)}`,
-              {
-                revalidate: REVALIDATE.profiles,
-                tags: [TAGS.profiles, TAGS.profile(slug)],
-              },
-            );
             const parsed = profileSchema.safeParse(
-              fromApiProfile(unwrapOne(json)),
+              fromApiProfile(await fetchSedcard(slug)),
             );
             if (!parsed.success) {
               console.warn(
-                `[vyceon] Profil "${slug}" ungültig:`,
+                `[vyceon] Sedcard "${slug}" ungültig:`,
                 parsed.error.issues,
               );
               return null;
@@ -167,62 +260,24 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
           null,
         );
       } catch (error) {
+        // 404: nicht (mehr) veröffentlicht
         if (error instanceof NotFoundError) return null;
         throw error;
       }
     },
 
     async listShifts(from: Date, to: Date): Promise<Shift[]> {
-      // Auf ganze Berliner Tage runden, damit der Cache greift.
-      const fromDay = startOfBerlinDay(from);
-      const toDay = startOfBerlinDay(to, 1);
-      const key = `shifts:${fromDay.toISOString()}:${toDay.toISOString()}`;
-      const shifts = await withFallback(
-        key,
-        async () => {
-          // §3.3: alle Schichten, die den Zeitraum berühren; Zeiten ISO 8601 mit
-          // Offset; höchstens 45 Tage pro Anfrage.
-          const qs = new URLSearchParams({
-            from: fromDay.toISOString(),
-            to: toDay.toISOString(),
-          });
-          const json = await getJson(`/clubs/${club}/shifts?${qs}`, {
-            revalidate: REVALIDATE.shifts,
-            tags: [TAGS.shifts],
-          });
-          const list = unwrapList(json);
-          return parseList(
-            shiftSchema,
-            list.map(fromApiShift),
-            "vyceon.shifts",
-          );
-        },
-        [] as Shift[],
-      );
-      return shifts.filter(
+      return (await allShifts()).filter(
         (s) => new Date(s.end) > from && new Date(s.start) < to,
       );
     },
 
+    /** Live = gerade in Schicht. */
     async getPresence(): Promise<Presence[]> {
-      return withFallback(
-        "presence",
-        async () => {
-          // §3.4: aktuell Eingecheckte (Check-in, nicht aus dem Schichtplan).
-          const json = await getJson(`/clubs/${club}/presence`, {
-            revalidate: REVALIDATE.presence,
-            tags: [TAGS.presence],
-          });
-          const list = unwrapList(json);
-          return parseList(
-            presenceSchema,
-            list.map(fromApiPresence),
-            "vyceon.presence",
-          );
-        },
-        [],
-        PRESENCE_FALLBACK_MAX_AGE_MS,
-      );
+      const now = new Date();
+      return (await allShifts())
+        .filter((s) => new Date(s.start) <= now && now < new Date(s.end))
+        .map((s) => ({ profileId: s.profileId, since: s.start, until: s.end }));
     },
   };
 }

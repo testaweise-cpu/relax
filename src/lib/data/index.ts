@@ -19,7 +19,7 @@ export function getDataSource(): DataSource {
     source = createVyceonSource({
       apiUrl: env.VYCEON_API_URL!,
       apiKey: env.VYCEON_API_KEY!,
-      clubId: env.VYCEON_CLUB_ID!,
+      organizationId: env.VYCEON_ORGANIZATION_ID!,
     });
   } else {
     source = createMockSource();

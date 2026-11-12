@@ -60,8 +60,8 @@ export default async function SedcardPage({
   setRequestLocale(locale);
   const detail = await getProfileDetail(slug);
   if (!detail) notFound();
-  // Umbenanntes Profil: VyceON liefert es auch unter dem alten Slug aus
-  // (Spezifikation §3.2) – dauerhaft auf die neue Adresse umleiten.
+  // VyceON findet Sedcards per Slug oder ID; kommt ein anderer Slug zurück
+  // (Aufruf per ID, umbenanntes Profil), dauerhaft auf die Slug-Adresse umleiten.
   if (detail.profile.slug !== slug)
     permanentRedirect({
       href: `/mieterinnen/${detail.profile.slug}`,

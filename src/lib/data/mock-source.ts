@@ -303,7 +303,7 @@ export function createMockSource(
       return MOCK_PROFILES;
     },
     async getProfile(slug) {
-      // Wie VyceON (Spezifikation §3.2): ein alter Slug liefert das umbenannte Profil
+      // Wie VyceON ("slug-or-id"): eine andere Kennung liefert das Profil unter seinem Slug
       const current = PREVIOUS_SLUGS[slug] ?? slug;
       return MOCK_PROFILES.find((p) => p.slug === current) ?? null;
     },

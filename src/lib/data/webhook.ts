@@ -5,7 +5,7 @@ import { TAGS } from "./source";
 /**
  * Webhook von VyceON → gezielte Cache-Invalidierung.
  *
- * Nach Spezifikation docs/vyceon-schnittstelle.md §6:
+ * Optional (VYCE69 bietet derzeit keine Webhooks; Format siehe README):
  * - Header "X-Vyceon-Timestamp": Unix-Zeit in Sekunden
  * - Header "X-Vyceon-Signature": "sha256=" + HMAC-SHA256(secret, `${timestamp}.${rohBody}`) als Hex
  * - Zeitstempel darf höchstens 5 Minuten abweichen (Schutz gegen Wiederholung)
@@ -49,7 +49,7 @@ export function verifySignature({
   return { ok: true };
 }
 
-// §6: Ereignisse profile.*, shift.*, presence.*; unbekannte leeren alles.
+// Ereignisse profile.*, shift.*, presence.*; unbekannte leeren alles.
 export const webhookPayloadSchema = z.object({
   id: z.string().optional(),
   type: z.string().min(1),

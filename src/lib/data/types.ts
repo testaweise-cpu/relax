@@ -11,7 +11,7 @@ const isoDateTime = z.iso
   .datetime({ offset: true })
   .transform((s) => new Date(s).toISOString());
 
-/** Zweisprachiger Text: Deutsch Pflicht, Englisch optional (Spezifikation §4). */
+/** Zweisprachiger Text: Deutsch Pflicht, Englisch optional (Englisch fehlt → Deutsch). */
 export const localizedTextSchema = z.object({
   de: z.string().trim().min(1),
   en: z.string().trim().min(1).optional(),

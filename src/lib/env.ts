@@ -16,7 +16,7 @@ const schema = z
     DATA_SOURCE: z.enum(["mock", "vyceon"]).default("mock"),
     VYCEON_API_URL: z.url().optional(),
     VYCEON_API_KEY: z.string().min(1).optional(),
-    VYCEON_CLUB_ID: z.string().min(1).optional(),
+    VYCEON_ORGANIZATION_ID: z.string().min(1).optional(),
     VYCEON_WEBHOOK_SECRET: z.string().min(32).optional(),
     VYCEON_IMAGE_HOST: z.string().optional(),
 
@@ -42,7 +42,7 @@ const schema = z
     for (const key of [
       "VYCEON_API_URL",
       "VYCEON_API_KEY",
-      "VYCEON_CLUB_ID",
+      "VYCEON_ORGANIZATION_ID",
     ] as const) {
       if (!v[key]) {
         ctx.addIssue({

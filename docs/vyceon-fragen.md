@@ -1,26 +1,26 @@
 # VyceON – offene Punkte
 
-Die Schnittstelle ist festgelegt: [`vyceon-schnittstelle.md`](vyceon-schnittstelle.md)
-(OpenAPI: [`vyceon-api.yaml`](vyceon-api.yaml), Beispiele:
-[`vyceon-beispiele/`](vyceon-beispiele/)). Die früheren Fragen zu
-Authentifizierung, Endpunkten, Feldern, Bildern und Webhooks sind dort
-beantwortet. Offen ist nur noch, was VyceON liefern oder bestätigen muss.
+Angebunden ist die VYCE69 Bordell-Sync API v1, siehe
+[`vyceon-schnittstelle.md`](vyceon-schnittstelle.md).
 
 Bitte Antworten direkt hier eintragen.
 
-## Von VyceON zu liefern
+## Vom Betreiber zu erledigen
 
-- [ ] Bestätigung, dass die Spezifikation v1 so umgesetzt wird (oder Änderungswünsche)
-- [ ] Testumgebung mit fiktiven Daten: Basis-URL, Schlüssel, Club-ID
-- [ ] Bild-Host der Testumgebung und der Produktion (→ `VYCEON_IMAGE_HOST`)
-- [ ] Webhook-Geheimnis austauschen (mind. 32 Zeichen, sicherer Kanal)
-- [ ] Produktiv-Zugangsdaten zum Livegang
-- [ ] Ansprechpartner und Wartungsfenster
-
-## Vom Betreiber zu entscheiden
-
-- [ ] Festlegung „Neu“ / „Wieder da“: Reichen die Empfehlungen (14 bzw. 60 Tage)?
-- [ ] Service-Liste: Welche Services sollen in VyceON zur Auswahl stehen
-      (mit deutschem und englischem Namen)?
-- [ ] Alte Produkt-Slugs der Altseite den neuen VyceON-Slugs zuordnen
+- [ ] Den bereits offengelegten Sync-Schlüssel widerrufen und einen neuen anlegen
+      (nur über ein sicheres Formular weitergeben, nie im Chat)
+- [ ] `organizationId` von Mona Roses
+- [ ] `/api/v1/` von der Basic-Auth (Traefik) vor vyce69.com ausnehmen
+- [ ] Erinnerung: Schlüssel läuft nach 365 Tagen ab
+- [ ] Alte Produkt-Slugs der Altseite den neuen Slugs zuordnen
       (`redirects/products.json`, siehe README)
+
+## Mit der ersten echten Antwort zu klären
+
+- [ ] Feldnamen von Liste und Detail (Zuordnung, siehe Schnittstelle)
+- [ ] Format der Zeitplanung: einzelne Schichten mit Beginn/Ende oder
+      Wochenmuster? Zeitzone?
+- [ ] Wie wird „Neu“ / „Wieder da“ abgebildet?
+- [ ] Gibt es englische Texte (Bio, Services)?
+- [ ] Bild-Host und Bildmaße (`VYCEON_IMAGE_HOST`)
+- [ ] Wie heißt der Paginierungsblock (`total_pages`, `has_more` …)?
