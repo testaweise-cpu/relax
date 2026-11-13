@@ -5,7 +5,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
 import { LegalNotice } from "@/components/legal-notice";
-import { NowStrip } from "@/components/presence/live-presence";
+import { LivePill, NowStrip } from "@/components/presence/live-presence";
 import { PriceTable } from "@/components/price-table";
 import { Paragraphs } from "@/components/rich-text";
 import { ButtonAnchor, ButtonLink } from "@/components/ui/button";
@@ -76,7 +76,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <LocalBusinessJsonLd locale={locale as Locale} />
       <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
         <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
-          <p className="eyebrow">{t("heroEyebrow")}</p>
+          <LivePill initial={present} />
+          <p className="eyebrow mt-8">{t("heroEyebrow")}</p>
           <h1 className="mt-4">
             <Logo size="xl" link={false} animated />
           </h1>
@@ -128,9 +129,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             </Link>
           )}
         </div>
-        <ul className="mt-14 grid gap-px overflow-hidden rounded-card border border-line/70 bg-line/70 sm:grid-cols-3">
+        <ul className="mt-14 grid gap-3 sm:grid-cols-3">
           {(t.raw("values") as { title: string; text: string }[]).map((v) => (
-            <li key={v.title} className="bg-night p-6 sm:p-8">
+            <li key={v.title} className="panel reveal p-6 sm:p-8">
               <p className="font-display text-3xl font-medium text-ink italic">
                 {v.title}
               </p>
@@ -151,7 +152,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           {home.highlights.map((h, i) => (
             <li
               key={i}
-              className="group relative aspect-[4/5] overflow-hidden rounded-card border border-line/80"
+              className="reveal group relative aspect-[4/5] overflow-hidden rounded-[var(--radius-lg)] border border-white/10"
             >
               {h.image && (
                 <Image
@@ -167,12 +168,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--night)_10%,transparent)_0%,color-mix(in_oklab,var(--night)_35%,transparent)_45%,color-mix(in_oklab,var(--night)_95%,transparent)_100%)]"
               />
               <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
-                <p className="font-label text-[0.65rem] tracking-[0.34em] text-gold">
-                  0{i + 1}
-                </p>
-                <h3 className="mt-2 text-4xl text-ink italic">
-                  {pick(h.title, l)}
-                </h3>
+                <h3 className="text-4xl text-ink italic">{pick(h.title, l)}</h3>
                 <p className="mt-2 max-w-xs text-sm leading-relaxed text-ink/80">
                   {pick(h.text, l)}
                 </p>

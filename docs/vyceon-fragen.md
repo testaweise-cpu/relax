@@ -22,9 +22,10 @@ Bitte Antworten direkt hier eintragen.
 
 ## Noch offen bei VYCE69
 
-- [ ] Bestätigen: Bedeutet `in_house: true` „jetzt im Haus“?
-- [ ] Optional: Beginn der Anwesenheit (z. B. `in_house_since`), dann zeigt die
-      Website „seit 18 Uhr“ statt „jetzt im Haus“
+- [x] `in_house: true` für alle Eingecheckten, `presence_state` (`ready`, `on_site`)
+- [ ] Alle Werte von `presence_state` bestätigen (bisher gesehen: `ready`, `on_site`)
+- [ ] Sedcard „Alexia“ fehlt in der API, obwohl im Dashboard „Im Haus“
+- [ ] Optional: `in_house_since` befüllen, dann zeigt die Website „seit 18 Uhr“
 - [ ] Optional: Schichtzeiten in `schedule` (Beginn/Ende), dann kommt der
       Wochenplan zurück
 - [ ] Optional: englische Bio

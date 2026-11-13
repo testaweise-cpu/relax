@@ -39,7 +39,9 @@
     "live": "Here now",
     "new": "New",
     "back": "Back again",
-    "languages": "Languages"
+    "languages": "Languages",
+    "available": "Available",
+    "onSite": "In the house"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -74,7 +76,7 @@
     "title": "Ladies",
     "eyebrow": "Profiles",
     "metaDescription": "All ladies at Mona Roses in Berlin-Steglitz: profiles, languages, times – and who is here right now.",
-    "intro": "All ladies renting a room with us. Filter by language or by who is here right now.",
+    "intro": "All ladies renting a room with us. Search by name or service, filter by language or by who is here right now.",
     "filters": "Filters",
     "language": "Language",
     "origin": "Origin",
@@ -85,7 +87,19 @@
     "count": "{count, plural, =0 {No results} one {# lady} other {# ladies}}",
     "empty": "No lady matches these filters.",
     "emptyHint": "Try fewer filters or check back later.",
-    "liveCount": "{count, plural, =0 {Nobody here right now} one {# here now} other {# here now}}"
+    "liveCount": "{count, plural, =0 {Nobody here right now} one {# here now} other {# here now}}",
+    "searchLabel": "Search the ladies",
+    "searchPlaceholder": "Name or service …",
+    "clearSearch": "Clear search",
+    "submitSearch": "Search",
+    "sortLabel": "Sort",
+    "sortLive": "Live first",
+    "sortNew": "New first",
+    "sortAz": "A–Z",
+    "services": "Services",
+    "moreServices": "All {count} services",
+    "fewerServices": "Fewer services",
+    "moreFilters": "Language & services"
   },
   "sedcard": {
     "back": "All ladies",
@@ -114,7 +128,11 @@
     "off": "–",
     "callHint": "Call and ask for {name} directly.",
     "servicesNote": "All services are agreed directly with the lady.",
-    "notFoundTitle": "Profile not found"
+    "notFoundTitle": "Profile not found",
+    "pause": "Pause",
+    "play": "Play",
+    "storyHint": "Tap: next · Hold: pause · Double tap: zoom",
+    "story": "View as story"
   },
   "now": {
     "title": "Here now",
@@ -127,7 +145,11 @@
     "allProfiles": "All ladies",
     "stripTitle": "Here now",
     "stripAll": "Show all",
-    "stale": "Connection lost – showing last known state."
+    "stale": "Connection lost – showing last known state.",
+    "groupReady": "Available now",
+    "groupOnSite": "In the house, busy right now",
+    "heroPill": "{count, plural, =0 {Nobody in the house right now} one {# in the house now} other {# in the house now}}",
+    "heroReady": "{count} available"
   },
   "prices": {
     "title": "Prices",

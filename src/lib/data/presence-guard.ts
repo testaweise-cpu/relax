@@ -31,6 +31,7 @@ function isEntry(v: unknown): v is PresentEntry {
     typeof v.isNew === "boolean" &&
     typeof v.isBack === "boolean" &&
     (v.image === null || isImage(v.image)) &&
+    (v.state == null || v.state === "ready" || v.state === "on_site") &&
     (v.since === null || isStr(v.since)) &&
     (v.until === null || isStr(v.until))
   );
@@ -44,6 +45,7 @@ export function parsePresenceResponse(v: unknown): PresenceResponse | null {
     updatedAt: v.updatedAt,
     present: v.present.map((p) => ({
       ...p,
+      state: p.state ?? null,
       image: p.image && { ...p.image, alt: p.image.alt ?? "" },
     })),
   };

@@ -6,14 +6,14 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-3 rounded-card font-label font-medium uppercase tracking-[0.26em] no-underline transition-[box-shadow,background-color,color,border-color] duration-500 disabled:cursor-not-allowed disabled:opacity-50 select-none";
+  "inline-flex items-center justify-center gap-3 rounded-full font-label font-medium uppercase tracking-[0.26em] no-underline transition-[box-shadow,background-color,color,border-color] duration-500 disabled:cursor-not-allowed disabled:opacity-50 select-none";
 
 const variants: Record<ButtonVariant, string> = {
   // Tiefes Rot mit Goldkante, helle Schrift (Kontrast ≥ 6:1)
   primary:
-    "border border-gold/45 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--red)_72%,black),var(--wine))] text-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.14)] hover:border-gold hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.14),0_0_32px_color-mix(in_oklab,var(--red)_35%,transparent)]",
+    "border border-[color-mix(in_oklab,var(--red)_60%,white)]/40 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--red)_78%,black),var(--wine))] text-ink shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_0_24px_-6px_color-mix(in_oklab,var(--red)_60%,transparent)] hover:shadow-[inset_0_1px_0_rgb(255_255_255/0.18),0_0_40px_-4px_color-mix(in_oklab,var(--red)_75%,transparent)]",
   secondary:
-    "border border-gold/35 bg-night/40 text-ink hover:border-gold hover:text-gold",
+    "glass-chip border border-white/15 text-ink hover:border-gold hover:text-gold",
   ghost: "text-ink hover:text-gold",
 };
 

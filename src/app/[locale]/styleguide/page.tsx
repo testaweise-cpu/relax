@@ -152,9 +152,7 @@ export default async function StyleguidePage({
           <p className="font-label text-xs tracking-[0.24em] text-gold uppercase">
             heute 16–24 Uhr · morgen ab 10 Uhr · ab 24.10.
           </p>
-          <div className="ornament max-w-md" aria-hidden>
-            ◆
-          </div>
+          <div className="ornament max-w-md" aria-hidden></div>
         </div>
       </Block>
 

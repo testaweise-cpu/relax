@@ -75,19 +75,19 @@ Form: `{"success":false,"error":"code"}`
 Stand 11/2026, geprüft an den echten Antworten. Umgesetzt in
 `fromApiProfile` und `fromApiPresence` (`src/lib/data/vyceon-source.ts`).
 
-| Website        | VYCE69                                                         |
-| -------------- | -------------------------------------------------------------- |
-| `id`           | `id`                                                           |
-| `slug`, `name` | `slug`, `name`                                                 |
-| `languages`    | `languages` (deutsche Namen → ISO-Code, z. B. „Englisch“ → en) |
-| `services`     | `services[].services[]` (alle Gruppen, ohne Doppelte)          |
-| `personalNote` | `about_text`, sonst `tagline` (nur Deutsch)                    |
-| `images`       | Detail: `media[]` (`url`, `width`, `height`)                   |
-|                | Liste: `thumbnail_url`, Maße aus `?w=…&h=…`                    |
-| `isNew`        | `published_at` vor höchstens 14 Tagen                          |
-| `isBack`       | – (immer nein)                                                 |
-| `updatedAt`    | `updated_at`                                                   |
-| Live           | `in_house`                                                     |
+| Website        | VYCE69                                                                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`           | `id`                                                                                                                                              |
+| `slug`, `name` | `slug`, `name`                                                                                                                                    |
+| `languages`    | `languages` (deutsche Namen → ISO-Code, z. B. „Englisch“ → en)                                                                                    |
+| `services`     | `services[].services[]` (alle Gruppen, ohne Doppelte)                                                                                             |
+| `personalNote` | `about_text`, sonst `tagline` (nur Deutsch)                                                                                                       |
+| `images`       | Detail: `media[]` (`url`, `width`, `height`)                                                                                                      |
+|                | Liste: `thumbnail_url`, Maße aus `?w=…&h=…`                                                                                                       |
+| `isNew`        | `published_at` vor höchstens 14 Tagen                                                                                                             |
+| `isBack`       | – (immer nein)                                                                                                                                    |
+| `updatedAt`    | `updated_at`                                                                                                                                      |
+| Live           | `in_house`; Zustand aus `presence_state` (`ready` → verfügbar, sonst „im Haus, gerade beschäftigt“); Beginn aus `in_house_since`, falls geliefert |
 
 Nicht verwendet: `availability`, `schedule` (meist leer oder Freitext),
 `category`, `city`, `location`, `permalink`, `alsoWith`, `serviceFor`,

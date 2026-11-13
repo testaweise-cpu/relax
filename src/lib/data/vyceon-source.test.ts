@@ -246,18 +246,32 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
     expect((await source.listProfiles()).map((p) => p.slug)).toEqual(["lydia"]);
   });
 
-  it("live ist, wer in_house ist; keine Schichtdaten", async () => {
+  it("live ist, wer in_house ist; Zustand aus presence_state; keine Schichtdaten", async () => {
     fetchMock.mockResolvedValue(
       respond(
         list([
-          item("lydia", { in_house: true, availability: "booked_out" }),
-          item("mia", { availability: "planned_only" }),
+          item("lydia", { in_house: true, presence_state: "ready" }),
+          item("nina", {
+            in_house: true,
+            presence_state: "on_site",
+            in_house_since: "2026-11-13T19:05:00+01:00",
+          }),
+          item("ola", { in_house: true, presence_state: "irgendwas" }),
+          item("mia", { presence_state: null }),
         ]),
       ),
     );
     const source = createVyceonSource(config);
     expect(source.hasShifts).toBe(false);
-    expect(await source.getPresence()).toEqual([{ profileId: "id-lydia" }]);
+    expect(await source.getPresence()).toEqual([
+      { profileId: "id-lydia", state: "ready" },
+      {
+        profileId: "id-nina",
+        state: "on_site",
+        since: "2026-11-13T18:05:00.000Z",
+      },
+      { profileId: "id-ola", state: "on_site" },
+    ]);
     expect(await source.listShifts(new Date(), new Date())).toEqual([]);
   });
 

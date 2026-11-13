@@ -213,9 +213,17 @@ export function hasUpcomingShift(
 
 /** Label für eine laufende Anwesenheit: "bis 24 Uhr", "seit 16 Uhr" oder "jetzt im Haus". */
 export function presenceLabel(
-  presence: { since?: string | null; until?: string | null },
+  presence: {
+    state?: "ready" | "on_site" | null;
+    since?: string | null;
+    until?: string | null;
+  },
   locale: TimeLocale,
 ): string {
+  if (presence.state === "on_site" && !presence.until)
+    return locale === "de"
+      ? "im Haus · gerade beschäftigt"
+      : "in the house · busy";
   if (presence.until) {
     const t = formatClock(toDate(presence.until), locale, { asEnd: true });
     return locale === "de" ? `bis ${t} Uhr` : `until ${t}`;
@@ -224,5 +232,7 @@ export function presenceLabel(
     const t = formatClock(toDate(presence.since), locale);
     return locale === "de" ? `seit ${t} Uhr` : `since ${t}`;
   }
+  if (presence.state === "ready")
+    return locale === "de" ? "jetzt verfügbar" : "available now";
   return locale === "de" ? "jetzt im Haus" : "in the house now";
 }

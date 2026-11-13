@@ -1,13 +1,15 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 
-type BadgeVariant = "live" | "new" | "back" | "neutral";
+type BadgeVariant = "live" | "ready" | "new" | "back" | "neutral";
 
+/** Glas-Chips: halbtransparent mit Unschärfe, damit sie auf jedem Foto lesbar bleiben. */
 const variants: Record<BadgeVariant, string> = {
-  live: "border-gold/40 bg-night/85 text-gold",
-  new: "border-red/50 bg-night/85 text-red",
-  back: "border-sunset/45 bg-night/85 text-sunset",
-  neutral: "border-line bg-night/80 text-muted",
+  live: "border-gold/45 text-gold",
+  ready: "border-mint/45 text-mint",
+  new: "border-red/55 text-[color-mix(in_oklab,var(--red)_55%,white)]",
+  back: "border-sunset/50 text-sunset",
+  neutral: "border-line text-muted",
 };
 
 export function Badge({
@@ -22,12 +24,17 @@ export function Badge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-card border px-2 py-0.5 font-label text-[0.6rem] font-medium tracking-[0.22em] uppercase",
+        "glass-chip inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-label text-[0.6rem] leading-none font-medium tracking-[0.2em] uppercase",
         variants[variant],
         className,
       )}
     >
-      {variant === "live" && <span className="live-dot" aria-hidden />}
+      {(variant === "live" || variant === "ready") && (
+        <span
+          className={cn("live-dot", variant === "ready" && "live-dot-ready")}
+          aria-hidden
+        />
+      )}
       {children}
     </span>
   );

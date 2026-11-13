@@ -12,6 +12,11 @@ export const presentEntrySchema = z.object({
   isNew: z.boolean(),
   isBack: z.boolean(),
   image: imageSchema.nullable(),
+  // fehlt bei älteren Antworten → unbekannt
+  state: z
+    .enum(["ready", "on_site"])
+    .nullish()
+    .transform((v) => v ?? null),
   since: z.string().nullable(),
   until: z.string().nullable(),
 });

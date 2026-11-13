@@ -1,20 +1,21 @@
 import { SedcardTile } from "@/components/ui/sedcard-tile";
-import type { ProfileCard } from "@/lib/profiles/cards";
+import type { ExplorerCard } from "@/lib/profiles/explore";
 
-export function ProfileGrid({ cards }: { cards: ProfileCard[] }) {
+export function ProfileGrid({ cards }: { cards: ExplorerCard[] }) {
   return (
     <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-      {cards.map(({ profile, isLive, timeLabel }, i) => (
-        <li key={profile.id}>
+      {cards.map((c, i) => (
+        <li key={c.slug} className="reveal">
           <SedcardTile
-            slug={profile.slug}
-            name={profile.name}
-            languages={profile.languages.map((l) => l.toUpperCase())}
-            isLive={isLive}
-            isNew={profile.isNew}
-            isBack={profile.isBack}
-            timeLabel={timeLabel}
-            image={profile.images[0]}
+            slug={c.slug}
+            name={c.name}
+            languages={c.languages.map((l) => l.toUpperCase())}
+            isLive={c.isLive}
+            liveState={c.liveState}
+            isNew={c.isNew}
+            isBack={c.isBack}
+            timeLabel={c.timeLabel}
+            image={c.image}
             priority={i < 2}
           />
         </li>

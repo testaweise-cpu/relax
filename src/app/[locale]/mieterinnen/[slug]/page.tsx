@@ -89,12 +89,22 @@ export default async function SedcardPage({
       </Link>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-        <ProfileGallery images={profile.images} name={profile.name} />
+        <ProfileGallery
+          images={profile.images}
+          name={profile.name}
+          slug={profile.slug}
+        />
 
         <div>
           <div className="flex flex-wrap gap-2">
             {presence ? (
-              <Badge variant="live">{t("liveNow")}</Badge>
+              presence.state ? (
+                <Badge variant={presence.state === "ready" ? "ready" : "live"}>
+                  {presence.state === "ready" ? tp("available") : tp("onSite")}
+                </Badge>
+              ) : (
+                <Badge variant="live">{t("liveNow")}</Badge>
+              )
             ) : (
               <Badge>{t("notHere")}</Badge>
             )}
@@ -111,9 +121,11 @@ export default async function SedcardPage({
           {next && (
             <p
               className={
-                presence
-                  ? "mt-4 font-label text-gold"
-                  : "mt-4 font-label text-muted"
+                presence?.state === "ready"
+                  ? "mt-4 font-label text-mint"
+                  : presence
+                    ? "mt-4 font-label text-gold"
+                    : "mt-4 font-label text-muted"
               }
             >
               {next}
@@ -141,7 +153,11 @@ export default async function SedcardPage({
             </section>
           )}
 
-          <div className="mt-10 grid gap-10 sm:grid-cols-2">
+          <div
+            className={
+              hasShifts ? "mt-10 grid gap-10 sm:grid-cols-2" : "mt-10 max-w-md"
+            }
+          >
             <section aria-labelledby="facts">
               <h2 id="facts" className="text-2xl text-ink">
                 {t("facts")}
@@ -193,7 +209,7 @@ export default async function SedcardPage({
                 {profile.services.map((s) => (
                   <li
                     key={s.id ?? s.de}
-                    className="rounded-card border border-line bg-panel px-3 py-1 text-sm text-ink"
+                    className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-ink"
                   >
                     {localize(s, locale)}
                   </li>

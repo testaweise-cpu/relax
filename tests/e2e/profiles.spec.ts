@@ -9,12 +9,38 @@ test.describe("Mieterinnen", () => {
       .getByRole("link", { name: /^Jetzt da/ })
       .click();
     await expect(page).toHaveURL(/\/mieterinnen\?jetzt=1$/);
+    // Das Raster wird nach der Überblendung ersetzt
+    await expect
+      .poll(() => page.locator(".sedcard").count())
+      .toBeLessThan(before);
     const after = await page.locator(".sedcard").count();
     expect(after).toBeGreaterThan(0);
-    expect(after).toBeLessThan(before);
     // Direktaufruf mit Filter liefert dasselbe Ergebnis
     await page.goto("/mieterinnen?jetzt=1");
     await expect(page.locator(".sedcard")).toHaveCount(after);
+  });
+
+  test("Sofortsuche nach Name und Service, teilbar per URL", async ({
+    page,
+  }) => {
+    await page.goto("/mieterinnen");
+    const search = page.getByRole("searchbox", {
+      name: "Mieterinnen durchsuchen",
+    });
+    await search.fill("auro");
+    await expect(page).toHaveURL(/suche=auro/);
+    await expect(page.locator(".sedcard")).toHaveCount(1);
+    await expect(page.locator(".sedcard")).toContainText("Aurora");
+    await search.fill("Rollenspiele");
+    await expect
+      .poll(() => page.locator(".sedcard").count())
+      .toBeGreaterThan(1);
+    await page.goto("/mieterinnen?suche=auro&sortierung=az");
+    await expect(page.locator(".sedcard")).toHaveCount(1);
+    await expect(page.getByRole("link", { name: "A–Z" })).toHaveAttribute(
+      "aria-current",
+      "true",
+    );
   });
 
   test("Sedcard mit Wochenplan; unbekannter Slug ergibt 404", async ({
@@ -28,7 +54,7 @@ test.describe("Mieterinnen", () => {
     expect(res?.status()).toBe(404);
   });
 
-  test("Lightbox öffnet, zeigt Zähler und schließt mit Escape", async ({
+  test("Story-Galerie: öffnet, blättert per Taste und schließt mit Escape", async ({
     page,
   }) => {
     await page.goto("/mieterinnen/carmen");
@@ -36,8 +62,25 @@ test.describe("Mieterinnen", () => {
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
     await expect(dialog.getByText("Bild 1 von 3")).toBeVisible();
+    await page.keyboard.press("ArrowRight");
+    await expect(dialog.getByText("Bild 2 von 3")).toBeVisible();
     await page.keyboard.press("Escape");
     await expect(dialog).toBeHidden();
+  });
+
+  test("Story-Galerie blättert nach 5 s von selbst weiter", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(!!isMobile, "einmal reicht");
+    // Fortschritt läuft als CSS-Animation (echte Zeit, keine virtuelle Uhr)
+    await page.goto("/mieterinnen/carmen");
+    await page.getByRole("button", { name: "Als Story ansehen" }).click();
+    const dialog = page.getByRole("dialog");
+    await expect(dialog.getByText("Bild 1 von 3")).toBeVisible();
+    await expect(dialog.getByText("Bild 2 von 3")).toBeVisible({
+      timeout: 8_000,
+    });
   });
 
   test("Profil ohne Schichten ist erreichbar, aber noindex", async ({

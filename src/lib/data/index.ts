@@ -44,6 +44,9 @@ export async function getPresentProfiles(): Promise<PresentProfile[]> {
     })
     .sort(
       (a, b) =>
+        // Verfügbare zuerst, dann nach Beginn, dann nach Name
+        Number(b.presence.state === "ready") -
+          Number(a.presence.state === "ready") ||
         (a.presence.since ?? "").localeCompare(b.presence.since ?? "") ||
         a.profile.name.localeCompare(b.profile.name),
     );

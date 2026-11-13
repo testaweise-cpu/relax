@@ -2,15 +2,13 @@ import type { Locale } from "@/i18n/routing";
 import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { FilterChips } from "@/components/profiles/filter-chips";
-import { ProfileGrid } from "@/components/profiles/profile-grid";
+import { ProfileExplorer } from "@/components/profiles/profile-explorer";
 import { Section } from "@/components/ui/section";
 import {
-  applyFilters,
-  filterOptions,
   hasActiveFilters,
   parseFilters,
-} from "@/lib/profiles/cards";
+  toExplorerCard,
+} from "@/lib/profiles/explore";
 import { getProfileCards } from "@/lib/profiles/server";
 
 export async function generateMetadata({
@@ -39,7 +37,6 @@ export default async function ProfilesPage({
   const t = await getTranslations("profiles");
   const filters = parseFilters(await searchParams);
   const { cards } = await getProfileCards(locale === "en" ? "en" : "de");
-  const visible = applyFilters(cards, filters);
 
   return (
     <Section
@@ -48,24 +45,7 @@ export default async function ProfilesPage({
       title={t("title")}
       intro={t("intro")}
     >
-      <FilterChips
-        filters={filters}
-        options={filterOptions(cards)}
-        locale={locale}
-      />
-
-      <p className="mt-8 mb-4 font-label text-sm text-muted" aria-live="polite">
-        {t("count", { count: visible.length })}
-      </p>
-
-      {visible.length > 0 ? (
-        <ProfileGrid cards={visible} />
-      ) : (
-        <div className="panel p-8 text-center">
-          <p className="text-lg text-ink">{t("empty")}</p>
-          <p className="mt-2 text-muted">{t("emptyHint")}</p>
-        </div>
-      )}
+      <ProfileExplorer cards={cards.map(toExplorerCard)} initial={filters} />
     </Section>
   );
 }

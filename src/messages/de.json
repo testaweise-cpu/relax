@@ -39,7 +39,9 @@
     "live": "Jetzt da",
     "new": "Neu",
     "back": "Wieder da",
-    "languages": "Sprachen"
+    "languages": "Sprachen",
+    "available": "Verfügbar",
+    "onSite": "Im Haus"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -74,7 +76,7 @@
     "title": "Mieterinnen",
     "eyebrow": "Sedcards",
     "metaDescription": "Alle Mieterinnen im Mona Roses in Berlin-Steglitz: Sedcards, Sprachen, Zeiten – und wer jetzt da ist.",
-    "intro": "Alle Damen, die bei uns ein Zimmer mieten. Filtere nach Sprache oder danach, wer jetzt da ist.",
+    "intro": "Alle Damen, die bei uns ein Zimmer mieten. Suche nach Name oder Service, filtere nach Sprache oder danach, wer jetzt da ist.",
     "filters": "Filter",
     "language": "Sprache",
     "origin": "Herkunft",
@@ -85,7 +87,19 @@
     "count": "{count, plural, =0 {Keine Treffer} one {# Mieterin} other {# Mieterinnen}}",
     "empty": "Keine Mieterin passt zu diesen Filtern.",
     "emptyHint": "Probiere weniger Filter oder schau später noch einmal vorbei.",
-    "liveCount": "{count, plural, =0 {Gerade niemand da} one {# jetzt da} other {# jetzt da}}"
+    "liveCount": "{count, plural, =0 {Gerade niemand da} one {# jetzt da} other {# jetzt da}}",
+    "searchLabel": "Mieterinnen durchsuchen",
+    "searchPlaceholder": "Name oder Service …",
+    "clearSearch": "Suche leeren",
+    "submitSearch": "Suchen",
+    "sortLabel": "Sortieren",
+    "sortLive": "Live zuerst",
+    "sortNew": "Neu zuerst",
+    "sortAz": "A–Z",
+    "services": "Services",
+    "moreServices": "Alle {count} Services",
+    "fewerServices": "Weniger Services",
+    "moreFilters": "Sprache & Services"
   },
   "sedcard": {
     "back": "Alle Mieterinnen",
@@ -114,7 +128,11 @@
     "off": "–",
     "callHint": "Ruf an und frag direkt nach {name}.",
     "servicesNote": "Alle Dienstleistungen werden direkt mit der Mieterin vereinbart.",
-    "notFoundTitle": "Profil nicht gefunden"
+    "notFoundTitle": "Profil nicht gefunden",
+    "pause": "Pausieren",
+    "play": "Abspielen",
+    "storyHint": "Tippen: weiter · Halten: Pause · Doppeltippen: Zoom",
+    "story": "Als Story ansehen"
   },
   "now": {
     "title": "Jetzt da",
@@ -127,7 +145,11 @@
     "allProfiles": "Alle Mieterinnen",
     "stripTitle": "Jetzt da",
     "stripAll": "Alle anzeigen",
-    "stale": "Verbindung unterbrochen – zeige letzten Stand."
+    "stale": "Verbindung unterbrochen – zeige letzten Stand.",
+    "groupReady": "Jetzt verfügbar",
+    "groupOnSite": "Im Haus, gerade beschäftigt",
+    "heroPill": "{count, plural, =0 {Gerade niemand im Haus} one {# jetzt im Haus} other {# jetzt im Haus}}",
+    "heroReady": "{count} verfügbar"
   },
   "prices": {
     "title": "Preise",

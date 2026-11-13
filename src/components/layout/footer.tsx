@@ -17,9 +17,7 @@ export async function Footer() {
   return (
     <footer className="bg-night-2 pb-24 md:pb-0">
       {/* Goldlinie mit Raute statt einfacher Trennlinie */}
-      <div className="ornament container-page text-[0.6rem]" aria-hidden>
-        ◆
-      </div>
+      <div className="ornament container-page text-[0.6rem]" aria-hidden></div>
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
           <NeonText tilt className="text-5xl">

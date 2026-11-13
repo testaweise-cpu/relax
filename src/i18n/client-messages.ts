@@ -13,6 +13,7 @@ export const CLIENT_NAMESPACES = [
   "nav",
   "now",
   "profile",
+  "profiles",
   "sedcard",
 ] as const;
 

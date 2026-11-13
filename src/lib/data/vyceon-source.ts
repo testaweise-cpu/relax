@@ -200,11 +200,22 @@ export function fromApiProfile(raw: unknown, now = new Date()): unknown {
   };
 }
 
-/** Wer ist gerade im Haus? Der Beginn ist unbekannt. */
+/**
+ * Wer ist gerade im Haus? `presence_state` "ready" heißt verfügbar; jeder
+ * andere Wert (z. B. "on_site" für Zimmer oder Pause) nur „im Haus“.
+ */
 function fromApiPresence(raw: unknown): Presence[] {
-  return isObject(raw) && raw.in_house === true && str(raw.id)
-    ? [{ profileId: str(raw.id)! }]
-    : [];
+  if (!isObject(raw) || raw.in_house !== true || !str(raw.id)) return [];
+  const since = str(raw.in_house_since);
+  return [
+    {
+      profileId: str(raw.id)!,
+      state: raw.presence_state === "ready" ? "ready" : "on_site",
+      ...(since && !Number.isNaN(Date.parse(since))
+        ? { since: new Date(since).toISOString() }
+        : {}),
+    },
+  ];
 }
 
 export function createVyceonSource(config: VyceonConfig): DataSource {

@@ -15,6 +15,7 @@ export function toPresenceResponse(
       isNew: profile.isNew,
       isBack: profile.isBack,
       image: profile.images[0] ?? null,
+      state: presence.state ?? null,
       since: presence.since ?? null,
       until: presence.until ?? null,
     })),

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { ViewTransition } from "react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { Badge } from "./badge";
@@ -9,9 +10,11 @@ export type SedcardTileProps = {
   slug: string;
   name: string;
   languages: string[];
-  /** z. B. "heute 16–24 Uhr" – kommt aus der Zeitlogik (Phase 3) */
+  /** z. B. "heute 16–24 Uhr" oder "jetzt verfügbar" */
   timeLabel?: string;
   isLive?: boolean;
+  /** Zustand im Haus: verfügbar oder gerade beschäftigt */
+  liveState?: "ready" | "on_site" | null;
   isNew?: boolean;
   isBack?: boolean;
   image?: { url: string; width: number; height: number; alt: string };
@@ -23,51 +26,79 @@ export type SedcardTileProps = {
   className?: string;
 };
 
+/** Bildgrößen der Kachel im Raster (auch für den Übergang zum Profil genutzt) */
+export const SEDCARD_SIZES =
+  "(min-width: 1024px) 22vw, (min-width: 640px) 31vw, 46vw";
+
+/** Gemeinsamer Name für den Übergang Kachel → Profilbild. */
+export const sedcardTransitionName = (slug: string) => `sedcard-${slug}`;
+
 export function SedcardTile({
   slug,
   name,
   languages,
   timeLabel,
   isLive,
+  liveState,
   isNew,
   isBack,
   image,
   seed = 0,
   priority,
-  sizes = "(min-width: 1024px) 22vw, (min-width: 640px) 31vw, 46vw",
+  sizes = SEDCARD_SIZES,
   className,
 }: SedcardTileProps) {
   const t = useTranslations("profile");
+  const ready = isLive && liveState === "ready";
 
   return (
     <Link
       href={`/mieterinnen/${slug}`}
-      className={cn("sedcard group no-underline", className)}
+      className={cn(
+        "sedcard group no-underline",
+        ready && "sedcard-ready",
+        className,
+      )}
     >
-      <div className="relative aspect-[3/4]">
-        {image ? (
-          <Image
-            src={image.url}
-            alt={image.alt}
-            fill
-            sizes={sizes}
-            loading={priority ? "eager" : undefined}
-            fetchPriority={priority ? "high" : undefined}
-            className="object-cover"
-          />
-        ) : (
-          <PlaceholderArt seed={seed} />
-        )}
+      <div className="relative aspect-[3/4] overflow-hidden">
+        <ViewTransition
+          name={sedcardTransitionName(slug)}
+          share="morph"
+          default="none"
+        >
+          <div className="absolute inset-0">
+            {image ? (
+              <Image
+                src={image.url}
+                alt={image.alt}
+                fill
+                sizes={sizes}
+                loading={priority ? "eager" : undefined}
+                fetchPriority={priority ? "high" : undefined}
+                className="sedcard-img object-cover"
+              />
+            ) : (
+              <PlaceholderArt seed={seed} />
+            )}
+          </div>
+        </ViewTransition>
         <div className="sedcard-shade" aria-hidden />
 
-        <div className="absolute inset-x-2 top-2 flex flex-wrap gap-1.5">
-          {isLive && <Badge variant="live">{t("live")}</Badge>}
+        <div className="absolute inset-x-2.5 top-2.5 flex flex-wrap gap-1.5">
+          {isLive &&
+            (liveState ? (
+              <Badge variant={ready ? "ready" : "live"}>
+                {ready ? t("available") : t("onSite")}
+              </Badge>
+            ) : (
+              <Badge variant="live">{t("live")}</Badge>
+            ))}
           {isNew && <Badge variant="new">{t("new")}</Badge>}
           {isBack && !isNew && <Badge variant="back">{t("back")}</Badge>}
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 px-3 pb-3">
-          <p className="max-w-full font-display text-[1.9rem] leading-none font-medium break-words text-ink italic [text-shadow:0_2px_18px_rgb(0_0_0/0.6)] sm:text-[2.2rem]">
+        <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5">
+          <p className="max-w-full font-display text-[1.9rem] leading-[0.95] font-medium break-words text-ink italic [text-shadow:0_2px_18px_rgb(0_0_0/0.6)] sm:text-[2.2rem]">
             {name}
           </p>
           {languages.length > 0 && (
@@ -80,7 +111,7 @@ export function SedcardTile({
             <p
               className={cn(
                 "mt-1 truncate font-label text-xs tracking-wide",
-                isLive ? "text-gold" : "text-muted",
+                ready ? "text-mint" : isLive ? "text-gold" : "text-muted",
               )}
             >
               {timeLabel}

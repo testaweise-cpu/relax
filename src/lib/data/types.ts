@@ -66,8 +66,12 @@ export const shiftSchema = z
     message: "Schichtende liegt nicht nach dem Beginn",
   });
 
+/** ready = jetzt verfügbar; on_site = im Haus, aber gerade beschäftigt oder in Pause */
+export const presenceStateSchema = z.enum(["ready", "on_site"]);
+
 export const presenceSchema = z.object({
   profileId: z.string().min(1),
+  state: presenceStateSchema.optional(),
   /** Beginn, falls bekannt (VyceON meldet nur „im Haus“) */
   since: isoDateTime.optional(),
   until: isoDateTime.optional(),
@@ -78,6 +82,7 @@ export type ProfileImage = z.infer<typeof imageSchema>;
 export type Profile = z.infer<typeof profileSchema>;
 export type Shift = z.infer<typeof shiftSchema>;
 export type Presence = z.infer<typeof presenceSchema>;
+export type PresenceState = z.infer<typeof presenceStateSchema>;
 
 /**
  * Prüft eine Liste Eintrag für Eintrag: Gültiges wird übernommen, Ungültiges

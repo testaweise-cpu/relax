@@ -317,7 +317,13 @@ export function createMockSource(
       const now = clock();
       return generateMockShifts(now)
         .filter((s) => new Date(s.start) <= now && now < new Date(s.end))
-        .map((s) => ({ profileId: s.profileId, since: s.start, until: s.end }));
+        .map((s, i) => ({
+          profileId: s.profileId,
+          // jede dritte gerade beschäftigt, damit beide Zustände sichtbar sind
+          state: i % 3 === 1 ? ("on_site" as const) : ("ready" as const),
+          since: s.start,
+          until: s.end,
+        }));
     },
   };
 }
