@@ -89,13 +89,17 @@ Stand 11/2026, geprüft an den echten Antworten. Umgesetzt in
 | `updatedAt`    | `updated_at`                                                                                                                                      |
 | Live           | `in_house`; Zustand aus `presence_state` (`ready` → verfügbar, sonst „im Haus, gerade beschäftigt“); Beginn aus `in_house_since`, falls geliefert |
 
-**Eckdaten (von VYCE69 noch nicht geliefert, Stand 11/2026):** Die Website
+**Eckdaten:** Die Website
 liest ein Objekt `attributes` im Sedcard-Detail: `age`, `height_cm`,
 `weight_kg`, `cup_size`, `shoe_size`, `clothing_size`, `hair_color`,
 `eye_color`, `body_type`, `intimate_hair`, `tattoos`, `piercings`, `origin`
 (ISO-Code) bzw. `nationality`. Weitere Felder darin werden mit ihrem
 Feldnamen als Beschriftung angezeigt. Ein `age` unter 18 macht das Profil
-ungültig, es erscheint dann nicht.
+ungültig, es erscheint dann nicht. Stand 11/2026 geprüft: `age`, `height_cm`,
+`cup_size` (z. B. „75B“), `clothing_size`, `eye_color`, `tattoos` und
+`piercings` (Text) sind bei allen 34 Sedcards gefüllt, `hair_color` und
+`shoe_size` bei 33, `body_type` und `intimate_hair` bei einer. Gewicht und
+Nationalität hat VYCEON nicht; leere Zeilen blendet der Steckbrief aus.
 
 Nicht verwendet: `availability`, `schedule` (meist leer oder Freitext),
 `category`, `city`, `location`, `permalink`, `alsoWith`, `serviceFor`,
