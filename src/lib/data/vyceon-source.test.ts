@@ -107,7 +107,7 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
     vi.restoreAllMocks();
   });
 
-  it("ruft die Sedcard-Liste mit Bearer-Schlüssel und Cache-Tags auf", async () => {
+  it("ruft die Sedcard-Liste mit Bearer-Schlüssel ohne Next-Fetch-Cache auf", async () => {
     fetchMock.mockResolvedValue(respond(list([item("lydia")])));
     await createVyceonSource(config).listProfiles();
     const [u, init] = fetchMock.mock.calls[0];
@@ -117,10 +117,23 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
     expect((init?.headers as Record<string, string>).Authorization).toBe(
       "Bearer vyc_live_test",
     );
-    expect((init as RequestInit & { next: unknown }).next).toEqual({
-      revalidate: 60,
-      tags: ["profiles", "presence"],
-    });
+    expect(init?.cache).toBe("no-store");
+  });
+
+  it("Liste und Live-Status teilen einen Abruf für 60 Sekunden", async () => {
+    vi.useFakeTimers({ now: new Date("2026-11-13T18:00:00Z") });
+    fetchMock.mockImplementation(async () =>
+      respond(list([item("lydia", { in_house: true })])),
+    );
+    const source = createVyceonSource(config);
+    await source.listProfiles();
+    await source.getPresence();
+    vi.advanceTimersByTime(59_000);
+    await source.getPresence();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    vi.advanceTimersByTime(2_000);
+    await source.getPresence();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   it("ordnet die Felder der Liste zu", async () => {
@@ -212,16 +225,21 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
   });
 
   it("Fehlervertrag {success:false} gilt als Ausfall: letzter Stand bleibt", async () => {
+    vi.useFakeTimers({ now: new Date("2026-11-13T18:00:00Z") });
+    const next = () => vi.advanceTimersByTime(61_000);
     const source = createVyceonSource(config);
     fetchMock.mockRejectedValueOnce(new Error("ECONNREFUSED"));
     await expect(source.listProfiles()).resolves.toEqual([]);
 
+    // Fehlschlag wird nicht zwischengespeichert: sofort neuer Versuch
     fetchMock.mockResolvedValueOnce(respond(list([item("lydia")])));
     await source.listProfiles();
+    next();
     fetchMock.mockResolvedValueOnce(
       respond({ success: false, error: "rate_limited" }, 429),
     );
     expect((await source.listProfiles()).map((p) => p.slug)).toEqual(["lydia"]);
+    next();
     fetchMock.mockResolvedValueOnce(
       respond({ success: false, error: "maintenance" }),
     );

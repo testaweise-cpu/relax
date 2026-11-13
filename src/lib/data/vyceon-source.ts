@@ -213,7 +213,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
 
   async function getJson(
     path: string,
-    cache: { revalidate: number; tags: string[] },
+    cache: { revalidate: number; tags: string[] } | "no-store",
   ) {
     const res = await fetch(`${base}${path}`, {
       headers: {
@@ -221,7 +221,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
         Authorization: `Bearer ${config.apiKey}`,
         Accept: "application/json",
       },
-      next: cache,
+      ...(cache === "no-store" ? { cache } : { next: cache }),
       signal: AbortSignal.timeout(config.timeoutMs ?? 8000),
     });
     if (res.status === 404) throw new NotFoundError(path);
@@ -234,10 +234,23 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
 
   /**
    * Alle veröffentlichten Sedcards, Seite für Seite. Profile und Live-Status
-   * kommen aus derselben Liste, daher ein gemeinsamer Cache von 60 Sekunden
-   * (60 Abrufe pro Stunde bei einem Limit von 1000).
+   * kommen aus derselben Liste: ein eigener Zwischenspeicher von 60 Sekunden
+   * statt des Next-Fetch-Caches, der nach einer Pause erst den alten Stand
+   * ausliefert (60 Abrufe pro Stunde bei einem Limit von 1000).
    */
-  async function fetchAllSedcards(): Promise<unknown[]> {
+  let listMemo: { at: number; items: Promise<unknown[]> } | undefined;
+  function fetchAllSedcards(): Promise<unknown[]> {
+    if (listMemo && Date.now() - listMemo.at < REVALIDATE.presence * 1000)
+      return listMemo.items;
+    const memo = { at: Date.now(), items: loadAllSedcards() };
+    listMemo = memo;
+    memo.items.catch(() => {
+      if (listMemo === memo) listMemo = undefined;
+    });
+    return memo.items;
+  }
+
+  async function loadAllSedcards(): Promise<unknown[]> {
     const all: unknown[] = [];
     for (let page = 1; page <= MAX_PAGES; page++) {
       const qs = new URLSearchParams({
@@ -245,10 +258,7 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
         per_page: String(PAGE_SIZE),
         order: "name",
       });
-      const data = await getJson(`/bordells/${org}/sedcards?${qs}`, {
-        revalidate: REVALIDATE.presence,
-        tags: [TAGS.profiles, TAGS.presence],
-      });
+      const data = await getJson(`/bordells/${org}/sedcards?${qs}`, "no-store");
       const items = pageItems(data);
       all.push(...items);
       if (!hasNextPage(data, page, items.length)) return all;
