@@ -3,8 +3,8 @@
 Diese Punkte werden **nicht** selbst entschieden. Im Inhalt sind sie mit
 `TODO(...)` markiert. Fragen an den Kunden: `docs/offene-fragen.md`.
 
-- [ ] **Hausnummer**: Hindenburgdamm 74 oder 76 – Platzhalter „TODO(74/76)“ (`settings.json` → `street`)
-- [ ] **Jahre**: „seit über 25 Jahren“ oder „30 Jahren“ (`settings.json` → `foundedNote`)
+- [x] **Hausnummer**: Hindenburgdamm 76 (vom Kunden bestätigt, 13.11.2026)
+- [x] **Jahre**: „seit über 30 Jahren“ (vom Kunden bestätigt, 13.11.2026)
 - [ ] **Bockhaus**: Erwähnung auf der Galerieseite – andere Marke? Nicht übernommen.
 - [x] **Telefon/PLZ**: aus dem alten Impressum übernommen (030 832 29 067, 12203 Berlin).
 - [ ] **Impressum/Datenschutz**: Die alten Rechtstexte nennen „Bockhaus Berlin“ und info@bockhaus-berlin.de. Wer ist Anbieter/Verantwortlicher für mona-roses.com?

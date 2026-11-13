@@ -108,8 +108,14 @@ export default async function ContactPage({
           </Card>
         </div>
         <p className="mt-8 text-muted">
-          {t("jobs")}: <Link href="/jobs">/jobs</Link> · {s.jobsPhone} ·{" "}
-          {s.jobsEmail && <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>}
+          {t("jobs")}: <Link href="/jobs">/jobs</Link>
+          {s.jobsPhone && <> · {s.jobsPhone}</>}
+          {s.jobsEmail && (
+            <>
+              {" "}
+              · <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>
+            </>
+          )}
         </p>
       </Section>
       {faq.length > 0 && (

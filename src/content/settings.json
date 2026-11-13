@@ -2,24 +2,24 @@
   "phone": "030 832 29 067",
   "phoneE164": "+493083229067",
   "email": "info@mona-roses.com",
-  "street": "Hindenburgdamm TODO(74/76)",
+  "street": "Hindenburgdamm 76",
   "postalCode": "12203",
   "city": "Berlin",
   "district": "Steglitz",
-  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mona%20Roses%20Hindenburgdamm%20Berlin",
+  "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Mona%20Roses%2C%20Hindenburgdamm%2076%2C%2012203%20Berlin",
   "openingHours": {
     "de": "Rund um die Uhr geöffnet, 7 Tage die Woche",
     "en": "Open around the clock, 7 days a week"
   },
   "foundedNote": {
-    "de": "Seit über TODO(25 oder 30) Jahren in Berlin-Steglitz",
-    "en": "In Berlin-Steglitz for more than TODO(25 or 30) years"
+    "de": "Seit über 30 Jahren in Berlin-Steglitz",
+    "en": "In Berlin-Steglitz for more than 30 years"
   },
-  "jobsPhone": "0173 631 49 35",
-  "jobsPhoneE164": "+491736314935",
+  "jobsPhone": "",
+  "jobsPhoneE164": "",
   "jobsEmail": "vermietung@mona-roses.com",
   "directions": {
-    "de": "Sie finden uns direkt am Hindenburgdamm in Berlin-Steglitz. TODO(Anfahrt): nächste Haltestellen von Bus und S-Bahn sowie Parkmöglichkeiten ergänzen.",
-    "en": "You will find us right on Hindenburgdamm in Berlin-Steglitz. TODO(directions): add the nearest bus and S-Bahn stops as well as parking."
+    "de": "Sie finden uns direkt am Hindenburgdamm 76 in Berlin-Steglitz.",
+    "en": "You will find us right at Hindenburgdamm 76 in Berlin-Steglitz."
   }
 }

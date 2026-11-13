@@ -26,6 +26,7 @@
   },
   "common": {
     "call": "Anrufen",
+    "route": "Route",
     "open247": "24/7 geöffnet",
     "skipToContent": "Zum Inhalt springen",
     "yes": "Ja",
@@ -242,7 +243,7 @@
   "contact": {
     "title": "Kontakt & Anfahrt",
     "eyebrow": "So finden Sie uns",
-    "metaDescription": "Mona Roses, Hindenburgdamm, 12203 Berlin-Steglitz. Telefon 030 832 29 067, rund um die Uhr geöffnet.",
+    "metaDescription": "Mona Roses, Hindenburgdamm 76, 12203 Berlin-Steglitz. Telefon 030 832 29 067, rund um die Uhr geöffnet.",
     "address": "Adresse",
     "phone": "Telefon",
     "email": "E-Mail",
