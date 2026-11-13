@@ -97,61 +97,21 @@ export default async function SedcardPage({
       </Link>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-        <ProfileGallery
-          images={profile.images}
-          name={profile.name}
-          slug={profile.slug}
-        />
-
-        <div>
-          <div className="flex flex-wrap gap-2">
-            {presence ? (
-              presence.state ? (
-                <Badge variant={presence.state === "ready" ? "ready" : "live"}>
-                  {presence.state === "ready" ? tp("available") : tp("onSite")}
-                </Badge>
-              ) : (
-                <Badge variant="live">{t("liveNow")}</Badge>
-              )
-            ) : (
-              <Badge>{t("notHere")}</Badge>
-            )}
-            {profile.isNew && <Badge variant="new">{tp("new")}</Badge>}
-            {profile.isBack && !profile.isNew && (
-              <Badge variant="back">{tp("back")}</Badge>
-            )}
+        {/* Links: Bilder, darunter die Beschreibung. Rechts: Name und Eckdaten.
+            Auf dem Handy eine Spalte: Bilder, Name, Beschreibung, Eckdaten. */}
+        <div className="max-lg:contents">
+          <div className="max-lg:order-1">
+            <ProfileGallery
+              images={profile.images}
+              name={profile.name}
+              slug={profile.slug}
+            />
           </div>
-
-          <h1 className="profile-name mt-6 text-7xl sm:text-8xl">
-            {profile.name}
-          </h1>
-
-          {next && (
-            <p
-              className={
-                presence?.state === "ready"
-                  ? "mt-4 font-label text-mint"
-                  : presence
-                    ? "mt-4 font-label text-gold"
-                    : "mt-4 font-label text-muted"
-              }
-            >
-              {next}
-            </p>
-          )}
-
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <ButtonAnchor href={telHref(settings.phoneE164)} size="lg">
-              <PhoneIcon />
-              {tc("call")}
-            </ButtonAnchor>
-            <p className="text-sm text-muted">
-              {t("callHint", { name: profile.name })}
-            </p>
-          </div>
-
           {profile.personalNote && (
-            <section className="mt-10" aria-labelledby="about">
+            <section
+              className="max-lg:order-3 lg:mt-10"
+              aria-labelledby="about"
+            >
               <h2 id="about" className="text-2xl text-ink">
                 {t("about")}
               </h2>
@@ -160,103 +120,161 @@ export default async function SedcardPage({
               </p>
             </section>
           )}
+        </div>
 
-          <div
-            className={
-              hasShifts ? "mt-10 grid gap-10 sm:grid-cols-2" : "mt-10 max-w-md"
-            }
-          >
-            <section aria-labelledby="facts">
-              <h2 id="facts" className="text-2xl text-ink">
-                {t("facts")}
-              </h2>
-              <dl className="mt-4 text-sm">
-                {profile.age && (
-                  <Fact label={t("age")}>
-                    {t("years", { count: profile.age })}
-                  </Fact>
-                )}
-                <Fact label={t("languages")}>
-                  {profile.languages
-                    .map((l) => languageName(l, locale))
-                    .join(", ")}
-                </Fact>
-                {profile.origin && (
-                  <Fact label={t("origin")}>
-                    {regionName(profile.origin, locale)}
-                  </Fact>
-                )}
-                {profile.heightCm && (
-                  <Fact label={t("height")}>{profile.heightCm} cm</Fact>
-                )}
-                {profile.cupSize && (
-                  <Fact label={t("cup")}>{profile.cupSize}</Fact>
-                )}
-                {profile.shoeSize && (
-                  <Fact label={t("shoe")}>{profile.shoeSize}</Fact>
-                )}
-                {profile.weightKg && (
-                  <Fact label={t("weight")}>{profile.weightKg} kg</Fact>
-                )}
-                {profile.clothingSize && (
-                  <Fact label={t("clothing")}>{profile.clothingSize}</Fact>
-                )}
-                {profile.bodyType && (
-                  <Fact label={t("body")}>{profile.bodyType}</Fact>
-                )}
-                {profile.hairColor && (
-                  <Fact label={t("hair")}>{profile.hairColor}</Fact>
-                )}
-                {profile.eyeColor && (
-                  <Fact label={t("eyes")}>{profile.eyeColor}</Fact>
-                )}
-                {profile.intimateHair && (
-                  <Fact label={t("intimate")}>{profile.intimateHair}</Fact>
-                )}
-                {profile.tattoos !== undefined && (
-                  <Fact label={t("tattoos")}>{yesNo(profile.tattoos)}</Fact>
-                )}
-                {profile.piercings !== undefined && (
-                  <Fact label={t("piercings")}>{yesNo(profile.piercings)}</Fact>
-                )}
-                {profile.extraFacts.map((f) => (
-                  <Fact key={f.label} label={f.label}>
-                    {f.value}
-                  </Fact>
-                ))}
-              </dl>
-            </section>
+        <div className="max-lg:contents">
+          <div className="max-lg:order-2">
+            <div className="flex flex-wrap gap-2">
+              {presence ? (
+                presence.state ? (
+                  <Badge
+                    variant={presence.state === "ready" ? "ready" : "live"}
+                  >
+                    {presence.state === "ready"
+                      ? tp("available")
+                      : tp("onSite")}
+                  </Badge>
+                ) : (
+                  <Badge variant="live">{t("liveNow")}</Badge>
+                )
+              ) : (
+                <Badge>{t("notHere")}</Badge>
+              )}
+              {profile.isNew && <Badge variant="new">{tp("new")}</Badge>}
+              {profile.isBack && !profile.isNew && (
+                <Badge variant="back">{tp("back")}</Badge>
+              )}
+            </div>
 
-            {hasShifts && (
-              <section aria-labelledby="week">
-                <h2 id="week" className="text-2xl text-ink">
-                  {t("week")}
+            <h1 className="profile-name mt-6 text-7xl sm:text-8xl">
+              {profile.name}
+            </h1>
+
+            {next && (
+              <p
+                className={
+                  presence?.state === "ready"
+                    ? "mt-4 font-label text-mint"
+                    : presence
+                      ? "mt-4 font-label text-gold"
+                      : "mt-4 font-label text-muted"
+                }
+              >
+                {next}
+              </p>
+            )}
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <ButtonAnchor href={telHref(settings.phoneE164)} size="lg">
+                <PhoneIcon />
+                {tc("call")}
+              </ButtonAnchor>
+              <p className="text-sm text-muted">
+                {t("callHint", { name: profile.name })}
+              </p>
+            </div>
+          </div>
+
+          <div className="max-lg:order-4">
+            <div
+              className={
+                hasShifts ? "grid gap-10 sm:grid-cols-2 lg:mt-10" : "lg:mt-10"
+              }
+            >
+              <section aria-labelledby="facts">
+                <h2 id="facts" className="text-2xl text-ink">
+                  {t("facts")}
                 </h2>
-                <div className="mt-4">
-                  <WeekPlan days={plan} />
-                </div>
+                <dl className="mt-4 text-sm">
+                  {profile.age && (
+                    <Fact label={t("age")}>
+                      {t("years", { count: profile.age })}
+                    </Fact>
+                  )}
+                  <Fact label={t("languages")}>
+                    {profile.languages
+                      .map((l) => languageName(l, locale))
+                      .join(", ")}
+                  </Fact>
+                  {profile.origin && (
+                    <Fact label={t("origin")}>
+                      {regionName(profile.origin, locale)}
+                    </Fact>
+                  )}
+                  {profile.heightCm && (
+                    <Fact label={t("height")}>{profile.heightCm} cm</Fact>
+                  )}
+                  {profile.cupSize && (
+                    <Fact label={t("cup")}>{profile.cupSize}</Fact>
+                  )}
+                  {profile.shoeSize && (
+                    <Fact label={t("shoe")}>{profile.shoeSize}</Fact>
+                  )}
+                  {profile.weightKg && (
+                    <Fact label={t("weight")}>{profile.weightKg} kg</Fact>
+                  )}
+                  {profile.clothingSize && (
+                    <Fact label={t("clothing")}>{profile.clothingSize}</Fact>
+                  )}
+                  {profile.bodyType && (
+                    <Fact label={t("body")}>{profile.bodyType}</Fact>
+                  )}
+                  {profile.hairColor && (
+                    <Fact label={t("hair")}>{profile.hairColor}</Fact>
+                  )}
+                  {profile.eyeColor && (
+                    <Fact label={t("eyes")}>{profile.eyeColor}</Fact>
+                  )}
+                  {profile.intimateHair && (
+                    <Fact label={t("intimate")}>{profile.intimateHair}</Fact>
+                  )}
+                  {profile.tattoos !== undefined && (
+                    <Fact label={t("tattoos")}>{yesNo(profile.tattoos)}</Fact>
+                  )}
+                  {profile.piercings !== undefined && (
+                    <Fact label={t("piercings")}>
+                      {yesNo(profile.piercings)}
+                    </Fact>
+                  )}
+                  {profile.extraFacts.map((f) => (
+                    <Fact key={f.label} label={f.label}>
+                      {f.value}
+                    </Fact>
+                  ))}
+                </dl>
+              </section>
+
+              {hasShifts && (
+                <section aria-labelledby="week">
+                  <h2 id="week" className="text-2xl text-ink">
+                    {t("week")}
+                  </h2>
+                  <div className="mt-4">
+                    <WeekPlan days={plan} />
+                  </div>
+                </section>
+              )}
+            </div>
+
+            {profile.services.length > 0 && (
+              <section className="mt-10" aria-labelledby="services">
+                <h2 id="services" className="text-2xl text-ink">
+                  {t("services")}
+                </h2>
+                <ul className="mt-4 flex flex-wrap gap-2">
+                  {profile.services.map((s) => (
+                    <li
+                      key={s.id ?? s.de}
+                      className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-ink"
+                    >
+                      {localize(s, locale)}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-sm text-muted">{t("servicesNote")}</p>
               </section>
             )}
           </div>
-
-          {profile.services.length > 0 && (
-            <section className="mt-10" aria-labelledby="services">
-              <h2 id="services" className="text-2xl text-ink">
-                {t("services")}
-              </h2>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {profile.services.map((s) => (
-                  <li
-                    key={s.id ?? s.de}
-                    className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-ink"
-                  >
-                    {localize(s, locale)}
-                  </li>
-                ))}
-              </ul>
-              <p className="mt-3 text-sm text-muted">{t("servicesNote")}</p>
-            </section>
-          )}
         </div>
       </div>
 

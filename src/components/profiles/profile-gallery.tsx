@@ -43,7 +43,7 @@ export function ProfileGallery({
   if (total === 0) return null;
 
   return (
-    <div className="lg:sticky lg:top-24">
+    <div>
       <div className="profile-stage relative">
         <div
           ref={track}
