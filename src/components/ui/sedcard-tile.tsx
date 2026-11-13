@@ -98,7 +98,7 @@ export function SedcardTile({
         </div>
 
         <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5">
-          <p className="sedcard-name max-w-full font-display text-[1.9rem] leading-[0.95] font-medium break-words italic sm:text-[2.2rem]">
+          <p className="sedcard-name max-w-full text-[2rem] break-words sm:text-[2.4rem]">
             {name}
           </p>
           {languages.length > 0 && (
