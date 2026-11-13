@@ -19,30 +19,43 @@ export function GalleryGrid({
   const box = useRef<LightboxHandle>(null);
   return (
     <>
-      <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        {items.map((item, i) => (
-          <li key={item.url} className={item.portrait ? "" : "col-span-2"}>
-            <button
-              type="button"
-              onClick={() => box.current?.open(i)}
-              className="group relative block w-full cursor-zoom-in overflow-hidden rounded-card border border-line transition-[border-color,box-shadow] hover:border-gold/60"
-              style={{ aspectRatio: item.portrait ? "3 / 4" : "3 / 2" }}
-              aria-label={t("openImage", { n: i + 1, total: items.length })}
+      {/* Zeilen füllen die ganze Breite: jedes Bild wächst im Verhältnis
+          seines Seitenformats (Hochformat 3:4, Querformat 3:2) */}
+      <ul className="justified">
+        {items.map((item, i) => {
+          const ratio = item.portrait ? 3 / 4 : 3 / 2;
+          return (
+            <li
+              key={item.url}
+              className="reveal"
+              style={{
+                flexGrow: ratio,
+                flexBasis: `calc(var(--row-h) * ${ratio})`,
+                // letzte Zeile nicht übermäßig aufblasen
+                maxWidth: `calc(var(--row-h) * ${ratio} * 1.75)`,
+              }}
             >
-              <Image
-                src={item.url}
-                alt={item.alt}
-                fill
-                sizes={
-                  item.portrait
-                    ? "(min-width: 1024px) 25vw, 50vw"
-                    : "(min-width: 1024px) 50vw, 100vw"
-                }
-                className="object-cover motion-safe:transition-transform motion-safe:duration-500 motion-safe:group-hover:scale-[1.03]"
-              />
-            </button>
-          </li>
-        ))}
+              <button
+                type="button"
+                onClick={() => box.current?.open(i)}
+                className="group relative block h-full w-full cursor-zoom-in overflow-hidden rounded-[var(--radius-lg)] border border-white/10 transition-[border-color] hover:border-gold/60"
+                aria-label={t("openImage", { n: i + 1, total: items.length })}
+              >
+                <Image
+                  src={item.url}
+                  alt={item.alt}
+                  fill
+                  sizes={
+                    item.portrait
+                      ? "(min-width: 1024px) 25vw, 50vw"
+                      : "(min-width: 1024px) 50vw, 100vw"
+                  }
+                  className="object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-[1.04]"
+                />
+              </button>
+            </li>
+          );
+        })}
       </ul>
       <Lightbox ref={box} images={items} label={label} />
     </>

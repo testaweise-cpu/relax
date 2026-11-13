@@ -17,6 +17,7 @@ import {
   PhoneIcon,
 } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
+import { Marquee } from "@/components/ui/marquee";
 import { Section } from "@/components/ui/section";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -103,63 +104,72 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <NowStrip initial={present} className="bg-night-2" />
 
-      <Section title={pick(home.introTitle, l)}>
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-end">
-          <Paragraphs
-            text={pick(home.introText, l)}
-            className="max-w-2xl text-lg text-ink"
-          />
-          {nextEvent && (
-            <Link
-              href="/events"
-              className="panel panel-accent block p-7 no-underline transition-colors hover:border-gold/50"
-            >
-              <p className="eyebrow">{te("teaser")}</p>
-              <p className="mt-3 font-display text-4xl font-medium text-ink italic">
-                {pick(nextEvent.title, l)}
-              </p>
-              <p className="mt-2 font-label text-xs tracking-[0.2em] text-gold uppercase">
-                {new Intl.DateTimeFormat(l === "en" ? "en-GB" : "de-DE", {
-                  day: "numeric",
-                  month: "long",
-                  timeZone: "UTC",
-                }).format(new Date(`${nextEvent.date}T00:00:00Z`))}
-                {pick(nextEvent.time, l) ? ` · ${pick(nextEvent.time, l)}` : ""}
-              </p>
-            </Link>
-          )}
+      <Marquee
+        items={[
+          ...(t.raw("values") as { title: string }[]).map((v) => v.title),
+          ...home.highlights.map((h) => pick(h.title, l)),
+        ]}
+      />
+
+      <section aria-labelledby="intro-title" className="py-20 sm:py-28">
+        <div className="container-page grid gap-8 lg:grid-cols-2 lg:gap-16">
+          <h2
+            id="intro-title"
+            className="reveal text-5xl text-ink sm:text-[4.2rem] lg:sticky lg:top-28 lg:self-start"
+          >
+            {pick(home.introTitle, l)}
+          </h2>
+          <div className="space-y-8">
+            <Paragraphs
+              text={pick(home.introText, l)}
+              className="text-xl leading-relaxed text-ink"
+            />
+            {nextEvent && (
+              <Link
+                href="/events"
+                className="panel panel-accent block p-7 no-underline transition-colors hover:border-gold/50"
+              >
+                <p className="eyebrow">{te("teaser")}</p>
+                <p className="mt-3 font-display text-4xl font-medium text-ink italic">
+                  {pick(nextEvent.title, l)}
+                </p>
+                <p className="mt-2 font-label text-xs tracking-[0.2em] text-gold uppercase">
+                  {new Intl.DateTimeFormat(l === "en" ? "en-GB" : "de-DE", {
+                    day: "numeric",
+                    month: "long",
+                    timeZone: "UTC",
+                  }).format(new Date(`${nextEvent.date}T00:00:00Z`))}
+                  {pick(nextEvent.time, l)
+                    ? ` · ${pick(nextEvent.time, l)}`
+                    : ""}
+                </p>
+              </Link>
+            )}
+          </div>
         </div>
-        <ul className="mt-14 grid gap-3 sm:grid-cols-3">
-          {(t.raw("values") as { title: string; text: string }[]).map((v) => (
-            <li key={v.title} className="panel reveal p-6 sm:p-8">
-              <p className="font-display text-3xl font-medium text-ink italic">
-                {v.title}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                {v.text}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      </section>
 
       <Section
         tone="night-2"
         eyebrow={t("highlightsEyebrow")}
         title={t("highlightsTitle")}
       >
-        <ul className="grid gap-4 md:grid-cols-3 md:gap-5">
+        <ul className="bento">
           {home.highlights.map((h, i) => (
             <li
               key={i}
-              className="reveal group relative aspect-[4/5] overflow-hidden rounded-[var(--radius-lg)] border border-white/10"
+              className="bento-item reveal group relative overflow-hidden rounded-[var(--radius-lg)] border border-white/10"
             >
               {h.image && (
                 <Image
                   src={h.image}
                   alt={pick(h.imageAlt, l)}
                   fill
-                  sizes="(min-width: 768px) 33vw, 100vw"
+                  sizes={
+                    i === 0
+                      ? "(min-width: 768px) 60vw, 100vw"
+                      : "(min-width: 768px) 38vw, 100vw"
+                  }
                   className="object-cover motion-safe:transition-transform motion-safe:duration-700 motion-safe:group-hover:scale-[1.04]"
                 />
               )}
@@ -210,50 +220,63 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </Section>
 
-      <Section
-        tone="night-2"
-        eyebrow={t("visitEyebrow")}
-        title={t("visitTitle")}
-      >
-        <div className="grid gap-6 md:grid-cols-3">
-          <div className="flex gap-3">
-            <MapPinIcon className="mt-1 shrink-0 text-gold" />
+      <section aria-labelledby="visit-title" className="py-20 sm:py-28">
+        <div className="container-page">
+          <div className="visit-panel panel grid gap-10 p-7 sm:p-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center lg:gap-16">
+            <div className="flex justify-center">
+              <p className="neon-sign" aria-hidden>
+                <span className="neon neon-flicker text-7xl sm:text-8xl">
+                  24/7
+                </span>
+              </p>
+            </div>
             <div>
-              <address className="text-lg text-ink not-italic">
-                {settings.street}
-                <br />
-                {settings.postalCode} {settings.city}-{settings.district}
-              </address>
-              {settings.mapsUrl && (
+              <p className="eyebrow">{t("visitEyebrow")}</p>
+              <h2
+                id="visit-title"
+                className="mt-4 text-5xl text-ink sm:text-6xl"
+              >
+                {t("visitTitle")}
+              </h2>
+              <p className="mt-4 flex items-center gap-3 text-lg text-ink">
+                <ClockIcon className="shrink-0 text-gold" />
+                {pick(settings.openingHours, l)}
+              </p>
+              <div className="mt-3 flex gap-3">
+                <MapPinIcon className="mt-1 shrink-0 text-gold" />
+                <div>
+                  <address className="text-lg text-ink not-italic">
+                    {settings.street}, {settings.postalCode} {settings.city}-
+                    {settings.district}
+                  </address>
+                  {settings.mapsUrl && (
+                    <a
+                      href={settings.mapsUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex min-h-11 items-center font-label text-sm"
+                    >
+                      {tc("maps")} ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+              <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+                <ButtonAnchor href={telHref(settings.phoneE164)} size="lg">
+                  <PhoneIcon />
+                  {tcommon("call")}
+                </ButtonAnchor>
                 <a
-                  href={settings.mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-flex min-h-11 items-center font-label text-sm"
+                  href={telHref(settings.phoneE164)}
+                  className="font-label text-2xl tabular-nums"
                 >
-                  {tc("maps")} ↗
+                  {settings.phone}
                 </a>
-              )}
+              </div>
             </div>
           </div>
-          <div className="flex gap-3">
-            <ClockIcon className="mt-1 shrink-0 text-gold" />
-            <p className="text-lg text-ink">{pick(settings.openingHours, l)}</p>
-          </div>
-          <div className="flex flex-col items-start gap-3">
-            <a
-              href={telHref(settings.phoneE164)}
-              className="font-label text-2xl"
-            >
-              {settings.phone}
-            </a>
-            <ButtonAnchor href={telHref(settings.phoneE164)}>
-              <PhoneIcon />
-              {tcommon("call")}
-            </ButtonAnchor>
-          </div>
         </div>
-      </Section>
+      </section>
     </>
   );
 }

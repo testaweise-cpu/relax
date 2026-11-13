@@ -733,6 +733,137 @@
     }
   }
 
+  /* ---- Laufband in Kontur-Schrift -------------------------------- */
+  .marquee {
+    overflow: hidden;
+    padding-block: 1.75rem;
+    border-block: 1px solid rgb(255 255 255 / 0.06);
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 12%,
+      #000 88%,
+      transparent
+    );
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee 36s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  .marquee-row {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+  .marquee-row li {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    line-height: 1;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in oklab, var(--ink) 55%, transparent);
+  }
+  .marquee-row li.marquee-solid {
+    color: var(--ink);
+    -webkit-text-stroke: 0;
+  }
+  /* kleine Neonröhre zwischen den Begriffen */
+  .marquee-row li::after {
+    content: "";
+    width: 0.5em;
+    height: 3px;
+    margin-inline: 0.45em;
+    border-radius: 3px;
+    background: color-mix(in oklab, var(--red) 40%, white);
+    box-shadow:
+      0 0 6px var(--red),
+      0 0 16px color-mix(in oklab, var(--red) 70%, transparent);
+  }
+
+  /* ---- Galerie: Zeilen in voller Breite --------------------------- */
+  .justified {
+    --row-h: 11rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .justified > li {
+    height: var(--row-h);
+    min-width: 0;
+  }
+  @media (min-width: 640px) {
+    .justified {
+      --row-h: 16rem;
+      gap: 1rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .justified {
+      --row-h: 20rem;
+    }
+  }
+
+  /* ---- Bento: ein großes Bild, zwei kleine daneben ---------------- */
+  .bento {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .bento-item {
+    aspect-ratio: 4 / 5;
+  }
+  @media (min-width: 768px) {
+    .bento {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      height: min(46rem, 82vh);
+    }
+    .bento-item {
+      aspect-ratio: auto;
+    }
+    .bento-item:first-child {
+      grid-row: span 2;
+    }
+  }
+
+  /* ---- Besuch: Neonschild im Rahmen -------------------------------- */
+  .visit-panel {
+    overflow: hidden;
+    background:
+      radial-gradient(
+        60% 90% at 18% 50%,
+        color-mix(in oklab, var(--red) 16%, transparent),
+        transparent 70%
+      ),
+      color-mix(in oklab, var(--panel) 70%, transparent);
+  }
+  .neon-sign {
+    display: inline-flex;
+    padding: 1.5rem 2.75rem 1.1rem;
+    border-radius: 1.5rem;
+    border: 2px solid color-mix(in oklab, var(--red) 45%, white);
+    box-shadow:
+      0 0 6px var(--red),
+      0 0 22px color-mix(in oklab, var(--red) 70%, transparent),
+      0 0 60px color-mix(in oklab, var(--red) 35%, transparent),
+      inset 0 0 14px color-mix(in oklab, var(--red) 45%, transparent);
+    transform: rotate(-3deg);
+  }
+
   /* ---- Einblenden beim Scrollen (CSS View Timeline, ohne JavaScript) */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
@@ -819,6 +950,11 @@
     transform: none;
   }
 }
+@keyframes marquee {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
 @keyframes story-fill {
   to {
     transform: scaleX(1);
@@ -901,6 +1037,7 @@
   .neon-ignite,
   .live-dot,
   .hero-glow,
+  .marquee-track,
   body::before {
     animation: none !important;
   }

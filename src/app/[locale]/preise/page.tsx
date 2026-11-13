@@ -51,8 +51,11 @@ export default async function PricesPage({
           </div>
         </div>
       </Section>
-      <Section tone="night-2" title={t("faqTitle")} id="faq">
-        <div className="max-w-3xl">
+      <Section tone="night-2" id="faq">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+          <h2 className="text-5xl text-ink sm:text-[4.2rem] lg:sticky lg:top-28 lg:self-start">
+            {t("faqTitle")}
+          </h2>
           <Faq items={faq} locale={l} />
         </div>
       </Section>
