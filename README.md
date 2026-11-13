@@ -345,6 +345,11 @@ Eintrag, leitet die Seite auf `/mieterinnen` um.
 
 - Header: HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`,
   `Referrer-Policy` und `Permissions-Policy` (`next.config.ts`).
+- Content-Security-Policy (nur Produktion, ohne `/keystatic`): Skripte,
+  Bilder, Schriften, Videos und Abrufe nur von der eigenen Domain. Damit ist
+  „keine Drittanbieter“ technisch erzwungen. Wer später etwas Externes
+  einbindet, muss die Regel in `next.config.ts` erweitern. Ein Browser-Test
+  prüft, dass keine Seite die Regel verletzt.
 - Bewerbungsformular: Prüfung mit zod auf dem Server, Rate-Limit pro IP,
   Honeypot-Feld, Dateityp- und Größenprüfung der Fotos. Die Fotos werden nur
   per Mail versendet und nicht gespeichert.

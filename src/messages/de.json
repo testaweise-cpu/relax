@@ -132,7 +132,8 @@
     "pause": "Pausieren",
     "play": "Abspielen",
     "storyHint": "Tippen: weiter · Halten: Pause · Doppeltippen: Zoom",
-    "story": "Als Story ansehen"
+    "story": "Als Story ansehen",
+    "alsoHere": "Auch gerade da"
   },
   "now": {
     "title": "Jetzt da",
@@ -255,5 +256,15 @@
     "leave": "Verlassen",
     "imprint": "Impressum",
     "privacy": "Datenschutz"
+  },
+  "errors": {
+    "notFoundTitle": "Hier ist kein Zimmer",
+    "notFoundText": "Die Seite gibt es nicht oder nicht mehr. Vielleicht ist die Mieterin gerade nicht bei uns.",
+    "toHome": "Zur Startseite",
+    "toProfiles": "Alle Mieterinnen",
+    "toNow": "Wer ist jetzt da?",
+    "errorTitle": "Kurz das Licht aus",
+    "errorText": "Da ist etwas schiefgegangen. Versuch es bitte noch einmal.",
+    "retry": "Noch einmal versuchen"
   }
 }

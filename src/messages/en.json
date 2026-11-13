@@ -132,7 +132,8 @@
     "pause": "Pause",
     "play": "Play",
     "storyHint": "Tap: next · Hold: pause · Double tap: zoom",
-    "story": "View as story"
+    "story": "View as story",
+    "alsoHere": "Also here right now"
   },
   "now": {
     "title": "Here now",
@@ -255,5 +256,15 @@
     "leave": "Leave",
     "imprint": "Legal notice",
     "privacy": "Privacy"
+  },
+  "errors": {
+    "notFoundTitle": "No room here",
+    "notFoundText": "This page does not exist, or not any more. The lady may not be with us right now.",
+    "toHome": "Back to start",
+    "toProfiles": "All ladies",
+    "toNow": "Who is here now?",
+    "errorTitle": "Lights out for a moment",
+    "errorText": "Something went wrong. Please try again.",
+    "retry": "Try again"
   }
 }

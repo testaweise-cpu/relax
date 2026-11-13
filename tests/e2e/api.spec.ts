@@ -19,6 +19,19 @@ test.describe("API", () => {
     }
   });
 
+  test("App-Manifest ist verlinkt und gültig", async ({ request, page }) => {
+    await page.goto("/");
+    const href = await page
+      .locator('link[rel="manifest"]')
+      .getAttribute("href");
+    const manifest = await (await request.get(href!)).json();
+    expect(manifest).toMatchObject({
+      name: "Mona Roses",
+      display: "standalone",
+      start_url: "/",
+    });
+  });
+
   test("/api/presence liefert gültige Anwesenheit mit Cache-Header", async ({
     request,
   }) => {

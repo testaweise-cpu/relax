@@ -55,6 +55,24 @@ const nextConfig: NextConfig = {
         value: "max-age=63072000; includeSubDomains",
       },
     ];
+    // Content-Security-Policy: Die Seite lädt nichts von fremden Servern –
+    // die Regel erzwingt das technisch. Inline-Skripte bleiben erlaubt, weil
+    // Next.js seine Startdaten inline ausliefert (Nonces würden jede Seite
+    // dynamisch machen). Nur in Produktion; die Redaktion (/keystatic) ist
+    // ausgenommen.
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob:",
+      "font-src 'self'",
+      "media-src 'self'",
+      "connect-src 'self'",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "frame-ancestors 'none'",
+    ].join("; ");
     // Bilder/Videos aus /public: einen Tag frisch, eine Woche "stale" erlaubt
     const media = [
       {
@@ -64,6 +82,14 @@ const nextConfig: NextConfig = {
     ];
     return [
       { source: "/:path*", headers: security },
+      ...(process.env.NODE_ENV === "production"
+        ? [
+            {
+              source: "/((?!keystatic|api/keystatic).*)",
+              headers: [{ key: "Content-Security-Policy", value: csp }],
+            },
+          ]
+        : []),
       { source: "/media/:path*", headers: media },
       { source: "/images/:path*", headers: media },
       { source: "/mock/:path*", headers: media },

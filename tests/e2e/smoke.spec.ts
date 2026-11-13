@@ -49,3 +49,39 @@ test("Keine externen Requests (Fonts, Tracking)", async ({ page, baseURL }) => {
   await page.waitForLoadState("networkidle");
   expect(external).toEqual([]);
 });
+
+test("Content-Security-Policy gilt und wird nirgends verletzt", async ({
+  page,
+}) => {
+  const violations: string[] = [];
+  page.on("console", (msg) => {
+    if (/Content Security Policy/i.test(msg.text()))
+      violations.push(msg.text());
+  });
+  for (const path of ["/", "/mieterinnen", "/mieterinnen/carmen", "/galerie"]) {
+    const res = await page.goto(path);
+    expect(res?.headers()["content-security-policy"], path).toContain(
+      "default-src 'self'",
+    );
+    await page.waitForLoadState("networkidle");
+  }
+  expect(violations).toEqual([]);
+});
+
+test("404-Seite hilft weiter", async ({ page }) => {
+  const res = await page.goto("/gibtsnicht");
+  expect(res?.status()).toBe(404);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+    "Hier ist kein Zimmer",
+  );
+  await expect(
+    page.getByRole("main").getByRole("link", { name: "Wer ist jetzt da?" }),
+  ).toBeVisible();
+});
+
+test("Profil zeigt, wer sonst gerade da ist", async ({ page }) => {
+  await page.goto("/mieterinnen/kira");
+  const others = page.getByRole("region", { name: "Auch gerade da" });
+  await expect(others.locator(".sedcard").first()).toBeVisible();
+  await expect(others.locator('a[href$="/mieterinnen/kira"]')).toHaveCount(0);
+});

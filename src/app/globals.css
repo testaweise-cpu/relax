@@ -899,6 +899,45 @@
     transform: rotate(-3deg);
   }
 
+  /* ---- Lesefortschritt unter der Kopfzeile ------------------------ */
+  .scroll-progress {
+    display: none;
+  }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-progress {
+        display: block;
+        position: absolute;
+        inset: auto 0 -1px 0;
+        height: 2px;
+        transform-origin: left;
+        transform: scaleX(0);
+        background: linear-gradient(90deg, var(--red), var(--magenta));
+        box-shadow: 0 0 10px var(--red);
+        animation: progress linear both;
+        animation-timeline: scroll(root);
+      }
+    }
+  }
+
+  /* Profil: Name als Leuchtschrift wie auf den Kacheln */
+  .profile-name {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.05;
+    letter-spacing: 0;
+    padding-bottom: 0.1em;
+    color: color-mix(in oklab, var(--red) 12%, white);
+    text-shadow:
+      0 0 2px #fff,
+      0 0 10px color-mix(in oklab, var(--red) 85%, transparent),
+      0 0 28px color-mix(in oklab, var(--red) 60%, transparent),
+      0 0 60px color-mix(in oklab, var(--red) 35%, transparent);
+    transform: rotate(-3deg);
+    transform-origin: left bottom;
+  }
+
   /* ---- Einblenden beim Scrollen (CSS View Timeline, ohne JavaScript) */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
@@ -988,6 +1027,11 @@
 @keyframes marquee {
   to {
     transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes progress {
+  to {
+    transform: scaleX(1);
   }
 }
 @keyframes story-fill {

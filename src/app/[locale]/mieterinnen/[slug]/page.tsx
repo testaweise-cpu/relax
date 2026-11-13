@@ -14,6 +14,8 @@ import { getSettings } from "@/lib/content";
 import { languageName, regionName } from "@/lib/display-names";
 import { telHref } from "@/lib/phone";
 import { localize } from "@/lib/data/types";
+import { getPresentProfiles } from "@/lib/data";
+import { SedcardTile } from "@/components/ui/sedcard-tile";
 import { getProfileDetail } from "@/lib/profiles/server";
 import {
   hasUpcomingShift,
@@ -75,6 +77,10 @@ export default async function SedcardPage({
   const settings = await getSettings();
   const tl = locale === "en" ? "en" : "de";
   const { profile, presence, shifts, now, hasShifts } = detail;
+  // Wer sonst gerade im Haus ist (verfügbare zuerst)
+  const others = (await getPresentProfiles())
+    .filter((o) => o.profile.id !== profile.id)
+    .slice(0, 8);
   const plan = weekPlan(shifts, now, tl);
   const next = presence
     ? presenceLabel(presence, tl)
@@ -114,7 +120,7 @@ export default async function SedcardPage({
             )}
           </div>
 
-          <h1 className="mt-5 font-display text-7xl font-medium text-ink italic sm:text-8xl">
+          <h1 className="profile-name mt-6 text-7xl sm:text-8xl">
             {profile.name}
           </h1>
 
@@ -220,6 +226,34 @@ export default async function SedcardPage({
           )}
         </div>
       </div>
+
+      {others.length > 0 && (
+        <section className="mt-20 sm:mt-28" aria-labelledby="also-here">
+          <h2 id="also-here" className="text-4xl text-ink sm:text-5xl">
+            {t("alsoHere")}
+          </h2>
+          <ul className="-mx-4 mt-8 flex snap-x snap-mandatory scroll-px-4 [scrollbar-width:none] gap-3 overflow-x-auto px-4 pb-4 sm:mx-0 sm:scroll-px-0 sm:gap-4 sm:px-0">
+            {others.map(({ profile: o, presence: op }) => (
+              <li
+                key={o.id}
+                className="w-[44%] shrink-0 snap-start sm:w-[30%] lg:w-[22%]"
+              >
+                <SedcardTile
+                  slug={o.slug}
+                  name={o.name}
+                  languages={o.languages.map((x) => x.toUpperCase())}
+                  isLive
+                  liveState={op.state}
+                  isNew={o.isNew}
+                  isBack={o.isBack}
+                  timeLabel={presenceLabel(op, tl)}
+                  image={o.images[0]}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
   );
 }
