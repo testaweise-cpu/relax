@@ -1,39 +1,40 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design-Tokens "Rotlicht-Neon"
+   Design-Tokens „Salon noir“
    Einzige Quelle für Farben. Komponenten nutzen ausschließlich diese
    Variablen bzw. die daraus erzeugten Tailwind-Klassen (bg-night, text-red …).
-   Nur dunkles Theme – bewusste Entscheidung. Rot leuchtet, Gold setzt warme
-   Akzente; Fließtext bleibt ruhig in Ink.
+   Nur dunkles Theme – bewusste Entscheidung. Warmes Schwarz, ein tiefes Rot,
+   Champagner für feine Linien. Grün steht allein für "jetzt verfügbar".
    ------------------------------------------------------------------ */
 :root {
   color-scheme: dark;
 
-  --night: #0e0709; /* Seitenhintergrund, Schwarz mit Rotstich */
-  --night-2: #170a0e; /* Abschnitte */
-  --panel: #1f0d13; /* Karten */
-  --line: #3e1c27; /* Rahmen, Trennlinien */
-  --ink: #fbeef1; /* Text */
-  --muted: #c9a5ae; /* Nebentext */
-  --red: #ff2d55; /* Hauptakzent: Neonröhre, Buttons, Rotlicht */
-  --red-deep: #4a0718; /* Rotlicht, tiefer Schatten */
-  --wine: #8c1d40; /* Verläufe */
-  --gold: #ffc46b; /* Live-Status, Links, Fokus */
-  --sunset: #ff8a3d; /* Hinweise, Verläufe */
-  --mint: #6bffc8; /* Erfolg */
-  --sun-core: #ffd84d; /* Goldton (nur in Verläufen) */
+  --night: #0b0908; /* Seitenhintergrund, warmes Schwarz */
+  --night-2: #110d0c; /* Abschnitte */
+  --panel: #171110; /* Karten */
+  --line: #2e2320; /* Rahmen, Trennlinien */
+  --ink: #f5eee8; /* Text, Elfenbein */
+  --muted: #b3a399; /* Nebentext */
+  --red: #ad1230; /* einziger Akzent, am Rot der Rose im Logo ausgerichtet */
+  --red-deep: #3a0711; /* tiefer Schatten im Rot */
+  --wine: #6d0f20; /* dunkles Rot für Flächen */
+  --gold: #cdb088; /* Champagner: Linien, Links, Fokus */
+  --sunset: #d99a6c; /* Hinweise, Fehler in Formularen */
+  --mint: #86d3a6; /* nur "jetzt verfügbar" */
+  --sun-core: #e3cba4; /* heller Champagner */
+  --neon: #ff3347; /* Leuchtschrift – ausschließlich das Logo im Hero */
 
-  --magenta: #ff3ea5; /* zweite Neonfarbe, nur im Raumlicht */
+  --magenta: var(--red); /* früher zweite Neonfarbe; nicht mehr eigenständig */
 
   --gutter: 1rem; /* mindestens 16 px Seitenrand */
-  --radius: 0.5rem;
-  --radius-lg: 0.875rem;
+  --radius: 2px;
+  --radius-lg: 3px;
   --header-h: 4rem;
 
-  /* Glas: dunkel getönt, unscharf – lesbar auf Fotos und Video */
-  --glass-bg: color-mix(in oklab, var(--night) 58%, transparent);
-  --glass-line: rgb(255 255 255 / 0.12);
+  /* Flächen auf Fotos: dunkel und deckend genug, ohne Unschärfe */
+  --glass-bg: color-mix(in oklab, var(--night) 82%, transparent);
+  --glass-line: color-mix(in oklab, var(--gold) 22%, transparent);
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 @media (min-width: 640px) {
@@ -85,38 +86,38 @@
     overflow-x: clip; /* kein horizontales Scrollen */
   }
 
-  /* Raumlicht: zwei weiche Neonflächen, die sehr langsam wandern.
-     Nur transform wird animiert (läuft im Compositor). */
+  /* Tapete: das Silhouetten-Muster des Hauses, Ton in Ton auf Schwarz.
+     Liegt fest hinter der ganzen Seite; Abschnitte und Karten mit eigener
+     Fläche decken es ab, sodass Fließtext nie direkt darauf steht. */
   body::before {
     content: "";
     position: fixed;
-    inset: -20vmax;
+    inset: 0;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(
-        32vmax 26vmax at 18% 12%,
-        color-mix(in oklab, var(--red) 13%, transparent),
-        transparent 70%
-      ),
-      radial-gradient(
-        30vmax 24vmax at 86% 78%,
-        color-mix(in oklab, var(--magenta) 9%, transparent),
-        transparent 70%
+    background-color: color-mix(in oklab, var(--ink) 10%, var(--night));
+    /* Muster und Verlauf schneiden: an den Rändern deutlich, in der
+       Textspalte nur ein Hauch */
+    -webkit-mask:
+      url("/pattern/silhouetten.svg") center top / 26rem repeat,
+      linear-gradient(
+        90deg,
+        #000 0%,
+        rgb(0 0 0 / 0.3) 26%,
+        rgb(0 0 0 / 0.3) 74%,
+        #000 100%
       );
-    animation: room-light 38s ease-in-out infinite alternate;
-  }
-
-  /* Feines Filmkorn über der ganzen Seite – nimmt den Flächen das "Digitale" */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    opacity: 0.05;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    -webkit-mask-composite: source-in;
+    mask:
+      url("/pattern/silhouetten.svg") center top / 26rem repeat,
+      linear-gradient(
+        90deg,
+        #000 0%,
+        rgb(0 0 0 / 0.3) 26%,
+        rgb(0 0 0 / 0.3) 74%,
+        #000 100%
+      );
+    mask-composite: intersect;
   }
 
   /* Überschriften: Antiqua, gemischte Schreibung, eng gesetzt */
@@ -195,27 +196,23 @@
     }
   }
 
-  /* Kleine Überzeile: Versalien mit kurzer roter Neonröhre davor */
+  /* Kleine Überzeile: Versalien in Champagner mit feiner Linie davor */
   .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.875rem;
     font-family: var(--font-label);
-    font-size: 0.7rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--gold);
   }
   .eyebrow::before {
     content: "";
-    width: 1.1rem;
-    height: 2px;
-    border-radius: 2px;
-    background: color-mix(in oklab, var(--red) 40%, white);
-    box-shadow:
-      0 0 4px var(--red),
-      0 0 10px color-mix(in oklab, var(--red) 70%, transparent);
+    width: 2rem;
+    height: 1px;
+    background: color-mix(in oklab, var(--gold) 70%, transparent);
   }
 
   /* Label in Versalien (Badges, Filter, Navigation, Zeiten) */
@@ -223,86 +220,80 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Trennlinie: feine Röhre, die in der Mitte aufglüht */
+  /* Trennlinie: Haarlinie in Champagner, zur Mitte hin kräftiger */
   .ornament {
     height: 1px;
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in oklab, var(--red) 55%, transparent) 50%,
+      color-mix(in oklab, var(--gold) 55%, transparent) 50%,
       transparent
     );
-    box-shadow: 0 0 12px color-mix(in oklab, var(--red) 40%, transparent);
   }
   .ornament > * {
     display: none;
   }
 
-  /* Edle Fläche: Hauch von Licht oben, feine Kante, kein Glühen */
+  /* Karte: deckende Fläche mit feiner Kante – Text steht nie auf dem Muster */
   .panel {
     position: relative;
     border-radius: var(--radius-lg);
-    border: 1px solid var(--glass-line);
-    background:
-      linear-gradient(
-        180deg,
-        rgb(255 255 255 / 0.05),
-        rgb(255 255 255 / 0.01) 40%,
-        transparent
-      ),
-      color-mix(in oklab, var(--panel) 70%, transparent);
-    backdrop-filter: blur(18px) saturate(130%);
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.05),
-      0 24px 48px -32px rgb(0 0 0 / 0.8);
+    border: 1px solid var(--line);
+    background: var(--panel);
   }
-  /* Fläche mit goldener Haarlinie oben */
+  /* Karte mit Champagner-Haarlinie oben */
   .panel-accent::before {
     content: "";
     position: absolute;
-    inset: -1px 12% auto;
+    inset: -1px 0 auto;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--red), transparent);
-    box-shadow: 0 0 10px var(--red);
-    opacity: 0.8;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in oklab, var(--gold) 75%, transparent) 30%,
+      color-mix(in oklab, var(--gold) 75%, transparent) 70%,
+      transparent
+    );
   }
 
-  /* ---- Neon-Schriftzug ------------------------------------------ */
+  /* ---- Schriftzug -------------------------------------------------
+     Die Schreibschrift des Logos, ruhig in Rot. Leuchten darf sie nur
+     einmal: als Logo im Hero der Startseite (.neon-lit). */
   .neon {
-    --neon: var(--red);
     font-family: var(--font-script);
     font-weight: 400;
     text-transform: none;
     letter-spacing: 0;
     line-height: 1.1;
-    /* weißer Kern, farbiges Glühen in mehreren Lagen */
-    color: color-mix(in oklab, var(--neon) 18%, white);
-    text-shadow:
-      0 0 1px #fff,
-      0 0 3px color-mix(in oklab, var(--neon) 55%, white),
-      0 0 9px color-mix(in oklab, var(--neon) 85%, transparent),
-      0 0 20px color-mix(in oklab, var(--neon) 60%, transparent),
-      0 0 42px color-mix(in oklab, var(--neon) 35%, transparent);
+    color: var(--neon);
   }
-  .neon-gold {
-    --neon: var(--gold);
-  }
+  .neon-gold,
   .neon-sunset {
-    --neon: var(--sunset);
+    color: var(--gold);
   }
   .neon-tilt {
     display: inline-block;
     transform: rotate(-4deg);
   }
-  /* seltenes Flackern: ein kurzer Aussetzer alle ~11 s */
-  .neon-flicker {
+  .neon-lit {
+    /* weißer Kern, rotes Glühen in mehreren Lagen */
+    color: color-mix(in oklab, var(--neon) 16%, white);
+    text-shadow:
+      0 0 1px #fff,
+      0 0 3px color-mix(in oklab, var(--neon) 55%, white),
+      0 0 9px color-mix(in oklab, var(--neon) 85%, transparent),
+      0 0 22px color-mix(in oklab, var(--neon) 60%, transparent),
+      0 0 46px color-mix(in oklab, var(--neon) 35%, transparent);
+  }
+  /* seltenes Flackern: ein kurzer Aussetzer alle ~11 s (nur leuchtend) */
+  .neon-lit.neon-flicker {
     animation: neon-flicker 11s linear infinite;
   }
   /* Einschalten beim ersten Laden: kurz flackern, dann an */
-  .neon-ignite {
+  .neon-lit.neon-ignite {
     animation: neon-ignite 1.6s steps(1, end) both;
   }
-  .neon-ignite.neon-flicker {
+  .neon-lit.neon-ignite.neon-flicker {
     animation:
       neon-ignite 1.6s steps(1, end) both,
       neon-flicker 11s linear 1.6s infinite;
@@ -365,29 +356,9 @@
       );
   }
 
-  /* Wenige, leise Lichtpunkte (Bokeh) – überwiegend warm, einer rot */
+  /* Lichtpunkte entfallen – das Bild trägt den Hero */
   .hero-glow {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    pointer-events: none;
-    background-image:
-      radial-gradient(
-        4.5rem 4.5rem at 10% 28%,
-        color-mix(in oklab, var(--gold) 18%, transparent) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        6rem 6rem at 86% 22%,
-        color-mix(in oklab, var(--red) 20%, transparent) 0%,
-        transparent 72%
-      ),
-      radial-gradient(
-        3.75rem 3.75rem at 74% 62%,
-        color-mix(in oklab, var(--gold) 16%, transparent) 0%,
-        transparent 72%
-      );
-    animation: bokeh-drift 26s ease-in-out infinite alternate;
+    display: none;
   }
   /* Kopfbereich der Unterseiten: Video deutlich sichtbarer, nur eine
      Überschrift darüber */
@@ -419,100 +390,35 @@
     isolation: isolate;
     border-radius: var(--radius-lg);
     background: var(--panel);
-    box-shadow: 0 30px 50px -34px rgb(0 0 0 / 0.95);
-    transition: transform 500ms var(--ease-out);
+    outline: 1px solid var(--line);
+    outline-offset: -1px;
+    transition: outline-color 300ms ease;
   }
   .sedcard > div {
     border-radius: inherit;
   }
-  /* Neonkante: ein Lichtstreifen läuft beim Überfahren einmal um die Karte */
-  .sedcard::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    padding: 1px;
-    border-radius: inherit;
-    pointer-events: none;
-    background: conic-gradient(
-      from var(--edge-angle),
-      color-mix(in oklab, var(--line) 90%, transparent) 0deg,
-      color-mix(in oklab, var(--line) 90%, transparent) 250deg,
-      var(--red) 300deg,
-      #fff 320deg,
-      var(--magenta) 340deg,
-      color-mix(in oklab, var(--line) 90%, transparent) 360deg
-    );
-    -webkit-mask:
-      linear-gradient(#000 0 0) content-box,
-      linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    opacity: 0.55;
-    transition: opacity 400ms ease;
-  }
-  .sedcard:hover::after,
-  .sedcard:focus-visible::after {
-    opacity: 1;
-  }
-  .sedcard-ready::after {
-    background: conic-gradient(
-      from var(--edge-angle),
-      color-mix(in oklab, var(--mint) 35%, transparent) 0deg,
-      color-mix(in oklab, var(--mint) 35%, transparent) 250deg,
-      var(--mint) 320deg,
-      color-mix(in oklab, var(--mint) 35%, transparent) 360deg
-    );
-    opacity: 0.8;
+  .sedcard:hover,
+  .sedcard:focus-visible {
+    outline-color: color-mix(in oklab, var(--gold) 70%, transparent);
   }
   .sedcard-img,
   .sedcard .placeholder-art {
-    transition:
-      transform 1200ms var(--ease-out),
-      filter 600ms ease;
+    transition: transform 1400ms var(--ease-out);
   }
   @media (prefers-reduced-motion: no-preference) {
-    .sedcard:hover,
-    .sedcard:focus-visible {
-      transform: translateY(-4px);
-    }
     .sedcard:hover .sedcard-img,
     .sedcard:hover .placeholder-art {
-      transform: scale(1.05);
-    }
-    .sedcard:hover::after,
-    .sedcard:focus-visible::after {
-      animation: edge-run 1.6s var(--ease-out) both;
+      transform: scale(1.04);
     }
   }
-  /* Name als Leuchtschrift: heller Kern, roter Schein in mehreren Lagen;
-     beim Überfahren glüht er auf */
+  /* Name in der Antiqua – ruhig, ohne Effekt */
   .sedcard-name {
-    --glow: var(--red);
-    /* dieselbe Schreibschrift wie das Logo, leicht schräg gestellt */
-    font-family: var(--font-script);
-    font-weight: 400;
+    font-family: var(--font-display);
+    font-weight: 500;
     line-height: 1.05;
-    transform: rotate(-3deg);
-    transform-origin: left bottom;
-    padding-bottom: 0.15em;
-    color: color-mix(in oklab, var(--glow) 10%, white);
-    text-shadow:
-      0 0 2px rgb(255 255 255 / 0.7),
-      0 0 8px color-mix(in oklab, var(--glow) 85%, transparent),
-      0 0 20px color-mix(in oklab, var(--glow) 60%, transparent),
-      0 0 40px color-mix(in oklab, var(--glow) 35%, transparent),
-      0 2px 14px rgb(0 0 0 / 0.7);
-    transition: text-shadow 400ms ease;
-  }
-  .sedcard:hover .sedcard-name,
-  .sedcard:focus-visible .sedcard-name {
-    text-shadow:
-      0 0 2px #fff,
-      0 0 10px var(--glow),
-      0 0 26px color-mix(in oklab, var(--glow) 80%, transparent),
-      0 0 54px color-mix(in oklab, var(--glow) 55%, transparent),
-      0 2px 14px rgb(0 0 0 / 0.7);
+    letter-spacing: 0.005em;
+    color: var(--ink);
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.75);
   }
   .sedcard-shade {
     position: absolute;
@@ -526,25 +432,17 @@
     );
   }
 
-  /* ---- Glas-Chips (Status, Bedienelemente auf Fotos) ------------- */
+  /* ---- Chips auf Fotos: deckend dunkel, ohne Unschärfe ------------- */
   .glass-chip {
     background: var(--glass-bg);
-    backdrop-filter: blur(14px) saturate(150%);
-    -webkit-backdrop-filter: blur(14px) saturate(150%);
   }
 
   /* Live-Anzeige im Hero */
   .live-pill {
-    box-shadow:
-      0 0 0 1px rgb(255 255 255 / 0.04) inset,
-      0 0 28px -6px color-mix(in oklab, var(--gold) 45%, transparent);
-    transition:
-      border-color 300ms ease,
-      box-shadow 300ms ease;
+    transition: border-color 300ms ease;
   }
   .live-pill:hover {
     border-color: var(--gold);
-    box-shadow: 0 0 36px -4px color-mix(in oklab, var(--gold) 60%, transparent);
   }
 
   /* ---- Suche, Filter, Sortierung -------------------------------- */
@@ -556,12 +454,9 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem;
-    border-radius: 999px;
-    border: 1px solid var(--glass-line);
-    background: color-mix(in oklab, var(--night) 86%, transparent);
-    backdrop-filter: blur(20px) saturate(150%);
-    -webkit-backdrop-filter: blur(20px) saturate(150%);
-    box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.9);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: var(--panel);
   }
   /* läuft nur auf größeren Bildschirmen mit; auf dem Handy nähme sie zu viel Platz */
   @media (min-width: 640px) {
@@ -579,7 +474,7 @@
     width: 100%;
     min-height: 3rem;
     padding: 0 3rem;
-    border-radius: 999px;
+    border-radius: var(--radius);
     border: 1px solid transparent;
     background: rgb(255 255 255 / 0.05);
     color: var(--ink);
@@ -603,7 +498,7 @@
     display: inline-flex;
     gap: 0.25rem;
     padding: 0.25rem;
-    border-radius: 999px;
+    border-radius: var(--radius);
     background: rgb(255 255 255 / 0.04);
   }
   .segmented-item {
@@ -611,7 +506,7 @@
     align-items: center;
     min-height: 2.5rem;
     padding: 0 1rem;
-    border-radius: 999px;
+    border-radius: var(--radius);
     font-family: var(--font-label);
     font-size: 0.78rem;
     color: var(--muted);
@@ -635,7 +530,7 @@
     gap: 0.5rem;
     min-height: 2.75rem;
     padding: 0 1rem;
-    border-radius: 999px;
+    border-radius: var(--radius);
     border: 1px solid var(--glass-line);
     background: rgb(255 255 255 / 0.03);
     font-family: var(--font-label);
@@ -660,13 +555,11 @@
     border-color: var(--gold);
     background: color-mix(in oklab, var(--gold) 14%, transparent);
     color: var(--gold);
-    box-shadow: 0 0 18px -6px color-mix(in oklab, var(--gold) 70%, transparent);
   }
   .chip-active-mint {
     border-color: var(--mint);
     background: color-mix(in oklab, var(--mint) 12%, transparent);
     color: var(--mint);
-    box-shadow: 0 0 18px -6px color-mix(in oklab, var(--mint) 70%, transparent);
   }
   .chip-active .chip-count,
   .chip-active-mint .chip-count {
@@ -695,7 +588,7 @@
     min-width: 1.25rem;
     height: 1.25rem;
     padding: 0 0.3rem;
-    border-radius: 999px;
+    border-radius: var(--radius);
     background: var(--gold);
     color: var(--night);
     font-size: 0.7rem;
@@ -816,17 +709,48 @@
     color: var(--ink);
     -webkit-text-stroke: 0;
   }
-  /* kleine Neonröhre zwischen den Begriffen */
+  /* feine Linie zwischen den Begriffen */
   .marquee-row li::after {
     content: "";
-    width: 0.5em;
-    height: 3px;
+    width: 0.6em;
+    height: 1px;
     margin-inline: 0.45em;
-    border-radius: 3px;
-    background: color-mix(in oklab, var(--red) 40%, white);
-    box-shadow:
-      0 0 6px var(--red),
-      0 0 16px color-mix(in oklab, var(--red) 70%, transparent);
+    background: color-mix(in oklab, var(--gold) 70%, transparent);
+  }
+
+  /* ---- Band mit Muster: die Tapete tritt hier deutlich hervor ------- */
+  .pattern-band {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    background: linear-gradient(
+      180deg,
+      var(--red-deep),
+      color-mix(in oklab, var(--wine) 55%, var(--night))
+    );
+  }
+  .pattern-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: color-mix(in oklab, var(--red) 55%, var(--night));
+    opacity: 0.5;
+    -webkit-mask: url("/pattern/silhouetten.svg") center / 22rem repeat;
+    mask: url("/pattern/silhouetten.svg") center / 22rem repeat;
+  }
+  /* zur Mitte hin abdunkeln, damit die Zeile dort ruhig steht */
+  .pattern-band::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(
+      60% 140% at 50% 50%,
+      color-mix(in oklab, var(--red-deep) 88%, transparent) 0%,
+      transparent 100%
+    );
   }
 
   /* ---- Galerie: Zeilen in voller Breite --------------------------- */
@@ -875,28 +799,61 @@
     }
   }
 
-  /* ---- Besuch: Neonschild im Rahmen -------------------------------- */
+  /* ---- Kopfbereich der Unterseiten: Titel vor dunklem Samt --------- */
+  .velvet-head {
+    position: relative;
+    isolation: isolate;
+    border-bottom: 1px solid var(--line);
+    background: var(--night) url("/images/stimmung/samt.webp") right center /
+      cover no-repeat;
+  }
+  /* links und unten abdunkeln: Titel bleibt lesbar, Übergang zur Seite weich */
+  .velvet-head::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(
+        90deg,
+        var(--night) 0%,
+        color-mix(in oklab, var(--night) 70%, transparent) 45%,
+        color-mix(in oklab, var(--night) 20%, transparent) 100%
+      ),
+      linear-gradient(180deg, transparent 55%, var(--night) 100%);
+  }
+
+  /* ---- Besuch: Fläche mit Muster, Zahl in Antiqua ------------------ */
   .visit-panel {
     overflow: hidden;
-    background:
-      radial-gradient(
-        60% 90% at 18% 50%,
-        color-mix(in oklab, var(--red) 16%, transparent),
-        transparent 70%
-      ),
-      color-mix(in oklab, var(--panel) 70%, transparent);
   }
-  .neon-sign {
-    display: inline-flex;
-    padding: 1.5rem 2.75rem 1.1rem;
-    border-radius: 1.5rem;
-    border: 2px solid color-mix(in oklab, var(--red) 45%, white);
-    box-shadow:
-      0 0 6px var(--red),
-      0 0 22px color-mix(in oklab, var(--red) 70%, transparent),
-      0 0 60px color-mix(in oklab, var(--red) 35%, transparent),
-      inset 0 0 14px color-mix(in oklab, var(--red) 45%, transparent);
-    transform: rotate(-3deg);
+  .visit-mark {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    min-height: 16rem;
+    height: 100%;
+    background: linear-gradient(160deg, var(--wine), var(--red-deep));
+  }
+  .visit-mark::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: color-mix(in oklab, var(--red) 60%, var(--night));
+    opacity: 0.55;
+    -webkit-mask: url("/pattern/silhouetten.svg") center / 20rem repeat;
+    mask: url("/pattern/silhouetten.svg") center / 20rem repeat;
+  }
+  .visit-mark-number {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variant-numeric: lining-nums;
   }
 
   /* ---- Lesefortschritt unter der Kopfzeile ------------------------ */
@@ -912,30 +869,20 @@
         height: 2px;
         transform-origin: left;
         transform: scaleX(0);
-        background: linear-gradient(90deg, var(--red), var(--magenta));
-        box-shadow: 0 0 10px var(--red);
+        background: var(--red);
         animation: progress linear both;
         animation-timeline: scroll(root);
       }
     }
   }
 
-  /* Profil: Name als Leuchtschrift wie auf den Kacheln */
+  /* Profil: Name groß in der Antiqua */
   .profile-name {
-    font-family: var(--font-script);
+    font-family: var(--font-display);
     font-weight: 400;
-    font-style: normal;
-    line-height: 1.05;
-    letter-spacing: 0;
-    padding-bottom: 0.1em;
-    color: color-mix(in oklab, var(--red) 12%, white);
-    text-shadow:
-      0 0 2px #fff,
-      0 0 10px color-mix(in oklab, var(--red) 85%, transparent),
-      0 0 28px color-mix(in oklab, var(--red) 60%, transparent),
-      0 0 60px color-mix(in oklab, var(--red) 35%, transparent);
-    transform: rotate(-3deg);
-    transform-origin: left bottom;
+    line-height: 1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
   }
 
   /* ---- Einblenden beim Scrollen (CSS View Timeline, ohne JavaScript) */
@@ -971,49 +918,13 @@
     height: 0.5rem;
     border-radius: 50%;
     background: var(--gold);
-    box-shadow:
-      0 0 6px var(--gold),
-      0 0 12px var(--gold);
     animation: live-pulse 2.4s ease-in-out infinite;
   }
   .live-dot-ready {
     background: var(--mint);
-    box-shadow:
-      0 0 6px var(--mint),
-      0 0 12px var(--mint);
   }
 }
 
-/* Winkel der Neonkante, animierbar dank @property */
-@property --edge-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-@keyframes edge-run {
-  from {
-    --edge-angle: 0deg;
-  }
-  to {
-    --edge-angle: 360deg;
-  }
-}
-@keyframes room-light {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(6vmax, 4vmax, 0);
-  }
-}
-@keyframes bokeh-drift {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-2.5%, 2%, 0);
-  }
-}
 @keyframes reveal {
   from {
     opacity: 0;

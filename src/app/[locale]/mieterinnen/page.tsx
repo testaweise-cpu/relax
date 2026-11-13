@@ -43,7 +43,6 @@ export default async function ProfilesPage({
       level={1}
       eyebrow={t("eyebrow")}
       title={t("title")}
-      intro={t("intro")}
     >
       <ProfileExplorer cards={cards.map(toExplorerCard)} initial={filters} />
     </Section>

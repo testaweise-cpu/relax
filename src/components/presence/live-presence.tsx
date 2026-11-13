@@ -119,7 +119,7 @@ export function LivePill({ initial }: Props) {
   return (
     <Link
       href="/jetzt-da"
-      className="live-pill glass-chip group inline-flex min-h-11 items-center gap-3 rounded-full border border-gold/35 px-4 py-2 font-label text-xs tracking-[0.18em] text-ink uppercase no-underline"
+      className="live-pill glass-chip group inline-flex min-h-11 items-center gap-3 rounded-[var(--radius)] border border-gold/35 px-4 py-2 font-label text-xs tracking-[0.18em] text-ink uppercase no-underline"
       aria-live="polite"
     >
       <span
@@ -159,7 +159,7 @@ export function NowStrip({
           className="flex items-center gap-4 text-5xl text-ink sm:text-6xl"
         >
           {t("stripTitle")}
-          <span className="glass-chip inline-flex items-center gap-2 rounded-full border border-gold/40 px-3 py-1 font-label text-sm font-normal tracking-normal text-gold">
+          <span className="glass-chip inline-flex items-center gap-2 rounded-[var(--radius)] border border-gold/40 px-3 py-1 font-label text-sm font-normal tracking-normal text-gold">
             <span className="live-dot" aria-hidden />
             {data.present.length}
           </span>

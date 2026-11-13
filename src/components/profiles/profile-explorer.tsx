@@ -186,6 +186,22 @@ export function ProfileExplorer({
           </noscript>
         </form>
 
+        <div className="flex items-center gap-2">
+          <Chip
+            {...pick({ now: !filters.now })}
+            active={filters.now}
+            tone="mint"
+          >
+            <span className="live-dot live-dot-ready" aria-hidden />
+            {t("onlyNow")} <span className="chip-count">{options.live}</span>
+          </Chip>
+          {(options.isNew > 0 || filters.isNew) && (
+            <Chip {...pick({ isNew: !filters.isNew })} active={filters.isNew}>
+              {t("onlyNew")} <span className="chip-count">{options.isNew}</span>
+            </Chip>
+          )}
+        </div>
+
         <div role="group" aria-label={t("sortLabel")} className="segmented">
           {SORTS.map((s) => (
             <Link
@@ -206,21 +222,8 @@ export function ProfileExplorer({
         </div>
       </div>
 
-      <div className="mt-5" role="group" aria-label={t("filters")}>
-        <div className="flex flex-wrap items-center gap-2">
-          <Chip
-            {...pick({ now: !filters.now })}
-            active={filters.now}
-            tone="mint"
-          >
-            <span className="live-dot live-dot-ready" aria-hidden />
-            {t("onlyNow")} <span className="chip-count">{options.live}</span>
-          </Chip>
-          {(options.isNew > 0 || filters.isNew) && (
-            <Chip {...pick({ isNew: !filters.isNew })} active={filters.isNew}>
-              {t("onlyNew")} <span className="chip-count">{options.isNew}</span>
-            </Chip>
-          )}
+      <div className="relative mt-3" role="group" aria-label={t("filters")}>
+        <div className="absolute top-0 right-0 flex min-h-11 items-center gap-4">
           {hasActiveFilters(filters) && (
             <Link
               href="/mieterinnen"
@@ -230,14 +233,16 @@ export function ProfileExplorer({
                 e.preventDefault();
                 apply({ ...EMPTY_FILTERS, sort: filters.sort });
               }}
-              className="ml-1 inline-flex min-h-11 items-center font-label text-sm"
+              className="inline-flex min-h-11 items-center font-label text-sm"
             >
               {t("reset")}
             </Link>
           )}
+          <p className="font-label text-sm text-muted" aria-live="polite">
+            {t("count", { count: visible.length })}
+          </p>
         </div>
-
-        <details className="filter-drawer mt-3" open={moreActive || undefined}>
+        <details className="filter-drawer" open={moreActive || undefined}>
           <summary className="chip filter-summary">
             <FilterIcon width={16} height={16} />
             {t("moreFilters")}
@@ -312,13 +317,7 @@ export function ProfileExplorer({
         </details>
       </div>
 
-      <p
-        className="mt-10 mb-4 font-label text-sm text-muted"
-        aria-live="polite"
-      >
-        {t("count", { count: visible.length })}
-      </p>
-
+      <div className="mt-6" />
       <ViewTransition>
         {visible.length > 0 ? (
           <ProfileGrid cards={visible} />

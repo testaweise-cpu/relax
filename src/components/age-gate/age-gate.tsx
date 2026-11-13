@@ -11,7 +11,7 @@ import {
   isExemptPath,
 } from "@/lib/age-gate";
 import { buttonClasses } from "../ui/button";
-import { NeonText } from "../ui/neon-text";
+import { Logo } from "../ui/logo";
 
 const CONTENT_ID = "seite";
 
@@ -73,9 +73,7 @@ export function AgeGate() {
           {t("eyebrow", { age: AGE_GATE.minAge })}
         </p>
         <div className="mt-6">
-          <NeonText tilt ignite className="text-6xl sm:text-7xl">
-            Mona Roses
-          </NeonText>
+          <Logo size="lg" link={false} priority className="mx-auto" />
         </div>
         <h2 id="age-title" className="mt-8 text-3xl text-ink">
           {t("title")}

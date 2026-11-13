@@ -5,7 +5,7 @@ import { getSettings, pick } from "@/lib/content";
 import { telHref } from "@/lib/phone";
 import { LegalNotice } from "../legal-notice";
 import { ClockIcon, MapPinIcon, PhoneIcon } from "../ui/icons";
-import { NeonText } from "../ui/neon-text";
+import { Logo } from "../ui/logo";
 import { NAV_ITEMS } from "./nav-items";
 
 export async function Footer() {
@@ -20,9 +20,7 @@ export async function Footer() {
       <div className="ornament container-page text-[0.6rem]" aria-hidden></div>
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
-          <NeonText tilt className="text-5xl">
-            Mona Roses
-          </NeonText>
+          <Logo size="lg" link={false} />
           <p className="mt-4 max-w-sm text-muted">{tf("tagline")}</p>
           <LegalNotice className="mt-6 max-w-md" />
         </div>

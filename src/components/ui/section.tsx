@@ -67,6 +67,24 @@ export function Section({
     );
   }
 
+  // Seitentitel ohne Video: Kopfbereich vor dunklem Samt (Stimmungsbild)
+  if (level === 1 && header) {
+    return (
+      <section
+        id={id}
+        aria-labelledby={title ? headingId : undefined}
+        className={cn("pb-20 sm:pb-28", className)}
+      >
+        <div className="velvet-head mb-8 sm:mb-10">
+          <div className="container-page relative pt-12 sm:pt-16 [&>header]:mb-0 [&>header]:pb-8 sm:[&>header]:pb-10">
+            {header}
+          </div>
+        </div>
+        <div className="container-page">{children}</div>
+      </section>
+    );
+  }
+
   return (
     <section
       id={id}

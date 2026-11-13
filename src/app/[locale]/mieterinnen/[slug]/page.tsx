@@ -146,7 +146,7 @@ export default async function SedcardPage({
               )}
             </div>
 
-            <h1 className="profile-name mt-6 text-7xl sm:text-8xl">
+            <h1 className="profile-name mt-6 text-6xl sm:text-8xl">
               {profile.name}
             </h1>
 
@@ -265,7 +265,7 @@ export default async function SedcardPage({
                   {profile.services.map((s) => (
                     <li
                       key={s.id ?? s.de}
-                      className="rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-sm text-ink"
+                      className="rounded-[var(--radius)] border border-line bg-panel px-3.5 py-1.5 text-sm text-ink"
                     >
                       {localize(s, locale)}
                     </li>

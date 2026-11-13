@@ -15,11 +15,11 @@ export async function Header() {
   const phoneHref = telHref(settings.phoneE164);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/50 bg-night/75 backdrop-blur-xl supports-[not(backdrop-filter:blur(1px))]:bg-night">
+    <header className="sticky top-0 z-40 border-b border-line bg-night/95">
       {/* Lesefortschritt als Neonlinie (CSS Scroll Timeline, ohne JavaScript) */}
       <div className="scroll-progress" aria-hidden />
       <div className="container-page flex h-16 items-center justify-between gap-4 sm:h-[4.5rem]">
-        <Logo animated />
+        <Logo priority />
 
         <nav aria-label={t("main")} className="hidden xl:block">
           <NavLinks />

@@ -11,10 +11,12 @@ type NeonTextProps = {
   flicker?: boolean;
   /** "schaltet sich ein" beim ersten Rendern */
   ignite?: boolean;
+  /** leuchtet als Neonschrift – nur für das Logo im Hero */
+  lit?: boolean;
   className?: string;
 };
 
-/** Leuchtschrift in der Neon-Schreibschrift. Sparsam einsetzen. */
+/** Schriftzug in der Schreibschrift des Logos; leuchtet nur mit `lit`. */
 export function NeonText({
   children,
   as: Tag = "span",
@@ -22,6 +24,7 @@ export function NeonText({
   tilt = false,
   flicker = false,
   ignite = false,
+  lit = false,
   className,
 }: NeonTextProps) {
   return (
@@ -33,6 +36,7 @@ export function NeonText({
         tilt && "neon-tilt",
         flicker && "neon-flicker",
         ignite && "neon-ignite",
+        lit && "neon-lit",
         className,
       )}
     >

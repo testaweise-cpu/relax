@@ -5,8 +5,11 @@ export default function NotFound() {
   const t = useTranslations("errors");
   return (
     <section className="container-page flex min-h-[70vh] flex-col items-center justify-center py-20 text-center">
-      <p className="neon-sign" aria-hidden>
-        <span className="neon neon-flicker text-7xl sm:text-8xl">404</span>
+      <p
+        className="visit-mark-number text-8xl text-gold sm:text-9xl"
+        aria-hidden
+      >
+        404
       </p>
       <h1 className="mt-12 text-5xl text-ink sm:text-6xl">
         {t("notFoundTitle")}

@@ -107,7 +107,7 @@ export function ProfileGallery({
         <button
           type="button"
           onClick={() => story.current?.open(index)}
-          className="glass-chip absolute right-3 bottom-3 inline-flex min-h-11 items-center gap-2 rounded-full border border-ink/25 px-4 font-label text-[0.68rem] tracking-[0.2em] text-ink uppercase"
+          className="glass-chip absolute right-3 bottom-3 inline-flex min-h-11 items-center gap-2 rounded-[var(--radius)] border border-ink/25 px-4 font-label text-[0.68rem] tracking-[0.2em] text-ink uppercase"
         >
           <span aria-hidden>▶</span>
           {t("story")}

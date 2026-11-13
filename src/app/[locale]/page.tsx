@@ -17,7 +17,6 @@ import {
   PhoneIcon,
 } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
-import { Marquee } from "@/components/ui/marquee";
 import { Section } from "@/components/ui/section";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -80,7 +79,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           <LivePill initial={present} />
           <p className="eyebrow mt-8">{t("heroEyebrow")}</p>
           <h1 className="mt-4">
-            <Logo size="xl" link={false} animated />
+            <Logo size="xl" link={false} priority />
           </h1>
           <p className="mt-4 max-w-md text-lg text-ink sm:mt-6 sm:text-xl">
             {pick(home.heroLead, l)}
@@ -104,21 +103,43 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <NowStrip initial={present} className="bg-night-2" />
 
-      <Marquee
-        items={[
-          ...(t.raw("values") as { title: string }[]).map((v) => v.title),
-          ...home.highlights.map((h) => pick(h.title, l)),
-        ]}
-      />
+      {/* Band mit dem Muster des Hauses: die Leitbegriffe in einer ruhigen Zeile */}
+      <div className="pattern-band">
+        <ul className="container-page flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-10 text-center sm:gap-x-9 sm:py-14">
+          {[
+            ...(t.raw("values") as { title: string }[]).map((v) => v.title),
+            ...home.highlights.map((h) => pick(h.title, l)),
+          ].map((item, i) => (
+            <li
+              key={i}
+              className="font-display text-2xl text-ink italic sm:text-4xl"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <section aria-labelledby="intro-title" className="py-20 sm:py-28">
         <div className="container-page grid gap-8 lg:grid-cols-2 lg:gap-16">
-          <h2
-            id="intro-title"
-            className="reveal text-5xl text-ink sm:text-[4.2rem] lg:sticky lg:top-28 lg:self-start"
-          >
-            {pick(home.introTitle, l)}
-          </h2>
+          <div>
+            <h2
+              id="intro-title"
+              className="reveal text-5xl text-ink sm:text-[4.2rem]"
+            >
+              {pick(home.introTitle, l)}
+            </h2>
+            {/* Stimmungsbild (Stillleben), rein dekorativ */}
+            <div className="relative mt-10 hidden aspect-[4/5] max-w-sm overflow-hidden rounded-[var(--radius-lg)] border border-line lg:block">
+              <Image
+                src="/images/stimmung/rose.jpg"
+                alt=""
+                fill
+                sizes="24rem"
+                className="object-cover"
+              />
+            </div>
+          </div>
           <div className="space-y-8">
             <Paragraphs
               text={pick(home.introText, l)}
@@ -222,15 +243,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <section aria-labelledby="visit-title" className="py-20 sm:py-28">
         <div className="container-page">
-          <div className="visit-panel panel grid gap-10 p-7 sm:p-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center lg:gap-16">
-            <div className="flex justify-center">
-              <p className="neon-sign" aria-hidden>
-                <span className="neon neon-flicker text-7xl sm:text-8xl">
-                  24/7
-                </span>
-              </p>
+          <div className="visit-panel panel grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+            <div className="visit-mark" aria-hidden>
+              <p className="visit-mark-number text-8xl sm:text-9xl">24/7</p>
             </div>
-            <div>
+            <div className="p-7 sm:p-12">
               <p className="eyebrow">{t("visitEyebrow")}</p>
               <h2
                 id="visit-title"

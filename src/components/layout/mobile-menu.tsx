@@ -6,7 +6,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { setScrollLock } from "@/lib/scroll-lock";
 import { CloseIcon, MenuIcon, PhoneIcon } from "../ui/icons";
-import { NeonText } from "../ui/neon-text";
+import { Logo } from "../ui/logo";
 import { buttonClasses } from "../ui/button";
 import { LanguageSwitch } from "./language-switch";
 import { NAV_ITEMS } from "./nav-items";
@@ -55,9 +55,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
       >
         <div className="hero-sky flex flex-1 flex-col overflow-y-auto">
           <div className="container-page flex items-center justify-between py-3">
-            <NeonText tilt className="text-[2rem]">
-              Mona Roses
-            </NeonText>
+            <Logo link={false} />
             <button
               type="button"
               onClick={close}
