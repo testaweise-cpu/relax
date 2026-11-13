@@ -7,10 +7,16 @@ import { AGE_COOKIE_MAX_AGE, AGE_GATE, sameOriginTarget } from "@/lib/age-gate";
  */
 export async function POST(request: NextRequest) {
   const form = await request.formData();
-  const res = NextResponse.redirect(
-    sameOriginTarget(String(form.get("return") ?? "/"), request.url),
-    303,
+  const target = sameOriginTarget(
+    String(form.get("return") ?? "/"),
+    request.url,
   );
+  // Relativ weiterleiten: Im Container ist request.url die interne Adresse
+  // (0.0.0.0:3000), eine absolute Location würde den Browser dorthin schicken.
+  const res = new NextResponse(null, {
+    status: 303,
+    headers: { Location: target.pathname + target.search },
+  });
   res.cookies.set(AGE_GATE.cookieName, AGE_GATE.cookieValue, {
     maxAge: AGE_COOKIE_MAX_AGE,
     path: "/",

@@ -14,6 +14,29 @@ const intl = createMiddleware(routing);
 const ROUTED = /^\/(?!api|keystatic|_next|_vercel|apple-icon|.*\..*).*$/;
 const LEGACY_WP = /^\/wp-/;
 
+// Manifest und Icons fragt der Browser ohne Anmeldedaten an. Ein 401 mit
+// WWW-Authenticate darauf lässt die Passwortabfrage immer wieder aufgehen.
+// Die Dateien enthalten nichts Schützenswertes und bleiben deshalb offen.
+const PREVIEW_OPEN =
+  /^\/(manifest\.webmanifest|favicon\.ico|icon\.svg|icon|apple-icon)$/;
+const IMAGE_FILE = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
+
+/**
+ * Die Bildoptimierung (/_next/image) holt lokale Bilder über eine interne
+ * Anfrage ganz ohne Header, also auch ohne Authorization. Die äußere Anfrage
+ * an /_next/image ist dann bereits geprüft. Erkennbar ist die interne Anfrage
+ * am fehlenden Host-Header, den jede HTTP/1.1-Anfrage von außen mitbringt.
+ * Auf Bilddateien beschränkt, damit eine Anfrage ohne Host (HTTP/1.0) nie
+ * mehr als die Dekorationsbilder aus /public erreicht.
+ */
+function isInternalImageFetch(request: NextRequest) {
+  return (
+    request.method === "GET" &&
+    !request.headers.has("host") &&
+    IMAGE_FILE.test(request.nextUrl.pathname)
+  );
+}
+
 export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -21,7 +44,12 @@ export default function proxy(request: NextRequest) {
   //    ganze Seite samt Bildern und API. /api/health bleibt für den
   //    Healthcheck des Servers offen.
   const password = process.env.PREVIEW_PASSWORD;
-  if (password && pathname !== "/api/health") {
+  if (
+    password &&
+    pathname !== "/api/health" &&
+    !PREVIEW_OPEN.test(pathname) &&
+    !isInternalImageFetch(request)
+  ) {
     const user = process.env.PREVIEW_USER || "mona";
     if (
       !isPreviewAuthorized(request.headers.get("authorization"), user, password)
