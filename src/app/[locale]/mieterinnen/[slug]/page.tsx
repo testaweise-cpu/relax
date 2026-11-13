@@ -82,6 +82,8 @@ export default async function SedcardPage({
     .filter((o) => o.profile.id !== profile.id)
     .slice(0, 8);
   const plan = weekPlan(shifts, now, tl);
+  const yesNo = (v: boolean | string) =>
+    typeof v === "string" ? v : v ? tc("yes") : tc("no");
   const next = presence
     ? presenceLabel(presence, tl)
     : hasShifts
@@ -153,7 +155,7 @@ export default async function SedcardPage({
               <h2 id="about" className="text-2xl text-ink">
                 {t("about")}
               </h2>
-              <p className="mt-4 text-lg text-ink">
+              <p className="mt-4 text-lg leading-relaxed whitespace-pre-line text-ink">
                 {localize(profile.personalNote, locale)}
               </p>
             </section>
@@ -169,6 +171,11 @@ export default async function SedcardPage({
                 {t("facts")}
               </h2>
               <dl className="mt-4 text-sm">
+                {profile.age && (
+                  <Fact label={t("age")}>
+                    {t("years", { count: profile.age })}
+                  </Fact>
+                )}
                 <Fact label={t("languages")}>
                   {profile.languages
                     .map((l) => languageName(l, locale))
@@ -191,6 +198,32 @@ export default async function SedcardPage({
                 {profile.weightKg && (
                   <Fact label={t("weight")}>{profile.weightKg} kg</Fact>
                 )}
+                {profile.clothingSize && (
+                  <Fact label={t("clothing")}>{profile.clothingSize}</Fact>
+                )}
+                {profile.bodyType && (
+                  <Fact label={t("body")}>{profile.bodyType}</Fact>
+                )}
+                {profile.hairColor && (
+                  <Fact label={t("hair")}>{profile.hairColor}</Fact>
+                )}
+                {profile.eyeColor && (
+                  <Fact label={t("eyes")}>{profile.eyeColor}</Fact>
+                )}
+                {profile.intimateHair && (
+                  <Fact label={t("intimate")}>{profile.intimateHair}</Fact>
+                )}
+                {profile.tattoos !== undefined && (
+                  <Fact label={t("tattoos")}>{yesNo(profile.tattoos)}</Fact>
+                )}
+                {profile.piercings !== undefined && (
+                  <Fact label={t("piercings")}>{yesNo(profile.piercings)}</Fact>
+                )}
+                {profile.extraFacts.map((f) => (
+                  <Fact key={f.label} label={f.label}>
+                    {f.value}
+                  </Fact>
+                ))}
               </dl>
             </section>
 

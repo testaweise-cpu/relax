@@ -27,7 +27,9 @@
   "common": {
     "call": "Anrufen",
     "open247": "24/7 geöffnet",
-    "skipToContent": "Zum Inhalt springen"
+    "skipToContent": "Zum Inhalt springen",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "footer": {
     "tagline": "Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz. Rund um die Uhr geöffnet.",
@@ -133,7 +135,16 @@
     "play": "Abspielen",
     "storyHint": "Tippen: weiter · Halten: Pause · Doppeltippen: Zoom",
     "story": "Als Story ansehen",
-    "alsoHere": "Auch gerade da"
+    "alsoHere": "Auch gerade da",
+    "age": "Alter",
+    "years": "{count} Jahre",
+    "clothing": "Konfektion",
+    "body": "Figur",
+    "hair": "Haarfarbe",
+    "eyes": "Augenfarbe",
+    "intimate": "Intimbereich",
+    "tattoos": "Tattoos",
+    "piercings": "Piercings"
   },
   "now": {
     "title": "Jetzt da",

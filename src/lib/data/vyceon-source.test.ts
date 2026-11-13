@@ -171,6 +171,7 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
           alt: "",
         },
       ],
+      extraFacts: [],
       updatedAt: "2026-11-02T09:45:03.335Z",
     });
     expect(mia.isNew).toBe(true);
@@ -192,6 +193,74 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
     expect(String(fetchMock.mock.calls[0][0])).toBe(
       "https://vyce69.test/api/v1/bordells/org%207/sedcards/lydia",
     );
+  });
+
+  it("Eckdaten aus attributes: bekannte typisiert, unbekannte bleiben erhalten", async () => {
+    fetchMock.mockResolvedValueOnce(
+      respond({
+        success: true,
+        data: detail("lydia", {
+          attributes: {
+            age: 27,
+            height_cm: "172",
+            weight_kg: 58,
+            cup_size: "75C",
+            shoe_size: 39,
+            clothing_size: 36,
+            hair_color: "Blond",
+            eye_color: null,
+            tattoos: true,
+            piercings: "Bauchnabel",
+            origin: "ro",
+            hair_length: "lang",
+            smoker: false,
+            leer: "",
+          },
+        }),
+      }),
+    );
+    const p = await createVyceonSource(config).getProfile("lydia");
+    expect(p).toMatchObject({
+      age: 27,
+      heightCm: 172,
+      weightKg: 58,
+      cupSize: "75C",
+      shoeSize: 39,
+      clothingSize: "36",
+      hairColor: "Blond",
+      tattoos: true,
+      piercings: "Bauchnabel",
+      origin: "RO",
+      extraFacts: [
+        { label: "Hair length", value: "lang" },
+        { label: "Smoker", value: "Nein" },
+      ],
+    });
+    expect(p?.eyeColor).toBeUndefined();
+  });
+
+  it("ausgeschriebene Herkunft bleibt als freie Angabe erhalten", async () => {
+    fetchMock.mockResolvedValueOnce(
+      respond({
+        success: true,
+        data: detail("lydia", { attributes: { nationality: "Rumänien" } }),
+      }),
+    );
+    const p = await createVyceonSource(config).getProfile("lydia");
+    expect(p?.origin).toBeUndefined();
+    expect(p?.extraFacts).toEqual([{ label: "Herkunft", value: "Rumänien" }]);
+  });
+
+  it("Alter unter 18 macht das Profil ungültig (wird nicht angezeigt)", async () => {
+    fetchMock.mockResolvedValueOnce(
+      respond({
+        success: true,
+        data: detail("lydia", { attributes: { age: 17 } }),
+      }),
+    );
+    await expect(
+      createVyceonSource(config).getProfile("lydia"),
+    ).resolves.toBeNull();
   });
 
   it("nicht freigegeben (404) ergibt null", async () => {

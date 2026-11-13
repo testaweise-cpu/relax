@@ -22,7 +22,7 @@ const SERVICES = {
 
 type Seed = Omit<
   Profile,
-  "id" | "slug" | "images" | "updatedAt" | "gender" | "services"
+  "id" | "slug" | "images" | "updatedAt" | "gender" | "services" | "extraFacts"
 > & {
   services: (keyof typeof SERVICES)[];
   /** keine Schichten in den nächsten 30 Tagen (prüft die noindex-Regel) */
@@ -40,6 +40,13 @@ const SEEDS: Seed[] = [
     cupSize: "C",
     shoeSize: 39,
     weightKg: 58,
+    age: 27,
+    clothingSize: "36",
+    hairColor: "Blond",
+    eyeColor: "Blau",
+    bodyType: "Schlank",
+    tattoos: false,
+    piercings: "Bauchnabel",
     services: ["massage", "tabledance", "bar"],
     personalNote: {
       de: "Ich liebe gute Gespräche an der Bar und lange Abende mit Musik.",
@@ -204,6 +211,7 @@ export const MOCK_PROFILES: Profile[] = SEEDS.map((seed, i) => {
   const slug = slugify(seed.name);
   return {
     ...rest,
+    extraFacts: [],
     services: seed.services.map((key) => SERVICES[key]),
     id: `mock-${slug}`,
     slug,

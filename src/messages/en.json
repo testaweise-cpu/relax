@@ -27,7 +27,9 @@
   "common": {
     "call": "Call",
     "open247": "Open 24/7",
-    "skipToContent": "Skip to content"
+    "skipToContent": "Skip to content",
+    "yes": "Yes",
+    "no": "No"
   },
   "footer": {
     "tagline": "Room rental with bar and table dance in Berlin-Steglitz. Open around the clock.",
@@ -133,7 +135,16 @@
     "play": "Play",
     "storyHint": "Tap: next · Hold: pause · Double tap: zoom",
     "story": "View as story",
-    "alsoHere": "Also here right now"
+    "alsoHere": "Also here right now",
+    "age": "Age",
+    "years": "{count} years",
+    "clothing": "Dress size",
+    "body": "Figure",
+    "hair": "Hair colour",
+    "eyes": "Eye colour",
+    "intimate": "Intimate area",
+    "tattoos": "Tattoos",
+    "piercings": "Piercings"
   },
   "now": {
     "title": "Here now",

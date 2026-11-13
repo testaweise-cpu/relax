@@ -89,6 +89,14 @@ Stand 11/2026, geprüft an den echten Antworten. Umgesetzt in
 | `updatedAt`    | `updated_at`                                                                                                                                      |
 | Live           | `in_house`; Zustand aus `presence_state` (`ready` → verfügbar, sonst „im Haus, gerade beschäftigt“); Beginn aus `in_house_since`, falls geliefert |
 
+**Eckdaten (von VYCE69 noch nicht geliefert, Stand 11/2026):** Die Website
+liest ein Objekt `attributes` im Sedcard-Detail: `age`, `height_cm`,
+`weight_kg`, `cup_size`, `shoe_size`, `clothing_size`, `hair_color`,
+`eye_color`, `body_type`, `intimate_hair`, `tattoos`, `piercings`, `origin`
+(ISO-Code) bzw. `nationality`. Weitere Felder darin werden mit ihrem
+Feldnamen als Beschriftung angezeigt. Ein `age` unter 18 macht das Profil
+ungültig, es erscheint dann nicht.
+
 Nicht verwendet: `availability`, `schedule` (meist leer oder Freitext),
 `category`, `city`, `location`, `permalink`, `alsoWith`, `serviceFor`,
 `internalMessaging` und `contacts`. Freigegebene Kontakte zeigt die Website

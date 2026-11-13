@@ -25,6 +25,8 @@ Bitte Antworten direkt hier eintragen.
 - [x] `in_house: true` für alle Eingecheckten, `presence_state` (`ready`, `on_site`)
 - [ ] Alle Werte von `presence_state` bestätigen (bisher gesehen: `ready`, `on_site`)
 - [ ] Sedcard „Alexia“ fehlt in der API, obwohl im Dashboard „Im Haus“
+- [ ] Eckdaten im Feld `attributes` ausgeben (Größe, BH-Größe, Alter usw.,
+      siehe Schnittstelle); der Steckbrief zeigt sie dann automatisch
 - [ ] Optional: `in_house_since` befüllen, dann zeigt die Website „seit 18 Uhr“
 - [ ] Optional: Schichtzeiten in `schedule` (Beginn/Ende), dann kommt der
       Wochenplan zurück

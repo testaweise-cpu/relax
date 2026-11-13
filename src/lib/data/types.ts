@@ -49,6 +49,19 @@ export const profileSchema = z.object({
   cupSize: z.string().optional(),
   shoeSize: z.number().min(30).max(50).optional(),
   weightKg: z.number().min(30).max(200).optional(),
+  /** Nur Volljährige: ein Alter unter 18 macht das ganze Profil ungültig. */
+  age: z.number().int().min(18).max(99).optional(),
+  clothingSize: z.string().optional(),
+  hairColor: z.string().optional(),
+  eyeColor: z.string().optional(),
+  bodyType: z.string().optional(),
+  intimateHair: z.string().optional(),
+  tattoos: z.union([z.boolean(), z.string()]).optional(),
+  piercings: z.union([z.boolean(), z.string()]).optional(),
+  /** Weitere Eckdaten der Quelle, die die Website (noch) nicht kennt */
+  extraFacts: z
+    .array(z.object({ label: z.string().min(1), value: z.string().min(1) }))
+    .default([]),
   services: z.array(serviceSchema).default([]),
   personalNote: localizedTextSchema.optional(),
   images: z.array(imageSchema).default([]),

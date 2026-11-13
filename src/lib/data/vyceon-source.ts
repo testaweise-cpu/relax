@@ -181,6 +181,85 @@ function isRecent(iso: unknown, now: Date) {
   );
 }
 
+const num = (v: unknown) => {
+  const n = typeof v === "string" ? Number(v.replace(",", ".")) : v;
+  return typeof n === "number" && Number.isFinite(n) ? n : undefined;
+};
+const flag = (v: unknown) =>
+  typeof v === "boolean" ? v : (str(v) ?? undefined);
+
+/** Bekannte Eckdaten: Feld der Website ← mögliche Namen bei VYCE69 */
+const ATTRIBUTE_KEYS = {
+  age: ["age"],
+  heightCm: ["height_cm", "height"],
+  weightKg: ["weight_kg", "weight"],
+  cupSize: ["cup_size", "bra_size", "cup"],
+  shoeSize: ["shoe_size"],
+  clothingSize: ["clothing_size", "dress_size"],
+  hairColor: ["hair_color"],
+  eyeColor: ["eye_color"],
+  bodyType: ["body_type", "figure"],
+  intimateHair: ["intimate_hair"],
+  tattoos: ["tattoos", "tattoo"],
+  piercings: ["piercings", "piercing"],
+  origin: ["origin", "country_code", "nationality"],
+} as const;
+
+/** "hair_length" → "Hair length" (nur für Felder ohne eigene Beschriftung) */
+const humanize = (key: string) =>
+  key.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase());
+
+/**
+ * Eckdaten aus `attributes`. Bekannte Felder werden typisiert; alles andere
+ * (Text, Zahl, Ja/Nein) landet in `extraFacts`, damit nichts verloren geht.
+ */
+function attributes(raw: unknown) {
+  if (!isObject(raw)) return {};
+  const pick = (names: readonly string[]) => {
+    for (const n of names) if (raw[n] != null && raw[n] !== "") return raw[n];
+    return undefined;
+  };
+  const known = new Set<string>(Object.values(ATTRIBUTE_KEYS).flat());
+  const origin = str(pick(ATTRIBUTE_KEYS.origin));
+  const extraFacts = Object.entries(raw).flatMap(([key, value]) => {
+    if (known.has(key) || value == null || value === "") return [];
+    const text =
+      typeof value === "boolean"
+        ? value
+          ? "Ja"
+          : "Nein"
+        : typeof value === "number"
+          ? String(value)
+          : Array.isArray(value)
+            ? value.filter((v) => typeof v === "string").join(", ")
+            : str(value);
+    return text ? [{ label: humanize(key), value: text }] : [];
+  });
+  return {
+    age: num(pick(ATTRIBUTE_KEYS.age)),
+    heightCm: num(pick(ATTRIBUTE_KEYS.heightCm)),
+    weightKg: num(pick(ATTRIBUTE_KEYS.weightKg)),
+    cupSize: str(pick(ATTRIBUTE_KEYS.cupSize)),
+    shoeSize: num(pick(ATTRIBUTE_KEYS.shoeSize)),
+    clothingSize:
+      str(pick(ATTRIBUTE_KEYS.clothingSize)) ??
+      num(pick(ATTRIBUTE_KEYS.clothingSize))?.toString(),
+    hairColor: str(pick(ATTRIBUTE_KEYS.hairColor)),
+    eyeColor: str(pick(ATTRIBUTE_KEYS.eyeColor)),
+    bodyType: str(pick(ATTRIBUTE_KEYS.bodyType)),
+    intimateHair: str(pick(ATTRIBUTE_KEYS.intimateHair)),
+    tattoos: flag(pick(ATTRIBUTE_KEYS.tattoos)),
+    piercings: flag(pick(ATTRIBUTE_KEYS.piercings)),
+    // nur ISO-Ländercodes; ausgeschriebene Namen als freie Angabe
+    origin:
+      origin && /^[A-Za-z]{2}$/.test(origin) ? origin.toUpperCase() : undefined,
+    extraFacts:
+      origin && !/^[A-Za-z]{2}$/.test(origin)
+        ? [{ label: "Herkunft", value: origin }, ...extraFacts]
+        : extraFacts,
+  };
+}
+
 /** Sedcard (Liste oder Detail) → Profil der Website. */
 export function fromApiProfile(raw: unknown, now = new Date()): unknown {
   if (!isObject(raw)) return raw;
@@ -196,6 +275,7 @@ export function fromApiProfile(raw: unknown, now = new Date()): unknown {
     services: services(raw.services),
     personalNote: note ? { de: note } : undefined,
     images: images(raw),
+    ...attributes(raw.attributes),
     updatedAt: raw.updated_at,
   };
 }
