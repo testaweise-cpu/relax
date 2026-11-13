@@ -1,11 +1,9 @@
 import type { MetadataRoute } from "next";
+import { connection } from "next/server";
 import { locales, type Locale } from "@/i18n/routing";
 import { getDataSource } from "@/lib/data";
 import { absoluteUrl } from "@/lib/site";
 import { hasUpcomingShift } from "@/lib/time/shifts";
-
-// Stündlich neu erzeugen – Profile kommen und gehen.
-export const revalidate = 3600;
 
 const STATIC: {
   path: string;
@@ -39,19 +37,25 @@ function entry(
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Pro Abruf erzeugen (Daten aus dem Cache der Quelle): beim Build gäbe es
+  // nur die Daten der Build-Umgebung, nicht die von VyceON.
+  await connection();
   const ds = getDataSource();
   const now = new Date();
   const [profiles, shifts] = await Promise.all([
     ds.listProfiles(),
     ds.listShifts(now, new Date(now.getTime() + 30 * 86400000)),
   ]);
-  // Nur Profile mit Schicht in den nächsten 30 Tagen (die übrigen sind noindex)
-  const indexable = profiles.filter((p) =>
-    hasUpcomingShift(
-      shifts.filter((s) => s.profileId === p.id),
-      now,
-      30,
-    ),
+  // Nur Profile mit Schicht in den nächsten 30 Tagen (die übrigen sind noindex);
+  // ohne Schichtdaten in der Quelle alle.
+  const indexable = profiles.filter(
+    (p) =>
+      !ds.hasShifts ||
+      hasUpcomingShift(
+        shifts.filter((s) => s.profileId === p.id),
+        now,
+        30,
+      ),
   );
   return [
     ...STATIC.flatMap((s) =>

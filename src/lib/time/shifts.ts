@@ -211,15 +211,18 @@ export function hasUpcomingShift(
   );
 }
 
-/** Label für eine laufende Anwesenheit: "bis 24 Uhr" bzw. "seit 16 Uhr". */
+/** Label für eine laufende Anwesenheit: "bis 24 Uhr", "seit 16 Uhr" oder "jetzt im Haus". */
 export function presenceLabel(
-  presence: { since: string; until?: string | null },
+  presence: { since?: string | null; until?: string | null },
   locale: TimeLocale,
 ): string {
   if (presence.until) {
     const t = formatClock(toDate(presence.until), locale, { asEnd: true });
     return locale === "de" ? `bis ${t} Uhr` : `until ${t}`;
   }
-  const t = formatClock(toDate(presence.since), locale);
-  return locale === "de" ? `seit ${t} Uhr` : `since ${t}`;
+  if (presence.since) {
+    const t = formatClock(toDate(presence.since), locale);
+    return locale === "de" ? `seit ${t} Uhr` : `since ${t}`;
+  }
+  return locale === "de" ? "jetzt im Haus" : "in the house now";
 }

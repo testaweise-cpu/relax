@@ -299,6 +299,7 @@ export function createMockSource(
 ): DataSource {
   return {
     name: "mock",
+    hasShifts: true,
     async listProfiles() {
       return MOCK_PROFILES;
     },

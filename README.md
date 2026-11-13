@@ -108,7 +108,7 @@ eingebettet. **Laufzeit** = wird beim Start des Containers gesetzt.
 | Variable                                | Wann     | Pflicht                 | Bedeutung                                                                        |
 | --------------------------------------- | -------- | ----------------------- | -------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`                  | Build    | ja                      | Öffentliche Adresse, z. B. `https://www.mona-roses.com` (Canonical, Sitemap, OG) |
-| `VYCEON_IMAGE_HOST`                     | Build    | bei VyceON              | Hostname der VyceON-Profilbilder, für die Bildoptimierung freigegeben            |
+| `VYCEON_IMAGE_HOST`                     | Build    | bei VyceON              | `vyce69.com`: Bild-Host für die Bildoptimierung (bei `next start` auch Laufzeit) |
 | `NEXT_PUBLIC_KEYSTATIC_STORAGE`         | Build    | –                       | `local` (Standard) oder `github`                                                 |
 | `NEXT_PUBLIC_KEYSTATIC_GITHUB_REPO`     | Build    | bei `github`            | Repository als `owner/repo`                                                      |
 | `NEXT_PUBLIC_KEYSTATIC_GITHUB_APP_SLUG` | Build    | bei `github`            | Name der GitHub-App (siehe Keystatic)                                            |
@@ -210,23 +210,26 @@ Was noch offen ist, steht in [`docs/vyceon-fragen.md`](docs/vyceon-fragen.md).
 
 ### Aktualität und Cache
 
-| Daten     | Cache     | Cache-Tag                    |
-| --------- | --------- | ---------------------------- |
-| Profile   | 5 Minuten | `profiles`, `profile:<slug>` |
-| Schichten | 5 Minuten | `shifts`                     |
+Mit VyceON gilt:
 
-Live-Status: wird bei jeder Anfrage aus den Schichten berechnet und wechselt
-daher genau zu Schichtbeginn und -ende. Geänderte Schichten erscheinen nach
-spätestens 5 Minuten. Für die Schichten ruft die Website jede Sedcard einzeln
-ab (höchstens 4 gleichzeitig).
+| Daten          | Cache       | Cache-Tag                    |
+| -------------- | ----------- | ---------------------------- |
+| Liste und Live | 60 Sekunden | `profiles`, `presence`       |
+| Profilseite    | 5 Minuten   | `profiles`, `profile:<slug>` |
+
+Live („Jetzt da“) ist, wer in VYCE69 als `in_house` markiert ist. Liste und
+Live-Status kommen aus demselben Abruf (60 pro Stunde bei einem Limit von
+1000). Schichtzeiten liefert VYCE69 nicht: Der Wochenplan auf der Profilseite
+entfällt dann, und alle veröffentlichten Profile sind indexierbar und in der
+Sitemap.
 
 Ist VyceON nicht erreichbar, zeigt die Seite den letzten erfolgreichen Stand,
-Schichten aber höchstens 6 Stunden lang.
+den Live-Status aber höchstens 15 Minuten lang.
 Die Seite „Jetzt da“ fragt `/api/presence` alle 60 Sekunden neu ab, aber nur,
 solange der Tab sichtbar ist.
 
-Profile ohne Schicht in den nächsten 30 Tagen bleiben erreichbar, sind aber
-`noindex` und nicht in der Sitemap.
+Mit den Mock-Daten (mit Schichten) gilt: Profile ohne Schicht in den nächsten
+30 Tagen bleiben erreichbar, sind aber `noindex` und nicht in der Sitemap.
 
 ### Webhook (optional, derzeit ungenutzt)
 

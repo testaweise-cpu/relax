@@ -52,6 +52,7 @@ export const getProfileDetail = cache(async (slug: string) => {
   ]);
   return {
     now,
+    hasShifts: ds.hasShifts,
     profile,
     presence: presence.find((p) => p.profileId === profile.id) ?? null,
     shifts: shifts.filter((s) => s.profileId === profile.id),

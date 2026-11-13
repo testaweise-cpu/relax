@@ -31,7 +31,7 @@ function isEntry(v: unknown): v is PresentEntry {
     typeof v.isNew === "boolean" &&
     typeof v.isBack === "boolean" &&
     (v.image === null || isImage(v.image)) &&
-    isStr(v.since) &&
+    (v.since === null || isStr(v.since)) &&
     (v.until === null || isStr(v.until))
   );
 }

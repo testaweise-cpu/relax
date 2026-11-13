@@ -29,18 +29,19 @@ export async function generateMetadata({
   const detail = await getProfileDetail(slug);
   const t = await getTranslations({ locale, namespace: "sedcard" });
   if (!detail) return { title: t("notFoundTitle"), robots: { index: false } };
-  const { profile, shifts, now } = detail;
+  const { profile, shifts, now, hasShifts } = detail;
   const langs = profile.languages
     .map((l) => languageName(l, locale))
     .join(", ");
-  // Profile ohne Schicht in den nächsten 30 Tagen bleiben erreichbar, aber noindex.
+  // Profile ohne Schicht in den nächsten 30 Tagen bleiben erreichbar, aber noindex
+  // (nur wenn die Datenquelle überhaupt Schichten liefert).
   // Das Vorschaubild erzeugt opengraph-image.tsx im selben Ordner.
   return pageMetadata({
     locale: locale as Locale,
     path: `/mieterinnen/${profile.slug}`,
     title: profile.name,
     description: `${profile.name} – Mona Roses Berlin-Steglitz. ${t("languages")}: ${langs}.`,
-    noindex: !hasUpcomingShift(shifts, now, 30),
+    noindex: hasShifts && !hasUpcomingShift(shifts, now, 30),
   });
 }
 
@@ -73,11 +74,13 @@ export default async function SedcardPage({
   const tp = await getTranslations("profile");
   const settings = await getSettings();
   const tl = locale === "en" ? "en" : "de";
-  const { profile, presence, shifts, now } = detail;
+  const { profile, presence, shifts, now, hasShifts } = detail;
   const plan = weekPlan(shifts, now, tl);
   const next = presence
     ? presenceLabel(presence, tl)
-    : profileTimeLabel(shifts, now, tl);
+    : hasShifts
+      ? (profileTimeLabel(shifts, now, tl) ?? t("noShift"))
+      : undefined;
 
   return (
     <article className="container-page py-8 sm:py-14">
@@ -105,15 +108,17 @@ export default async function SedcardPage({
             {profile.name}
           </h1>
 
-          <p
-            className={
-              presence
-                ? "mt-4 font-label text-gold"
-                : "mt-4 font-label text-muted"
-            }
-          >
-            {next ?? t("noShift")}
-          </p>
+          {next && (
+            <p
+              className={
+                presence
+                  ? "mt-4 font-label text-gold"
+                  : "mt-4 font-label text-muted"
+              }
+            >
+              {next}
+            </p>
+          )}
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <ButtonAnchor href={telHref(settings.phoneE164)} size="lg">
@@ -167,14 +172,16 @@ export default async function SedcardPage({
               </dl>
             </section>
 
-            <section aria-labelledby="week">
-              <h2 id="week" className="text-2xl text-ink">
-                {t("week")}
-              </h2>
-              <div className="mt-4">
-                <WeekPlan days={plan} />
-              </div>
-            </section>
+            {hasShifts && (
+              <section aria-labelledby="week">
+                <h2 id="week" className="text-2xl text-ink">
+                  {t("week")}
+                </h2>
+                <div className="mt-4">
+                  <WeekPlan days={plan} />
+                </div>
+              </section>
+            )}
           </div>
 
           {profile.services.length > 0 && (

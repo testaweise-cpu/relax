@@ -7,20 +7,24 @@ Bitte Antworten direkt hier eintragen.
 
 ## Vom Betreiber zu erledigen
 
-- [ ] Den bereits offengelegten Sync-Schlüssel widerrufen und einen neuen anlegen
-      (nur über ein sicheres Formular weitergeben, nie im Chat)
-- [ ] `organizationId` von Mona Roses
-- [ ] `/api/v1/` von der Basic-Auth (Traefik) vor vyce69.com ausnehmen
-- [ ] Erinnerung: Schlüssel läuft nach 365 Tagen ab
+- [ ] Schlüssel „Mona Roses Webseite“ läuft am 12.11.2027 ab: vorher erneuern
+- [ ] Empfehlung: Der aktuelle Schlüssel wurde im Klartext weitergegeben.
+      Vor dem Livegang einen neuen anlegen und nur in der Server-Umgebung
+      hinterlegen.
 - [ ] Alte Produkt-Slugs der Altseite den neuen Slugs zuordnen
       (`redirects/products.json`, siehe README)
 
-## Mit der ersten echten Antwort zu klären
+## Erledigt
 
-- [ ] Feldnamen von Liste und Detail (Zuordnung, siehe Schnittstelle)
-- [ ] Format der Zeitplanung: einzelne Schichten mit Beginn/Ende oder
-      Wochenmuster? Zeitzone?
-- [ ] Wie wird „Neu“ / „Wieder da“ abgebildet?
-- [ ] Gibt es englische Texte (Bio, Services)?
-- [ ] Bild-Host und Bildmaße (`VYCEON_IMAGE_HOST`)
-- [ ] Wie heißt der Paginierungsblock (`total_pages`, `has_more` …)?
+- [x] `organizationId`, Schlüssel, `/api/v1/` und `/api/img` ohne Basic-Auth
+- [x] Bild-URLs mit öffentlichem Host und Bildmaßen
+- [x] Feldzuordnung (siehe Schnittstelle)
+
+## Noch offen bei VYCE69
+
+- [ ] Bestätigen: Bedeutet `in_house: true` „jetzt im Haus“?
+- [ ] Optional: Beginn der Anwesenheit (z. B. `in_house_since`), dann zeigt die
+      Website „seit 18 Uhr“ statt „jetzt im Haus“
+- [ ] Optional: Schichtzeiten in `schedule` (Beginn/Ende), dann kommt der
+      Wochenplan zurück
+- [ ] Optional: englische Bio

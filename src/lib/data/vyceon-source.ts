@@ -1,19 +1,12 @@
 import { REVALIDATE, TAGS, type DataSource } from "./source";
-import {
-  parseList,
-  profileSchema,
-  shiftSchema,
-  type Presence,
-  type Profile,
-  type Shift,
-} from "./types";
+import { parseList, profileSchema, type Presence, type Profile } from "./types";
 
 /**
  * Anbindung an die VYCE69 Bordell-Sync API v1 (VyceON).
  *
  * Beschreibung und Zuordnung der Felder: docs/vyceon-schnittstelle.md.
- * Die API liefert nur Sedcards (Liste und Detail). Schichten stehen in der
- * Zeitplanung der Sedcard; „live“ ist, wer gerade in Schicht ist.
+ * Die API liefert nur Sedcards (Liste und Detail). Live ist, wer laut
+ * `in_house` gerade im Haus ist. Schichtzeiten liefert die API nicht.
  */
 
 export type VyceonConfig = {
@@ -29,10 +22,10 @@ export type VyceonConfig = {
 export const PAGE_SIZE = 100;
 /** Schutz vor Endlosschleifen bei fehlerhafter Paginierung */
 const MAX_PAGES = 20;
-/** Gleichzeitige Detail-Abrufe (Ratenbegrenzung pro Schlüssel) */
-const DETAIL_CONCURRENCY = 4;
-/** Ein Schichtplan von gestern ist noch brauchbar, einer von letzter Woche nicht. */
-export const SHIFTS_FALLBACK_MAX_AGE_MS = 6 * 60 * 60_000;
+/** „Neu“: veröffentlicht vor höchstens so vielen Tagen */
+export const NEW_DAYS = 14;
+/** Live-Status veraltet schnell: länger als 15 Minuten nicht als „jetzt da“ zeigen. */
+export const PRESENCE_FALLBACK_MAX_AGE_MS = 15 * 60_000;
 
 class NotFoundError extends Error {}
 
@@ -68,6 +61,8 @@ export function resetVyceonFallbackCache() {
 type Json = Record<string, unknown>;
 const isObject = (v: unknown): v is Json =>
   !!v && typeof v === "object" && !Array.isArray(v);
+const str = (v: unknown) =>
+  typeof v === "string" && v.trim() ? v.trim() : undefined;
 
 /** Fehlervertrag: {"success":false,"error":"code"} – auch bei Status 200 ein Fehler. */
 function assertSuccess(json: unknown, path: string) {
@@ -76,71 +71,140 @@ function assertSuccess(json: unknown, path: string) {
   }
 }
 
+/** {"success":true,"data":…} → data */
+function payload(json: unknown): unknown {
+  return isObject(json) && "data" in json ? json.data : json;
+}
+
 /** Einträge einer Listenseite. Keine Liste gilt als Fehler (Rückfall greift). */
-function pageItems(json: unknown): unknown[] {
-  const list = isObject(json) ? (json.items ?? json.data) : json;
+function pageItems(data: unknown): unknown[] {
+  const list = isObject(data) ? data.items : data;
   if (!Array.isArray(list)) throw new Error("VyceON: Liste erwartet");
   return list;
 }
 
 /** Gibt es nach `page` noch eine Seite? Fehlen Angaben, zählt eine volle Seite. */
-function hasNextPage(json: unknown, page: number, count: number): boolean {
-  const p = isObject(json) && isObject(json.pagination) ? json.pagination : {};
-  const hasMore = p.has_more ?? p.hasMore;
-  if (typeof hasMore === "boolean") return hasMore;
-  const totalPages = p.total_pages ?? p.totalPages ?? p.pages;
-  if (typeof totalPages === "number") return page < totalPages;
+function hasNextPage(data: unknown, page: number, count: number): boolean {
+  const p = isObject(data) && isObject(data.pagination) ? data.pagination : {};
+  if (typeof p.total_pages === "number") return page < p.total_pages;
   return count === PAGE_SIZE;
 }
 
-/** Einzelobjekte: nackt oder in { data } bzw. { item }. */
-function unwrapOne(json: unknown): unknown {
-  if (isObject(json)) {
-    if (isObject(json.data)) return json.data;
-    if (isObject(json.item)) return json.item;
-  }
-  return json;
-}
-
 // ---------------------------------------------------------------------------
-// Zuordnung API → Website. NUR hier wird an die Feldnamen von VYCE69 angepasst.
-// TODO(VyceON): Feldnamen nach der ersten echten Antwort festlegen
-// (docs/vyceon-schnittstelle.md, Abschnitt „Zuordnung“). Bis dahin wird das
-// Modell der Website erwartet; Abweichungen werden geloggt und übersprungen.
+// Zuordnung VYCE69 → Website. NUR hier wird an die Feldnamen angepasst.
 // ---------------------------------------------------------------------------
 
-function fromApiProfile(raw: unknown): unknown {
-  return raw;
+/** VYCE69 liefert Sprachen als deutsche Namen; die Website arbeitet mit ISO-639-1. */
+const LANGUAGE_CODES: Record<string, string> = {
+  arabisch: "ar",
+  bulgarisch: "bg",
+  chinesisch: "zh",
+  deutsch: "de",
+  englisch: "en",
+  französisch: "fr",
+  griechisch: "el",
+  italienisch: "it",
+  niederländisch: "nl",
+  polnisch: "pl",
+  portugiesisch: "pt",
+  rumänisch: "ro",
+  russisch: "ru",
+  serbisch: "sr",
+  spanisch: "es",
+  thailändisch: "th",
+  tschechisch: "cs",
+  türkisch: "tr",
+  ukrainisch: "uk",
+  ungarisch: "hu",
+};
+
+function languageCodes(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const codes = raw.flatMap((name) => {
+    const s = str(name)?.toLowerCase();
+    if (!s) return [];
+    if (/^[a-z]{2}$/.test(s)) return [s];
+    const code = LANGUAGE_CODES[s];
+    if (!code) console.warn(`[vyceon] unbekannte Sprache "${s}"`);
+    return code ? [code] : [];
+  });
+  return [...new Set(codes)];
 }
 
-/** Schichten aus der Zeitplanung einer Sedcard. */
-function fromApiSchedule(raw: unknown, profileId: string): unknown[] {
-  if (!isObject(raw)) return [];
-  const schedule = raw.shifts ?? raw.schedule;
-  if (!Array.isArray(schedule)) return [];
-  return schedule.map((entry, i) =>
-    isObject(entry) ? { id: `${profileId}-${i}`, ...entry, profileId } : entry,
-  );
-}
-
-/** Läuft `fn` über alle Einträge, höchstens `limit` gleichzeitig. */
-async function mapLimited<T, R>(
-  items: T[],
-  limit: number,
-  fn: (item: T) => Promise<R>,
-): Promise<R[]> {
-  const out = new Array<R>(items.length);
-  let next = 0;
-  const worker = async () => {
-    while (next < items.length) {
-      const i = next++;
-      out[i] = await fn(items[i]);
+/** 16-Gruppen-Serviceauswahl: [{key, label, services: [..]}] → einzelne Services */
+function services(raw: unknown): Profile["services"] {
+  if (!Array.isArray(raw)) return [];
+  const out = new Map<string, Profile["services"][number]>();
+  for (const group of raw) {
+    if (!isObject(group) || !Array.isArray(group.services)) continue;
+    const key = str(group.key) ?? "service";
+    for (const name of group.services) {
+      const de = str(name);
+      if (de && !out.has(de)) out.set(de, { id: `${key}:${de}`, de });
     }
-  };
-  await Promise.all(
-    Array.from({ length: Math.min(limit, items.length) }, worker),
+  }
+  return [...out.values()];
+}
+
+/** Bildmaße aus ?w=…&h=… der Bild-URL (Listen-Vorschaubild hat keine Felder dafür). */
+function sizeFromUrl(url: string) {
+  try {
+    const q = new URL(url).searchParams;
+    const width = Number(q.get("w"));
+    const height = Number(q.get("h"));
+    if (width > 0 && height > 0) return { width, height };
+  } catch {
+    // ungültige URL → Standard
+  }
+  return { width: 480, height: 640 };
+}
+
+function images(raw: Json): Profile["images"] {
+  if (Array.isArray(raw.media) && raw.media.length) {
+    return raw.media.flatMap((m) =>
+      isObject(m) &&
+      str(m.url) &&
+      typeof m.width === "number" &&
+      typeof m.height === "number"
+        ? [{ url: str(m.url)!, width: m.width, height: m.height, alt: "" }]
+        : [],
+    );
+  }
+  const thumb = str(raw.thumbnail_url);
+  return thumb ? [{ url: thumb, ...sizeFromUrl(thumb), alt: "" }] : [];
+}
+
+function isRecent(iso: unknown, now: Date) {
+  const t = typeof iso === "string" ? Date.parse(iso) : NaN;
+  return (
+    Number.isFinite(t) && now.getTime() - t <= NEW_DAYS * 86400000 && t <= +now
   );
-  return out;
+}
+
+/** Sedcard (Liste oder Detail) → Profil der Website. */
+export function fromApiProfile(raw: unknown, now = new Date()): unknown {
+  if (!isObject(raw)) return raw;
+  const note = str(raw.about_text) ?? str(raw.tagline);
+  return {
+    id: raw.id,
+    slug: raw.slug,
+    name: str(raw.name),
+    isNew: isRecent(raw.published_at, now),
+    isBack: false,
+    gender: "female",
+    languages: languageCodes(raw.languages),
+    services: services(raw.services),
+    personalNote: note ? { de: note } : undefined,
+    images: images(raw),
+    updatedAt: raw.updated_at,
+  };
+}
+
+/** Wer ist gerade im Haus? Der Beginn ist unbekannt. */
+function fromApiPresence(raw: unknown): Presence[] {
+  return isObject(raw) && raw.in_house === true && str(raw.id)
+    ? [{ profileId: str(raw.id)! }]
+    : [];
 }
 
 export function createVyceonSource(config: VyceonConfig): DataSource {
@@ -165,10 +229,14 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
       throw new Error(`VyceON ${res.status} ${res.statusText} für ${path}`);
     const json = (await res.json()) as unknown;
     assertSuccess(json, path);
-    return json;
+    return payload(json);
   }
 
-  /** Alle veröffentlichten Sedcards, Seite für Seite. */
+  /**
+   * Alle veröffentlichten Sedcards, Seite für Seite. Profile und Live-Status
+   * kommen aus derselben Liste, daher ein gemeinsamer Cache von 60 Sekunden
+   * (60 Abrufe pro Stunde bei einem Limit von 1000).
+   */
   async function fetchAllSedcards(): Promise<unknown[]> {
     const all: unknown[] = [];
     for (let page = 1; page <= MAX_PAGES; page++) {
@@ -177,77 +245,50 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
         per_page: String(PAGE_SIZE),
         order: "name",
       });
-      const json = await getJson(`/bordells/${org}/sedcards?${qs}`, {
-        revalidate: REVALIDATE.profiles,
-        tags: [TAGS.profiles],
+      const data = await getJson(`/bordells/${org}/sedcards?${qs}`, {
+        revalidate: REVALIDATE.presence,
+        tags: [TAGS.profiles, TAGS.presence],
       });
-      const items = pageItems(json);
+      const items = pageItems(data);
       all.push(...items);
-      if (!hasNextPage(json, page, items.length)) return all;
+      if (!hasNextPage(data, page, items.length)) return all;
     }
     throw new Error(`VyceON: mehr als ${MAX_PAGES} Seiten`);
   }
 
-  async function fetchSedcard(slugOrId: string): Promise<unknown> {
-    const json = await getJson(
-      `/bordells/${org}/sedcards/${encodeURIComponent(slugOrId)}`,
-      {
-        revalidate: REVALIDATE.shifts,
-        tags: [TAGS.profiles, TAGS.profile(slugOrId), TAGS.shifts],
-      },
-    );
-    return unwrapOne(json);
-  }
-
-  async function listProfiles(): Promise<Profile[]> {
-    return withFallback(
-      "profiles",
-      async () =>
-        parseList(
-          profileSchema,
-          (await fetchAllSedcards()).map(fromApiProfile),
-          "vyceon.sedcards",
-        ),
-      [],
-    );
-  }
-
-  /** Alle Schichten aus den Zeitplanungen aller Sedcards. */
-  async function allShifts(): Promise<Shift[]> {
-    return withFallback(
-      "shifts",
-      async () => {
-        const profiles = await listProfiles();
-        const details = await mapLimited(profiles, DETAIL_CONCURRENCY, (p) =>
-          fetchSedcard(p.slug).catch((error) => {
-            // Profil inzwischen nicht mehr freigegeben → keine Schichten.
-            if (error instanceof NotFoundError) return null;
-            throw error;
-          }),
-        );
-        const raw = details.flatMap((d, i) =>
-          fromApiSchedule(d, profiles[i].id),
-        );
-        return parseList(shiftSchema, raw, "vyceon.zeitplanung");
-      },
-      [] as Shift[],
-      SHIFTS_FALLBACK_MAX_AGE_MS,
-    );
-  }
-
   return {
     name: "vyceon",
+    hasShifts: false,
 
-    listProfiles,
+    async listProfiles(): Promise<Profile[]> {
+      return withFallback(
+        "profiles",
+        async () => {
+          const now = new Date();
+          const items = await fetchAllSedcards();
+          return parseList(
+            profileSchema,
+            items.map((i) => fromApiProfile(i, now)),
+            "vyceon.sedcards",
+          );
+        },
+        [],
+      );
+    },
 
     async getProfile(slug: string): Promise<Profile | null> {
       try {
         return await withFallback(
           `profile:${slug}`,
           async () => {
-            const parsed = profileSchema.safeParse(
-              fromApiProfile(await fetchSedcard(slug)),
+            const data = await getJson(
+              `/bordells/${org}/sedcards/${encodeURIComponent(slug)}`,
+              {
+                revalidate: REVALIDATE.profiles,
+                tags: [TAGS.profiles, TAGS.profile(slug)],
+              },
             );
+            const parsed = profileSchema.safeParse(fromApiProfile(data));
             if (!parsed.success) {
               console.warn(
                 `[vyceon] Sedcard "${slug}" ungültig:`,
@@ -266,18 +307,18 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
       }
     },
 
-    async listShifts(from: Date, to: Date): Promise<Shift[]> {
-      return (await allShifts()).filter(
-        (s) => new Date(s.end) > from && new Date(s.start) < to,
-      );
+    async listShifts() {
+      return [];
     },
 
-    /** Live = gerade in Schicht. */
+    /** Live = `in_house`. */
     async getPresence(): Promise<Presence[]> {
-      const now = new Date();
-      return (await allShifts())
-        .filter((s) => new Date(s.start) <= now && now < new Date(s.end))
-        .map((s) => ({ profileId: s.profileId, since: s.start, until: s.end }));
+      return withFallback(
+        "presence",
+        async () => (await fetchAllSedcards()).flatMap(fromApiPresence),
+        [],
+        PRESENCE_FALLBACK_MAX_AGE_MS,
+      );
     },
   };
 }

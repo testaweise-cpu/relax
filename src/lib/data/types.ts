@@ -68,7 +68,8 @@ export const shiftSchema = z
 
 export const presenceSchema = z.object({
   profileId: z.string().min(1),
-  since: isoDateTime,
+  /** Beginn, falls bekannt (VyceON meldet nur „im Haus“) */
+  since: isoDateTime.optional(),
   until: isoDateTime.optional(),
 });
 

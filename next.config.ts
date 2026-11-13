@@ -19,9 +19,16 @@ const nextConfig: NextConfig = {
   cacheComponents: false,
   images: {
     formats: ["image/avif", "image/webp"],
-    // ANNAHME: VyceON liefert Profilbilder von einer eigenen Domain (Build-Zeit-Variable).
+    // VYCE69 liefert Profilbilder unter https://<host>/api/img?key=…
+    // (Build-Zeit-Variable; bei `next start` auch zur Laufzeit setzen).
     remotePatterns: process.env.VYCEON_IMAGE_HOST
-      ? [{ protocol: "https", hostname: process.env.VYCEON_IMAGE_HOST }]
+      ? [
+          {
+            protocol: "https",
+            hostname: process.env.VYCEON_IMAGE_HOST,
+            pathname: "/api/img",
+          },
+        ]
       : [],
   },
   experimental: {

@@ -10,12 +10,12 @@ Anwesenheit und Webhooks) ist damit überholt und entfernt.
 
 ## Was die Website braucht
 
-| Anzeige                   | Quelle                                   |
-| ------------------------- | ---------------------------------------- |
-| Mieterinnen (Liste)       | Sedcard-Liste                            |
-| Profilseite               | Sedcard-Detail                           |
-| Schichtplan, „heute noch“ | Zeitplanung im Sedcard-Detail            |
-| **Live / „Jetzt da“**     | **berechnet: wer gerade in Schicht ist** |
+| Anzeige               | Quelle                                 |
+| --------------------- | -------------------------------------- |
+| Mieterinnen (Liste)   | Sedcard-Liste                          |
+| Profilseite           | Sedcard-Detail                         |
+| **Live / „Jetzt da“** | **`in_house` in der Sedcard-Liste**    |
+| Schichtplan           | entfällt (VYCE69 liefert keine Zeiten) |
 
 ## API
 
@@ -61,40 +61,45 @@ Form: `{"success":false,"error":"code"}`
 
 ## Wie die Website abruft
 
-- **Profile:** alle Seiten der Liste, Cache 5 Minuten.
-- **Schichten:** das Detail jeder Sedcard (höchstens 4 gleichzeitig),
-  Cache 5 Minuten. Bei 30 Mieterinnen sind das rund 30 Abrufe alle
-  5 Minuten, plus Profilseiten nach Bedarf.
-- **Live:** bei jeder Anfrage aus den Schichten berechnet: `Beginn ≤ jetzt <
-Ende`. Der Status wechselt dadurch genau zu Schichtbeginn und -ende.
-- **Ausfall:** letzter erfolgreicher Stand; Schichten höchstens 6 Stunden.
+- **Liste und Live:** alle Seiten der Liste, Cache 60 Sekunden, also rund
+  60 Abrufe pro Stunde (Limit des Schlüssels: 1000 pro Stunde).
+- **Profilseite:** Sedcard-Detail, Cache 5 Minuten.
+- **Live:** `in_house: true`. Seit wann jemand da ist, liefert die API nicht;
+  die Website zeigt dann „jetzt im Haus“.
+- **Ausfall:** letzter erfolgreicher Stand; Live-Status höchstens 15 Minuten.
 - **Webhooks:** bietet VYCE69 nicht. Änderungen erscheinen nach spätestens
-  5 Minuten.
+  1 Minute (Liste) bzw. 5 Minuten (Profilseite).
 
 ## Zuordnung der Felder
 
-> TODO(VyceON): Die Feldnamen der Antworten stehen nicht in der Doku. Sie
-> werden mit der ersten echten Antwort festgelegt, und zwar nur in
-> `fromApiProfile` und `fromApiSchedule` in `src/lib/data/vyceon-source.ts`.
+Stand 11/2026, geprüft an den echten Antworten. Umgesetzt in
+`fromApiProfile` und `fromApiPresence` (`src/lib/data/vyceon-source.ts`).
 
-| Website                      | VYCE69 (zu bestätigen)                                                    |
-| ---------------------------- | ------------------------------------------------------------------------- |
-| `id`, `slug`, `name`         | ?                                                                         |
-| `languages`                  | Sprachen                                                                  |
-| `services` (Name DE/EN)      | 16-Gruppen-Serviceauswahl                                                 |
-| `personalNote`               | Bio                                                                       |
-| `images` (URL, Breite, Höhe) | freigegebene Bilder                                                       |
-| `isNew`, `isBack`            | ? (sonst aus `newest` bzw. leer)                                          |
-| Schichten (`start`, `end`)   | Zeitplanung                                                               |
-| –                            | Ort, Verfügbarkeit, Kontakte, „Service für“, „Auch mit“ (nicht angezeigt) |
+| Website        | VYCE69                                                         |
+| -------------- | -------------------------------------------------------------- |
+| `id`           | `id`                                                           |
+| `slug`, `name` | `slug`, `name`                                                 |
+| `languages`    | `languages` (deutsche Namen → ISO-Code, z. B. „Englisch“ → en) |
+| `services`     | `services[].services[]` (alle Gruppen, ohne Doppelte)          |
+| `personalNote` | `about_text`, sonst `tagline` (nur Deutsch)                    |
+| `images`       | Detail: `media[]` (`url`, `width`, `height`)                   |
+|                | Liste: `thumbnail_url`, Maße aus `?w=…&h=…`                    |
+| `isNew`        | `published_at` vor höchstens 14 Tagen                          |
+| `isBack`       | – (immer nein)                                                 |
+| `updatedAt`    | `updated_at`                                                   |
+| Live           | `in_house`                                                     |
 
-Freigegebene Kontakte zeigt die Website bewusst nicht an. Gebucht wird über
-das Haus.
+Nicht verwendet: `availability`, `schedule` (meist leer oder Freitext),
+`category`, `city`, `location`, `permalink`, `alsoWith`, `serviceFor`,
+`internalMessaging` und `contacts`. Freigegebene Kontakte zeigt die Website
+bewusst nicht an. Gebucht wird über das Haus.
 
 ## Voraussetzungen für den Livebetrieb
 
 - `/api/v1/` darf **nicht** hinter der Basic-Auth (Traefik) vor vyce69.com
   liegen. Basic-Auth und API-Schlüssel nutzen denselben
   `Authorization`-Header, ein Request kann nur eines davon senden.
-- Bild-Host der freigegebenen Bilder (`VYCEON_IMAGE_HOST`, beim Build).
+- `/api/img` (Bilder) ebenfalls ohne Basic-Auth erreichbar.
+- `VYCEON_IMAGE_HOST=vyce69.com` beim Build (freigegeben ist nur der Pfad
+  `/api/img`).
 - Schlüssel vor Ablauf (365 Tage) erneuern.

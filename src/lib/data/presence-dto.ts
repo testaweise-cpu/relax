@@ -12,7 +12,7 @@ export const presentEntrySchema = z.object({
   isNew: z.boolean(),
   isBack: z.boolean(),
   image: imageSchema.nullable(),
-  since: z.string(),
+  since: z.string().nullable(),
   until: z.string().nullable(),
 });
 

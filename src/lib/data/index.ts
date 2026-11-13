@@ -42,5 +42,9 @@ export async function getPresentProfiles(): Promise<PresentProfile[]> {
       const profile = byId.get(pr.profileId);
       return profile ? [{ profile, presence: pr }] : [];
     })
-    .sort((a, b) => a.presence.since.localeCompare(b.presence.since));
+    .sort(
+      (a, b) =>
+        (a.presence.since ?? "").localeCompare(b.presence.since ?? "") ||
+        a.profile.name.localeCompare(b.profile.name),
+    );
 }

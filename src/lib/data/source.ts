@@ -3,6 +3,8 @@ import type { Presence, Profile, Shift } from "./types";
 /** Austauschbare Datenquelle (Mock oder VyceON). */
 export interface DataSource {
   readonly name: "mock" | "vyceon";
+  /** Liefert die Quelle Schichtzeiten? Ohne sie entfallen Schichtplan und noindex-Regel. */
+  readonly hasShifts: boolean;
   listProfiles(): Promise<Profile[]>;
   getProfile(slug: string): Promise<Profile | null>;
   listShifts(from: Date, to: Date): Promise<Shift[]>;
