@@ -117,6 +117,8 @@ eingebettet. **Laufzeit** = wird beim Start des Containers gesetzt.
 | `VYCEON_API_KEY`                        | Laufzeit | bei `vyceon`            | Sync-Schlüssel `vyc_live_…` (läuft nach 365 Tagen ab)                            |
 | `VYCEON_ORGANIZATION_ID`                | Laufzeit | bei `vyceon`            | `organizationId` von Mona Roses bei VYCE69                                       |
 | `VYCEON_WEBHOOK_SECRET`                 | Laufzeit | für den Webhook         | Gemeinsames Geheimnis, mind. 32 Zeichen (`openssl rand -hex 32`)                 |
+| `PREVIEW_PASSWORD`                      | Laufzeit | nur Vorschau            | Schaltet den Passwortschutz der ganzen Seite ein (mind. 8 Zeichen)               |
+| `PREVIEW_USER`                          | Laufzeit | nur Vorschau            | Benutzername dazu (Standard `mona`)                                              |
 | `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | Laufzeit | fürs Bewerbungsformular | Mailserver; `SMTP_SECURE=true` bei Port 465, sonst `false` (STARTTLS)            |
 | `SMTP_USER`, `SMTP_PASS`                | Laufzeit | je nach Server          | Zugangsdaten                                                                     |
 | `SMTP_FROM`                             | Laufzeit | fürs Bewerbungsformular | Absender, z. B. `"Mona Roses Website <noreply@mona-roses.com>"`                  |
@@ -168,6 +170,34 @@ docker run -d --name mona-roses --restart unless-stopped \
   Der Cache in `.next/cache` darf bei jedem Deployment verloren gehen.
 - **Upload-Größe:** Das Bewerbungsformular nimmt bis zu 3 Fotos à 8 MB an. Ein
   Proxy davor muss Anfragen bis ca. 26 MB durchlassen.
+
+### Vorschau hinter Passwort
+
+Für eine nicht öffentliche Vorschau auf dem echten Server genügt eine
+Laufzeit-Variable: Ist `PREVIEW_PASSWORD` gesetzt (mind. 8 Zeichen), verlangt
+die ganze Seite Benutzername und Passwort (HTTP Basic Auth), samt Bildern,
+Videos und API. Der Benutzername ist `PREVIEW_USER` (Standard `mona`).
+
+```bash
+docker build -t mona-roses \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://vorschau.mona-roses.com \
+  --build-arg VYCEON_IMAGE_HOST=vyce69.com .
+
+docker run -d --name mona-roses-vorschau --restart unless-stopped \
+  -e PREVIEW_USER=mona -e PREVIEW_PASSWORD='…' \
+  -e DATA_SOURCE=vyceon \
+  -e VYCEON_API_URL=https://vyce69.com/api/v1 \
+  -e VYCEON_ORGANIZATION_ID='…' -e VYCEON_API_KEY='…' \
+  -e NEXT_PUBLIC_SITE_URL=https://vorschau.mona-roses.com \
+  -p 3000:3000 mona-roses
+```
+
+- `/api/health` bleibt ohne Passwort erreichbar (Healthcheck).
+- Suchmaschinen kommen nicht hinein (401 und `X-Robots-Tag: noindex`).
+- Für den öffentlichen Livegang `PREVIEW_PASSWORD` entfernen und den Container
+  neu starten. Ein neuer Build ist nur nötig, wenn sich die Domain ändert.
+- Auf einer eigenen Vorschau-Domain testen, nicht auf der Hauptdomain: Browser
+  merken sich HSTS und Weiterleitungen.
 
 ### Coolify
 

@@ -20,6 +20,10 @@ const schema = z
     VYCEON_WEBHOOK_SECRET: z.string().min(32).optional(),
     VYCEON_IMAGE_HOST: z.string().optional(),
 
+    // Vorschau-Passwortschutz (liest src/proxy.ts direkt aus process.env)
+    PREVIEW_USER: z.string().optional(),
+    PREVIEW_PASSWORD: z.string().min(8).optional(),
+
     SMTP_HOST: z.string().optional(),
     SMTP_PORT: z.coerce.number().int().positive().default(587),
     SMTP_SECURE: z
