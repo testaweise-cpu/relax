@@ -485,6 +485,28 @@
       animation: edge-run 1.6s var(--ease-out) both;
     }
   }
+  /* Name als Leuchtschrift: heller Kern, roter Schein in mehreren Lagen;
+     beim Überfahren glüht er auf */
+  .sedcard-name {
+    --glow: var(--red);
+    color: color-mix(in oklab, var(--glow) 10%, white);
+    text-shadow:
+      0 0 2px rgb(255 255 255 / 0.7),
+      0 0 8px color-mix(in oklab, var(--glow) 85%, transparent),
+      0 0 20px color-mix(in oklab, var(--glow) 60%, transparent),
+      0 0 40px color-mix(in oklab, var(--glow) 35%, transparent),
+      0 2px 14px rgb(0 0 0 / 0.7);
+    transition: text-shadow 400ms ease;
+  }
+  .sedcard:hover .sedcard-name,
+  .sedcard:focus-visible .sedcard-name {
+    text-shadow:
+      0 0 2px #fff,
+      0 0 10px var(--glow),
+      0 0 26px color-mix(in oklab, var(--glow) 80%, transparent),
+      0 0 54px color-mix(in oklab, var(--glow) 55%, transparent),
+      0 2px 14px rgb(0 0 0 / 0.7);
+  }
   .sedcard-shade {
     position: absolute;
     inset: auto 0 0 0;
