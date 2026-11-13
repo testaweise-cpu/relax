@@ -84,38 +84,43 @@ export async function FilterChips({
         </Chip>
       </div>
 
-      <fieldset className="min-w-0">
-        <legend className="eyebrow mb-2">{t("language")}</legend>
-        <div className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
-          {options.languages.map(([code, n]) => (
-            <Chip
-              key={code}
-              href={href({ languages: toggle(filters.languages, code) })}
-              active={filters.languages.includes(code)}
-              activeLabel={active}
-            >
-              {languageName(code, locale)}{" "}
-              <span className="text-muted">{n}</span>
-            </Chip>
-          ))}
-        </div>
-      </fieldset>
+      {options.languages.length > 0 && (
+        <fieldset className="min-w-0">
+          <legend className="eyebrow mb-2">{t("language")}</legend>
+          <div className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
+            {options.languages.map(([code, n]) => (
+              <Chip
+                key={code}
+                href={href({ languages: toggle(filters.languages, code) })}
+                active={filters.languages.includes(code)}
+                activeLabel={active}
+              >
+                {languageName(code, locale)}{" "}
+                <span className="text-muted">{n}</span>
+              </Chip>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
-      <fieldset className="min-w-0">
-        <legend className="eyebrow mb-2">{t("origin")}</legend>
-        <div className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
-          {options.origins.map(([code, n]) => (
-            <Chip
-              key={code}
-              href={href({ origins: toggle(filters.origins, code) })}
-              active={filters.origins.includes(code)}
-              activeLabel={active}
-            >
-              {regionName(code, locale)} <span className="text-muted">{n}</span>
-            </Chip>
-          ))}
-        </div>
-      </fieldset>
+      {options.origins.length > 0 && (
+        <fieldset className="min-w-0">
+          <legend className="eyebrow mb-2">{t("origin")}</legend>
+          <div className="-mx-4 flex [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
+            {options.origins.map(([code, n]) => (
+              <Chip
+                key={code}
+                href={href({ origins: toggle(filters.origins, code) })}
+                active={filters.origins.includes(code)}
+                activeLabel={active}
+              >
+                {regionName(code, locale)}{" "}
+                <span className="text-muted">{n}</span>
+              </Chip>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       {hasActiveFilters(filters) && (
         <Link
