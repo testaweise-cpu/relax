@@ -413,10 +413,9 @@
     position: relative;
     z-index: 30;
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.375rem;
     border-radius: var(--radius-lg);
     border: 1px solid var(--line);
     background: var(--panel);
@@ -435,11 +434,11 @@
   }
   .search-input {
     width: 100%;
-    min-height: 3rem;
-    padding: 0 3rem;
+    min-height: 2.75rem;
+    padding: 0 2.5rem 0 2.75rem;
     border-radius: var(--radius);
     border: 1px solid transparent;
-    background: rgb(255 255 255 / 0.05);
+    background: transparent;
     color: var(--ink);
     font-size: 1rem;
     transition:
@@ -452,7 +451,7 @@
   .search-input:focus {
     outline: none;
     border-color: color-mix(in oklab, var(--gold) 60%, transparent);
-    background: rgb(255 255 255 / 0.08);
+    background: rgb(255 255 255 / 0.04);
   }
   .search-input::-webkit-search-cancel-button {
     display: none;
@@ -1039,4 +1038,118 @@ html {
 :where(h1, h2, h3, .font-display).italic,
 .visit-mark-number {
   font-family: var(--nf-display-italic), var(--nf-display), Georgia, serif;
+}
+
+/* ---- Filter: eine Zeile, alles Weitere im aufklappbaren Fach ---------- */
+.filter-toggle {
+  cursor: pointer;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+.filter-toggle.is-open {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+.filter-panel {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+}
+.filter-panel[hidden] {
+  display: none;
+}
+@media (min-width: 640px) {
+  .filter-panel {
+    padding: 1.75rem;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .filter-panel {
+    animation: panel-in 260ms var(--ease-out) both;
+  }
+}
+@keyframes panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+/* Trefferzahl in der Kursiven der Antiqua */
+.explorer-count {
+  font-family: var(--nf-display-italic), var(--nf-display), Georgia, serif;
+  font-style: italic;
+  font-size: 1.15rem;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--gold);
+}
+
+/* ---- Feinschliff ------------------------------------------------------ */
+/* Große Überschriften leichter gesetzt: wirkt ruhiger und wertiger */
+h1,
+h2 {
+  font-weight: 400;
+}
+
+/* Hero-Rahmen: kleine Raute in der Mitte der oberen und unteren Linie */
+.hero-frame::before,
+.hero-frame::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid color-mix(in oklab, var(--gold) 70%, transparent);
+  background: var(--night);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.hero-frame::before {
+  top: 0;
+}
+.hero-frame::after {
+  top: 100%;
+}
+
+/* Kopf der Unterseiten: doppelte Haarlinie als Abschluss */
+.velvet-head::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 3px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--gold) 45%, transparent),
+    transparent 70%
+  );
+}
+
+/* Initiale: erster Buchstabe eines Absatzes groß in der Antiqua */
+.dropcap > p:first-child::first-letter {
+  float: left;
+  margin: 0.08em 0.12em 0 0;
+  font-family: var(--nf-display), Georgia, serif;
+  font-size: 3.4em;
+  line-height: 0.82;
+  color: var(--gold);
+}
+
+/* Sedcard: Haarlinie unter dem Namen, wächst beim Überfahren */
+.sedcard-name::after {
+  content: "";
+  display: block;
+  width: 1.5rem;
+  height: 1px;
+  margin-top: 0.5rem;
+  background: color-mix(in oklab, var(--gold) 70%, transparent);
+  transition: width 500ms var(--ease-out);
+}
+.sedcard:hover .sedcard-name::after,
+.sedcard:focus-visible .sedcard-name::after {
+  width: 3.5rem;
 }

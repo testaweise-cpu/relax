@@ -4,6 +4,9 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
 import { LivePresenceGrid } from "@/components/presence/live-presence";
+import { ButtonLink } from "@/components/ui/button";
+import { ArrowRightIcon } from "@/components/ui/icons";
+import { Ornament } from "@/components/ui/ornament";
 import { Section } from "@/components/ui/section";
 import { PAGE_VIDEO } from "@/lib/media/hero";
 import { getPresentProfiles } from "@/lib/data";
@@ -40,6 +43,23 @@ export default async function NowPage({
       intro={t("intro")}
     >
       <LivePresenceGrid initial={initial} />
+
+      {/* Abschluss: von den Anwesenden weiter zu allen Sedcards */}
+      <div className="mt-16 text-center sm:mt-24">
+        <Ornament />
+        <p className="mx-auto mt-8 max-w-xl font-display text-3xl leading-tight text-ink italic sm:text-4xl">
+          {t("allProfilesLead")}
+        </p>
+        <ButtonLink
+          href="/mieterinnen"
+          variant="secondary"
+          size="lg"
+          className="mt-8"
+        >
+          {t("allProfilesCta")}
+          <ArrowRightIcon width={16} height={16} />
+        </ButtonLink>
+      </div>
     </Section>
   );
 }

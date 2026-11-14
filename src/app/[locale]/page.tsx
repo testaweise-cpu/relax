@@ -150,7 +150,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <div className="ornament max-w-40" aria-hidden />
             <Paragraphs
               text={pick(home.introText, l)}
-              className="text-xl leading-relaxed text-ink"
+              className="text-xl leading-relaxed text-ink dropcap"
             />
             {nextEvent && (
               <Link
