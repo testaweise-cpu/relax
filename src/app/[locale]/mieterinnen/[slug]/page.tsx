@@ -109,7 +109,7 @@ export default async function SedcardPage({
           </div>
           {profile.personalNote && (
             <section
-              className="max-lg:order-3 lg:mt-10"
+              className="panel p-6 max-lg:order-3 sm:p-7 lg:mt-8"
               aria-labelledby="about"
             >
               <h2 id="about" className="text-2xl text-ink">
@@ -181,7 +181,7 @@ export default async function SedcardPage({
                 hasShifts ? "grid gap-10 sm:grid-cols-2 lg:mt-10" : "lg:mt-10"
               }
             >
-              <section aria-labelledby="facts">
+              <section aria-labelledby="facts" className="panel p-6 sm:p-7">
                 <h2 id="facts" className="text-2xl text-ink">
                   {t("facts")}
                 </h2>
@@ -245,7 +245,7 @@ export default async function SedcardPage({
               </section>
 
               {hasShifts && (
-                <section aria-labelledby="week">
+                <section aria-labelledby="week" className="panel p-6 sm:p-7">
                   <h2 id="week" className="text-2xl text-ink">
                     {t("week")}
                   </h2>
@@ -257,7 +257,10 @@ export default async function SedcardPage({
             </div>
 
             {profile.services.length > 0 && (
-              <section className="mt-10" aria-labelledby="services">
+              <section
+                className="panel mt-6 p-6 sm:p-7"
+                aria-labelledby="services"
+              >
                 <h2 id="services" className="text-2xl text-ink">
                   {t("services")}
                 </h2>

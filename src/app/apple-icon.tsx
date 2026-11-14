@@ -1,15 +1,12 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
+import { ROSE_PATH, ROSE_VIEWBOX } from "@/assets/rose-mark";
 
 export const size = { width: 180, height: 180 };
 export const contentType = "image/png";
 
-/** Homescreen-Icon: rotes Neon-„M“ in der Logo-Schrift. */
-export default async function AppleIcon() {
-  const dafoe = await readFile(
-    join(process.cwd(), "src/assets/fonts/MrDafoe-Regular.ttf"),
-  );
+/** Homescreen-Icon: die Rose aus dem Logo auf warmem Schwarz. */
+export default function AppleIcon() {
+  const width = 124;
   return new ImageResponse(
     <div
       style={{
@@ -18,29 +15,17 @@ export default async function AppleIcon() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background:
-          "radial-gradient(circle at 50% 60%, #3a0a18 0%, #0e0709 70%)",
+        background: "#0b0908",
       }}
     >
-      <div
-        style={{
-          fontFamily: "Dafoe",
-          fontSize: 150,
-          lineHeight: 1,
-          marginTop: 10,
-          color: "#ffe3ea",
-          textShadow:
-            "0 0 2px #fff, 0 0 8px #ff2d55, 0 0 20px #ff2d55, 0 0 40px #ff2d55",
-          transform: "rotate(-6deg)",
-          display: "flex",
-        }}
+      <svg
+        width={width}
+        height={Math.round((width * ROSE_VIEWBOX.height) / ROSE_VIEWBOX.width)}
+        viewBox={`0 0 ${ROSE_VIEWBOX.width} ${ROSE_VIEWBOX.height}`}
       >
-        M
-      </div>
+        <path fill="#b3132f" fillRule="evenodd" d={ROSE_PATH} />
+      </svg>
     </div>,
-    {
-      ...size,
-      fonts: [{ name: "Dafoe", data: dafoe, weight: 400, style: "normal" }],
-    },
+    size,
   );
 }

@@ -3,12 +3,12 @@ import { cn } from "@/lib/cn";
 
 type BadgeVariant = "live" | "ready" | "new" | "back" | "neutral";
 
-/** Glas-Chips: halbtransparent mit Unschärfe, damit sie auf jedem Foto lesbar bleiben. */
+/** Chips auf Fotos: dunkel hinterlegt, Rahmen in Champagner; Grün nur für „verfügbar“. */
 const variants: Record<BadgeVariant, string> = {
-  live: "border-gold/45 text-gold",
+  live: "border-gold/40 text-ink",
   ready: "border-mint/45 text-mint",
-  new: "border-red/55 text-[color-mix(in_oklab,var(--red)_55%,white)]",
-  back: "border-sunset/50 text-sunset",
+  new: "border-gold/40 text-gold",
+  back: "border-gold/40 text-gold",
   neutral: "border-line text-muted",
 };
 

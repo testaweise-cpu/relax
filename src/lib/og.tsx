@@ -4,29 +4,31 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 /**
- * Open-Graph-Bilder im Rotlicht-Neon-Stil (1200×630), gerendert mit next/og.
+ * Open-Graph-Bilder (1200×630), gerendert mit next/og: Logo bzw. Name auf
+ * warmem Schwarz, feine Linien in Champagner.
  * Schriften liegen lokal unter src/assets/fonts – keine externen Requests.
  */
 export const OG_SIZE = { width: 1200, height: 630 };
 
 const fontDir = join(process.cwd(), "src/assets/fonts");
 const fonts = Promise.all([
-  readFile(join(fontDir, "MrDafoe-Regular.ttf")),
   readFile(join(fontDir, "CormorantGaramond-MediumItalic.ttf")),
   readFile(join(fontDir, "Jost-Medium.ttf")),
 ]);
+// Bildmarke als Data-URL (2075 × 698 im Original, hier 1600 px breit)
+const logo = readFile(join(process.cwd(), "public/logo/mona-roses.png")).then(
+  (b) => `data:image/png;base64,${b.toString("base64")}`,
+);
+const LOGO_RATIO = 2075 / 698;
 
 // Werte wie die Design-Tokens in globals.css
 const C = {
-  ink: "#fbeef1",
-  muted: "#c9a5ae",
-  red: "#ff2d55",
-  gold: "#ffc46b",
-  sunset: "#ff8a3d",
+  night: "#0b0908",
+  ink: "#f5eee8",
+  muted: "#b3a399",
+  red: "#ad1230",
+  gold: "#cdb088",
 };
-
-const neon = (color: string) =>
-  `0 0 2px #fff, 0 0 10px ${color}, 0 0 24px ${color}, 0 0 48px ${color}`;
 
 export async function ogImage({
   script = "Mona Roses",
@@ -35,13 +37,16 @@ export async function ogImage({
   footer,
   badge,
 }: {
+  /** "Mona Roses" zeigt das Logo; jeder andere Text (Name) steht in Antiqua */
   script?: string;
   eyebrow?: string;
   title?: string;
   footer?: string;
   badge?: string;
 }) {
-  const [dafoe, cormorant, jost] = await fonts;
+  const [cormorant, jost] = await fonts;
+  const isBrand = script === "Mona Roses";
+  const logoWidth = 700;
 
   return new ImageResponse(
     <div
@@ -50,13 +55,25 @@ export async function ogImage({
         height: "100%",
         display: "flex",
         position: "relative",
-        background:
-          "linear-gradient(180deg, #0b0610 0%, #16070f 55%, #2a0614 100%)",
+        background: `linear-gradient(180deg, ${C.night} 0%, #140c0c 60%, #24090f 100%)`,
         fontFamily: "Cormorant",
         color: C.ink,
       }}
     >
-      {/* Rotlicht: Schein von unten, unscharfe Lichtpunkte */}
+      {/* feiner Rahmen in Champagner */}
+      <div
+        style={{
+          position: "absolute",
+          left: 28,
+          top: 28,
+          width: OG_SIZE.width - 56,
+          height: OG_SIZE.height - 56,
+          border: `1px solid ${C.gold}55`,
+          display: "flex",
+        }}
+      />
+
+      {/* Inhalt */}
       <div
         style={{
           position: "absolute",
@@ -64,42 +81,11 @@ export async function ogImage({
           top: 0,
           width: "100%",
           height: "100%",
-          background:
-            "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(150,10,40,0.6) 78%, rgba(255,31,61,0.55) 100%)",
-          display: "flex",
-        }}
-      />
-      {[
-        [90, 150, 140, C.red],
-        [1060, 120, 180, C.red],
-        [980, 420, 120, C.sunset],
-        [230, 450, 110, C.red],
-      ].map(([x, y, d, c], i) => (
-        <div
-          key={i}
-          style={{
-            position: "absolute",
-            left: (x as number) - (d as number) / 2,
-            top: (y as number) - (d as number) / 2,
-            width: d as number,
-            height: d as number,
-            borderRadius: d as number,
-            background: `radial-gradient(circle, ${c}77 0%, transparent 70%)`,
-            display: "flex",
-          }}
-        />
-      ))}
-
-      {/* Inhalt */}
-      <div
-        style={{
-          position: "absolute",
-          left: 0,
-          top: 46,
-          width: "100%",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          justifyContent: "center",
+          paddingBottom: footer ? 30 : 0,
         }}
       >
         {eyebrow && (
@@ -107,34 +93,44 @@ export async function ogImage({
             style={{
               fontFamily: "Jost",
               fontSize: 20,
-              letterSpacing: 10,
+              letterSpacing: 9,
               color: C.gold,
               textTransform: "uppercase",
               display: "flex",
+              marginBottom: 22,
             }}
           >
             {eyebrow}
           </div>
         )}
-        <div
-          style={{
-            fontFamily: "Dafoe",
-            fontSize: script.length > 12 ? 130 : 150,
-            color: "#ffe3ea",
-            textShadow: neon(C.red),
-            transform: "rotate(-4deg)",
-            marginTop: 6,
-            display: "flex",
-          }}
-        >
-          {script}
-        </div>
+        {isBrand ? (
+          // eslint-disable-next-line @next/next/no-img-element -- next/og rendert nur <img>
+          <img
+            src={await logo}
+            alt=""
+            width={logoWidth}
+            height={Math.round(logoWidth / LOGO_RATIO)}
+          />
+        ) : (
+          <div
+            style={{
+              fontSize: script.length > 12 ? 120 : 150,
+              fontStyle: "italic",
+              lineHeight: 1,
+              color: C.ink,
+              display: "flex",
+            }}
+          >
+            {script}
+          </div>
+        )}
         {title && (
           <div
             style={{
-              fontSize: 58,
+              fontSize: isBrand ? 50 : 40,
               fontStyle: "italic",
-              marginTop: 4,
+              marginTop: 22,
+              color: isBrand ? C.ink : C.gold,
               display: "flex",
             }}
           >
@@ -144,25 +140,23 @@ export async function ogImage({
         {badge && (
           <div
             style={{
-              marginTop: 14,
+              marginTop: 20,
               display: "flex",
               alignItems: "center",
               gap: 12,
               fontFamily: "Jost",
               fontSize: 24,
               color: C.gold,
-              border: `2px solid ${C.gold}88`,
-              borderRadius: 4,
+              border: `1px solid ${C.gold}99`,
               padding: "6px 20px",
             }}
           >
             <div
               style={{
-                width: 12,
-                height: 12,
-                borderRadius: 12,
-                background: C.gold,
-                boxShadow: `0 0 10px ${C.gold}`,
+                width: 10,
+                height: 10,
+                borderRadius: 10,
+                background: "#86d3a6",
                 display: "flex",
               }}
             />
@@ -174,7 +168,7 @@ export async function ogImage({
         <div
           style={{
             position: "absolute",
-            bottom: 24,
+            bottom: 52,
             width: "100%",
             display: "flex",
             justifyContent: "center",
@@ -191,7 +185,6 @@ export async function ogImage({
     {
       ...OG_SIZE,
       fonts: [
-        { name: "Dafoe", data: dafoe, weight: 400, style: "normal" },
         { name: "Cormorant", data: cormorant, weight: 500, style: "italic" },
         { name: "Jost", data: jost, weight: 500, style: "normal" },
       ],

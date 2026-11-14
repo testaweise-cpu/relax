@@ -76,9 +76,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       <LocalBusinessJsonLd locale={locale as Locale} />
       <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
         <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
-          <LivePill initial={present} />
-          <p className="eyebrow mt-8">{t("heroEyebrow")}</p>
-          <h1 className="mt-4">
+          <h1>
             <Logo size="xl" link={false} priority />
           </h1>
           <p className="mt-4 max-w-md text-lg text-ink sm:mt-6 sm:text-xl">
@@ -97,6 +95,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             >
               {t("ctaPrices")}
             </ButtonLink>
+          </div>
+          <div className="mt-10">
+            <LivePill initial={present} />
           </div>
         </div>
       </HeroBackdrop>
@@ -121,26 +122,25 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </div>
 
       <section aria-labelledby="intro-title" className="py-20 sm:py-28">
-        <div className="container-page grid gap-8 lg:grid-cols-2 lg:gap-16">
-          <div>
+        <div className="container-page grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-20">
+          {/* Stimmungsbild (Stillleben), rein dekorativ */}
+          <div className="relative aspect-[16/10] overflow-hidden rounded-[var(--radius-lg)] border border-line lg:aspect-[4/5]">
+            <Image
+              src="/images/stimmung/rose.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 30rem, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-8">
             <h2
               id="intro-title"
               className="reveal text-5xl text-ink sm:text-[4.2rem]"
             >
               {pick(home.introTitle, l)}
             </h2>
-            {/* Stimmungsbild (Stillleben), rein dekorativ */}
-            <div className="relative mt-10 hidden aspect-[4/5] max-w-sm overflow-hidden rounded-[var(--radius-lg)] border border-line lg:block">
-              <Image
-                src="/images/stimmung/rose.jpg"
-                alt=""
-                fill
-                sizes="24rem"
-                className="object-cover"
-              />
-            </div>
-          </div>
-          <div className="space-y-8">
+            <div className="ornament max-w-40" aria-hidden />
             <Paragraphs
               text={pick(home.introText, l)}
               className="text-xl leading-relaxed text-ink"

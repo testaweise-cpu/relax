@@ -15,7 +15,7 @@ export async function LocalBusinessJsonLd({ locale }: { locale: Locale }) {
     name: "Mona Roses",
     url: absoluteUrl(locale, "/"),
     image: `${SITE_URL}/media/hero-home-poster.jpg`,
-    logo: `${SITE_URL}/icon.svg`,
+    logo: `${SITE_URL}/logo/mona-roses.png`,
     description: pick(s.openingHours, locale),
     telephone: s.phoneE164,
     email: s.email || undefined,

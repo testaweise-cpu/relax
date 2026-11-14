@@ -13,5 +13,5 @@ Diese Punkte werden **nicht** selbst entschieden. Im Inhalt sind sie mit
 - [ ] **Zimmerpreise in der Jobs-FAQ** weichen ab (30 Min 20 €, 40 Min 25 €, 60 Min 30 €) – nicht übernommen, FAQ verweist aufs Telefon
 - [ ] **Event-Datum „Tabledance-Bereich“** unbekannt – vorläufig 07.07.2025 (Upload-Datum des Werbevideos)
 - [ ] **Anfahrt**: Haltestellen und Parkmöglichkeiten fehlen (`settings.json` → `directions`)
-- [ ] **Impressum**: USt-IdNr. fehlt; Bestellung der Jugendschutzbeauftragten für mona-roses.com prüfen (Altseite: „monaroses.de“)
+- [ ] **Impressum**: Angaben der Altseite übernommen (14.11.2026). Offen: eigene USt-IdNr. (Altseite: „wird nachgereicht“; die dort genannte DE263266021 gehört zur Jugendschutzbeauftragten) und ob deren Bestellung auch für mona-roses.com gilt (Altseite: „monaroses.de“).
 - [ ] **Datenschutz**: Hosting-Anbieter, Log-Speicherdauer, E-Mail-Anbieter, Löschfrist Bewerbungen, Rolle von VyceON

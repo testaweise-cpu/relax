@@ -86,7 +86,7 @@
     overflow-x: clip; /* kein horizontales Scrollen */
   }
 
-  /* Tapete: das Silhouetten-Muster des Hauses, Ton in Ton auf Schwarz.
+  /* Tapete: das Silhouetten-Muster des Hauses, Ton in Ton auf warmem Schwarz.
      Liegt fest hinter der ganzen Seite; Abschnitte und Karten mit eigener
      Fläche decken es ab, sodass Fließtext nie direkt darauf steht. */
   body::before {
@@ -95,7 +95,7 @@
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background-color: color-mix(in oklab, var(--ink) 10%, var(--night));
+    background-color: color-mix(in oklab, var(--ink) 8%, var(--night));
     /* Muster und Verlauf schneiden: an den Rändern deutlich, in der
        Textspalte nur ein Hauch */
     -webkit-mask:
@@ -103,8 +103,8 @@
       linear-gradient(
         90deg,
         #000 0%,
-        rgb(0 0 0 / 0.3) 26%,
-        rgb(0 0 0 / 0.3) 74%,
+        rgb(0 0 0 / 0.16) 30%,
+        rgb(0 0 0 / 0.16) 70%,
         #000 100%
       );
     -webkit-mask-composite: source-in;
@@ -113,8 +113,8 @@
       linear-gradient(
         90deg,
         #000 0%,
-        rgb(0 0 0 / 0.3) 26%,
-        rgb(0 0 0 / 0.3) 74%,
+        rgb(0 0 0 / 0.16) 30%,
+        rgb(0 0 0 / 0.16) 70%,
         #000 100%
       );
     mask-composite: intersect;
