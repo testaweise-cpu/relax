@@ -106,7 +106,9 @@ export default async function SedcardPage({
         ← {t("back")}
       </Link>
 
-      <div className="mt-6 grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
+      {/* grid-cols-1 = minmax(0,1fr): die Spalte darf nicht mit dem Inhalt
+          wachsen, sonst schiebt eine breite Galerie die Seite zur Seite */}
+      <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
         {/* Links: Bilder, darunter die Beschreibung. Rechts: Name und Eckdaten.
             Auf dem Handy eine Spalte: Bilder, Name, Beschreibung, Eckdaten. */}
         <div className="max-lg:contents">
