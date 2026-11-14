@@ -75,6 +75,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     <>
       <LocalBusinessJsonLd locale={locale as Locale} />
       <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
+        <div className="hero-frame" aria-hidden />
         <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
           <h1>
             <Logo size="xl" link={false} priority />
@@ -172,6 +173,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       <Section
         tone="night-2"
+        align="center"
         eyebrow={t("highlightsEyebrow")}
         title={t("highlightsTitle")}
       >
@@ -217,7 +219,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </p>
       </Section>
 
-      <Section eyebrow={t("pricesEyebrow")} title={t("pricesTitle")}>
+      <Section
+        align="center"
+        eyebrow={t("pricesEyebrow")}
+        title={t("pricesTitle")}
+      >
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
           <div className="panel panel-accent p-6 sm:p-8">
             <PriceTable rows={prices.rows} locale={locale} compact />

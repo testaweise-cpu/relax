@@ -5,8 +5,6 @@ import { cn } from "@/lib/cn";
 
 type LogoProps = {
   size?: "sm" | "lg" | "xl";
-  /** früher Einschalt-Animation der Neonschrift; ohne Wirkung, bleibt für Aufrufer */
-  animated?: boolean;
   /** als Link zur Startseite rendern */
   link?: boolean;
   /** vor dem ersten Malen laden (Kopfzeile, Hero) */
@@ -18,10 +16,18 @@ type LogoProps = {
 const RATIO = 2075 / 698;
 
 // Höhe steuert die Größe; die Breite folgt dem Seitenverhältnis.
-const sizes = {
+const heights = {
   sm: "h-12 sm:h-14",
   lg: "h-20 sm:h-24",
   xl: "h-[clamp(6.5rem,24vw,15rem)]",
+};
+
+// Dargestellte Breite je Größe – daraus wählt der Browser die passende Datei,
+// statt immer das große Original zu laden.
+const widths = {
+  sm: "(min-width: 640px) 167px, 143px",
+  lg: "(min-width: 640px) 286px, 238px",
+  xl: "(min-width: 1000px) 714px, 72vw",
 };
 
 /** Bildmarke Mona Roses: Schriftzug in Gold mit roter Rose. */
@@ -32,17 +38,16 @@ export function Logo({
   className,
 }: LogoProps) {
   const t = useTranslations("nav");
-  const large = size !== "sm";
   const mark = (
     <Image
-      src={large ? "/logo/mona-roses.webp" : "/logo/mona-roses-640.webp"}
+      src="/logo/mona-roses.webp"
       alt="Mona Roses"
-      width={large ? 1600 : 640}
-      height={Math.round((large ? 1600 : 640) / RATIO)}
-      // fertig aufbereitete Dateien: keine weitere Umrechnung nötig
-      unoptimized
+      width={1600}
+      height={Math.round(1600 / RATIO)}
+      sizes={widths[size]}
+      quality={90}
       priority={priority}
-      className={cn("w-auto max-w-full", sizes[size], className)}
+      className={cn("w-auto max-w-full", heights[size], className)}
     />
   );
   if (!link) return mark;

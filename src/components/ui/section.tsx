@@ -1,7 +1,9 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import type { HeroMedia } from "@/lib/media/hero";
 import { HeroBackdrop } from "./hero";
+import { Ornament } from "./ornament";
 
 /**
  * Abschnitt mit einheitlichen Abständen und optionaler Überschrift.
@@ -15,6 +17,7 @@ export function Section({
   title,
   intro,
   tone = "night",
+  align = "left",
   media,
   children,
   className,
@@ -26,6 +29,8 @@ export function Section({
   title?: string;
   intro?: ReactNode;
   tone?: "night" | "night-2";
+  /** mittig gesetzter Kopf mit Rosen-Ornament (Startseite) */
+  align?: "left" | "center";
   /** Hintergrundvideo hinter der Überschrift (Kopfbereich der Seite) */
   media?: HeroMedia;
   children?: ReactNode;
@@ -33,9 +38,17 @@ export function Section({
 }) {
   const headingId = id ? `${id}-title` : undefined;
   const Heading = level === 1 ? "h1" : "h2";
+  const centered = align === "center";
   const header = (eyebrow || title) && (
-    <header className="mb-10 max-w-2xl sm:mb-14">
-      {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+    <header
+      className={cn(
+        "mb-10 max-w-2xl sm:mb-14",
+        centered && "mx-auto text-center",
+      )}
+    >
+      {eyebrow && (
+        <p className={cn("eyebrow", centered && "eyebrow-center")}>{eyebrow}</p>
+      )}
       {title && (
         <Heading
           id={headingId}
@@ -44,6 +57,7 @@ export function Section({
           {title}
         </Heading>
       )}
+      {centered && <Ornament className="mt-7" />}
       {intro && (
         <div className="mt-5 text-lg leading-relaxed text-muted">{intro}</div>
       )}
@@ -76,6 +90,15 @@ export function Section({
         className={cn("pb-20 sm:pb-28", className)}
       >
         <div className="velvet-head mb-8 sm:mb-10">
+          {/* als Bild statt CSS-Hintergrund: früh auffindbar, passende Größe */}
+          <Image
+            src="/images/stimmung/samt.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="velvet-head-img"
+          />
           <div className="container-page relative pt-12 sm:pt-16 [&>header]:mb-0 [&>header]:pb-8 sm:[&>header]:pb-10">
             {header}
           </div>

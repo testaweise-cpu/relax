@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Design-Tokens „Salon noir“
+   Design-Tokens „Salon noir“ (Mona Roses)
    Einzige Quelle für Farben. Komponenten nutzen ausschließlich diese
    Variablen bzw. die daraus erzeugten Tailwind-Klassen (bg-night, text-red …).
    Nur dunkles Theme – bewusste Entscheidung. Warmes Schwarz, ein tiefes Rot,
@@ -23,7 +23,6 @@
   --sunset: #d99a6c; /* Hinweise, Fehler in Formularen */
   --mint: #86d3a6; /* nur "jetzt verfügbar" */
   --sun-core: #e3cba4; /* heller Champagner */
-  --neon: #ff3347; /* Leuchtschrift – ausschließlich das Logo im Hero */
 
   --magenta: var(--red); /* früher zweite Neonfarbe; nicht mehr eigenständig */
 
@@ -58,7 +57,6 @@
   --color-magenta: var(--magenta);
   --color-sun: var(--sun-core);
 
-  --font-script: var(--nf-script), cursive;
   --font-display: var(--nf-display), Georgia, serif;
   --font-sans: var(--nf-sans), system-ui, sans-serif;
   /* Labels, Zeiten, Badges: dieselbe Grotesk, als Versalien gesetzt */
@@ -215,6 +213,14 @@
     background: color-mix(in oklab, var(--gold) 70%, transparent);
   }
 
+  /* mittig: Linie auf beiden Seiten */
+  .eyebrow-center::after {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: color-mix(in oklab, var(--gold) 70%, transparent);
+  }
+
   /* Label in Versalien (Badges, Filter, Navigation, Zeiten) */
   .font-label {
     font-variant-numeric: tabular-nums;
@@ -254,49 +260,6 @@
       color-mix(in oklab, var(--gold) 75%, transparent) 70%,
       transparent
     );
-  }
-
-  /* ---- Schriftzug -------------------------------------------------
-     Die Schreibschrift des Logos, ruhig in Rot. Leuchten darf sie nur
-     einmal: als Logo im Hero der Startseite (.neon-lit). */
-  .neon {
-    font-family: var(--font-script);
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-    line-height: 1.1;
-    color: var(--neon);
-  }
-  .neon-gold,
-  .neon-sunset {
-    color: var(--gold);
-  }
-  .neon-tilt {
-    display: inline-block;
-    transform: rotate(-4deg);
-  }
-  .neon-lit {
-    /* weißer Kern, rotes Glühen in mehreren Lagen */
-    color: color-mix(in oklab, var(--neon) 16%, white);
-    text-shadow:
-      0 0 1px #fff,
-      0 0 3px color-mix(in oklab, var(--neon) 55%, white),
-      0 0 9px color-mix(in oklab, var(--neon) 85%, transparent),
-      0 0 22px color-mix(in oklab, var(--neon) 60%, transparent),
-      0 0 46px color-mix(in oklab, var(--neon) 35%, transparent);
-  }
-  /* seltenes Flackern: ein kurzer Aussetzer alle ~11 s (nur leuchtend) */
-  .neon-lit.neon-flicker {
-    animation: neon-flicker 11s linear infinite;
-  }
-  /* Einschalten beim ersten Laden: kurz flackern, dann an */
-  .neon-lit.neon-ignite {
-    animation: neon-ignite 1.6s steps(1, end) both;
-  }
-  .neon-lit.neon-ignite.neon-flicker {
-    animation:
-      neon-ignite 1.6s steps(1, end) both,
-      neon-flicker 11s linear 1.6s infinite;
   }
 
   /* Überschrift mit Neon-Unterstrich */
@@ -661,63 +624,6 @@
     }
   }
 
-  /* ---- Laufband in Kontur-Schrift -------------------------------- */
-  .marquee {
-    overflow: hidden;
-    padding-block: 1.75rem;
-    border-block: 1px solid rgb(255 255 255 / 0.06);
-    -webkit-mask-image: linear-gradient(
-      90deg,
-      transparent,
-      #000 12%,
-      #000 88%,
-      transparent
-    );
-    mask-image: linear-gradient(
-      90deg,
-      transparent,
-      #000 12%,
-      #000 88%,
-      transparent
-    );
-  }
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 36s linear infinite;
-  }
-  .marquee:hover .marquee-track {
-    animation-play-state: paused;
-  }
-  .marquee-row {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-  }
-  .marquee-row li {
-    display: flex;
-    align-items: center;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(2.5rem, 7vw, 5.5rem);
-    line-height: 1;
-    white-space: nowrap;
-    color: transparent;
-    -webkit-text-stroke: 1px color-mix(in oklab, var(--ink) 55%, transparent);
-  }
-  .marquee-row li.marquee-solid {
-    color: var(--ink);
-    -webkit-text-stroke: 0;
-  }
-  /* feine Linie zwischen den Begriffen */
-  .marquee-row li::after {
-    content: "";
-    width: 0.6em;
-    height: 1px;
-    margin-inline: 0.45em;
-    background: color-mix(in oklab, var(--gold) 70%, transparent);
-  }
-
   /* ---- Band mit Muster: die Tapete tritt hier deutlich hervor ------- */
   .pattern-band {
     position: relative;
@@ -803,9 +709,14 @@
   .velvet-head {
     position: relative;
     isolation: isolate;
+    overflow: hidden;
     border-bottom: 1px solid var(--line);
-    background: var(--night) url("/images/stimmung/samt.webp") right center /
-      cover no-repeat;
+    background: var(--night);
+  }
+  .velvet-head-img {
+    z-index: -2;
+    object-fit: cover;
+    object-position: right center;
   }
   /* links und unten abdunkeln: Titel bleibt lesbar, Übergang zur Seite weich */
   .velvet-head::before {
@@ -821,6 +732,41 @@
         color-mix(in oklab, var(--night) 20%, transparent) 100%
       ),
       linear-gradient(180deg, transparent 55%, var(--night) 100%);
+  }
+
+  /* ---- Zierlinie mit Rose: Haarlinie – Rose – Haarlinie -------------- */
+  .ornament-rose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--red);
+  }
+  .ornament-rose::before,
+  .ornament-rose::after {
+    content: "";
+    width: 4.5rem;
+    height: 1px;
+  }
+  .ornament-rose::before {
+    background: linear-gradient(90deg, transparent, var(--gold));
+  }
+  .ornament-rose::after {
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  /* ---- Hero: feiner Rahmen in Champagner, wie ein Passepartout ------- */
+  .hero-frame {
+    position: absolute;
+    inset: 0.75rem;
+    z-index: -1;
+    pointer-events: none;
+    border: 1px solid color-mix(in oklab, var(--gold) 32%, transparent);
+  }
+  @media (min-width: 640px) {
+    .hero-frame {
+      inset: 1.5rem;
+    }
   }
 
   /* ---- Besuch: Fläche mit Muster, Zahl in Antiqua ------------------ */
@@ -935,11 +881,6 @@
     transform: none;
   }
 }
-@keyframes marquee {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
 @keyframes progress {
   to {
     transform: scaleX(1);
@@ -976,41 +917,6 @@
 }
 
 /* Neon nur über die Deckkraft animieren: läuft im Compositor, ohne Neuzeichnen */
-@keyframes neon-flicker {
-  0%,
-  91%,
-  93%,
-  95.5%,
-  100% {
-    opacity: 1;
-  }
-  92%,
-  94.5% {
-    opacity: 0.55;
-  }
-}
-
-@keyframes neon-ignite {
-  0% {
-    opacity: 0.12;
-  }
-  12% {
-    opacity: 1;
-  }
-  18% {
-    opacity: 0.2;
-  }
-  30% {
-    opacity: 1;
-  }
-  36% {
-    opacity: 0.35;
-  }
-  48%,
-  100% {
-    opacity: 1;
-  }
-}
 
 @keyframes live-pulse {
   0%,
@@ -1023,11 +929,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .neon-flicker,
-  .neon-ignite,
   .live-dot,
   .hero-glow,
-  .marquee-track,
   body::before {
     animation: none !important;
   }
@@ -1081,4 +984,11 @@
 }
 html:not(.age-ok):has(.age-gate) body {
   overflow: hidden;
+}
+
+/* Kursive der Antiqua kommt aus einem eigenen Schnitt, der nicht vorab
+   geladen wird (siehe fonts.ts). Ohne Layer, damit die Regel greift. */
+:where(h1, h2, h3, .font-display).italic,
+.visit-mark-number {
+  font-family: var(--nf-display-italic), var(--nf-display), Georgia, serif;
 }

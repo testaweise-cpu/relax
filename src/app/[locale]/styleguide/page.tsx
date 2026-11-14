@@ -160,7 +160,7 @@ export default async function StyleguidePage({
         title="Neon-Logo"
         note="Rote Leuchtröhre mit weißem Kern, leicht schräg. Nur für das Logo – alles andere bleibt ruhig. Flackern selten; bei reduzierter Bewegung aus."
       >
-        <Logo size="lg" animated link={false} />
+        <Logo size="lg" link={false} />
       </Block>
 
       <Block

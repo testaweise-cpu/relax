@@ -80,6 +80,13 @@ const nextConfig: NextConfig = {
         value: "public, max-age=86400, stale-while-revalidate=604800",
       },
     ];
+    // Logo, Muster und Videos ändern sich praktisch nie: 30 Tage
+    const longLived = [
+      {
+        key: "Cache-Control",
+        value: "public, max-age=2592000, stale-while-revalidate=604800",
+      },
+    ];
     return [
       { source: "/:path*", headers: security },
       ...(process.env.NODE_ENV === "production"
@@ -90,7 +97,9 @@ const nextConfig: NextConfig = {
             },
           ]
         : []),
-      { source: "/media/:path*", headers: media },
+      { source: "/media/:path*", headers: longLived },
+      { source: "/logo/:path*", headers: longLived },
+      { source: "/pattern/:path*", headers: longLived },
       { source: "/images/:path*", headers: media },
       { source: "/mock/:path*", headers: media },
     ];
