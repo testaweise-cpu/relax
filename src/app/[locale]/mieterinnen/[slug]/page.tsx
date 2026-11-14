@@ -177,7 +177,11 @@ export default async function SedcardPage({
             )}
 
             <div className="mt-6 flex flex-wrap items-center gap-3">
-              <ButtonAnchor href={telHref(settings.phoneE164)} size="lg">
+              <ButtonAnchor
+                href={telHref(settings.phoneE164)}
+                size="lg"
+                className="max-md:hidden"
+              >
                 <PhoneIcon />
                 {tc("call")}
               </ButtonAnchor>

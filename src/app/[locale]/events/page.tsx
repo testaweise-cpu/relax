@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
 import { Paragraphs } from "@/components/rich-text";
 import { Badge } from "@/components/ui/badge";
+import { Ornament } from "@/components/ui/ornament";
 import { Section } from "@/components/ui/section";
 import { PAGE_VIDEO } from "@/lib/media/hero";
 import type { Locale } from "@/i18n/routing";
@@ -29,6 +30,14 @@ function formatDate(date: string, locale: string) {
   return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
     weekday: "long",
     day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${date}T00:00:00Z`));
+}
+
+function formatMonth(date: string, locale: string) {
+  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
     month: "long",
     year: "numeric",
     timeZone: "UTC",
@@ -62,7 +71,7 @@ export default async function EventsPage({
             }
           >
             <article>
-              {e.image && size && (
+              {e.image && size ? (
                 <div className="relative aspect-[3/2]">
                   <Image
                     src={e.image}
@@ -71,6 +80,18 @@ export default async function EventsPage({
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-cover"
                   />
+                </div>
+              ) : (
+                // ohne Foto: Feld mit dem Muster des Hauses und dem Tag
+                <div className="visit-mark aspect-[3/2] !min-h-0" aria-hidden>
+                  <p className="text-center">
+                    <span className="visit-mark-number block text-7xl sm:text-8xl">
+                      {Number(e.date.slice(8, 10))}
+                    </span>
+                    <span className="mt-2 block font-label text-xs tracking-[0.3em] text-ink/85 uppercase">
+                      {formatMonth(e.date, locale)}
+                    </span>
+                  </p>
                 </div>
               )}
               <div className="p-5 sm:p-6">
@@ -108,7 +129,12 @@ export default async function EventsPage({
         {upcoming.length ? (
           list(upcoming, true)
         ) : (
-          <p className="text-muted">{t("empty")}</p>
+          <div className="panel mx-auto max-w-2xl px-6 py-12 text-center">
+            <Ornament />
+            <p className="mt-6 font-display text-3xl leading-tight text-ink italic">
+              {t("empty")}
+            </p>
+          </div>
         )}
       </Section>
       {past.length > 0 && (

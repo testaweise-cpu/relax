@@ -33,7 +33,7 @@ export async function PriceTable({
             <th
               scope="row"
               className={cn(
-                "border-b border-line/70 text-left font-display font-medium text-ink group-last:border-b-0",
+                "w-full border-b border-line/70 text-left font-display font-medium text-ink group-last:border-b-0",
                 compact ? "py-3.5 text-2xl" : "py-5 text-2xl sm:text-3xl",
               )}
             >
@@ -47,7 +47,7 @@ export async function PriceTable({
             </th>
             <td
               className={cn(
-                "border-b border-line/70 pl-3 text-right font-display font-medium text-gold tabular-nums group-last:border-b-0",
+                "border-b border-line/70 pl-3 text-right font-display font-medium whitespace-nowrap text-gold tabular-nums group-last:border-b-0",
                 compact ? "py-3.5 text-2xl" : "py-5 text-2xl sm:text-3xl",
               )}
             >

@@ -5,10 +5,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import type { ReactNode } from "react";
 import { Faq } from "@/components/faq";
 import { Paragraphs } from "@/components/rich-text";
-import { ButtonAnchor } from "@/components/ui/button";
+import { ButtonAnchor, ButtonLink } from "@/components/ui/button";
 import { ClockIcon, MapPinIcon, PhoneIcon } from "@/components/ui/icons";
 import { Section } from "@/components/ui/section";
-import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { getFaq, getSettings, pick } from "@/lib/content";
 import { telHref } from "@/lib/phone";
@@ -107,16 +106,25 @@ export default async function ContactPage({
             />
           </Card>
         </div>
-        <p className="mt-8 text-muted">
-          {t("jobs")}: <Link href="/jobs">/jobs</Link>
-          {s.jobsPhone && <> · {s.jobsPhone}</>}
-          {s.jobsEmail && (
-            <>
-              {" "}
-              · <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>
-            </>
-          )}
-        </p>
+        <div className="panel mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 p-6">
+          <div>
+            <p className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
+              {t("jobs")}
+            </p>
+            <p className="mt-2 font-display text-2xl text-ink italic">
+              {t("jobsLead")}
+            </p>
+            {s.jobsEmail && (
+              <p className="mt-1 text-muted">
+                <a href={`mailto:${s.jobsEmail}`}>{s.jobsEmail}</a>
+                {s.jobsPhone && <> · {s.jobsPhone}</>}
+              </p>
+            )}
+          </div>
+          <ButtonLink href="/jobs" variant="secondary">
+            {t("jobsCta")}
+          </ButtonLink>
+        </div>
       </Section>
       {faq.length > 0 && (
         <Section tone="night-2" title={t("faqTitle")} id="faq">

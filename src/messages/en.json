@@ -258,6 +258,8 @@
     "maps": "Open in Google Maps",
     "mapsNote": "Opens Google Maps in a new tab. Only then is data sent to Google.",
     "jobs": "For tenants",
+    "jobsLead": "Would you like to rent a room?",
+    "jobsCta": "Rent a room",
     "faqTitle": "Frequently asked questions"
   },
   "legal": {
