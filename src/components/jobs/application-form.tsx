@@ -65,6 +65,7 @@ export function ApplicationForm({ minAge }: { minAge: number }) {
   const [clientErrors, setClientErrors] = useState<
     Partial<Record<FieldName, string>>
   >({});
+  const [files, setFiles] = useState<string[]>([]);
   const errors = {
     ...(state.status === "error" ? state.fields : {}),
     ...clientErrors,
@@ -215,18 +216,37 @@ export function ApplicationForm({ minAge }: { minAge: number }) {
           hint={t("photosHint")}
           error={msg("photos")}
         >
-          <input
-            id="photos"
-            name="photos"
-            type="file"
-            accept={PHOTO_TYPES.join(",")}
-            multiple
-            {...aria("photos", true)}
+          {/* eigener Knopf: der des Browsers folgt dessen Sprache, nicht der Seite */}
+          <div
             className={cn(
-              aria("photos").className,
-              "file:mr-4 file:rounded-card file:border file:border-gold/45 file:bg-transparent file:px-4 file:py-2 file:font-label file:text-xs file:tracking-[0.2em] file:text-ink file:uppercase",
+              "mt-2 flex w-full flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border bg-night px-4 py-3 focus-within:outline-2 focus-within:outline-gold",
+              errors.photos ? "border-sunset" : "border-line",
             )}
-          />
+          >
+            <input
+              id="photos"
+              name="photos"
+              type="file"
+              accept={PHOTO_TYPES.join(",")}
+              multiple
+              {...aria("photos", true)}
+              className="sr-only"
+              onChange={(e) =>
+                setFiles(
+                  Array.from(e.currentTarget.files ?? []).map((f) => f.name),
+                )
+              }
+            />
+            <label
+              htmlFor="photos"
+              className="cursor-pointer rounded-card border border-gold/45 px-4 py-2 font-label text-xs tracking-[0.2em] text-ink uppercase transition-colors hover:border-gold"
+            >
+              {t("photosChoose")}
+            </label>
+            <span className="min-w-0 truncate text-sm text-muted">
+              {files.length > 0 ? files.join(", ") : t("photosNone")}
+            </span>
+          </div>
         </Field>
       </div>
 

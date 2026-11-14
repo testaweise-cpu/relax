@@ -222,6 +222,8 @@
       "periodHint": "z. B. ab November, 2 Wochen",
       "message": "Nachricht",
       "photos": "Fotos (optional)",
+      "photosChoose": "Fotos auswählen",
+      "photosNone": "Noch keine ausgewählt",
       "photosHint": "Bis zu 3 Bilder, JPG, PNG oder WebP, je höchstens 8 MB",
       "consent": "Ich willige ein, dass Mona Roses meine Angaben und Fotos zur Bearbeitung meiner Anfrage verarbeitet. Mir ist bewusst, dass sie Rückschlüsse auf mein Sexualleben zulassen können. Details in der",
       "consentLink": "Datenschutzerklärung",

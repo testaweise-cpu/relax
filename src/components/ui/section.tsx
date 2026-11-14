@@ -69,7 +69,7 @@ export function Section({
       <section
         id={id}
         aria-labelledby={title ? headingId : undefined}
-        className={cn("pb-20 sm:pb-28", className)}
+        className={cn("pb-16 sm:pb-20", className)}
       >
         <HeroBackdrop media={media} className="hero-sky-soft mb-12 sm:mb-16">
           <div className="container-page relative pt-24 pb-6 sm:pt-32 sm:pb-10">
@@ -87,7 +87,7 @@ export function Section({
       <section
         id={id}
         aria-labelledby={title ? headingId : undefined}
-        className={cn("pb-20 sm:pb-28", className)}
+        className={cn("pb-16 sm:pb-20", className)}
       >
         <div className="velvet-head mb-8 sm:mb-10">
           {/* als Bild statt CSS-Hintergrund: früh auffindbar, passende Größe */}
@@ -113,7 +113,7 @@ export function Section({
       id={id}
       aria-labelledby={title ? headingId : undefined}
       className={cn(
-        "py-20 sm:py-28",
+        "py-16 sm:py-24",
         tone === "night-2" &&
           "bg-[linear-gradient(180deg,var(--night)_0%,var(--night-2)_18%,var(--night-2)_82%,var(--night)_100%)]",
         className,

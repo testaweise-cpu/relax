@@ -66,7 +66,7 @@ export default async function JobsPage({
 
       <Section tone="night-2" id="bewerbung" title={t("formTitle")}>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
-          <div>
+          <div className="panel panel-accent p-6 sm:p-9">
             <Paragraphs
               text={pick(jobs.formIntro, l)}
               className="mb-8 text-muted"

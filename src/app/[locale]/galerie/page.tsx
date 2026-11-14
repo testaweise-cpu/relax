@@ -57,9 +57,14 @@ export default async function GalleryPage({
         </h2>
         <GalleryGrid items={items("rooms")} label={t("rooms")} />
       </Section>
-      <Section tone="night-2" title={t("video")} intro={t("videoNote")}>
+      <Section
+        tone="night-2"
+        align="center"
+        title={t("video")}
+        intro={t("videoNote")}
+      >
         <video
-          className="panel aspect-[3/2] w-full max-w-4xl"
+          className="panel mx-auto block aspect-[3/2] w-full max-w-4xl"
           controls
           preload="none"
           playsInline

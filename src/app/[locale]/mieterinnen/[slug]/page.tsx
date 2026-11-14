@@ -92,6 +92,12 @@ export default async function SedcardPage({
       : undefined;
 
   const tProfiles = await getTranslations("profiles");
+  // Kurzzeile unter dem Namen: die drei Angaben, nach denen zuerst gefragt wird
+  const stats = [
+    profile.age ? t("years", { count: profile.age }) : null,
+    profile.heightCm ? `${profile.heightCm} cm` : null,
+    profile.origin ? regionName(profile.origin, locale) : null,
+  ].filter((x): x is string => Boolean(x));
 
   return (
     <article className="container-page py-8 sm:py-14">
@@ -109,9 +115,10 @@ export default async function SedcardPage({
       {/* grid-cols-1 = minmax(0,1fr): die Spalte darf nicht mit dem Inhalt
           wachsen, sonst schiebt eine breite Galerie die Seite zur Seite */}
       <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-14">
-        {/* Links: Bilder, darunter die Beschreibung. Rechts: Name und Eckdaten.
-            Auf dem Handy eine Spalte: Bilder, Name, Beschreibung, Eckdaten. */}
-        <div className="max-lg:contents">
+        {/* Links: Bilder, sie bleiben beim Lesen stehen (nur wenn das Fenster
+            hoch genug ist). Rechts: Name, Beschreibung, Eckdaten.
+            Auf dem Handy eine Spalte in derselben Reihenfolge. */}
+        <div className="max-lg:contents lg:self-start lg:[@media(min-height:860px)]:sticky lg:[@media(min-height:860px)]:top-24">
           <div className="max-lg:order-1">
             <ProfileGallery
               images={profile.images}
@@ -119,19 +126,6 @@ export default async function SedcardPage({
               slug={profile.slug}
             />
           </div>
-          {profile.personalNote && (
-            <section
-              className="panel p-6 max-lg:order-3 sm:p-7 lg:mt-8"
-              aria-labelledby="about"
-            >
-              <h2 id="about" className="text-2xl text-ink">
-                {t("about")}
-              </h2>
-              <p className="mt-4 text-lg leading-relaxed whitespace-pre-line text-ink">
-                {localize(profile.personalNote, locale)}
-              </p>
-            </section>
-          )}
         </div>
 
         <div className="max-lg:contents">
@@ -162,6 +156,12 @@ export default async function SedcardPage({
               {profile.name}
             </h1>
 
+            {stats.length > 0 && (
+              <p className="mt-3 font-display text-2xl text-gold italic sm:text-3xl">
+                {stats.join(" · ")}
+              </p>
+            )}
+
             {next && (
               <p
                 className={
@@ -191,10 +191,24 @@ export default async function SedcardPage({
             </div>
           </div>
 
+          {profile.personalNote && (
+            <section
+              className="panel p-6 max-lg:order-3 sm:p-7 lg:mt-10"
+              aria-labelledby="about"
+            >
+              <h2 id="about" className="text-2xl text-ink">
+                {t("about")}
+              </h2>
+              <p className="mt-4 text-lg leading-relaxed whitespace-pre-line text-ink">
+                {localize(profile.personalNote, locale)}
+              </p>
+            </section>
+          )}
+
           <div className="max-lg:order-4">
             <div
               className={
-                hasShifts ? "grid gap-10 sm:grid-cols-2 lg:mt-10" : "lg:mt-10"
+                hasShifts ? "grid gap-6 sm:grid-cols-2 lg:mt-6" : "lg:mt-6"
               }
             >
               <section aria-labelledby="facts" className="panel p-6 sm:p-7">
