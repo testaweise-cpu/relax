@@ -1024,6 +1024,8 @@ html:not(.age-ok):has(.age-gate) body {
 
 /* Rollbalken passend zum Haus: dunkel, Griff in gedämpftem Champagner */
 html {
+  /* kein seitliches Rollen, auch nicht durch feste Leisten (iOS) */
+  overflow-x: clip;
   scrollbar-color: color-mix(in oklab, var(--gold) 38%, var(--night))
     var(--night);
 }
