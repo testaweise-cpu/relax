@@ -11,6 +11,7 @@ import { AgeGate } from "@/components/age-gate/age-gate";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { StickyCall } from "@/components/layout/sticky-call";
+import { GEO } from "@/components/structured-data";
 import { clientMessages } from "@/i18n/client-messages";
 import { routing } from "@/i18n/routing";
 import { SITE_URL } from "@/lib/site";
@@ -37,6 +38,13 @@ export async function generateMetadata({
     },
     title: { default: t("defaultTitle"), template: `%s · ${t("siteName")}` },
     description: t("defaultDescription"),
+    // Lage für die lokale Suche (Berlin-Steglitz, Hindenburgdamm 76)
+    other: {
+      "geo.region": "DE-BE",
+      "geo.placename": "Berlin-Steglitz",
+      "geo.position": `${GEO.latitude};${GEO.longitude}`,
+      ICBM: `${GEO.latitude}, ${GEO.longitude}`,
+    },
   };
 }
 

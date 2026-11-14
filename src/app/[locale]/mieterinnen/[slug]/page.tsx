@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { ProfileGallery } from "@/components/profiles/profile-gallery";
+import { BreadcrumbJsonLd } from "@/components/structured-data";
 import { WeekPlan } from "@/components/profiles/week-plan";
 import { Badge } from "@/components/ui/badge";
 import { ButtonAnchor } from "@/components/ui/button";
@@ -90,8 +91,17 @@ export default async function SedcardPage({
       ? (profileTimeLabel(shifts, now, tl) ?? t("noShift"))
       : undefined;
 
+  const tProfiles = await getTranslations("profiles");
+
   return (
     <article className="container-page py-8 sm:py-14">
+      <BreadcrumbJsonLd
+        locale={locale as Locale}
+        trail={[
+          { name: tProfiles("title"), path: "/mieterinnen" },
+          { name: profile.name, path: `/mieterinnen/${profile.slug}` },
+        ]}
+      />
       <Link href="/mieterinnen" className="font-label text-sm">
         ← {t("back")}
       </Link>

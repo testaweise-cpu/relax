@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/routing";
 import { pick, type Localized } from "@/lib/content";
+import { FaqJsonLd } from "./structured-data";
 
 type FaqItem = { question: Localized; answer: Localized };
 
@@ -7,6 +8,12 @@ type FaqItem = { question: Localized; answer: Localized };
 export function Faq({ items, locale }: { items: FaqItem[]; locale: Locale }) {
   return (
     <div className="panel divide-y divide-line">
+      <FaqJsonLd
+        items={items.map((item) => ({
+          question: pick(item.question, locale),
+          answer: pick(item.answer, locale),
+        }))}
+      />
       {items.map((item, i) => (
         <details key={i} className="group px-5 py-1 open:bg-night-2/40">
           <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 text-lg text-ink marker:hidden [&::-webkit-details-marker]:hidden">

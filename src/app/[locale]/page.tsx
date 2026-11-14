@@ -1,4 +1,7 @@
-import { LocalBusinessJsonLd } from "@/components/structured-data";
+import {
+  LocalBusinessJsonLd,
+  WebSiteJsonLd,
+} from "@/components/structured-data";
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/site";
 import Image from "next/image";
@@ -74,11 +77,14 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <>
       <LocalBusinessJsonLd locale={locale as Locale} />
+      <WebSiteJsonLd locale={locale as Locale} />
       <HeroBackdrop className="min-h-[calc(100svh-4rem)]" media={HERO_VIDEO}>
         <div className="hero-frame" aria-hidden />
         <div className="container-page hero-clearance relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center pt-8 text-center sm:pt-12">
           <h1>
             <Logo size="xl" link={false} priority />
+            {/* Für Suchmaschinen und Screenreader: worum es geht und wo */}
+            <span className="sr-only"> – {t("heroHeading")}</span>
           </h1>
           <p className="mt-4 max-w-md text-lg text-ink sm:mt-6 sm:text-xl">
             {pick(home.heroLead, l)}
