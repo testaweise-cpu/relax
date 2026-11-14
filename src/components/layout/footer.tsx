@@ -6,6 +6,7 @@ import { telHref } from "@/lib/phone";
 import { LegalNotice } from "../legal-notice";
 import { ClockIcon, MapPinIcon, PhoneIcon } from "../ui/icons";
 import { Logo } from "../ui/logo";
+import { Ornament } from "../ui/ornament";
 import { NAV_ITEMS } from "./nav-items";
 
 export async function Footer() {
@@ -16,8 +17,8 @@ export async function Footer() {
 
   return (
     <footer className="bg-night-2 pb-24 md:pb-0">
-      {/* Goldlinie mit Raute statt einfacher Trennlinie */}
-      <div className="ornament container-page text-[0.6rem]" aria-hidden></div>
+      {/* Zierlinie mit der Rose aus dem Logo */}
+      <Ornament className="container-page pt-10" />
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
         <div>
           <Logo size="lg" link={false} />

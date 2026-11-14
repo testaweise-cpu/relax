@@ -986,6 +986,54 @@ html:not(.age-ok):has(.age-gate) body {
   overflow: hidden;
 }
 
+/* ---- Passepartout: feiner Innenrahmen in Champagner -------------------
+   Dasselbe Motiv wie der Rahmen im Hero – auf Karten, Raumfotos und
+   (beim Überfahren) auf den Sedcards. Ohne Layer, damit es überall greift. */
+.panel-accent::after,
+.bento-item::after,
+.sedcard::after {
+  content: "";
+  position: absolute;
+  inset: 0.5rem;
+  z-index: 3;
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
+}
+.sedcard::after {
+  border-color: transparent;
+  transition: border-color 400ms ease;
+}
+.sedcard:hover::after,
+.sedcard:focus-visible::after {
+  border-color: color-mix(in oklab, var(--gold) 55%, transparent);
+}
+
+/* Kopfzeile: Haarlinie, die zur Mitte hin aufhellt */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklab, var(--gold) 55%, transparent) 50%,
+    transparent
+  );
+}
+
+/* Rollbalken passend zum Haus: dunkel, Griff in gedämpftem Champagner */
+html {
+  scrollbar-color: color-mix(in oklab, var(--gold) 38%, var(--night))
+    var(--night);
+}
+
+/* Preise wie auf einer Karte: Ziffern in Champagner, Zeilen mit mehr Luft */
+.panel-accent {
+  padding-block: 2.25rem;
+}
+
 /* Kursive der Antiqua kommt aus einem eigenen Schnitt, der nicht vorab
    geladen wird (siehe fonts.ts). Ohne Layer, damit die Regel greift. */
 :where(h1, h2, h3, .font-display).italic,
