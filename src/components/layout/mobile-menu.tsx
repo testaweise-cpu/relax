@@ -12,6 +12,10 @@ import { LanguageSwitch } from "./language-switch";
 import { NAV_ITEMS } from "./nav-items";
 import { isActive } from "./nav-links";
 
+const ITEM = "flex max-h-20 min-h-9 flex-1";
+const LINK =
+  "w-full items-center border-b border-line font-display text-[clamp(1.3rem,4.4dvh,2.25rem)] leading-none font-medium no-underline";
+
 /**
  * Vollbild-Menü für das Handy. Nutzt <dialog> mit showModal(): Fokus bleibt im
  * Menü, Escape schließt, der Rest der Seite ist inert.
@@ -67,15 +71,21 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
             </button>
           </div>
 
-          <nav aria-label={t("main")} className="container-page mt-6 flex-1">
-            <ul className="flex flex-col">
-              <li>
+          {/* Die Einträge teilen sich die freie Höhe, die Schrift folgt der
+              Bildschirmhöhe: das Menü passt ohne Scrollen auf den Bildschirm */}
+          <nav
+            aria-label={t("main")}
+            className="container-page mt-1 flex flex-1 flex-col"
+          >
+            <ul className="flex flex-1 flex-col">
+              <li className={ITEM}>
                 <Link
                   href="/"
                   onClick={close}
                   aria-current={pathname === "/" ? "page" : undefined}
                   className={cn(
-                    "block border-b border-line py-3 font-display text-4xl font-medium no-underline",
+                    "flex",
+                    LINK,
                     pathname === "/" ? "text-gold" : "text-ink",
                   )}
                 >
@@ -85,13 +95,14 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
               {NAV_ITEMS.map((item) => {
                 const active = isActive(pathname, item.href);
                 return (
-                  <li key={item.href}>
+                  <li key={item.href} className={ITEM}>
                     <Link
                       href={item.href}
                       onClick={close}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "flex items-center gap-3 border-b border-line py-3 font-display text-4xl font-medium no-underline",
+                        "flex gap-3",
+                        LINK,
                         active ? "text-gold" : "text-ink",
                       )}
                     >
@@ -106,7 +117,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
             </ul>
           </nav>
 
-          <div className="container-page flex items-center gap-3 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+          <div className="container-page flex items-center gap-3 pt-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
             <a
               href={phoneHref}
               className={buttonClasses({ size: "lg", className: "flex-1" })}
