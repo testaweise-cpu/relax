@@ -1,8 +1,8 @@
 {
   "meta": {
     "siteName": "Mona Roses",
-    "defaultTitle": "Mona Roses – Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz",
-    "defaultDescription": "Mona Roses in Berlin-Steglitz: Zimmervermietung mit Bar und Tabledance, rund um die Uhr geöffnet. Sieh nach, wer jetzt da ist."
+    "defaultTitle": "Mona Roses – Bordell in Berlin-Steglitz | Bar, Tabledance & Zimmer, 24/7",
+    "defaultDescription": "Mona Roses, Bordell in Berlin-Steglitz seit 1993: Zimmervermietung mit Bar und Tabledance, rund um die Uhr geöffnet. Sieh nach, wer jetzt da ist."
   },
   "nav": {
     "home": "Start",
@@ -33,7 +33,7 @@
     "no": "Nein"
   },
   "footer": {
-    "tagline": "Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz. Rund um die Uhr geöffnet.",
+    "tagline": "Bordell mit Bar und Tabledance in Berlin-Steglitz. Rund um die Uhr geöffnet.",
     "visit": "Besuch",
     "explore": "Entdecken",
     "adultsOnly": "Nur für Erwachsene ab 18 Jahren"
@@ -48,7 +48,7 @@
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
-    "heroHeading": "Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz",
+    "heroHeading": "Bordell in Berlin-Steglitz mit Bar, Tabledance und Zimmervermietung",
     "heroLead": "Bar, Tabledance und stilvolle Zimmer – rund um die Uhr geöffnet.",
     "ctaNow": "Wer ist jetzt da?",
     "ctaPrices": "Preise",
@@ -84,7 +84,7 @@
   "profiles": {
     "title": "Mieterinnen",
     "eyebrow": "Sedcards",
-    "metaDescription": "Alle Mieterinnen im Mona Roses in Berlin-Steglitz: Sedcards, Sprachen, Zeiten – und wer jetzt da ist.",
+    "metaDescription": "Alle Mieterinnen im Bordell Mona Roses in Berlin-Steglitz: Sedcards, Sprachen, Zeiten – und wer jetzt da ist.",
     "intro": "Alle Damen, die bei uns ein Zimmer mieten. Suche nach Name oder Service, filtere nach Sprache oder danach, wer jetzt da ist.",
     "filterButton": "Filter",
     "resetShort": "Zurücksetzen",
@@ -164,7 +164,7 @@
   "now": {
     "title": "Jetzt da",
     "eyebrow": "Live",
-    "metaDescription": "Wer ist gerade im Mona Roses? Live-Übersicht aller anwesenden Mieterinnen, rund um die Uhr.",
+    "metaDescription": "Wer ist gerade im Bordell Mona Roses in Berlin-Steglitz? Live-Übersicht aller anwesenden Mieterinnen, rund um die Uhr.",
     "intro": "Wer gerade im Haus ist. Die Liste aktualisiert sich automatisch.",
     "updated": "Aktualisiert {time} Uhr",
     "empty": "Gerade ist niemand eingecheckt.",
@@ -267,7 +267,7 @@
   "contact": {
     "title": "Kontakt & Anfahrt",
     "eyebrow": "So finden Sie uns",
-    "metaDescription": "Mona Roses, Hindenburgdamm 76, 12203 Berlin-Steglitz. Telefon 030 832 29 067, rund um die Uhr geöffnet.",
+    "metaDescription": "Bordell Mona Roses, Hindenburgdamm 76, 12203 Berlin-Steglitz. Telefon 030 832 29 067, rund um die Uhr geöffnet. Bus M85 und 283 bis Händelplatz.",
     "address": "Adresse",
     "phone": "Telefon",
     "email": "E-Mail",
@@ -279,7 +279,7 @@
     "jobsLead": "Du möchtest ein Zimmer mieten?",
     "jobsCta": "Zimmer mieten",
     "faqTitle": "Häufige Fragen",
-    "metaTitle": "Kontakt & Anfahrt – Mona Roses, Hindenburgdamm 76, Berlin",
+    "metaTitle": "Kontakt & Anfahrt – Bordell Mona Roses, Hindenburgdamm 76, Berlin",
     "factsTitle": "Gut zu wissen",
     "factAge": "Zutritt",
     "factAgeValue": "Nur für Erwachsene ab 18 Jahren",

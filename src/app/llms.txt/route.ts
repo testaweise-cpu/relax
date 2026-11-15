@@ -52,7 +52,7 @@ export async function GET() {
   const body = [
     "# Mona Roses",
     "",
-    "> Zimmervermietung mit Bar und Tabledance in Berlin-Steglitz. Rund um die Uhr geöffnet, an jedem Tag des Jahres.",
+    "> Bordell in Berlin-Steglitz seit 1993: Zimmervermietung mit Bar und Tabledance. Rund um die Uhr geöffnet, an jedem Tag des Jahres.",
     "",
     "## Auf einen Blick",
     "",
@@ -110,7 +110,7 @@ export async function GET() {
     ...faq.flatMap((f) => [f, ""]),
     "## In English",
     "",
-    `Mona Roses is a room rental with a bar and table dancing at ${s.street}, ${s.postalCode} ${s.city}-${s.district}, Germany. ${pick(s.openingHours, "en")}. Adults aged 18 and over only. Phone: ${s.phone}.`,
+    `Mona Roses is a brothel (room rental with a bar and table dancing) at ${s.street}, ${s.postalCode} ${s.city}-${s.district}, Germany. ${pick(s.openingHours, "en")}. Adults aged 18 and over only. Phone: ${s.phone}.`,
     "",
     "Mona Roses rents rooms and suites to self-employed tenants and runs a bar with table dancing. Mona Roses does not offer or arrange sexual services itself; guests agree on type, scope and payment solely with the respective tenant.",
     "",

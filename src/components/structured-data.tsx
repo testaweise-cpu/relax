@@ -35,9 +35,15 @@ export async function LocalBusinessJsonLd({ locale }: { locale: Locale }) {
   const tp = await getTranslations({ locale, namespace: "prices" });
   const data = {
     "@context": "https://schema.org",
-    "@type": "NightClub",
+    "@type": ["NightClub", "AdultEntertainment"],
     "@id": `${SITE_URL}/#business`,
     name: "Mona Roses",
+    alternateName: ["Mona Roses Bordell", "Bordell Mona Roses Berlin"],
+    foundingDate: "1993",
+    keywords:
+      locale === "en"
+        ? "brothel Berlin, brothel Berlin-Steglitz, table dance, room rental"
+        : "Bordell Berlin, Bordell Berlin-Steglitz, Puff Berlin, Tabledance, Zimmervermietung",
     url: absoluteUrl(locale, "/"),
     image: [
       `${SITE_URL}/media/hero-home-poster.jpg`,
@@ -66,6 +72,10 @@ export async function LocalBusinessJsonLd({ locale }: { locale: Locale }) {
       { "@type": "City", name: "Berlin" },
       { "@type": "Place", name: "Berlin-Steglitz" },
       { "@type": "Place", name: "Berlin-Lichterfelde" },
+      { "@type": "Place", name: "Berlin-Lankwitz" },
+      { "@type": "Place", name: "Berlin-Dahlem" },
+      { "@type": "Place", name: "Berlin-Zehlendorf" },
+      { "@type": "Place", name: "Berlin-Friedenau" },
     ],
     hasMap: s.mapsUrl || undefined,
     // Rund um die Uhr geöffnet, jeden Tag

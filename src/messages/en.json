@@ -1,8 +1,8 @@
 {
   "meta": {
     "siteName": "Mona Roses",
-    "defaultTitle": "Mona Roses – Room rental with bar and table dance in Berlin-Steglitz",
-    "defaultDescription": "Mona Roses in Berlin-Steglitz: room rental with bar and table dance, open around the clock. See who is here right now."
+    "defaultTitle": "Mona Roses – brothel in Berlin-Steglitz | bar, table dance & rooms, 24/7",
+    "defaultDescription": "Mona Roses, a brothel in Berlin-Steglitz since 1993: room rental with bar and table dance, open around the clock. See who is here right now."
   },
   "nav": {
     "home": "Home",
@@ -33,7 +33,7 @@
     "no": "No"
   },
   "footer": {
-    "tagline": "Room rental with bar and table dance in Berlin-Steglitz. Open around the clock.",
+    "tagline": "Brothel with bar and table dancing in Berlin-Steglitz. Open around the clock.",
     "visit": "Visit",
     "explore": "Explore",
     "adultsOnly": "Adults 18+ only"
@@ -48,7 +48,7 @@
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
-    "heroHeading": "Room rental with bar and table dance in Berlin-Steglitz",
+    "heroHeading": "Brothel in Berlin-Steglitz with bar, table dance and room rental",
     "heroLead": "Bar, table dance and stylish rooms – open around the clock.",
     "ctaNow": "Who is here now?",
     "ctaPrices": "Prices",
@@ -279,7 +279,7 @@
     "jobsLead": "Would you like to rent a room?",
     "jobsCta": "Rent a room",
     "faqTitle": "Frequently asked questions",
-    "metaTitle": "Contact & directions – Mona Roses, Hindenburgdamm 76, Berlin",
+    "metaTitle": "Contact & directions – Mona Roses brothel, Hindenburgdamm 76, Berlin",
     "factsTitle": "Good to know",
     "factAge": "Admission",
     "factAgeValue": "Adults aged 18 and over only",
