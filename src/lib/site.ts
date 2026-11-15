@@ -50,7 +50,7 @@ export function pageMetadata({
   image?: string;
 }): Metadata {
   // Ohne eigenes Bild das allgemeine Vorschaubild der Sprache
-  const ogImage = image ?? `${SITE_URL}/${locale}/opengraph-image`;
+  const ogImage = image ?? absoluteUrl(locale, "/opengraph-image");
   return {
     title: titleAbsolute ? { absolute: titleAbsolute } : title,
     description,

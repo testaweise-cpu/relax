@@ -50,6 +50,10 @@ export async function generateMetadata({
       ? t("metaDescription", { name: profile.name, langs })
       : t("metaDescriptionNoLangs", { name: profile.name }),
     noindex: hasShifts && !hasUpcomingShift(shifts, now, 30),
+    image: absoluteUrl(
+      locale as Locale,
+      `/mieterinnen/${profile.slug}/opengraph-image`,
+    ),
   });
 }
 
