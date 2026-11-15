@@ -70,7 +70,7 @@ export function SedcardTile({
             {image ? (
               <Image
                 src={image.url}
-                alt={image.alt}
+                alt={image.alt || name}
                 fill
                 sizes={sizes}
                 loading={priority ? "eager" : undefined}

@@ -7,6 +7,7 @@ import { pageMetadata } from "@/lib/site";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
+import { Faq } from "@/components/faq";
 import { LegalNotice } from "@/components/legal-notice";
 import { LivePill, NowStrip } from "@/components/presence/live-presence";
 import { PriceTable } from "@/components/price-table";
@@ -23,10 +24,11 @@ import { Logo } from "@/components/ui/logo";
 import { Section } from "@/components/ui/section";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getPresentProfiles } from "@/lib/data";
+import { getDataSource, getPresentProfiles } from "@/lib/data";
 import { toPresenceResponse } from "@/lib/data/presence-map";
 import {
   getEvents,
+  getFaq,
   getHome,
   getPrices,
   getSettings,
@@ -64,13 +66,36 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const te = await getTranslations("events");
   const tcommon = await getTranslations("common");
   await connection();
-  const [present, home, prices, settings, events] = await Promise.all([
-    getPresentProfiles().then((p) => toPresenceResponse(p)),
-    getHome(),
-    getPrices(),
-    getSettings(),
-    getEvents(),
-  ]);
+  const [present, home, prices, settings, events, faq, profileCount] =
+    await Promise.all([
+      getPresentProfiles().then((p) => toPresenceResponse(p)),
+      getHome(),
+      getPrices(),
+      getSettings(),
+      getEvents(),
+      getFaq("prices"),
+      getDataSource()
+        .listProfiles()
+        .then((p) => p.length),
+    ]);
+  const fromPrice = Math.min(
+    ...prices.rows.flatMap((r) => (r.priceEur ? [r.priceEur] : [])),
+  );
+  // Drei Zahlen, die das Haus in einem Blick beschreiben
+  const figures = [
+    { value: t("figuresYearsValue"), label: t("figuresYears") },
+    ...(profileCount > 0
+      ? [{ value: String(profileCount), label: t("figuresProfiles") }]
+      : []),
+    ...(Number.isFinite(fromPrice)
+      ? [
+          {
+            value: t("figuresRentValue", { price: fromPrice }),
+            label: t("figuresRent"),
+          },
+        ]
+      : []),
+  ];
   const today = berlinDayKey(new Date());
   const nextEvent = events.filter((e) => e.date >= today).at(-1);
 
@@ -150,8 +175,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             <div className="ornament max-w-40" aria-hidden />
             <Paragraphs
               text={pick(home.introText, l)}
-              className="text-xl leading-relaxed text-ink dropcap"
+              className="dropcap text-xl leading-relaxed text-ink"
             />
+            <dl className="figures">
+              {figures.map((f) => (
+                <div key={f.label}>
+                  <dt>{f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))}
+            </dl>
             {nextEvent && (
               <Link
                 href="/events"
@@ -252,6 +285,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
           </div>
         </div>
       </Section>
+
+      {faq.length > 0 && (
+        <Section tone="night-2" id="faq">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+            <h2 className="text-5xl text-ink sm:text-[4.2rem] lg:sticky lg:top-28 lg:self-start">
+              {tp("faqTitle")}
+            </h2>
+            {/* ausgezeichnet werden die Fragen auf der Preisseite */}
+            <Faq items={faq} locale={l} jsonLd={false} />
+          </div>
+        </Section>
+      )}
 
       <section aria-labelledby="visit-title" className="py-20 sm:py-28">
         <div className="container-page">

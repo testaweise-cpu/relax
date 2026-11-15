@@ -1,4 +1,7 @@
-import { LocalBusinessJsonLd } from "@/components/structured-data";
+import {
+  BreadcrumbJsonLd,
+  LocalBusinessJsonLd,
+} from "@/components/structured-data";
 import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -8,8 +11,9 @@ import { Paragraphs } from "@/components/rich-text";
 import { ButtonAnchor, ButtonLink } from "@/components/ui/button";
 import { ClockIcon, MapPinIcon, PhoneIcon } from "@/components/ui/icons";
 import { Section } from "@/components/ui/section";
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getFaq, getSettings, pick } from "@/lib/content";
+import { getFaq, getPrices, getSettings, pick } from "@/lib/content";
 import { telHref } from "@/lib/phone";
 
 export async function generateMetadata({
@@ -20,7 +24,7 @@ export async function generateMetadata({
   return pageMetadata({
     locale: locale as Locale,
     path: "/kontakt",
-    title: t("title"),
+    titleAbsolute: t("metaTitle"),
     description: t("metaDescription"),
   });
 }
@@ -53,11 +57,23 @@ export default async function ContactPage({
   const l = locale as Locale;
   const t = await getTranslations("contact");
   const tc = await getTranslations("common");
-  const [s, faq] = await Promise.all([getSettings(), getFaq("general")]);
+  // Dieselben Fragen wie auf der Preisseite; ausgezeichnet werden sie dort
+  const [s, faq, prices] = await Promise.all([
+    getSettings(),
+    getFaq("prices"),
+    getPrices(),
+  ]);
+  const cheapest = prices.rows
+    .filter((r) => r.minutes && r.priceEur)
+    .sort((a, b) => (a.priceEur ?? 0) - (b.priceEur ?? 0))[0];
 
   return (
     <>
       <LocalBusinessJsonLd locale={locale as Locale} />
+      <BreadcrumbJsonLd
+        locale={l}
+        trail={[{ name: t("title"), path: "/kontakt" }]}
+      />
       <Section level={1} eyebrow={t("eyebrow")} title={t("title")}>
         <div className="grid gap-4 md:grid-cols-2">
           <Card icon={<MapPinIcon />} title={t("address")}>
@@ -108,6 +124,37 @@ export default async function ContactPage({
             />
           </Card>
         </div>
+        {/* Die drei Dinge, die Gäste vor dem ersten Besuch wissen wollen */}
+        <div className="panel mt-4 p-5 sm:p-6">
+          <h2 className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
+            {t("factsTitle")}
+          </h2>
+          <dl className="facts-row mt-4">
+            <div>
+              <dt>{t("factAge")}</dt>
+              <dd>{t("factAgeValue")}</dd>
+            </div>
+            {cheapest && (
+              <div>
+                <dt>{t("factRent")}</dt>
+                <dd>
+                  <Link href="/preise">
+                    {t("factRentValue", {
+                      price: cheapest.priceEur ?? 0,
+                      minutes: cheapest.minutes ?? 0,
+                    })}
+                  </Link>
+                </dd>
+              </div>
+            )}
+            <div>
+              <dt>{t("factNow")}</dt>
+              <dd>
+                <Link href="/jetzt-da">{t("factNowValue")}</Link>
+              </dd>
+            </div>
+          </dl>
+        </div>
         <div className="panel mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 p-6">
           <div>
             <p className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
@@ -131,7 +178,7 @@ export default async function ContactPage({
       {faq.length > 0 && (
         <Section tone="night-2" title={t("faqTitle")} id="faq">
           <div className="max-w-3xl">
-            <Faq items={faq} locale={l} />
+            <Faq items={faq} locale={l} jsonLd={false} />
           </div>
         </Section>
       )}

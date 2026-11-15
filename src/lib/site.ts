@@ -35,6 +35,7 @@ export function pageMetadata({
   locale,
   path,
   title,
+  titleAbsolute,
   description,
   noindex = false,
   image,
@@ -42,12 +43,16 @@ export function pageMetadata({
   locale: Locale;
   path: string;
   title?: string;
+  /** vollständiger Seitentitel ohne angehängten Markennamen */
+  titleAbsolute?: string;
   description?: string;
   noindex?: boolean;
   image?: string;
 }): Metadata {
+  // Ohne eigenes Bild das allgemeine Vorschaubild der Sprache
+  const ogImage = image ?? `${SITE_URL}/${locale}/opengraph-image`;
   return {
-    title,
+    title: titleAbsolute ? { absolute: titleAbsolute } : title,
     description,
     alternates: alternatesFor(locale, path),
     robots: noindex ? { index: false, follow: true } : undefined,
@@ -56,10 +61,10 @@ export function pageMetadata({
       siteName: "Mona Roses",
       locale: locale === "de" ? "de_DE" : "en_GB",
       url: absoluteUrl(locale, path),
-      title: title ? `${title} · Mona Roses` : undefined,
+      title: titleAbsolute ?? (title ? `${title} · Mona Roses` : undefined),
       description,
-      ...(image ? { images: [{ url: image }] } : {}),
+      images: [{ url: ogImage, width: 1200, height: 630 }],
     },
-    twitter: { card: "summary_large_image" },
+    twitter: { card: "summary_large_image", images: [ogImage] },
   };
 }

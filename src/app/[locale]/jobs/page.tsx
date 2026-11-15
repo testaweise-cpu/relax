@@ -1,3 +1,4 @@
+import { BreadcrumbJsonLd } from "@/components/structured-data";
 import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -14,12 +15,11 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/jobs">): Promise<Metadata> {
   const { locale } = await params;
-  const jobs = await getJobs();
   const t = await getTranslations({ locale, namespace: "jobs" });
   return pageMetadata({
     locale: locale as Locale,
     path: "/jobs",
-    title: pick(jobs.title, locale as Locale),
+    titleAbsolute: t("metaTitle"),
     description: t("metaDescription"),
   });
 }
@@ -39,6 +39,10 @@ export default async function JobsPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={l}
+        trail={[{ name: pick(jobs.title, l), path: "/jobs" }]}
+      />
       <Section
         level={1}
         media={PAGE_VIDEO}

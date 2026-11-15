@@ -1,4 +1,8 @@
-import { getFaq, getPrices, getSettings, pick } from "@/lib/content";
+import { connection } from "next/server";
+import { getEvents, getFaq, getPrices, getSettings, pick } from "@/lib/content";
+import { getDataSource } from "@/lib/data";
+import { languageName } from "@/lib/display-names";
+import { berlinDayKey } from "@/lib/time/berlin";
 import { SITE_URL } from "@/lib/site";
 
 /**
@@ -7,12 +11,38 @@ import { SITE_URL } from "@/lib/site";
  * Seiten, bleibt also von selbst aktuell.
  */
 export async function GET() {
-  const [s, prices, general, priceFaq] = await Promise.all([
-    getSettings(),
-    getPrices(),
-    getFaq("general"),
-    getFaq("prices"),
-  ]);
+  // Pro Abruf: Zahl der Sedcards und Anwesenden kommen aus der Datenquelle
+  await connection();
+  const ds = getDataSource();
+  const [s, prices, general, priceFaq, events, profiles, presence] =
+    await Promise.all([
+      getSettings(),
+      getPrices(),
+      getFaq("general"),
+      getFaq("prices"),
+      getEvents(),
+      ds.listProfiles().catch(() => []),
+      ds.getPresence().catch(() => []),
+    ]);
+  const today = berlinDayKey(new Date());
+  const upcoming = events
+    .filter((e) => e.date >= today)
+    .reverse()
+    .map(
+      (e) =>
+        `- ${e.date}${pick(e.time, "de") ? `, ${pick(e.time, "de")}` : ""}: ${pick(e.title, "de")} – ${pick(e.body, "de")}`,
+    );
+  // Sprachen, die im Haus gesprochen werden (häufigste zuerst)
+  const langCount = new Map<string, number>();
+  for (const p of profiles)
+    for (const code of p.languages)
+      langCount.set(code, (langCount.get(code) ?? 0) + 1);
+  const langs = [...langCount.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([code]) => languageName(code, "de"));
+  const cheapest = prices.rows
+    .filter((r) => r.minutes && r.priceEur)
+    .sort((a, b) => (a.priceEur ?? 0) - (b.priceEur ?? 0))[0];
   const rows = prices.rows
     .filter((r) => r.minutes && r.priceEur)
     .map((r) => `- ${r.minutes} Minuten: ${r.priceEur} €`);
@@ -32,6 +62,17 @@ export async function GET() {
     `- Öffnungszeiten: ${pick(s.openingHours, "de")}`,
     `- ${pick(s.foundedNote, "de")}`,
     "- Zutritt nur für Erwachsene ab 18 Jahren",
+    cheapest
+      ? `- Zimmermiete ab ${cheapest.priceEur} € für ${cheapest.minutes} Minuten`
+      : "",
+    profiles.length ? `- Mieterinnen mit Sedcard: ${profiles.length}` : "",
+    profiles.length
+      ? `- Gerade im Haus: ${presence.length} (Stand ${new Intl.DateTimeFormat(
+          "de-DE",
+          { dateStyle: "long", timeStyle: "short", timeZone: "Europe/Berlin" },
+        ).format(new Date())} Uhr, ändert sich laufend)`
+      : "",
+    langs.length ? `- Sprachen im Haus: ${langs.join(", ")}` : "",
     "",
     "## Was Mona Roses ist",
     "",
@@ -44,6 +85,10 @@ export async function GET() {
     ...rows,
     "",
     pick(prices.footnote, "de"),
+    "",
+    upcoming.length ? "## Kommende Events" : "",
+    "",
+    ...upcoming,
     "",
     "## Seiten",
     "",
@@ -59,6 +104,16 @@ export async function GET() {
     faq.length ? "## Häufige Fragen" : "",
     "",
     ...faq.flatMap((f) => [f, ""]),
+    "## In English",
+    "",
+    `Mona Roses is a room rental with a bar and table dancing at ${s.street}, ${s.postalCode} ${s.city}-${s.district}, Germany. ${pick(s.openingHours, "en")}. Adults aged 18 and over only. Phone: ${s.phone}.`,
+    "",
+    "Mona Roses rents rooms and suites to self-employed tenants and runs a bar with table dancing. Mona Roses does not offer or arrange sexual services itself; guests agree on type, scope and payment solely with the respective tenant.",
+    "",
+    cheapest
+      ? `Room rent starts at €${cheapest.priceEur} for ${cheapest.minutes} minutes; the prices cover the room rent only.`
+      : "",
+    "",
   ]
     .filter((line, i, all) => !(line === "" && all[i - 1] === ""))
     .join("\n");

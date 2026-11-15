@@ -74,7 +74,12 @@
         "title": "24 / 7",
         "text": "Open every day around the clock – drop by any time."
       }
-    ]
+    ],
+    "figuresYearsValue": "30+",
+    "figuresYears": "years in Steglitz",
+    "figuresProfiles": "sedcards",
+    "figuresRentValue": "from €{price}",
+    "figuresRent": "room rent"
   },
   "profiles": {
     "title": "Ladies",
@@ -106,7 +111,8 @@
     "services": "Services",
     "moreServices": "All {count} services",
     "fewerServices": "Fewer services",
-    "moreFilters": "Language & services"
+    "moreFilters": "Language & services",
+    "metaTitle": "Tenants at Mona Roses Berlin-Steglitz – all sedcards"
   },
   "sedcard": {
     "back": "All ladies",
@@ -149,7 +155,11 @@
     "eyes": "Eye colour",
     "intimate": "Intimate area",
     "tattoos": "Tattoos",
-    "piercings": "Piercings"
+    "piercings": "Piercings",
+    "metaTitle": "{name} – tenant at Mona Roses Berlin-Steglitz",
+    "metaDescription": "{name} at Mona Roses in Berlin-Steglitz. Languages: {langs}. Sedcard with photos, profile and times.",
+    "metaDescriptionNoLangs": "{name} at Mona Roses in Berlin-Steglitz. Sedcard with photos, profile and times.",
+    "imageAlt": "{name} – photo {n}"
   },
   "now": {
     "title": "Here now",
@@ -168,7 +178,9 @@
     "groupReady": "Available now",
     "groupOnSite": "In the house, busy right now",
     "heroPill": "{count, plural, =0 {Nobody in the house right now} one {# in the house now} other {# in the house now}}",
-    "heroReady": "{count} available"
+    "heroReady": "{count} available",
+    "metaTitle": "Here now – who is at Mona Roses Berlin right now",
+    "listName": "At Mona Roses right now"
   },
   "prices": {
     "title": "Prices",
@@ -180,7 +192,8 @@
     "minutes": "{count} min",
     "faqTitle": "Frequently asked questions",
     "legalTitle": "Important note",
-    "allPrices": "All prices & FAQ"
+    "allPrices": "All prices & FAQ",
+    "metaTitle": "Prices: room rent from €{price} – Mona Roses Berlin-Steglitz"
   },
   "gallery": {
     "title": "Gallery",
@@ -191,16 +204,18 @@
     "club": "Bar & lounge",
     "video": "Video",
     "videoNote": "The video only starts when you tap play.",
-    "videoLabel": "Mona Roses image film"
+    "videoLabel": "Mona Roses image film",
+    "metaTitle": "Gallery: bar, lounge and rooms – Mona Roses Berlin"
   },
   "events": {
     "title": "Events & news",
     "eyebrow": "What's on",
-    "metaDescription": "Events and news from Mona Roses in Berlin-Steglitz.",
+    "metaDescription": "Events and news from Mona Roses in Berlin-Steglitz: dates, theme nights and what has changed in the house.",
     "upcoming": "Upcoming",
     "past": "Looking back & news",
     "empty": "No events planned right now – check back soon.",
-    "teaser": "Next event"
+    "teaser": "Next event",
+    "metaTitle": "Events & news – Mona Roses Berlin-Steglitz"
   },
   "jobs": {
     "eyebrow": "For tenants",
@@ -246,7 +261,8 @@
         "photos": "At most 3 images (JPG, PNG, WebP), max. 8 MB each.",
         "consent": "Please confirm your consent."
       }
-    }
+    },
+    "metaTitle": "Rent a room in Berlin-Steglitz – Mona Roses"
   },
   "contact": {
     "title": "Contact & directions",
@@ -262,7 +278,15 @@
     "jobs": "For tenants",
     "jobsLead": "Would you like to rent a room?",
     "jobsCta": "Rent a room",
-    "faqTitle": "Frequently asked questions"
+    "faqTitle": "Frequently asked questions",
+    "metaTitle": "Contact & directions – Mona Roses, Hindenburgdamm 76, Berlin",
+    "factsTitle": "Good to know",
+    "factAge": "Admission",
+    "factAgeValue": "Adults aged 18 and over only",
+    "factRent": "Room rent",
+    "factRentValue": "from €{price} for {minutes} minutes",
+    "factNow": "Who is here?",
+    "factNowValue": "Live overview, continuously updated"
   },
   "legal": {
     "imprint": "Legal notice",

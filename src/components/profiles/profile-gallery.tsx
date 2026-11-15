@@ -60,7 +60,7 @@ export function ProfileGallery({
             const picture = (
               <Image
                 src={img.url}
-                alt={img.alt}
+                alt={img.alt || t("imageAlt", { name, n: i + 1 })}
                 fill
                 loading={i === 0 ? "eager" : undefined}
                 fetchPriority={i === 0 ? "high" : undefined}

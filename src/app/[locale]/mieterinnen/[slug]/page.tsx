@@ -1,11 +1,14 @@
 import type { Locale } from "@/i18n/routing";
-import { pageMetadata } from "@/lib/site";
+import { absoluteUrl, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { ProfileGallery } from "@/components/profiles/profile-gallery";
-import { BreadcrumbJsonLd } from "@/components/structured-data";
+import {
+  BreadcrumbJsonLd,
+  ProfilePageJsonLd,
+} from "@/components/structured-data";
 import { WeekPlan } from "@/components/profiles/week-plan";
 import { Badge } from "@/components/ui/badge";
 import { ButtonAnchor } from "@/components/ui/button";
@@ -42,8 +45,10 @@ export async function generateMetadata({
   return pageMetadata({
     locale: locale as Locale,
     path: `/mieterinnen/${profile.slug}`,
-    title: profile.name,
-    description: `${profile.name} – Mona Roses Berlin-Steglitz. ${t("languages")}: ${langs}.`,
+    titleAbsolute: t("metaTitle", { name: profile.name }),
+    description: langs
+      ? t("metaDescription", { name: profile.name, langs })
+      : t("metaDescriptionNoLangs", { name: profile.name }),
     noindex: hasShifts && !hasUpcomingShift(shifts, now, 30),
   });
 }
@@ -107,6 +112,13 @@ export default async function SedcardPage({
           { name: tProfiles("title"), path: "/mieterinnen" },
           { name: profile.name, path: `/mieterinnen/${profile.slug}` },
         ]}
+      />
+      <ProfilePageJsonLd
+        url={absoluteUrl(locale as Locale, `/mieterinnen/${profile.slug}`)}
+        name={profile.name}
+        images={profile.images.slice(0, 6).map((i) => i.url)}
+        languages={profile.languages}
+        dateModified={profile.updatedAt}
       />
       <Link href="/mieterinnen" className="font-label text-sm">
         ← {t("back")}

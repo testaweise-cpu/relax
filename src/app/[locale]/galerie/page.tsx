@@ -1,4 +1,8 @@
-import { pageMetadata } from "@/lib/site";
+import {
+  BreadcrumbJsonLd,
+  ImageGalleryJsonLd,
+} from "@/components/structured-data";
+import { absoluteUrl, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { imageSize } from "@/lib/image-size";
@@ -15,7 +19,7 @@ export async function generateMetadata({
   return pageMetadata({
     locale: locale as Locale,
     path: "/galerie",
-    title: t("title"),
+    titleAbsolute: t("metaTitle"),
     description: t("metaDescription"),
   });
 }
@@ -42,6 +46,15 @@ export default async function GalleryPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={l}
+        trail={[{ name: t("title"), path: "/galerie" }]}
+      />
+      <ImageGalleryJsonLd
+        name={`${t("title")} – Mona Roses`}
+        url={absoluteUrl(l, "/galerie")}
+        images={[...items("club"), ...items("rooms")]}
+      />
       <Section
         level={1}
         eyebrow={t("eyebrow")}

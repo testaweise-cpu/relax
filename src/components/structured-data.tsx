@@ -86,6 +86,37 @@ export async function LocalBusinessJsonLd({ locale }: { locale: Locale }) {
         closes: "23:59",
       },
     ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: s.phoneE164,
+      contactType: "customer service",
+      availableLanguage: ["de", "en"],
+      hoursAvailable: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        opens: "00:00",
+        closes: "23:59",
+      },
+    },
+    // Zutritt nur für Erwachsene
+    audience: {
+      "@type": "PeopleAudience",
+      requiredMinAge: 18,
+      suggestedMinAge: 18,
+    },
+    amenityFeature: ["Bar", "Lounge", "Tabledance"].map((name) => ({
+      "@type": "LocationFeatureSpecification",
+      name,
+      value: true,
+    })),
     priceRange: "€",
     currenciesAccepted: "EUR",
     isAccessibleForFree: false,
@@ -162,6 +193,143 @@ export function FaqJsonLd({
           name: it.question,
           acceptedAnswer: { "@type": "Answer", text: it.answer },
         })),
+      }}
+    />
+  );
+}
+
+/** Liste von Sedcards (Übersicht, „Jetzt da“): Name, Adresse, Bild. */
+export function ItemListJsonLd({
+  locale,
+  name,
+  items,
+}: {
+  locale: Locale;
+  name: string;
+  items: { name: string; path: string; image?: string }[];
+}) {
+  if (items.length === 0) return null;
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name,
+        numberOfItems: items.length,
+        itemListElement: items.map((it, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: it.name,
+          url: absoluteUrl(locale, it.path),
+          ...(it.image ? { image: absoluteMedia(it.image) } : {}),
+        })),
+      }}
+    />
+  );
+}
+
+/** Bild-Adresse absolut machen (Inhalte liegen teils relativ, teils bei VyceON). */
+function absoluteMedia(url: string) {
+  return /^https?:\/\//.test(url) ? url : `${SITE_URL}${url}`;
+}
+
+/** Kommende Veranstaltungen im Haus. */
+export function EventsJsonLd({
+  events,
+}: {
+  events: {
+    name: string;
+    date: string;
+    description: string;
+    image?: string | null;
+    url: string;
+  }[];
+}) {
+  return (
+    <>
+      {events.map((e) => (
+        <JsonLd
+          key={e.date + e.name}
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Event",
+            name: e.name,
+            startDate: e.date,
+            description: e.description,
+            url: e.url,
+            ...(e.image ? { image: absoluteMedia(e.image) } : {}),
+            eventStatus: "https://schema.org/EventScheduled",
+            eventAttendanceMode:
+              "https://schema.org/OfflineEventAttendanceMode",
+            location: { "@id": `${SITE_URL}/#business` },
+            organizer: { "@id": `${SITE_URL}/#business` },
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
+/** Bilder der Galerie mit ihren Beschreibungen. */
+export function ImageGalleryJsonLd({
+  name,
+  url,
+  images,
+}: {
+  name: string;
+  url: string;
+  images: { url: string; alt: string }[];
+}) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        name,
+        url,
+        about: { "@id": `${SITE_URL}/#business` },
+        image: images.map((img) => ({
+          "@type": "ImageObject",
+          contentUrl: absoluteMedia(img.url),
+          ...(img.alt ? { caption: img.alt } : {}),
+        })),
+      }}
+    />
+  );
+}
+
+/**
+ * Sedcard als Profilseite: nur, was auf der Seite ohnehin steht
+ * (Künstlername, Bilder, Sprachen).
+ */
+export function ProfilePageJsonLd({
+  url,
+  name,
+  images,
+  languages,
+  dateModified,
+}: {
+  url: string;
+  name: string;
+  images: string[];
+  languages: string[];
+  dateModified?: string;
+}) {
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        url,
+        ...(dateModified ? { dateModified } : {}),
+        isPartOf: { "@id": `${SITE_URL}/#website` },
+        mainEntity: {
+          "@type": "Person",
+          name,
+          url,
+          ...(images.length ? { image: images.map(absoluteMedia) } : {}),
+          ...(languages.length ? { knowsLanguage: languages } : {}),
+        },
       }}
     />
   );

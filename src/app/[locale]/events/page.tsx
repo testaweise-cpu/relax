@@ -1,4 +1,5 @@
-import { pageMetadata } from "@/lib/site";
+import { BreadcrumbJsonLd, EventsJsonLd } from "@/components/structured-data";
+import { absoluteUrl, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -21,7 +22,7 @@ export async function generateMetadata({
   return pageMetadata({
     locale: locale as Locale,
     path: "/events",
-    title: t("title"),
+    titleAbsolute: t("metaTitle"),
     description: t("metaDescription"),
   });
 }
@@ -75,7 +76,7 @@ export default async function EventsPage({
                 <div className="relative aspect-[3/2]">
                   <Image
                     src={e.image}
-                    alt=""
+                    alt={pick(e.title, l)}
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-cover"
@@ -119,6 +120,19 @@ export default async function EventsPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={l}
+        trail={[{ name: t("title"), path: "/events" }]}
+      />
+      <EventsJsonLd
+        events={upcoming.map((e) => ({
+          name: pick(e.title, l),
+          date: e.date,
+          description: pick(e.body, l),
+          image: e.image,
+          url: absoluteUrl(l, "/events"),
+        }))}
+      />
       <Section
         level={1}
         media={PAGE_VIDEO}

@@ -3,6 +3,7 @@ import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ProfileExplorer } from "@/components/profiles/profile-explorer";
+import { BreadcrumbJsonLd, ItemListJsonLd } from "@/components/structured-data";
 import { Section } from "@/components/ui/section";
 import {
   hasActiveFilters,
@@ -22,7 +23,7 @@ export async function generateMetadata({
   return pageMetadata({
     locale: locale as Locale,
     path: "/mieterinnen",
-    title: t("title"),
+    titleAbsolute: t("metaTitle"),
     description: t("metaDescription"),
     noindex: filtered,
   });
@@ -39,12 +40,23 @@ export default async function ProfilesPage({
   const { cards } = await getProfileCards(locale === "en" ? "en" : "de");
 
   return (
-    <Section
-      level={1}
-      eyebrow={t("eyebrow")}
-      title={t("title")}
-    >
-      <ProfileExplorer cards={cards.map(toExplorerCard)} initial={filters} />
-    </Section>
+    <>
+      <BreadcrumbJsonLd
+        locale={locale as Locale}
+        trail={[{ name: t("title"), path: "/mieterinnen" }]}
+      />
+      <ItemListJsonLd
+        locale={locale as Locale}
+        name={t("title")}
+        items={cards.map(({ profile }) => ({
+          name: profile.name,
+          path: `/mieterinnen/${profile.slug}`,
+          image: profile.images[0]?.url,
+        }))}
+      />
+      <Section level={1} eyebrow={t("eyebrow")} title={t("title")}>
+        <ProfileExplorer cards={cards.map(toExplorerCard)} initial={filters} />
+      </Section>
+    </>
   );
 }

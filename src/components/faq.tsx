@@ -5,15 +5,26 @@ import { FaqJsonLd } from "./structured-data";
 type FaqItem = { question: Localized; answer: Localized };
 
 /** FAQ als Akkordeon (details/summary – funktioniert ohne JavaScript). */
-export function Faq({ items, locale }: { items: FaqItem[]; locale: Locale }) {
+export function Faq({
+  items,
+  locale,
+  jsonLd = true,
+}: {
+  items: FaqItem[];
+  locale: Locale;
+  /** false, wenn dieselben Fragen auf einer anderen Seite ausgezeichnet sind */
+  jsonLd?: boolean;
+}) {
   return (
     <div className="panel divide-y divide-line">
-      <FaqJsonLd
-        items={items.map((item) => ({
-          question: pick(item.question, locale),
-          answer: pick(item.answer, locale),
-        }))}
-      />
+      {jsonLd && (
+        <FaqJsonLd
+          items={items.map((item) => ({
+            question: pick(item.question, locale),
+            answer: pick(item.answer, locale),
+          }))}
+        />
+      )}
       {items.map((item, i) => (
         <details key={i} className="group px-5 py-1 open:bg-night-2/40">
           <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 text-lg text-ink marker:hidden [&::-webkit-details-marker]:hidden">

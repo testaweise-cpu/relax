@@ -1,3 +1,4 @@
+import { BreadcrumbJsonLd } from "@/components/structured-data";
 import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -13,10 +14,16 @@ export async function generateMetadata({
 }: PageProps<"/[locale]/preise">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "prices" });
+  const prices = await getPrices();
+  const from = Math.min(
+    ...prices.rows.flatMap((r) => (r.priceEur ? [r.priceEur] : [])),
+  );
   return pageMetadata({
     locale: locale as Locale,
     path: "/preise",
-    title: t("title"),
+    ...(Number.isFinite(from)
+      ? { titleAbsolute: t("metaTitle", { price: from }) }
+      : { title: t("title") }),
     description: t("metaDescription"),
   });
 }
@@ -32,6 +39,10 @@ export default async function PricesPage({
 
   return (
     <>
+      <BreadcrumbJsonLd
+        locale={l}
+        trail={[{ name: t("title"), path: "/preise" }]}
+      />
       <Section
         level={1}
         eyebrow={t("eyebrow")}
