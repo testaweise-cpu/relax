@@ -70,15 +70,17 @@ export default async function ContactPage({
             </address>
             {s.mapsUrl && (
               <>
-                <a
+                <ButtonAnchor
                   href={s.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex min-h-11 items-center font-label text-base"
+                  variant="secondary"
+                  className="mt-5"
                 >
-                  {t("maps")} ↗
-                </a>
-                <p className="text-sm text-muted">{t("mapsNote")}</p>
+                  <MapPinIcon />
+                  {t("maps")}
+                </ButtonAnchor>
+                <p className="mt-3 text-sm text-muted">{t("mapsNote")}</p>
               </>
             )}
           </Card>

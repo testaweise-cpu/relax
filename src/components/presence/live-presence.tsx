@@ -76,12 +76,16 @@ export function LivePresenceGrid({ initial }: Props) {
               <section key={g.key} aria-labelledby={`group-${g.key}`}>
                 <h2
                   id={`group-${g.key}`}
-                  className="mb-5 flex items-baseline gap-3 text-3xl text-ink"
+                  className="mb-6 flex items-baseline gap-4 text-3xl text-ink sm:text-4xl"
                 >
                   {g.title}
-                  <span className="font-label text-sm text-muted">
+                  <span className="font-display text-2xl text-gold italic">
                     {g.list.length}
                   </span>
+                  <span
+                    aria-hidden
+                    className="h-px flex-1 self-center bg-gradient-to-r from-gold/45 to-transparent"
+                  />
                 </h2>
                 <ul className={GRID}>
                   {g.list.map((p, i) => (

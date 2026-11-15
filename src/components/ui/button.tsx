@@ -11,7 +11,7 @@ const base =
 const variants: Record<ButtonVariant, string> = {
   // Tiefes Rot, flach, helle Schrift (Kontrast ≥ 6:1); beim Überfahren heller
   primary:
-    "border border-[color-mix(in_oklab,var(--gold)_55%,var(--red))] bg-red text-ink hover:bg-[color-mix(in_oklab,var(--red)_84%,white)]",
+    "btn-primary border border-[color-mix(in_oklab,var(--gold)_55%,var(--red))] bg-red text-ink hover:bg-[color-mix(in_oklab,var(--red)_84%,white)]",
   // Haarlinie in Champagner auf dunklem Grund
   secondary:
     "glass-chip border border-gold/45 text-ink hover:border-gold hover:text-gold",
