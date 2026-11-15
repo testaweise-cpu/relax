@@ -10,7 +10,8 @@ import { ArrowRightIcon } from "@/components/ui/icons";
 import { Ornament } from "@/components/ui/ornament";
 import { Section } from "@/components/ui/section";
 import { PAGE_VIDEO } from "@/lib/media/hero";
-import { getPresentProfiles } from "@/lib/data";
+import { getPresentProfiles, getStoryGroups } from "@/lib/data";
+import { StoryRail } from "@/components/stories/story-ring";
 import { toPresenceResponse } from "@/lib/data/presence-map";
 
 export async function generateMetadata({
@@ -33,7 +34,10 @@ export default async function NowPage({
   setRequestLocale(locale);
   await connection();
   const t = await getTranslations("now");
-  const present = await getPresentProfiles();
+  const [present, stories] = await Promise.all([
+    getPresentProfiles(),
+    getStoryGroups(),
+  ]);
   const initial = toPresenceResponse(present);
 
   return (
@@ -58,6 +62,7 @@ export default async function NowPage({
         title={t("title")}
         intro={t("intro")}
       >
+        <StoryRail groups={stories} className="story-rail-flush mb-12" />
         <LivePresenceGrid initial={initial} />
 
         {/* Abschluss: von den Anwesenden weiter zu allen Sedcards */}

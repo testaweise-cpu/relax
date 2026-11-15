@@ -8,6 +8,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { connection } from "next/server";
 import { Faq } from "@/components/faq";
+import { StoryRail } from "@/components/stories/story-ring";
 import { LegalNotice } from "@/components/legal-notice";
 import { LivePill, NowStrip } from "@/components/presence/live-presence";
 import { PriceTable } from "@/components/price-table";
@@ -24,7 +25,7 @@ import { Logo } from "@/components/ui/logo";
 import { Section } from "@/components/ui/section";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
-import { getDataSource, getPresentProfiles } from "@/lib/data";
+import { getDataSource, getPresentProfiles, getStoryGroups } from "@/lib/data";
 import { toPresenceResponse } from "@/lib/data/presence-map";
 import {
   getEvents,
@@ -66,7 +67,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const te = await getTranslations("events");
   const tcommon = await getTranslations("common");
   await connection();
-  const [present, home, prices, settings, events, faq, profileCount] =
+  const [present, home, prices, settings, events, faq, profileCount, stories] =
     await Promise.all([
       getPresentProfiles().then((p) => toPresenceResponse(p)),
       getHome(),
@@ -77,6 +78,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       getDataSource()
         .listProfiles()
         .then((p) => p.length),
+      getStoryGroups(),
     ]);
   const fromPrice = Math.min(
     ...prices.rows.flatMap((r) => (r.priceEur ? [r.priceEur] : [])),
@@ -134,6 +136,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </HeroBackdrop>
 
+      <StoryRail groups={stories} className="bg-night-2" />
       <NowStrip initial={present} className="bg-night-2" />
 
       {/* Band mit dem Muster des Hauses: die Leitbegriffe in einer ruhigen Zeile */}

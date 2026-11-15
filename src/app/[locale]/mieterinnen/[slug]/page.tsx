@@ -18,7 +18,8 @@ import { getSettings } from "@/lib/content";
 import { languageName, regionName } from "@/lib/display-names";
 import { telHref } from "@/lib/phone";
 import { localize } from "@/lib/data/types";
-import { getPresentProfiles } from "@/lib/data";
+import { getPresentProfiles, getStoryGroups } from "@/lib/data";
+import { StoryBadge } from "@/components/stories/story-ring";
 import { SedcardTile } from "@/components/ui/sedcard-tile";
 import { getProfileDetail } from "@/lib/profiles/server";
 import {
@@ -101,6 +102,7 @@ export default async function SedcardPage({
       : undefined;
 
   const tProfiles = await getTranslations("profiles");
+  const story = (await getStoryGroups()).find((g) => g.slug === profile.slug);
   // Kurzzeile unter dem Namen: die drei Angaben, nach denen zuerst gefragt wird
   const stats = [
     profile.age ? t("years", { count: profile.age }) : null,
@@ -146,6 +148,11 @@ export default async function SedcardPage({
 
         <div className="max-lg:contents">
           <div className="max-lg:order-2">
+            {story && (
+              <div className="mb-6">
+                <StoryBadge group={story} />
+              </div>
+            )}
             <div className="flex flex-wrap gap-2">
               {presence ? (
                 presence.state ? (

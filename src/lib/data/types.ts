@@ -90,11 +90,26 @@ export const presenceSchema = z.object({
   until: isoDateTime.optional(),
 });
 
+/**
+ * Story: ein Bild, das 24 Stunden sichtbar ist. Gehört zu einer Sedcard oder
+ * (ohne profileSlug) zum Haus selbst.
+ */
+export const storySchema = z.object({
+  id: z.string().min(1),
+  profileSlug: z.string().min(1).nullable(),
+  profileName: z.string().min(1).nullable(),
+  image: imageSchema,
+  caption: z.string().trim().max(500).nullable(),
+  createdAt: isoDateTime,
+  expiresAt: isoDateTime,
+});
+
 export type LocalizedText = z.infer<typeof localizedTextSchema>;
 export type ProfileImage = z.infer<typeof imageSchema>;
 export type Profile = z.infer<typeof profileSchema>;
 export type Shift = z.infer<typeof shiftSchema>;
 export type Presence = z.infer<typeof presenceSchema>;
+export type Story = z.infer<typeof storySchema>;
 export type PresenceState = z.infer<typeof presenceStateSchema>;
 
 /**

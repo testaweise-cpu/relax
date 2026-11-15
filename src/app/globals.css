@@ -1329,3 +1329,74 @@ main section header > h2 {
     letter-spacing: 0.12em;
   }
 }
+
+/* Stories: runde Bilder mit einem Ring, der von Rot nach Champagner läuft */
+.story-rail {
+  padding-block: 3rem 0;
+}
+.story-rail-flush {
+  padding-block: 0;
+}
+.story-rail-flush > .container-page {
+  padding-inline: 0;
+}
+.story-rail-list {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 0.5rem;
+}
+.story-ring-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 5.5rem;
+  cursor: pointer;
+}
+.story-ring {
+  position: relative;
+  display: block;
+  width: 5.25rem;
+  height: 5.25rem;
+  padding: 3px;
+  border-radius: 9999px;
+  background: conic-gradient(
+    from 210deg,
+    var(--red),
+    var(--gold) 38%,
+    color-mix(in oklab, var(--red) 70%, var(--night)) 70%,
+    var(--red)
+  );
+  box-shadow: 0 0 26px -6px color-mix(in oklab, var(--red) 80%, transparent);
+  transition: transform 260ms var(--ease-out);
+}
+.story-ring-lg {
+  width: 6.5rem;
+  height: 6.5rem;
+}
+.story-ring-button:hover .story-ring,
+.story-ring-button:focus-visible .story-ring {
+  transform: scale(1.05);
+}
+.story-ring-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  border: 3px solid var(--night);
+}
+.story-ring-name {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  line-height: 1.2;
+  color: var(--ink);
+}

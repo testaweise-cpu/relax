@@ -10,12 +10,13 @@ import {
   useRef,
   useState,
   type PointerEvent as ReactPointerEvent,
+  type ReactNode,
 } from "react";
 import { cn } from "@/lib/cn";
 import { setScrollLock } from "@/lib/scroll-lock";
 import { CloseIcon } from "./icons";
 
-export type StoryImage = { url: string; alt: string };
+export type StoryImage = { url: string; alt: string; caption?: string | null };
 export type StoryViewerHandle = { open: (index: number) => void };
 
 /** Anzeigedauer pro Bild im Story-Modus */
@@ -48,9 +49,11 @@ export const StoryViewer = forwardRef<
     images: StoryImage[];
     label: string;
     title?: string;
+    /** Verweis unter dem Bild, z. B. zur Sedcard */
+    action?: ReactNode;
     onClose?: (index: number) => void;
   }
->(function StoryViewer({ images, label, title, onClose }, ref) {
+>(function StoryViewer({ images, label, title, action, onClose }, ref) {
   const t = useTranslations("sedcard");
   const dialog = useRef<HTMLDialogElement>(null);
   const [index, setIndex] = useState(0);
@@ -361,7 +364,17 @@ export const StoryViewer = forwardRef<
             </div>
           )}
 
-          <p className="relative z-10 pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center font-label text-[0.65rem] tracking-[0.2em] text-ink/50 uppercase">
+          {(current.caption || action) && (
+            <div className="relative z-10 flex flex-col items-center gap-3 px-5 pt-3 text-center">
+              {current.caption && (
+                <p className="max-w-xl font-display text-2xl leading-snug text-ink italic">
+                  {current.caption}
+                </p>
+              )}
+              {action}
+            </div>
+          )}
+          <p className="relative z-10 pt-2 pb-[max(0.75rem,env(safe-area-inset-bottom))] text-center font-label text-[0.65rem] tracking-[0.2em] text-ink/50 uppercase">
             {t("storyHint")}
           </p>
         </div>

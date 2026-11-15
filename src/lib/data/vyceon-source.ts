@@ -1,5 +1,12 @@
 import { REVALIDATE, TAGS, type DataSource } from "./source";
-import { parseList, profileSchema, type Presence, type Profile } from "./types";
+import {
+  parseList,
+  profileSchema,
+  storySchema,
+  type Presence,
+  type Profile,
+  type Story,
+} from "./types";
 
 /**
  * Anbindung an die VYCE69 Bordell-Sync API v1 (VyceON).
@@ -298,6 +305,27 @@ function fromApiPresence(raw: unknown): Presence[] {
   ];
 }
 
+/** Stories laufen nach 24 h ab: bei Ausfall höchstens eine Stunde alte zeigen. */
+const STORIES_FALLBACK_MAX_AGE_MS = 3600000;
+
+/** Antwort der Bordell-API → Story; nur Bilder mit Adresse. */
+function fromApiStory(raw: unknown): unknown[] {
+  if (!isObject(raw) || raw.media_kind !== "image") return [];
+  const url = str(raw.url);
+  if (!url) return [];
+  return [
+    {
+      id: raw.id,
+      profileSlug: str(raw.sedcard_slug) ?? null,
+      profileName: str(raw.sedcard_name) ?? null,
+      image: { url, ...sizeFromUrl(url), alt: "" },
+      caption: str(raw.caption) ?? null,
+      createdAt: raw.created_at,
+      expiresAt: raw.expires_at,
+    },
+  ];
+}
+
 export function createVyceonSource(config: VyceonConfig): DataSource {
   const base = config.apiUrl.replace(/\/+$/, "");
   const org = encodeURIComponent(config.organizationId);
@@ -410,6 +438,36 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
 
     async listShifts() {
       return [];
+    },
+
+    /**
+     * Laufende Stories (Bordell-API v1: GET /bordells/{id}/stories). Kennt die
+     * Gegenseite den Endpunkt noch nicht (404), gibt es schlicht keine Stories.
+     * Videos zeigt die Website vorerst nicht: sie lädt nichts von fremden
+     * Servern, Bilder gehen über die eigene Bildauslieferung.
+     */
+    async listStories(): Promise<Story[]> {
+      try {
+        return await withFallback(
+          "stories",
+          async () => {
+            const data = await getJson(`/bordells/${org}/stories`, {
+              revalidate: REVALIDATE.stories,
+              tags: [TAGS.stories],
+            });
+            return parseList(
+              storySchema,
+              pageItems(data).flatMap(fromApiStory),
+              "vyceon.stories",
+            );
+          },
+          [],
+          STORIES_FALLBACK_MAX_AGE_MS,
+        );
+      } catch (error) {
+        if (error instanceof NotFoundError) return [];
+        throw error;
+      }
     },
 
     /** Live = `in_house`. */

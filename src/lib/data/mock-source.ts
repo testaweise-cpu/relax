@@ -1,6 +1,6 @@
 import { berlinParts, fromBerlin, startOfBerlinDay } from "@/lib/time/berlin";
 import type { DataSource } from "./source";
-import type { Presence, Profile, Shift } from "./types";
+import type { Presence, Profile, Shift, Story } from "./types";
 
 /**
  * Mock-Datenquelle – ausschließlich FIKTIVE Profile mit Platzhalterbildern
@@ -319,6 +319,24 @@ export function createMockSource(
     async listShifts(from, to) {
       return generateMockShifts(clock()).filter(
         (s) => new Date(s.end) > from && new Date(s.start) < to,
+      );
+    },
+    async listStories(): Promise<Story[]> {
+      const now = clock();
+      // Vier Sedcards mit je ein bis zwei Bildern, gestaffelt in den letzten Stunden
+      return MOCK_PROFILES.slice(0, 4).flatMap((p, i) =>
+        p.images.slice(1, i % 2 === 0 ? 3 : 2).map((image, n) => {
+          const created = new Date(now.getTime() - (i * 3 + n + 1) * 3600000);
+          return {
+            id: `mock-story-${p.slug}-${n}`,
+            profileSlug: p.slug,
+            profileName: p.name,
+            image,
+            caption: n === 0 && i === 0 ? "Heute bis spät da" : null,
+            createdAt: created.toISOString(),
+            expiresAt: new Date(created.getTime() + 86400000).toISOString(),
+          };
+        }),
       );
     },
     async getPresence(): Promise<Presence[]> {

@@ -44,7 +44,12 @@
     "back": "Wieder da",
     "languages": "Sprachen",
     "available": "Verfügbar",
-    "onSite": "Im Haus"
+    "onSite": "Im Haus",
+    "stories": "Stories",
+    "storiesLead": "Neu aus dem Haus – 24 Stunden sichtbar",
+    "storyOpen": "Story von {name} ansehen",
+    "storyHouse": "Mona Roses",
+    "toSedcard": "Zur Sedcard"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
