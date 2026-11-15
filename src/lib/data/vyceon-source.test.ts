@@ -171,6 +171,7 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
           alt: "",
         },
       ],
+      video: null,
       extraFacts: [],
       updatedAt: "2026-11-02T09:45:03.335Z",
     });

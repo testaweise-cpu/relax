@@ -21,6 +21,7 @@ export type ExplorerCard = {
   liveState?: "ready" | "on_site";
   timeLabel?: string;
   image?: { url: string; width: number; height: number; alt: string };
+  video?: string | null;
   services: ExplorerService[];
 };
 
@@ -87,6 +88,7 @@ export function toExplorerCard(card: ProfileCard): ExplorerCard {
     liveState: card.liveState,
     timeLabel: card.timeLabel,
     image: profile.images[0],
+    video: profile.video,
     services: profile.services.map((s) => ({
       key: serviceKey(s.de),
       de: s.de,

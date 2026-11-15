@@ -164,7 +164,10 @@
     "metaTitle": "{name} – Mieterin im Mona Roses Berlin-Steglitz",
     "metaDescription": "{name} im Mona Roses in Berlin-Steglitz. Sprachen: {langs}. Sedcard mit Bildern, Steckbrief und Zeiten.",
     "metaDescriptionNoLangs": "{name} im Mona Roses in Berlin-Steglitz. Sedcard mit Bildern, Steckbrief und Zeiten.",
-    "imageAlt": "{name} – Bild {n}"
+    "imageAlt": "{name} – Bild {n}",
+    "soundOn": "Ton einschalten",
+    "soundOff": "Ton ausschalten",
+    "videoOf": "Video {n} von {total}"
   },
   "now": {
     "title": "Jetzt da",

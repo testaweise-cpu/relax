@@ -33,6 +33,7 @@ function Tile({
       isBack={p.isBack}
       timeLabel={presenceLabel(p, locale)}
       image={p.image ?? undefined}
+      video={p.video}
       priority={priority}
       sizes={sizes}
     />

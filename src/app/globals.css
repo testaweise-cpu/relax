@@ -1400,3 +1400,14 @@ main section header > h2 {
   line-height: 1.2;
   color: var(--ink);
 }
+
+/* Story ohne Profilbild (Haus-Story, die nur aus Videos besteht) */
+.story-ring-empty {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in oklab, var(--red) 85%, white 6%),
+    color-mix(in oklab, var(--red) 40%, var(--night)) 72%
+  );
+}

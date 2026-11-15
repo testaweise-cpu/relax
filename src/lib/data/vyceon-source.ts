@@ -282,6 +282,12 @@ export function fromApiProfile(raw: unknown, now = new Date()): unknown {
     services: services(raw.services),
     personalNote: note ? { de: note } : undefined,
     images: images(raw),
+    // Liste: video_url; Einzelabfrage: videos[] – jeweils das erste
+    video:
+      localVideoUrl(raw.video_url) ??
+      (Array.isArray(raw.videos) && isObject(raw.videos[0])
+        ? localVideoUrl(raw.videos[0].url)
+        : null),
     ...attributes(raw.attributes),
     updatedAt: raw.updated_at,
   };
@@ -308,17 +314,32 @@ function fromApiPresence(raw: unknown): Presence[] {
 /** Stories laufen nach 24 h ab: bei Ausfall höchstens eine Stunde alte zeigen. */
 const STORIES_FALLBACK_MAX_AGE_MS = 3600000;
 
-/** Antwort der Bordell-API → Story; nur Bilder mit Adresse. */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Video-Adresse der Bordell-API (…/media/{id}) → Adresse der eigenen
+ * Durchleitung. Der Browser bekommt nie die Adresse der Gegenseite: sie
+ * verlangt den API-Schlüssel, und die Seite lädt nichts von fremden Servern.
+ */
+export function localVideoUrl(url: unknown): string | null {
+  const id = str(url)?.split(/[?#]/)[0].split("/").pop();
+  return id && UUID.test(id) ? `/api/video/${id.toLowerCase()}` : null;
+}
+
+/** Antwort der Bordell-API → Story (Bild oder Video). */
 function fromApiStory(raw: unknown): unknown[] {
-  if (!isObject(raw) || raw.media_kind !== "image") return [];
+  if (!isObject(raw)) return [];
   const url = str(raw.url);
   if (!url) return [];
+  const video = raw.media_kind === "video" ? localVideoUrl(url) : null;
+  if (raw.media_kind !== "image" && !video) return [];
   return [
     {
       id: raw.id,
       profileSlug: str(raw.sedcard_slug) ?? null,
       profileName: str(raw.sedcard_name) ?? null,
-      image: { url, ...sizeFromUrl(url), alt: "" },
+      image: video ? null : { url, ...sizeFromUrl(url), alt: "" },
+      video,
       caption: str(raw.caption) ?? null,
       createdAt: raw.created_at,
       expiresAt: raw.expires_at,
@@ -440,11 +461,23 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
       return [];
     },
 
+    /** Ein Abschnitt eines Videos, mit Schlüssel bei der Bordell-API geholt. */
+    async fetchVideo(id: string, range?: string): Promise<Response | null> {
+      if (!UUID.test(id)) return null;
+      return fetch(`${base}/bordells/${org}/media/${id}`, {
+        headers: {
+          Authorization: `Bearer ${config.apiKey}`,
+          ...(range ? { Range: range } : {}),
+        },
+        cache: "no-store",
+        signal: AbortSignal.timeout(30000),
+      });
+    },
+
     /**
      * Laufende Stories (Bordell-API v1: GET /bordells/{id}/stories). Kennt die
      * Gegenseite den Endpunkt noch nicht (404), gibt es schlicht keine Stories.
-     * Videos zeigt die Website vorerst nicht: sie lädt nichts von fremden
-     * Servern, Bilder gehen über die eigene Bildauslieferung.
+     * Videos laufen über die eigene Durchleitung (/api/video).
      */
     async listStories(): Promise<Story[]> {
       try {

@@ -65,6 +65,8 @@ export const profileSchema = z.object({
   services: z.array(serviceSchema).default([]),
   personalNote: localizedTextSchema.optional(),
   images: z.array(imageSchema).default([]),
+  /** Kurzes Video als bewegtes Profilbild (abspielbare Adresse), falls vorhanden */
+  video: z.string().min(1).nullable().default(null),
   updatedAt: isoDateTime,
 });
 
@@ -91,14 +93,17 @@ export const presenceSchema = z.object({
 });
 
 /**
- * Story: ein Bild, das 24 Stunden sichtbar ist. Gehört zu einer Sedcard oder
+ * Story: ein Bild oder kurzes Video, das 24 Stunden sichtbar ist. Gehört zu einer Sedcard oder
  * (ohne profileSlug) zum Haus selbst.
  */
 export const storySchema = z.object({
   id: z.string().min(1),
   profileSlug: z.string().min(1).nullable(),
   profileName: z.string().min(1).nullable(),
-  image: imageSchema,
+  /** Bild-Story: das Bild. Video-Story: kein Bild. */
+  image: imageSchema.nullable(),
+  /** Video-Story: Adresse, die der Browser abspielen kann (eigene Durchleitung) */
+  video: z.string().min(1).nullable().default(null),
   caption: z.string().trim().max(500).nullable(),
   createdAt: isoDateTime,
   expiresAt: isoDateTime,

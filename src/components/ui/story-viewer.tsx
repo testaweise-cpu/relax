@@ -16,7 +16,14 @@ import { cn } from "@/lib/cn";
 import { setScrollLock } from "@/lib/scroll-lock";
 import { CloseIcon } from "./icons";
 
-export type StoryImage = { url: string; alt: string; caption?: string | null };
+export type StoryImage = {
+  /** Bild; leer, wenn der Eintrag ein Video ist */
+  url: string;
+  alt: string;
+  caption?: string | null;
+  /** abspielbare Video-Adresse statt des Bildes */
+  video?: string | null;
+};
 export type StoryViewerHandle = { open: (index: number) => void };
 
 /** Anzeigedauer pro Bild im Story-Modus */
@@ -63,6 +70,10 @@ export const StoryViewer = forwardRef<
   const [zoom, setZoom] = useState<Zoom>(NO_ZOOM);
   const [dragY, setDragY] = useState(0);
   const total = images.length;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // Länge des laufenden Videos (für den Fortschrittsbalken)
+  const [videoMs, setVideoMs] = useState<number | null>(null);
+  const [muted, setMuted] = useState(true);
 
   const gesture = useRef<{
     x: number;
@@ -78,6 +89,7 @@ export const StoryViewer = forwardRef<
   const go = useCallback(
     (i: number) => {
       setZoom(NO_ZOOM);
+      setVideoMs(null);
       setIndex(Math.min(total - 1, Math.max(0, i)));
     },
     [total],
@@ -119,6 +131,15 @@ export const StoryViewer = forwardRef<
 
   const zoomed = zoom.scale > 1;
   const running = opened && autoplay && !paused && !zoomed && total > 1;
+  const videoPlaying = opened && !paused && !zoomed;
+
+  // Video folgt Pause und Halten wie der Balken
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (videoPlaying) v.play().catch(() => {});
+    else v.pause();
+  }, [videoPlaying, index]);
 
   function onPointerDown(e: ReactPointerEvent<HTMLDivElement>) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
@@ -223,21 +244,23 @@ export const StoryViewer = forwardRef<
           }}
         >
           {/* Unscharfes Abbild als Raumlicht hinter dem Bild */}
-          <div aria-hidden className="story-ambient">
-            <Image
-              src={current.url}
-              alt=""
-              fill
-              sizes="64px"
-              className="object-cover"
-            />
-          </div>
+          {!current.video && (
+            <div aria-hidden className="story-ambient">
+              <Image
+                src={current.url}
+                alt=""
+                fill
+                sizes="64px"
+                className="object-cover"
+              />
+            </div>
+          )}
 
           <div className="relative z-10 px-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
             {total > 1 && (
               <div className="flex gap-1" aria-hidden>
                 {images.map((img, i) => (
-                  <span key={img.url} className="story-bar">
+                  <span key={i} className="story-bar">
                     <span
                       key={`${i}-${index}-${autoplay}`}
                       className={cn(
@@ -246,8 +269,13 @@ export const StoryViewer = forwardRef<
                         i === index && running && "is-running",
                         i === index && !running && autoplay && "is-paused",
                       )}
-                      style={{ animationDuration: `${STORY_MS}ms` }}
-                      onAnimationEnd={i === index ? advance : undefined}
+                      style={{
+                        animationDuration: `${img.video ? (videoMs ?? 15000) : STORY_MS}ms`,
+                      }}
+                      // ein Video meldet sein Ende selbst
+                      onAnimationEnd={
+                        i === index && !img.video ? advance : undefined
+                      }
                     />
                   </span>
                 ))}
@@ -264,7 +292,10 @@ export const StoryViewer = forwardRef<
                   className="font-label text-xs tracking-[0.2em] text-ink/70 uppercase"
                   aria-live="polite"
                 >
-                  {t("imageOf", { n: index + 1, total })}
+                  {t(current.video ? "videoOf" : "imageOf", {
+                    n: index + 1,
+                    total,
+                  })}
                 </span>
               </p>
               <div className="flex shrink-0 gap-2">
@@ -281,6 +312,17 @@ export const StoryViewer = forwardRef<
                     aria-label={running ? t("pause") : t("play")}
                   >
                     {running ? "❚❚" : "▶"}
+                  </button>
+                )}
+                {current.video && (
+                  <button
+                    type="button"
+                    onClick={() => setMuted((m) => !m)}
+                    className="glass-chip inline-flex min-h-11 items-center justify-center rounded-full border border-ink/20 px-4 font-label text-xs tracking-[0.15em] uppercase"
+                    aria-label={muted ? t("soundOn") : t("soundOff")}
+                    aria-pressed={!muted}
+                  >
+                    {muted ? "Ton" : "Stumm"}
                   </button>
                 )}
                 <button
@@ -310,25 +352,43 @@ export const StoryViewer = forwardRef<
             onContextMenu={(e) => e.preventDefault()}
           >
             <div
-              key={current.url}
+              key={current.video ?? current.url}
               className={cn("story-frame", !zoomed && "story-enter")}
               style={{
                 transform: `translate(${zoom.x}px, ${zoom.y}px) scale(${zoom.scale})`,
                 cursor: zoomed ? "grab" : "pointer",
               }}
             >
-              <Image
-                src={current.url}
-                alt={current.alt}
-                fill
-                sizes="100vw"
-                loading="eager"
-                draggable={false}
-                className="object-contain"
-              />
+              {current.video ? (
+                <video
+                  ref={videoRef}
+                  src={current.video}
+                  autoPlay
+                  playsInline
+                  muted={muted}
+                  aria-label={current.alt}
+                  onLoadedMetadata={(e) => {
+                    const d = e.currentTarget.duration;
+                    if (Number.isFinite(d) && d > 0)
+                      setVideoMs(Math.min(120000, Math.round(d * 1000)));
+                  }}
+                  onEnded={advance}
+                  className="absolute inset-0 h-full w-full object-contain"
+                />
+              ) : (
+                <Image
+                  src={current.url}
+                  alt={current.alt}
+                  fill
+                  sizes="100vw"
+                  loading="eager"
+                  draggable={false}
+                  className="object-contain"
+                />
+              )}
             </div>
             {/* nächstes Bild vorladen */}
-            {images[index + 1] && (
+            {images[index + 1] && !images[index + 1].video && (
               <Image
                 src={images[index + 1].url}
                 alt=""

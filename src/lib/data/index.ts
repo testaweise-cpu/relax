@@ -57,8 +57,14 @@ export type StoryGroup = {
   /** Slug der Sedcard; null = Stories des Hauses */
   slug: string | null;
   name: string | null;
-  avatar: ProfileImage;
-  stories: { id: string; image: ProfileImage; caption: string | null }[];
+  /** Profilbild der Sedcard; fehlt bei Haus-Stories, die nur aus Videos bestehen */
+  avatar: ProfileImage | null;
+  stories: {
+    id: string;
+    image: ProfileImage | null;
+    video: string | null;
+    caption: string | null;
+  }[];
 };
 
 /**
@@ -85,13 +91,20 @@ export async function getStoryGroups(): Promise<StoryGroup[]> {
         slug: s.profileSlug,
         name: s.profileName,
         avatar: (s.profileSlug && avatarBySlug.get(s.profileSlug)) || s.image,
+        // (bei einer Video-Story ohne Profilbild: das erste Bild der Gruppe, s. u.)
         stories: [],
         latest: s.createdAt,
       };
       groups.set(key, g);
     }
     if (s.createdAt > g.latest) g.latest = s.createdAt;
-    g.stories.push({ id: s.id, image: s.image, caption: s.caption });
+    if (!g.avatar && s.image) g.avatar = s.image;
+    g.stories.push({
+      id: s.id,
+      image: s.image,
+      video: s.video,
+      caption: s.caption,
+    });
   }
   return [...groups.values()]
     .sort((a, b) => b.latest.localeCompare(a.latest))
@@ -101,4 +114,22 @@ export async function getStoryGroups(): Promise<StoryGroup[]> {
       avatar: g.avatar,
       stories: [...g.stories].reverse(),
     }));
+}
+
+/**
+ * Kennt die Website dieses Video gerade (Profilvideo oder laufende Story)?
+ * Die Durchleitung holt nur solche ab – sonst könnte jede erfundene Kennung
+ * eine Anfrage an die Bordell-API auslösen und deren Kontingent aufbrauchen.
+ */
+export async function isKnownVideo(id: string): Promise<boolean> {
+  const ds = getDataSource();
+  const [stories, profiles] = await Promise.all([
+    ds.listStories(),
+    ds.listProfiles(),
+  ]);
+  const local = `/api/video/${id}`;
+  return (
+    stories.some((s) => s.video === local) ||
+    profiles.some((p) => p.video === local)
+  );
 }

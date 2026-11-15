@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { ProfileClip } from "@/components/ui/profile-clip";
 import { useRef, useState, ViewTransition } from "react";
 import {
   SEDCARD_SIZES,
@@ -18,10 +19,13 @@ import { StoryViewer, type StoryViewerHandle } from "../ui/story-viewer";
  */
 export function ProfileGallery({
   images,
+  video,
   name,
   slug,
 }: {
   images: ProfileImage[];
+  /** kurzes Video, das über dem ersten Bild läuft */
+  video?: string | null;
   name: string;
   slug: string;
 }) {
@@ -94,6 +98,7 @@ export function ProfileGallery({
                         aria-hidden
                       />
                       {picture}
+                      {video && <ProfileClip src={video} mode="visible" />}
                     </div>
                   </ViewTransition>
                 ) : (

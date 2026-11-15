@@ -14,8 +14,13 @@ import { setScrollLock } from "@/lib/scroll-lock";
 export type StoryRingGroup = {
   slug: string | null;
   name: string | null;
-  avatar: { url: string };
-  stories: { id: string; image: { url: string }; caption: string | null }[];
+  avatar: { url: string } | null;
+  stories: {
+    id: string;
+    image: { url: string } | null;
+    video: string | null;
+    caption: string | null;
+  }[];
 };
 
 function Ring({ group, large }: { group: StoryRingGroup; large?: boolean }) {
@@ -32,13 +37,17 @@ function Ring({ group, large }: { group: StoryRingGroup; large?: boolean }) {
       >
         <span className={cn("story-ring", large && "story-ring-lg")}>
           <span className="story-ring-inner">
-            <Image
-              src={group.avatar.url}
-              alt=""
-              fill
-              sizes={large ? "112px" : "88px"}
-              className="object-cover object-top"
-            />
+            {group.avatar ? (
+              <Image
+                src={group.avatar.url}
+                alt=""
+                fill
+                sizes={large ? "112px" : "88px"}
+                className="object-cover object-top"
+              />
+            ) : (
+              <span className="story-ring-empty" aria-hidden />
+            )}
           </span>
         </span>
         {/* Auf der Sedcard steht der Name direkt daneben */}
@@ -49,7 +58,8 @@ function Ring({ group, large }: { group: StoryRingGroup; large?: boolean }) {
         label={t("storyOpen", { name })}
         title={name}
         images={group.stories.map((s, i) => ({
-          url: s.image.url,
+          url: s.image?.url ?? "",
+          video: s.video,
           alt: `${name} – Story ${i + 1}`,
           caption: s.caption,
         }))}

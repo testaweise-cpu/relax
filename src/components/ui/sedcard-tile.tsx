@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { Badge } from "./badge";
 import { PlaceholderArt } from "./placeholder-art";
+import { ProfileClip } from "./profile-clip";
 
 export type SedcardTileProps = {
   slug: string;
@@ -18,6 +19,8 @@ export type SedcardTileProps = {
   isNew?: boolean;
   isBack?: boolean;
   image?: { url: string; width: number; height: number; alt: string };
+  /** kurzes Video als bewegtes Profilbild */
+  video?: string | null;
   /** für Platzhalter-Varianz */
   seed?: number;
   /** erstes sichtbares Bild bevorzugt laden (LCP) */
@@ -43,6 +46,7 @@ export function SedcardTile({
   isNew,
   isBack,
   image,
+  video,
   seed = 0,
   priority,
   sizes = SEDCARD_SIZES,
@@ -82,6 +86,7 @@ export function SedcardTile({
             )}
           </div>
         </ViewTransition>
+        {video && <ProfileClip src={video} />}
         <div className="sedcard-shade" aria-hidden />
 
         <div className="absolute inset-x-2.5 top-2.5 flex flex-wrap gap-1.5">
@@ -93,6 +98,7 @@ export function SedcardTile({
             ) : (
               <Badge variant="live">{t("live")}</Badge>
             ))}
+          {video && <Badge>Video</Badge>}
           {isNew && <Badge variant="new">{t("new")}</Badge>}
           {isBack && !isNew && <Badge variant="back">{t("back")}</Badge>}
         </div>

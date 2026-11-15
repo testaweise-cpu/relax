@@ -22,7 +22,14 @@ const SERVICES = {
 
 type Seed = Omit<
   Profile,
-  "id" | "slug" | "images" | "updatedAt" | "gender" | "services" | "extraFacts"
+  | "id"
+  | "slug"
+  | "images"
+  | "video"
+  | "updatedAt"
+  | "gender"
+  | "services"
+  | "extraFacts"
 > & {
   services: (keyof typeof SERVICES)[];
   /** keine Schichten in den nächsten 30 Tagen (prüft die noindex-Regel) */
@@ -205,6 +212,8 @@ const slugify = (name: string) => name.toLowerCase();
 /** Fiktive Umbenennung zum Testen der Weiterleitung alter Profil-Adressen. */
 const PREVIOUS_SLUGS: Record<string, string> = { "aurora-berlin": "aurora" };
 
+const MOCK_VIDEO = "/media/mona-roses-werbevideo.mp4";
+
 export const MOCK_PROFILES: Profile[] = SEEDS.map((seed, i) => {
   const rest = { ...seed };
   delete rest.inactive;
@@ -222,6 +231,8 @@ export const MOCK_PROFILES: Profile[] = SEEDS.map((seed, i) => {
       height: 800,
       alt: `Platzhalterbild ${n} für ${seed.name}`,
     })),
+    // Das Werbevideo des Hauses als Platzhalter für ein bewegtes Profilbild
+    video: i === 0 ? MOCK_VIDEO : null,
     updatedAt: new Date(Date.UTC(2026, 9, 1 + i)).toISOString(),
   };
 });
@@ -331,13 +342,19 @@ export function createMockSource(
             id: `mock-story-${p.slug}-${n}`,
             profileSlug: p.slug,
             profileName: p.name,
-            image,
+            // die zweite Story der ersten Sedcard ist ein Video
+            image: i === 0 && n === 0 ? null : image,
+            video: i === 0 && n === 0 ? MOCK_VIDEO : null,
             caption: n === 0 && i === 0 ? "Heute bis spät da" : null,
             createdAt: created.toISOString(),
             expiresAt: new Date(created.getTime() + 86400000).toISOString(),
           };
         }),
       );
+    },
+    async fetchVideo() {
+      // Testvideos liegen in /public und brauchen keine Durchleitung
+      return null;
     },
     async getPresence(): Promise<Presence[]> {
       const now = clock();

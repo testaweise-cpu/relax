@@ -140,6 +140,7 @@ export default async function SedcardPage({
           <div className="max-lg:order-1">
             <ProfileGallery
               images={profile.images}
+              video={profile.video}
               name={profile.name}
               slug={profile.slug}
             />
@@ -355,6 +356,7 @@ export default async function SedcardPage({
                   isBack={o.isBack}
                   timeLabel={presenceLabel(op, tl)}
                   image={o.images[0]}
+                  video={o.video}
                 />
               </li>
             ))}

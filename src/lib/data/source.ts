@@ -12,6 +12,11 @@ export interface DataSource {
   getPresence(): Promise<Presence[]>;
   /** Laufende Stories (neueste zuerst); abgelaufene liefert die Quelle nicht. */
   listStories(): Promise<Story[]>;
+  /**
+   * Ein Abschnitt eines Videos von der Gegenseite (für /api/video). `range`
+   * ist der Range-Header; null, wenn die Quelle keine Videos durchleitet.
+   */
+  fetchVideo(id: string, range?: string): Promise<Response | null>;
 }
 
 /** Cache-Tags – gleiche Namen in Datenquelle und Webhook. */
