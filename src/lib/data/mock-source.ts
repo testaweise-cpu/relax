@@ -389,6 +389,9 @@ export function createMockSource(
         }),
       );
     },
+    async fetchPhoto() {
+      return null;
+    },
     async fetchVideo() {
       // Testvideos liegen in /public und brauchen keine Durchleitung
       return null;

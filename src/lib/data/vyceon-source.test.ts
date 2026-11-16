@@ -4,6 +4,7 @@ import {
   PAGE_SIZE,
   PRESENCE_FALLBACK_MAX_AGE_MS,
   resetVyceonFallbackCache,
+  localPhotoUrl,
 } from "./vyceon-source";
 
 /**
@@ -361,5 +362,24 @@ describe("VyceON-Quelle (VYCE69 Bordell-Sync API)", () => {
     expect(await source.getPresence()).toHaveLength(1);
     vi.advanceTimersByTime(2 * 60_000);
     expect(await source.getPresence()).toEqual([]);
+  });
+});
+
+describe("Fotos ohne Wasserzeichen", () => {
+  const id = "0a1b2c3d-4e5f-4a6b-8c7d-9e0f1a2b3c4d";
+  it("macht aus der API-Adresse die eigene Durchleitung", () => {
+    expect(
+      localPhotoUrl(
+        `https://vyce69.com/api/v1/bordells/org/media/${id}?w=480&h=640`,
+        "lydia",
+      ),
+    ).toBe(`/api/foto/lydia/${id}?w=480&h=640`);
+  });
+  it("lehnt fremde oder unvollständige Adressen ab", () => {
+    expect(
+      localPhotoUrl("https://vyce69.com/api/img?key=a", "lydia"),
+    ).toBeNull();
+    expect(localPhotoUrl(`https://x/media/${id}`, "lydia")).toBeNull();
+    expect(localPhotoUrl(undefined, "lydia")).toBeNull();
   });
 });

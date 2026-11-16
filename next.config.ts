@@ -19,6 +19,12 @@ const nextConfig: NextConfig = {
   cacheComponents: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Eigene Fotodurchleitung (ohne Wasserzeichen) trägt Größen in der Query;
+    // alle übrigen lokalen Bilder ohne Query.
+    localPatterns: [
+      { pathname: "/api/foto/**" },
+      { pathname: "/**", search: "" },
+    ],
     // VYCE69 liefert Profilbilder unter https://<host>/api/img?key=…
     // (Build-Zeit-Variable; bei `next start` auch zur Laufzeit setzen).
     remotePatterns: process.env.VYCEON_IMAGE_HOST

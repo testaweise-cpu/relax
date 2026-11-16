@@ -17,6 +17,8 @@ export interface DataSource {
    * ist der Range-Header; null, wenn die Quelle keine Videos durchleitet.
    */
   fetchVideo(id: string, range?: string): Promise<Response | null>;
+  /** Sedcard-Foto ohne Wasserzeichen (für /api/foto); null, wenn die Quelle keins hat. */
+  fetchPhoto(id: string, w: number, h: number): Promise<Response | null>;
 }
 
 /** Cache-Tags – gleiche Namen in Datenquelle und Webhook. */

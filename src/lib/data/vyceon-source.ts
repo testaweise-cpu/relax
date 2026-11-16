@@ -166,6 +166,29 @@ function sizeFromUrl(url: string) {
   return { width: 480, height: 640 };
 }
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Foto-Adresse ohne Wasserzeichen (…/media/{id}?w=&h=) → eigene Durchleitung
+ * /api/foto/{slug}/{id}. Ohne solche Adresse (ältere API) bleibt das Bild von
+ * VYCE69 mit Wasserzeichen.
+ */
+export function localPhotoUrl(original: unknown, slug: unknown): string | null {
+  const url = str(original);
+  const s = str(slug);
+  if (!url || !s) return null;
+  try {
+    const u = new URL(url);
+    const id = u.pathname.split("/").pop() ?? "";
+    const w = u.searchParams.get("w");
+    const h = u.searchParams.get("h");
+    if (!UUID.test(id) || !w || !h) return null;
+    return `/api/foto/${s}/${id.toLowerCase()}?w=${w}&h=${h}`;
+  } catch {
+    return null;
+  }
+}
+
 function images(raw: Json): Profile["images"] {
   if (Array.isArray(raw.media) && raw.media.length) {
     return raw.media.flatMap((m) =>
@@ -173,10 +196,19 @@ function images(raw: Json): Profile["images"] {
       str(m.url) &&
       typeof m.width === "number" &&
       typeof m.height === "number"
-        ? [{ url: str(m.url)!, width: m.width, height: m.height, alt: "" }]
+        ? [
+            {
+              url: localPhotoUrl(m.original_url, raw.slug) ?? str(m.url)!,
+              width: m.width,
+              height: m.height,
+              alt: "",
+            },
+          ]
         : [],
     );
   }
+  const plain = localPhotoUrl(raw.original_thumbnail_url, raw.slug);
+  if (plain) return [{ url: plain, width: 480, height: 640, alt: "" }];
   const thumb = str(raw.thumbnail_url);
   return thumb ? [{ url: thumb, ...sizeFromUrl(thumb), alt: "" }] : [];
 }
@@ -359,8 +391,6 @@ function fromApiPresence(raw: unknown): Presence[] {
 /** Stories laufen nach 24 h ab: bei Ausfall höchstens eine Stunde alte zeigen. */
 const STORIES_FALLBACK_MAX_AGE_MS = 3600000;
 
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
 /**
  * Video-Adresse der Bordell-API (…/media/{id}) → Adresse der eigenen
  * Durchleitung. Der Browser bekommt nie die Adresse der Gegenseite: sie
@@ -507,6 +537,17 @@ export function createVyceonSource(config: VyceonConfig): DataSource {
     },
 
     /** Ein Abschnitt eines Videos, mit Schlüssel bei der Bordell-API geholt. */
+    /** Foto ohne Wasserzeichen, mit Schlüssel geholt; 10 min zwischengespeichert. */
+    async fetchPhoto(id: string, w: number, h: number) {
+      if (!UUID.test(id)) return null;
+      return fetch(`${base}/bordells/${org}/media/${id}?w=${w}&h=${h}`, {
+        headers: { Authorization: `Bearer ${config.apiKey}` },
+        cache: "force-cache",
+        next: { revalidate: 600, tags: [TAGS.profiles] },
+        signal: AbortSignal.timeout(15000),
+      });
+    },
+
     async fetchVideo(id: string, range?: string): Promise<Response | null> {
       if (!UUID.test(id)) return null;
       return fetch(`${base}/bordells/${org}/media/${id}`, {
