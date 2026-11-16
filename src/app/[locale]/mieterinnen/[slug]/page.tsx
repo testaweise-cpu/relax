@@ -12,6 +12,7 @@ import {
 } from "@/components/structured-data";
 import { WeekPlan } from "@/components/profiles/week-plan";
 import { Badge } from "@/components/ui/badge";
+import { VerifiedSeal } from "@/components/ui/verified-seal";
 import { ButtonAnchor } from "@/components/ui/button";
 import { PhoneIcon } from "@/components/ui/icons";
 import { Link, permanentRedirect } from "@/i18n/navigation";
@@ -178,9 +179,7 @@ export default async function SedcardPage({
               )}
               {profile.verificationLevel &&
                 profile.verificationLevel !== "none" && (
-                  <Badge variant="new">
-                    <span aria-hidden>✓</span> {tp("verified")}
-                  </Badge>
+                  <VerifiedSeal label={tp("verified")} />
                 )}
               {profile.isNew && <Badge variant="new">{tp("new")}</Badge>}
               {profile.isBack && !profile.isNew && (

@@ -45,7 +45,7 @@
     "new": "Nowa",
     "back": "Znów jest",
     "languages": "Języki",
-    "available": "Dostępna",
+    "available": "Teraz na miejscu",
     "onSite": "Na miejscu",
     "stories": "Stories",
     "storiesLead": "Nowości z domu – widoczne przez 24 godziny",
@@ -53,7 +53,7 @@
     "storyHouse": "Mona Roses",
     "toSedcard": "Zobacz Sedcard",
     "verified": "Zweryfikowana",
-    "roseReady": "Świecąca róża: dostępna teraz",
+    "roseReady": "Świecąca róża: teraz na miejscu",
     "roseBusy": "Przygaszona róża: na miejscu, obecnie zajęta"
   },
   "home": {
@@ -188,10 +188,10 @@
     "stripTitle": "Teraz na miejscu",
     "stripAll": "Pokaż wszystkie",
     "stale": "Połączenie przerwane – pokazuję ostatni stan.",
-    "groupReady": "Teraz dostępne",
+    "groupReady": "Teraz na miejscu",
     "groupOnSite": "Na miejscu, teraz zajęte",
     "heroPill": "{count, plural, =0 {Nikogo teraz nie ma w domu} one {# teraz w domu} few {# teraz w domu} many {# teraz w domu} other {# teraz w domu}}",
-    "heroReady": "Dostępne: {count}",
+    "heroReady": "{count} teraz na miejscu",
     "metaTitle": "Teraz na miejscu – kto jest teraz w Mona Roses Berlin",
     "listName": "Teraz w Mona Roses"
   },

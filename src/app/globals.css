@@ -1577,3 +1577,30 @@ main section header > h2 {
   text-transform: uppercase;
   color: var(--gold);
 }
+
+/* Siegel „Geprüft“: massives Gold, hebt sich auf jedem Foto ab */
+.verified-seal {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.6rem 0.28rem 0.45rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #f3dcab, var(--gold) 55%, #a8884f);
+  color: var(--night);
+  font-family: var(--font-label);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--night) 40%, transparent),
+    0 4px 14px -4px color-mix(in oklab, var(--gold) 70%, transparent);
+}
+.verified-seal svg {
+  color: var(--night);
+}
+.verified-seal svg path + path {
+  stroke: #f3dcab;
+}

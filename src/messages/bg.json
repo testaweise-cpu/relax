@@ -45,7 +45,7 @@
     "new": "Нова",
     "back": "Отново тук",
     "languages": "Езици",
-    "available": "Свободна",
+    "available": "В момента на място",
     "onSite": "В къщата",
     "stories": "Истории",
     "storiesLead": "Ново от къщата – видимо 24 часа",
@@ -53,7 +53,7 @@
     "storyHouse": "Mona Roses",
     "toSedcard": "Към Sedcard",
     "verified": "Проверена",
-    "roseReady": "Светеща роза: свободна сега",
+    "roseReady": "Светеща роза: в момента на място",
     "roseBusy": "Притъмняла роза: в къщата, в момента заета"
   },
   "home": {
@@ -188,10 +188,10 @@
     "stripTitle": "Тук сега",
     "stripAll": "Покажи всички",
     "stale": "Връзката е прекъсната – показва се последното състояние.",
-    "groupReady": "Свободни сега",
+    "groupReady": "В момента на място",
     "groupOnSite": "В къщата, в момента заети",
     "heroPill": "{count, plural, =0 {В момента няма никого в къщата} one {# сега в къщата} other {# сега в къщата}}",
-    "heroReady": "{count} свободни",
+    "heroReady": "{count} в момента на място",
     "metaTitle": "Тук сега – кой е в момента в Mona Roses Berlin",
     "listName": "Сега в Mona Roses"
   },

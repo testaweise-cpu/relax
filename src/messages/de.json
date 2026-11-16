@@ -45,7 +45,7 @@
     "new": "Neu",
     "back": "Wieder da",
     "languages": "Sprachen",
-    "available": "Verfügbar",
+    "available": "Gerade vor Ort",
     "onSite": "Im Haus",
     "stories": "Stories",
     "storiesLead": "Neu aus dem Haus – 24 Stunden sichtbar",
@@ -53,7 +53,7 @@
     "storyHouse": "Mona Roses",
     "toSedcard": "Zur Sedcard",
     "verified": "Geprüft",
-    "roseReady": "Leuchtende Rose: jetzt verfügbar",
+    "roseReady": "Leuchtende Rose: gerade vor Ort",
     "roseBusy": "Glimmende Rose: im Haus, gerade beschäftigt"
   },
   "home": {
@@ -188,10 +188,10 @@
     "stripTitle": "Jetzt da",
     "stripAll": "Alle anzeigen",
     "stale": "Verbindung unterbrochen – zeige letzten Stand.",
-    "groupReady": "Jetzt verfügbar",
+    "groupReady": "Gerade vor Ort",
     "groupOnSite": "Im Haus, gerade beschäftigt",
     "heroPill": "{count, plural, =0 {Gerade niemand im Haus} one {# jetzt im Haus} other {# jetzt im Haus}}",
-    "heroReady": "{count} verfügbar",
+    "heroReady": "{count} gerade vor Ort",
     "metaTitle": "Jetzt da – wer gerade im Mona Roses Berlin ist",
     "listName": "Jetzt im Mona Roses"
   },

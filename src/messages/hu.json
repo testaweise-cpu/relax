@@ -45,7 +45,7 @@
     "new": "Új",
     "back": "Újra itt",
     "languages": "Nyelvek",
-    "available": "Elérhető",
+    "available": "Most a helyszínen",
     "onSite": "A házban",
     "stories": "Történetek",
     "storiesLead": "Újdonságok a házból – 24 órán át láthatók",
@@ -53,7 +53,7 @@
     "storyHouse": "Mona Roses",
     "toSedcard": "A Sedcardhoz",
     "verified": "Ellenőrzött",
-    "roseReady": "Világító rózsa: most elérhető",
+    "roseReady": "Világító rózsa: most a helyszínen",
     "roseBusy": "Halvány rózsa: a házban, éppen foglalt"
   },
   "home": {
@@ -188,10 +188,10 @@
     "stripTitle": "Most itt",
     "stripAll": "Összes megjelenítése",
     "stale": "A kapcsolat megszakadt – az utolsó ismert állapot látható.",
-    "groupReady": "Most elérhető",
+    "groupReady": "Most a helyszínen",
     "groupOnSite": "A házban, éppen elfoglalt",
     "heroPill": "{count, plural, =0 {Jelenleg senki sincs a házban} one {# most a házban} other {# most a házban}}",
-    "heroReady": "{count} elérhető",
+    "heroReady": "{count} most a helyszínen",
     "metaTitle": "Most itt – ki van éppen a Mona Rosesban, Berlin",
     "listName": "Most a Mona Rosesban"
   },

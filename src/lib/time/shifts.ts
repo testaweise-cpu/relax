@@ -104,7 +104,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `ab ${d}`,
     since: (t) => `seit ${t} Uhr`,
     busy: "im Haus · gerade beschäftigt",
-    available: "jetzt verfügbar",
+    available: "gerade vor Ort",
     inHouse: "jetzt im Haus",
   },
   en: {
@@ -116,7 +116,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `from ${d}`,
     since: (t) => `since ${t}`,
     busy: "in the house · busy",
-    available: "available now",
+    available: "on site now",
     inHouse: "in the house now",
   },
   pl: {
@@ -128,7 +128,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `od ${d}`,
     since: (t) => `od ${t}`,
     busy: "na miejscu · zajęta",
-    available: "dostępna teraz",
+    available: "teraz na miejscu",
     inHouse: "teraz na miejscu",
   },
   ro: {
@@ -140,7 +140,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `din ${d}`,
     since: (t) => `de la ${t}`,
     busy: "în casă · ocupată",
-    available: "disponibilă acum",
+    available: "acum la fața locului",
     inHouse: "acum în casă",
   },
   bg: {
@@ -152,7 +152,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `от ${d}`,
     since: (t) => `от ${t} ч.`,
     busy: "в къщата · заета",
-    available: "свободна сега",
+    available: "в момента на място",
     inHouse: "сега в къщата",
   },
   hu: {
@@ -164,7 +164,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `kezdés: ${d}`,
     since: (t) => `${t} óra óta`,
     busy: "a házban · foglalt",
-    available: "most elérhető",
+    available: "most a helyszínen",
     inHouse: "most a házban",
   },
   tr: {
@@ -176,7 +176,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `${d} itibarıyla`,
     since: (t) => `başlangıç ${t}`,
     busy: "evde · meşgul",
-    available: "şimdi müsait",
+    available: "şu an burada",
     inHouse: "şimdi evde",
   },
   es: {
@@ -188,7 +188,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `desde el ${d}`,
     since: (t) => `desde las ${t}`,
     busy: "en casa · ocupada",
-    available: "disponible ahora",
+    available: "ahora en el local",
     inHouse: "ahora en casa",
   },
   fr: {
@@ -200,7 +200,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `à partir du ${d}`,
     since: (t) => `depuis ${t}`,
     busy: "sur place · occupée",
-    available: "disponible maintenant",
+    available: "sur place en ce moment",
     inHouse: "sur place maintenant",
   },
   pt: {
@@ -212,7 +212,7 @@ const T: Record<TimeLocale, Phrases> = {
     fromDate: (d) => `a partir de ${d}`,
     since: (t) => `desde ${t}`,
     busy: "na casa · ocupada",
-    available: "disponível agora",
+    available: "no local agora",
     inHouse: "na casa agora",
   },
 };

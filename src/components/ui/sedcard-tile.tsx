@@ -7,6 +7,7 @@ import { PlaceholderArt } from "./placeholder-art";
 import { ProfileClip } from "./profile-clip";
 import { Badge } from "./badge";
 import { LiveRose } from "./live-rose";
+import { VerifiedSeal } from "./verified-seal";
 
 export type SedcardTileProps = {
   slug: string;
@@ -105,15 +106,16 @@ export function SedcardTile({
         <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5">
           {/* Merkmale ruhig über dem Namen statt Marken auf dem Foto */}
           {(verified || isNew || isBack || video) && (
-            <p className="sedcard-tags mb-1.5 truncate">
-              {[
-                verified && `✓ ${t("verified")}`,
-                isNew ? t("new") : isBack && t("back"),
-                video && "Video",
-              ]
-                .filter(Boolean)
-                .join(" · ")}
-            </p>
+            <div className="mb-2 flex min-w-0 items-center gap-2">
+              {verified && <VerifiedSeal label={t("verified")} />}
+              {(isNew || isBack || video) && (
+                <p className="sedcard-tags truncate">
+                  {[isNew ? t("new") : isBack && t("back"), video && "Video"]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              )}
+            </div>
           )}
           <p
             translate="no"
