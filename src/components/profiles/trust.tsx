@@ -33,61 +33,75 @@ export async function TrustPanel({
   return (
     <section
       aria-labelledby="trust"
-      className="panel panel-ornate mt-6 p-7 sm:p-9"
+      className="panel panel-ornate mt-6 p-7 sm:p-8"
     >
       <h2 id="trust" className="card-title" translate="no">
         {t("title")}
       </h2>
-      <p className="mt-3 text-sm text-muted">
+      <p className="mt-2 text-sm text-muted">
         {confirmed > 0
           ? t("checksConfirmed", { count: confirmed, max: trust.checks.length })
           : t("noneConfirmed")}
       </p>
-      <ul className="mt-5 space-y-4">
+      {/* Kompakt: eine Reihe Marken; Erklärungen erst auf Wunsch */}
+      <ul className="mt-4 flex flex-wrap gap-2">
         {trust.checks.map((c) => (
           <li
             key={c.key}
-            className={cn("flex gap-4", !c.confirmed && "opacity-55")}
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm",
+              c.confirmed
+                ? "border-gold/50 bg-gold/10 text-ink"
+                : "border-line text-muted opacity-60",
+            )}
+            title={
+              c.confirmed
+                ? t(`checks.${c.key}.detail`)
+                : `${t(`checks.${c.key}.openLabel`)} – ${t("openStatus")}`
+            }
           >
-            <span
-              aria-hidden
-              className={cn(
-                "mt-0.5 grid size-6 shrink-0 place-items-center rounded-full border text-xs",
-                c.confirmed
-                  ? "border-gold/70 bg-gold/10 text-gold"
-                  : "border-line text-muted",
-              )}
-            >
+            <span aria-hidden className={c.confirmed ? "text-gold" : ""}>
               {c.confirmed ? "✓" : "·"}
             </span>
-            <div>
-              <p className={c.confirmed ? "text-ink" : "text-muted"}>
-                {c.confirmed
-                  ? t(`checks.${c.key}.label`)
-                  : t(`checks.${c.key}.openLabel`)}
-                {!c.confirmed && (
-                  <span className="ml-2 font-label text-[0.65rem] tracking-[0.2em] uppercase">
-                    {t("openStatus")}
-                  </span>
-                )}
-              </p>
-              <p className="mt-1 text-sm leading-relaxed text-muted">
-                {c.confirmed
-                  ? t(`checks.${c.key}.detail`)
-                  : t(`checks.${c.key}.openDetail`)}
-              </p>
-            </div>
+            {c.confirmed
+              ? t(`checks.${c.key}.label`)
+              : t(`checks.${c.key}.openLabel`)}
+            {!c.confirmed && (
+              <span className="sr-only"> ({t("openStatus")})</span>
+            )}
           </li>
         ))}
       </ul>
-      {trust.lastReviewedAt && confirmed > 0 && (
-        <p className="mt-5 font-label text-xs text-muted">
-          {t("lastChecked")}: {formatDay(trust.lastReviewedAt, locale)}
+      <details className="trust-more mt-4">
+        <summary className="cursor-pointer font-label text-xs text-gold">
+          {t("explainer")}
+        </summary>
+        <dl className="mt-3 space-y-2 text-sm">
+          {trust.checks.map((c) => (
+            <div key={c.key}>
+              <dt className={c.confirmed ? "text-ink" : "text-muted"}>
+                {c.confirmed
+                  ? t(`checks.${c.key}.label`)
+                  : `${t(`checks.${c.key}.openLabel`)} – ${t("openStatus")}`}
+              </dt>
+              <dd className="text-muted">
+                {c.confirmed
+                  ? t(`checks.${c.key}.detail`)
+                  : t(`checks.${c.key}.openDetail`)}
+              </dd>
+            </div>
+          ))}
+        </dl>
+        <p className="mt-3 text-xs leading-relaxed text-muted">
+          {trust.lastReviewedAt && confirmed > 0 && (
+            <>
+              {t("lastChecked")}: {formatDay(trust.lastReviewedAt, locale)}
+              .{" "}
+            </>
+          )}
+          {t("intro")} {t("disclaimer")}
         </p>
-      )}
-      <p className="mt-5 border-t border-line pt-4 text-xs leading-relaxed text-muted">
-        {t("intro")} {t("disclaimer")}
-      </p>
+      </details>
       <span className="sr-only">{name}</span>
     </section>
   );

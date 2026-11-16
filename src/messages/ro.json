@@ -370,6 +370,7 @@
     "afterAppointment": "După o programare",
     "reviewsCount": "{count, plural, one {# recenzie} few {# recenzii} other {# de recenzii}}",
     "reply": "Răspuns de la {name}",
-    "stars": "{rating} din 5 stele"
+    "stars": "{rating} din 5 stele",
+    "explainer": "Ce înseamnă VYCE69 Trust?"
   }
 }

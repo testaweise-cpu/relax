@@ -370,6 +370,7 @@
     "afterAppointment": "След среща",
     "reviewsCount": "{count, plural, one {# отзив} other {# отзива}}",
     "reply": "Отговор от {name}",
-    "stars": "{rating} от 5 звезди"
+    "stars": "{rating} от 5 звезди",
+    "explainer": "Какво означава VYCE69 Trust?"
   }
 }

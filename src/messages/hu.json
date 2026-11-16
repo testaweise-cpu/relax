@@ -370,6 +370,7 @@
     "afterAppointment": "Időpont után",
     "reviewsCount": "{count, plural, other {# értékelés}}",
     "reply": "{name} válasza",
-    "stars": "5-ből {rating} csillag"
+    "stars": "5-ből {rating} csillag",
+    "explainer": "Mit jelent a VYCE69 Trust?"
   }
 }

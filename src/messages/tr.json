@@ -370,6 +370,7 @@
     "afterAppointment": "Randevu sonrası",
     "reviewsCount": "{count, plural, other {# değerlendirme}}",
     "reply": "{name} yanıtı",
-    "stars": "5 üzerinden {rating} yıldız"
+    "stars": "5 üzerinden {rating} yıldız",
+    "explainer": "VYCE69 Trust ne demek?"
   }
 }

@@ -370,6 +370,7 @@
     "afterAppointment": "Après un rendez-vous",
     "reviewsCount": "{count, plural, one {# avis} other {# avis}}",
     "reply": "Réponse de {name}",
-    "stars": "{rating} sur 5 étoiles"
+    "stars": "{rating} sur 5 étoiles",
+    "explainer": "Que signifie VYCE69 Trust ?"
   }
 }
