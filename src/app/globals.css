@@ -420,12 +420,12 @@
     border: 1px solid var(--line);
     background: var(--panel);
   }
-  /* läuft nur auf größeren Bildschirmen mit; auf dem Handy nähme sie zu viel Platz */
-  @media (min-width: 640px) {
-    .explorer-bar {
-      position: sticky;
-      top: calc(var(--header-h) + 0.5rem);
-    }
+  /* Leiste samt Filterfach läuft mit – auch auf dem Handy, sonst wäre der
+     Filterknopf weit unten in der Liste nicht erreichbar */
+  .explorer-head {
+    position: sticky;
+    top: calc(var(--header-h) + 0.5rem);
+    z-index: 30;
   }
   @media (max-width: 639px) {
     .explorer-bar {
@@ -1061,6 +1061,11 @@ html {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--panel);
+  /* liegt über der Liste: nie höher als der freie Platz, eigenes Scrollen */
+  max-height: calc(100dvh - var(--header-h) - 6.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  box-shadow: 0 30px 60px -28px rgb(0 0 0 / 0.95);
 }
 .filter-panel[hidden] {
   display: none;

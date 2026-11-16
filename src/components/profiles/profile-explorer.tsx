@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
   useMemo,
+  useRef,
   useState,
   useTransition,
   ViewTransition,
@@ -93,6 +94,7 @@ export function ProfileExplorer({
   const [allServices, setAllServices] = useState(false);
   // Alles außer der Suche liegt eingeklappt hinter einem Knopf
   const [open, setOpen] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
 
   const options = useMemo(() => filterOptions(cards, locale), [cards, locale]);
   const visible = useMemo(
@@ -105,6 +107,24 @@ export function ProfileExplorer({
     window.history.replaceState(null, "", qs ? `${pathname}?${qs}` : pathname);
     // In einer Transition, damit die View Transition das Raster überblendet
     startTransition(() => setFilters(next));
+    // Weit unten in der Liste: an den Anfang der Treffer, sonst schrumpft die
+    // Seite unter dem Leser weg und Leiste samt Fach rutschen aus dem Bild
+    const top = root.current?.getBoundingClientRect().top ?? 0;
+    if (top < 0) {
+      const header = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--header-h",
+        ),
+      );
+      window.scrollTo({
+        top:
+          window.scrollY +
+          top -
+          (Number.isFinite(header) ? header * 16 : 64) -
+          8,
+        behavior: "instant",
+      });
+    }
   }
 
   const href = (next: Partial<ProfileFilters>): ChipHref => ({
@@ -158,202 +178,206 @@ export function ProfileExplorer({
   );
 
   return (
-    <div>
-      {/* Eine Zeile: Suche, Filterknopf, Trefferzahl. Alles Weitere klappt auf. */}
-      <div className="explorer-bar">
-        <form
-          role="search"
-          action={pathname}
-          method="get"
-          onSubmit={(e) => e.preventDefault()}
-          className="relative min-w-0 flex-1"
-        >
-          <label htmlFor="profile-search" className="sr-only">
-            {t("searchLabel")}
-          </label>
-          <SearchIcon className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted" />
-          <input
-            id="profile-search"
-            name={FILTER_PARAMS.q}
-            type="search"
-            value={filters.q}
-            onChange={(e) => apply({ ...filters, q: e.target.value })}
-            placeholder={t("searchPlaceholder")}
-            autoComplete="off"
-            enterKeyHint="search"
-            className="search-input"
-          />
-          {hidden.map(([k, v]) => (
-            <input key={k} type="hidden" name={k} value={v} />
-          ))}
-          {filters.q && (
-            <button
-              type="button"
-              onClick={() => apply({ ...filters, q: "" })}
-              className="absolute top-1/2 right-1 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full text-muted hover:text-ink"
-            >
-              <CloseIcon width={16} height={16} />
-              <span className="sr-only">{t("clearSearch")}</span>
-            </button>
-          )}
-          <noscript>
-            <button type="submit" className="sr-only">
-              {t("submitSearch")}
-            </button>
-          </noscript>
-        </form>
-
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="filter-panel"
-          className={cn("chip filter-toggle", open && "is-open")}
-        >
-          <FilterIcon width={16} height={16} />
-          {t("filterButton")}
-          {activeCount > 0 && (
-            <span className="filter-badge">{activeCount}</span>
-          )}
-        </button>
-
-        <div className="hidden items-center gap-4 pr-2 sm:flex">
-          {resetLink}
-          <p className="explorer-count" aria-live="polite">
-            {t("count", { count: visible.length })}
-          </p>
-        </div>
-      </div>
-
-      {/* Ohne JavaScript bleibt das Fach offen, die Chips sind echte Links */}
-      <noscript>
-        <style>{"#filter-panel{display:grid!important}"}</style>
-      </noscript>
-      <div
-        id="filter-panel"
-        hidden={!open}
-        role="group"
-        aria-label={t("filters")}
-        className="filter-panel"
-      >
-        <div className="flex flex-wrap items-end gap-x-10 gap-y-5">
-          <fieldset className="min-w-0">
-            <legend className="eyebrow mb-2.5">{t("show")}</legend>
-            <div className="flex flex-wrap gap-2">
-              <Chip
-                {...pick({ now: !filters.now })}
-                active={filters.now}
-                tone="mint"
+    <div ref={root}>
+      {/* Leiste und Filterfach laufen gemeinsam mit: so öffnet sich das Fach
+          immer direkt unter dem Knopf, auch weit unten in der Liste */}
+      <div className="explorer-head">
+        {/* Eine Zeile: Suche, Filterknopf, Trefferzahl. Alles Weitere klappt auf. */}
+        <div className="explorer-bar">
+          <form
+            role="search"
+            action={pathname}
+            method="get"
+            onSubmit={(e) => e.preventDefault()}
+            className="relative min-w-0 flex-1"
+          >
+            <label htmlFor="profile-search" className="sr-only">
+              {t("searchLabel")}
+            </label>
+            <SearchIcon className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted" />
+            <input
+              id="profile-search"
+              name={FILTER_PARAMS.q}
+              type="search"
+              value={filters.q}
+              onChange={(e) => apply({ ...filters, q: e.target.value })}
+              placeholder={t("searchPlaceholder")}
+              autoComplete="off"
+              enterKeyHint="search"
+              className="search-input"
+            />
+            {hidden.map(([k, v]) => (
+              <input key={k} type="hidden" name={k} value={v} />
+            ))}
+            {filters.q && (
+              <button
+                type="button"
+                onClick={() => apply({ ...filters, q: "" })}
+                className="absolute top-1/2 right-1 inline-flex size-9 -translate-y-1/2 items-center justify-center rounded-full text-muted hover:text-ink"
               >
-                <span className="live-dot live-dot-ready" aria-hidden />
-                {t("onlyNow")}{" "}
-                <span className="chip-count">{options.live}</span>
-              </Chip>
-              {(options.isNew > 0 || filters.isNew) && (
-                <Chip
-                  {...pick({ isNew: !filters.isNew })}
-                  active={filters.isNew}
-                >
-                  {t("onlyNew")}{" "}
-                  <span className="chip-count">{options.isNew}</span>
-                </Chip>
-              )}
-            </div>
-          </fieldset>
+                <CloseIcon width={16} height={16} />
+                <span className="sr-only">{t("clearSearch")}</span>
+              </button>
+            )}
+            <noscript>
+              <button type="submit" className="sr-only">
+                {t("submitSearch")}
+              </button>
+            </noscript>
+          </form>
 
-          <div className="min-w-0">
-            <p className="eyebrow mb-2.5 flex" id="sort-label">
-              {t("sortLabel")}
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="filter-panel"
+            className={cn("chip filter-toggle", open && "is-open")}
+          >
+            <FilterIcon width={16} height={16} />
+            {t("filterButton")}
+            {activeCount > 0 && (
+              <span className="filter-badge">{activeCount}</span>
+            )}
+          </button>
+
+          <div className="hidden items-center gap-4 pr-2 sm:flex">
+            {resetLink}
+            <p className="explorer-count" aria-live="polite">
+              {t("count", { count: visible.length })}
             </p>
-            <div
-              role="group"
-              aria-labelledby="sort-label"
-              className="segmented"
-            >
-              {SORTS.map((s) => (
-                <Link
-                  key={s}
-                  href={href({ sort: s })}
-                  scroll={false}
-                  onClick={(e) => {
-                    if (!isPlainClick(e)) return;
-                    e.preventDefault();
-                    apply({ ...filters, sort: s });
-                  }}
-                  aria-current={filters.sort === s ? "true" : undefined}
-                  className="segmented-item"
-                >
-                  {sortLabels[s]}
-                </Link>
-              ))}
-            </div>
           </div>
         </div>
 
-        {options.languages.length > 0 && (
-          <fieldset className="min-w-0">
-            <legend className="eyebrow mb-2.5">{t("language")}</legend>
-            <div className="chip-row">
-              {options.languages.map(([code, n]) => (
+        {/* Ohne JavaScript bleibt das Fach offen, die Chips sind echte Links */}
+        <noscript>
+          <style>{"#filter-panel{display:grid!important}"}</style>
+        </noscript>
+        <div
+          id="filter-panel"
+          hidden={!open}
+          role="group"
+          aria-label={t("filters")}
+          className="filter-panel"
+        >
+          <div className="flex flex-wrap items-end gap-x-10 gap-y-5">
+            <fieldset className="min-w-0">
+              <legend className="eyebrow mb-2.5">{t("show")}</legend>
+              <div className="flex flex-wrap gap-2">
                 <Chip
-                  key={code}
-                  {...pick({ languages: toggle(filters.languages, code) })}
-                  active={filters.languages.includes(code)}
+                  {...pick({ now: !filters.now })}
+                  active={filters.now}
+                  tone="mint"
                 >
-                  {languageName(code, locale)}{" "}
-                  <span className="chip-count">{n}</span>
+                  <span className="live-dot live-dot-ready" aria-hidden />
+                  {t("onlyNow")}{" "}
+                  <span className="chip-count">{options.live}</span>
                 </Chip>
-              ))}
-            </div>
-          </fieldset>
-        )}
+                {(options.isNew > 0 || filters.isNew) && (
+                  <Chip
+                    {...pick({ isNew: !filters.isNew })}
+                    active={filters.isNew}
+                  >
+                    {t("onlyNew")}{" "}
+                    <span className="chip-count">{options.isNew}</span>
+                  </Chip>
+                )}
+              </div>
+            </fieldset>
 
-        {options.origins.length > 0 && (
-          <fieldset className="min-w-0">
-            <legend className="eyebrow mb-2.5">{t("origin")}</legend>
-            <div className="chip-row">
-              {options.origins.map(([code, n]) => (
-                <Chip
-                  key={code}
-                  {...pick({ origins: toggle(filters.origins, code) })}
-                  active={filters.origins.includes(code)}
-                >
-                  {regionName(code, locale)}{" "}
-                  <span className="chip-count">{n}</span>
-                </Chip>
-              ))}
+            <div className="min-w-0">
+              <p className="eyebrow mb-2.5 flex" id="sort-label">
+                {t("sortLabel")}
+              </p>
+              <div
+                role="group"
+                aria-labelledby="sort-label"
+                className="segmented"
+              >
+                {SORTS.map((s) => (
+                  <Link
+                    key={s}
+                    href={href({ sort: s })}
+                    scroll={false}
+                    onClick={(e) => {
+                      if (!isPlainClick(e)) return;
+                      e.preventDefault();
+                      apply({ ...filters, sort: s });
+                    }}
+                    aria-current={filters.sort === s ? "true" : undefined}
+                    className="segmented-item"
+                  >
+                    {sortLabels[s]}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </fieldset>
-        )}
+          </div>
 
-        {options.services.length > 0 && (
-          <fieldset className="min-w-0">
-            <legend className="eyebrow mb-2.5">{t("services")}</legend>
-            <div className="flex flex-wrap gap-2">
-              {[...shownServices, ...hiddenActive].map((s) => (
-                <Chip
-                  key={s.key}
-                  {...pick({ services: toggle(filters.services, s.key) })}
-                  active={filters.services.includes(s.key)}
-                >
-                  {s.label} <span className="chip-count">{s.n}</span>
-                </Chip>
-              ))}
-              {options.services.length > TOP_SERVICES && (
-                <button
-                  type="button"
-                  onClick={() => setAllServices((v) => !v)}
-                  aria-expanded={allServices}
-                  className="chip chip-ghost"
-                >
-                  {allServices
-                    ? t("fewerServices")
-                    : t("moreServices", { count: options.services.length })}
-                </button>
-              )}
-            </div>
-          </fieldset>
-        )}
+          {options.languages.length > 0 && (
+            <fieldset className="min-w-0">
+              <legend className="eyebrow mb-2.5">{t("language")}</legend>
+              <div className="chip-row">
+                {options.languages.map(([code, n]) => (
+                  <Chip
+                    key={code}
+                    {...pick({ languages: toggle(filters.languages, code) })}
+                    active={filters.languages.includes(code)}
+                  >
+                    {languageName(code, locale)}{" "}
+                    <span className="chip-count">{n}</span>
+                  </Chip>
+                ))}
+              </div>
+            </fieldset>
+          )}
+
+          {options.origins.length > 0 && (
+            <fieldset className="min-w-0">
+              <legend className="eyebrow mb-2.5">{t("origin")}</legend>
+              <div className="chip-row">
+                {options.origins.map(([code, n]) => (
+                  <Chip
+                    key={code}
+                    {...pick({ origins: toggle(filters.origins, code) })}
+                    active={filters.origins.includes(code)}
+                  >
+                    {regionName(code, locale)}{" "}
+                    <span className="chip-count">{n}</span>
+                  </Chip>
+                ))}
+              </div>
+            </fieldset>
+          )}
+
+          {options.services.length > 0 && (
+            <fieldset className="min-w-0">
+              <legend className="eyebrow mb-2.5">{t("services")}</legend>
+              <div className="flex flex-wrap gap-2">
+                {[...shownServices, ...hiddenActive].map((s) => (
+                  <Chip
+                    key={s.key}
+                    {...pick({ services: toggle(filters.services, s.key) })}
+                    active={filters.services.includes(s.key)}
+                  >
+                    {s.label} <span className="chip-count">{s.n}</span>
+                  </Chip>
+                ))}
+                {options.services.length > TOP_SERVICES && (
+                  <button
+                    type="button"
+                    onClick={() => setAllServices((v) => !v)}
+                    aria-expanded={allServices}
+                    className="chip chip-ghost"
+                  >
+                    {allServices
+                      ? t("fewerServices")
+                      : t("moreServices", { count: options.services.length })}
+                  </button>
+                )}
+              </div>
+            </fieldset>
+          )}
+        </div>
       </div>
 
       {/* Handy: Trefferzahl nur, wenn gefiltert wird – sonst bleibt es bei einer Zeile */}
