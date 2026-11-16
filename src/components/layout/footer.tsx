@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
@@ -72,6 +73,26 @@ export async function Footer() {
           <p>
             © {new Date().getFullYear()} Mona Roses · {tf("adultsOnly")}
           </p>
+          {/* Die Plattform hinter Sedcards, Live-Status und Stories */}
+          <a
+            href="https://vyceon.com"
+            target="_blank"
+            rel="noopener"
+            className="group inline-flex items-center gap-2.5 self-start no-underline sm:self-auto"
+            aria-label="Powered by VyceON"
+          >
+            <span className="tracking-[0.28em] text-muted/80 uppercase transition-colors group-hover:text-gold">
+              Powered by
+            </span>
+            <Image
+              src="/logo/vyceon-wordmark.webp"
+              alt="VyceON"
+              width={1181}
+              height={288}
+              sizes="100px"
+              className="h-[22px] w-auto opacity-80 transition-opacity group-hover:opacity-100"
+            />
+          </a>
           <ul className="flex gap-5">
             <li>
               <Link href="/impressum" className="text-muted hover:text-gold">
