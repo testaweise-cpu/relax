@@ -10,7 +10,7 @@ import type { HeroMedia } from "@/lib/media/hero";
  *   eigenes poster – das Standbild liegt darunter, sonst würde es doppelt
  *   geladen und das Video zum späten LCP-Element.
  * - Das Video wird erst nach dem Laden der Seite nachgeladen und nur, wenn
- *   keine reduzierte Bewegung und kein Datensparmodus gewünscht ist.
+ *   keine reduzierte Bewegung, kein Datensparmodus und kein langsames Netz.
  * - Pausiert, wenn der Hero nicht sichtbar oder der Tab im Hintergrund ist.
  */
 export function HeroVideo({ media }: { media: HeroMedia }) {
@@ -19,10 +19,15 @@ export function HeroVideo({ media }: { media: HeroMedia }) {
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const saveData =
-      (navigator as Navigator & { connection?: { saveData?: boolean } })
-        .connection?.saveData === true;
-    if (reduce.matches || saveData) return;
+    const connection = (
+      navigator as Navigator & {
+        connection?: { saveData?: boolean; effectiveType?: string };
+      }
+    ).connection;
+    // Datensparmodus oder langsames Netz (2G/3G): beim Standbild bleiben –
+    // das Video ist Stimmung, kein Inhalt, und kostet rund 0,4 MB.
+    const slow = /(^|-)(2g|3g)$/.test(connection?.effectiveType ?? "");
+    if (reduce.matches || connection?.saveData === true || slow) return;
 
     const start = () => setEnabled(true);
     const idle = window.requestIdleCallback ?? ((cb) => setTimeout(cb, 1200));

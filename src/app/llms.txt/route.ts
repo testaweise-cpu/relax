@@ -94,6 +94,17 @@ export async function GET() {
     "",
     ...upcoming,
     "",
+    profiles.length ? "## Mieterinnen (Sedcards)" : "",
+    "",
+    // Nur, was auf den Sedcards ohnehin öffentlich steht: Name, Sprachen, Adresse
+    ...[...profiles]
+      .sort((a, b) => a.name.localeCompare(b.name, "de"))
+      .map((p) => {
+        const live = presence.some((x) => x.profileId === p.id);
+        const langList = p.languages.map((c) => languageName(c, "de"));
+        return `- [${p.name}](${SITE_URL}/mieterinnen/${p.slug})${langList.length ? ` – spricht ${langList.join(", ")}` : ""}${live ? " – gerade im Haus" : ""}`;
+      }),
+    "",
     "## Seiten",
     "",
     `- [Jetzt da](${SITE_URL}/jetzt-da): wer gerade im Haus ist, laufend aktualisiert`,
