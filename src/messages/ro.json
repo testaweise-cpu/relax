@@ -52,7 +52,9 @@
     "storyOpen": "Vezi story-ul lui {name}",
     "storyHouse": "Mona Roses",
     "toSedcard": "Spre Sedcard",
-    "verified": "Verificată"
+    "verified": "Verificată",
+    "roseReady": "Trandafir strălucitor: disponibilă acum",
+    "roseBusy": "Trandafir estompat: în casă, ocupată acum"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",

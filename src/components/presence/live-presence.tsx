@@ -2,6 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { SedcardTile } from "@/components/ui/sedcard-tile";
+import { RoseLegend } from "@/components/ui/rose-legend";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
@@ -55,6 +56,7 @@ export function LivePresenceGrid({ initial }: Props) {
 
   return (
     <div>
+      <RoseLegend className="mb-4" />
       <p className="mb-6 font-label text-sm text-muted" aria-live="polite">
         <span className="live-dot mr-2 inline-block align-middle" aria-hidden />
         {t("updated", { time: formatClock(new Date(data.updatedAt), locale) })}

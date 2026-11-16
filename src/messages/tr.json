@@ -52,7 +52,9 @@
     "storyOpen": "{name} – hikâyeyi görüntüle",
     "storyHouse": "Mona Roses",
     "toSedcard": "Sedcard’a git",
-    "verified": "Doğrulandı"
+    "verified": "Doğrulandı",
+    "roseReady": "Parlayan gül: şimdi müsait",
+    "roseBusy": "Soluk gül: evde, şu anda meşgul"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 7/24",

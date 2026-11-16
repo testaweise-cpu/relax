@@ -52,7 +52,9 @@
     "storyOpen": "Story von {name} ansehen",
     "storyHouse": "Mona Roses",
     "toSedcard": "Zur Sedcard",
-    "verified": "Geprüft"
+    "verified": "Geprüft",
+    "roseReady": "Leuchtende Rose: jetzt verfügbar",
+    "roseBusy": "Glimmende Rose: im Haus, gerade beschäftigt"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",

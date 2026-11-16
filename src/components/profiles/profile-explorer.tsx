@@ -27,6 +27,7 @@ import {
   type ProfileFilters,
   type Sort,
 } from "@/lib/profiles/explore";
+import { RoseLegend } from "@/components/ui/rose-legend";
 import { ProfileGrid } from "./profile-grid";
 
 /** So viele Services sind ohne „Alle anzeigen“ sichtbar */
@@ -390,7 +391,8 @@ export function ProfileExplorer({
         </div>
       )}
 
-      <div className="mt-6" />
+      <RoseLegend className="mt-4" />
+      <div className="mt-5" />
       <ViewTransition>
         {visible.length > 0 ? (
           <ProfileGrid cards={visible} />

@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { PlaceholderArt } from "./placeholder-art";
 import { ProfileClip } from "./profile-clip";
+import { Badge } from "./badge";
 import { LiveRose } from "./live-rose";
 
 export type SedcardTileProps = {
@@ -92,6 +93,15 @@ export function SedcardTile({
         {video && <ProfileClip src={video} />}
         <div className="sedcard-shade" aria-hidden />
 
+        {/* Oben links nur der Zustand im Haus: leuchtende Rose mit Text */}
+        {isLive && (
+          <div className="absolute top-2.5 left-2.5">
+            <Badge variant={!liveState ? "live" : ready ? "ready" : "live"}>
+              {!liveState ? t("live") : ready ? t("available") : t("onSite")}
+            </Badge>
+          </div>
+        )}
+
         <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5">
           {/* Merkmale ruhig über dem Namen statt Marken auf dem Foto */}
           {(verified || isNew || isBack || video) && (
@@ -118,11 +128,6 @@ export function SedcardTile({
             )}
             {name}
           </p>
-          {isLive && (
-            <span className="sr-only">
-              {liveState ? (ready ? t("available") : t("onSite")) : t("live")}
-            </span>
-          )}
           {languages.length > 0 && (
             <p className="mt-2 truncate font-label text-[0.62rem] tracking-[0.24em] text-ink/85 uppercase">
               <span className="sr-only">{t("languages")}: </span>

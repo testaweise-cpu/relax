@@ -52,7 +52,9 @@
     "storyOpen": "{name} történetének megtekintése",
     "storyHouse": "Mona Roses",
     "toSedcard": "A Sedcardhoz",
-    "verified": "Ellenőrzött"
+    "verified": "Ellenőrzött",
+    "roseReady": "Világító rózsa: most elérhető",
+    "roseBusy": "Halvány rózsa: a házban, éppen foglalt"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",

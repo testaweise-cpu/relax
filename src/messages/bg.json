@@ -52,7 +52,9 @@
     "storyOpen": "Виж историята на {name}",
     "storyHouse": "Mona Roses",
     "toSedcard": "Към Sedcard",
-    "verified": "Проверена"
+    "verified": "Проверена",
+    "roseReady": "Светеща роза: свободна сега",
+    "roseBusy": "Притъмняла роза: в къщата, в момента заета"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
