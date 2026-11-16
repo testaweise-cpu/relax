@@ -61,7 +61,9 @@ function Ring({ group, large }: { group: StoryRingGroup; large?: boolean }) {
           </span>
         </span>
         {/* Auf der Sedcard steht der Name direkt daneben */}
-        <span className="story-ring-name">{large ? "Story" : name}</span>
+        <span className="story-ring-name" translate="no">
+          {large ? "Story" : name}
+        </span>
       </button>
       <StoryViewer
         ref={viewer}

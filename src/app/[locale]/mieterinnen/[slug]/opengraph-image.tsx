@@ -24,7 +24,7 @@ export default async function Image({
     eyebrow: "Mona Roses · Berlin-Steglitz",
     script: profile.name,
     title: profile.languages.map((l) => l.toUpperCase()).join(" · "),
-    badge: here ? (locale === "en" ? "Here now" : "Jetzt da") : undefined,
+    badge: here ? (locale === "de" ? "Jetzt da" : "Here now") : undefined,
     footer: "mona-roses.com",
   });
 }

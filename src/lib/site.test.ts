@@ -19,6 +19,14 @@ describe("URLs und hreflang", () => {
       languages: {
         de: "https://www.mona-roses.com/jobs",
         en: "https://www.mona-roses.com/en/jobs",
+        pl: "https://www.mona-roses.com/pl/jobs",
+        ro: "https://www.mona-roses.com/ro/jobs",
+        bg: "https://www.mona-roses.com/bg/jobs",
+        hu: "https://www.mona-roses.com/hu/jobs",
+        tr: "https://www.mona-roses.com/tr/jobs",
+        es: "https://www.mona-roses.com/es/jobs",
+        fr: "https://www.mona-roses.com/fr/jobs",
+        pt: "https://www.mona-roses.com/pt/jobs",
         "x-default": "https://www.mona-roses.com/jobs",
       },
     });

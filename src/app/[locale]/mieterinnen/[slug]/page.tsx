@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/routing";
+import { toLocale } from "@/i18n/locales";
 import { absoluteUrl, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -86,7 +87,7 @@ export default async function SedcardPage({
   const tc = await getTranslations("common");
   const tp = await getTranslations("profile");
   const settings = await getSettings();
-  const tl = locale === "en" ? "en" : "de";
+  const tl = toLocale(locale);
   const { profile, presence, shifts, now, hasShifts } = detail;
   // Wer sonst gerade im Haus ist (verfügbare zuerst)
   const others = (await getPresentProfiles())
@@ -177,7 +178,10 @@ export default async function SedcardPage({
               )}
             </div>
 
-            <h1 className="profile-name mt-6 text-6xl sm:text-8xl">
+            <h1
+              translate="no"
+              className="profile-name mt-6 text-6xl sm:text-8xl"
+            >
               {profile.name}
             </h1>
 

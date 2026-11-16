@@ -1,14 +1,15 @@
 import { defineRouting } from "next-intl/routing";
 
-export const locales = ["de", "en"] as const;
-export type Locale = (typeof locales)[number];
+import { locales } from "./locales";
+
+export { locales, type Locale } from "./locales";
 
 export const routing = defineRouting({
   locales,
   defaultLocale: "de",
-  // Deutsch ohne Präfix (/preise), Englisch unter /en (/en/preise).
+  // Deutsch ohne Präfix (/preise), alle anderen mit Präfix (/en/preise, /pl/preise …).
   localePrefix: "as-needed",
   // Keine automatische Umleitung nach Browsersprache: "/" ist immer Deutsch,
-  // Englisch wird über den Sprachumschalter gewählt (stabil für SEO und Links).
+  // die anderen Sprachen über die Sprachwahl (stabil für SEO und Links).
   localeDetection: false,
 });

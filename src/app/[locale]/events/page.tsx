@@ -1,4 +1,5 @@
 import { BreadcrumbJsonLd, EventsJsonLd } from "@/components/structured-data";
+import { bcp47 } from "@/i18n/locales";
 import { absoluteUrl, pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -28,7 +29,7 @@ export async function generateMetadata({
 }
 
 function formatDate(date: string, locale: string) {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
+  return new Intl.DateTimeFormat(bcp47(locale), {
     weekday: "long",
     day: "numeric",
     month: "long",
@@ -38,7 +39,7 @@ function formatDate(date: string, locale: string) {
 }
 
 function formatMonth(date: string, locale: string) {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "de-DE", {
+  return new Intl.DateTimeFormat(bcp47(locale), {
     month: "long",
     year: "numeric",
     timeZone: "UTC",

@@ -17,7 +17,7 @@ async function pageImages(): Promise<Record<string, string[]>> {
     h.image ? [abs(h.image)] : [],
   );
   return {
-    "/": [abs("/media/hero-home-poster.webp"), ...homeImages],
+    "/": [abs("/media/hero-salon-poster.jpg"), ...homeImages],
     "/galerie": galleryImages.slice(0, 20),
   };
 }

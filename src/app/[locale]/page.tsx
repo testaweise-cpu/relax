@@ -25,6 +25,7 @@ import { Logo } from "@/components/ui/logo";
 import { Section } from "@/components/ui/section";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { bcp47 } from "@/i18n/locales";
 import { getDataSource, getPresentProfiles, getStoryGroups } from "@/lib/data";
 import { toPresenceResponse } from "@/lib/data/presence-map";
 import {
@@ -198,7 +199,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                   {pick(nextEvent.title, l)}
                 </p>
                 <p className="mt-2 font-label text-xs tracking-[0.2em] text-gold uppercase">
-                  {new Intl.DateTimeFormat(l === "en" ? "en-GB" : "de-DE", {
+                  {new Intl.DateTimeFormat(bcp47(l), {
                     day: "numeric",
                     month: "long",
                     timeZone: "UTC",

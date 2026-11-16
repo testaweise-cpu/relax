@@ -14,6 +14,7 @@ import { StickyCall } from "@/components/layout/sticky-call";
 import { GEO } from "@/components/structured-data";
 import { clientMessages } from "@/i18n/client-messages";
 import { routing } from "@/i18n/routing";
+import { LOCALE_META, toLocale } from "@/i18n/locales";
 import { SITE_URL } from "@/lib/site";
 import { AGE_GATE_HEAD_SCRIPT } from "@/lib/age-gate";
 import { fontVariables } from "../fonts";
@@ -34,7 +35,7 @@ export async function generateMetadata({
     openGraph: {
       type: "website",
       siteName: "Mona Roses",
-      locale: locale === "de" ? "de_DE" : "en_GB",
+      locale: LOCALE_META[toLocale(locale)].og,
     },
     title: { default: t("defaultTitle"), template: `%s · ${t("siteName")}` },
     description: t("defaultDescription"),
@@ -70,7 +71,11 @@ export default async function LocaleLayout({
   const messages = clientMessages(await getMessages());
 
   return (
-    <html lang={locale} className={fontVariables} suppressHydrationWarning>
+    <html
+      lang={LOCALE_META[toLocale(locale)].bcp47}
+      className={fontVariables}
+      suppressHydrationWarning
+    >
       <head>
         {/* Altersabfrage: Cookie vor dem ersten Malen prüfen (kein Aufblitzen) */}
         <script dangerouslySetInnerHTML={{ __html: AGE_GATE_HEAD_SCRIPT }} />

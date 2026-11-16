@@ -13,7 +13,7 @@ export default async function Image({
   return ogImage({
     eyebrow: "Berlin-Steglitz · 24/7",
     title:
-      locale === "en"
+      locale !== "de"
         ? "Bar · Table dance · Rooms"
         : "Bar · Tabledance · Zimmer",
     footer: "mona-roses.com",

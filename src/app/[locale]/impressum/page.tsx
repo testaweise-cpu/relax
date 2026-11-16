@@ -1,10 +1,11 @@
+import { Link } from "@/i18n/navigation";
 import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { RichText } from "@/components/rich-text";
 import { Section } from "@/components/ui/section";
 import type { Locale } from "@/i18n/routing";
-import { getImprint, pickRich } from "@/lib/content";
+import { legalNode } from "@/lib/content";
 
 export async function generateMetadata({
   params,
@@ -25,10 +26,17 @@ export default async function ImprintPage({
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("legal");
-  const imprint = await getImprint();
   return (
     <Section level={1} title={t("imprint")}>
-      <RichText node={pickRich(imprint.body, locale as Locale)} />
+      {locale !== "de" && (
+        <p className="mb-8 border-l border-gold/60 pl-4 text-sm text-muted">
+          {t("bindingNote")}{" "}
+          <Link href="/impressum" locale="de" hrefLang="de">
+            {t("germanVersion")}
+          </Link>
+        </p>
+      )}
+      <RichText node={await legalNode("imprint", locale as Locale)} />
     </Section>
   );
 }

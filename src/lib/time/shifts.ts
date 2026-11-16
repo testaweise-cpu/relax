@@ -5,8 +5,9 @@ import {
   startOfBerlinDay,
   TIME_ZONE,
 } from "./berlin";
+import { LOCALE_META, type Locale } from "@/i18n/locales";
 
-export type TimeLocale = "de" | "en";
+export type TimeLocale = Locale;
 
 /** Minimale Schicht-Form, damit die Zeitlogik unabhängig von der Datenschicht bleibt. */
 export type ShiftLike = { start: string; end: string };
@@ -29,7 +30,8 @@ export function formatClock(
 ): string {
   const p = berlinParts(date);
   const hour = asEnd && p.hour === 0 && p.minute === 0 ? 24 : p.hour;
-  if (locale === "en") return `${hour}:${String(p.minute).padStart(2, "0")}`;
+  // Nur im Deutschen ohne Minuten ("16 Uhr"); sonst immer 16:00
+  if (locale !== "de") return `${hour}:${String(p.minute).padStart(2, "0")}`;
   return p.minute === 0
     ? String(hour)
     : `${hour}:${String(p.minute).padStart(2, "0")}`;
@@ -40,58 +42,180 @@ export function formatRange(shift: ShiftLike, locale: TimeLocale): string {
   return `${formatClock(toDate(shift.start), locale)}–${formatClock(toDate(shift.end), locale, { asEnd: true })}`;
 }
 
-const dateFormatters = {
-  de: new Intl.DateTimeFormat("de-DE", {
-    timeZone: TIME_ZONE,
-    day: "2-digit",
-    month: "2-digit",
-  }),
-  en: new Intl.DateTimeFormat("en-GB", {
-    timeZone: TIME_ZONE,
-    day: "numeric",
-    month: "short",
-  }),
-};
-const weekdayFormatters = {
-  de: new Intl.DateTimeFormat("de-DE", {
-    timeZone: TIME_ZONE,
-    weekday: "short",
-  }),
-  en: new Intl.DateTimeFormat("en-GB", {
-    timeZone: TIME_ZONE,
-    weekday: "short",
-  }),
-};
+const dateFormatters = new Map<TimeLocale, Intl.DateTimeFormat>();
+const weekdayFormatters = new Map<TimeLocale, Intl.DateTimeFormat>();
+function dateFormatter(locale: TimeLocale) {
+  let f = dateFormatters.get(locale);
+  if (!f) {
+    f = new Intl.DateTimeFormat(
+      LOCALE_META[locale].bcp47,
+      locale === "de"
+        ? { timeZone: TIME_ZONE, day: "2-digit", month: "2-digit" }
+        : { timeZone: TIME_ZONE, day: "numeric", month: "short" },
+    );
+    dateFormatters.set(locale, f);
+  }
+  return f;
+}
+function weekdayFormatter(locale: TimeLocale) {
+  let f = weekdayFormatters.get(locale);
+  if (!f) {
+    f = new Intl.DateTimeFormat(LOCALE_META[locale].bcp47, {
+      timeZone: TIME_ZONE,
+      weekday: "short",
+    });
+    weekdayFormatters.set(locale, f);
+  }
+  return f;
+}
 
 /** "24.09." bzw. "24 Sep" */
 export function formatShortDate(date: Date, locale: TimeLocale): string {
-  const s = dateFormatters[locale].format(date);
+  const s = dateFormatter(locale).format(date);
   return locale === "de" ? `${s}.`.replace("..", ".") : s;
 }
 
 /** "Mo" bzw. "Mon" */
 export function formatWeekday(date: Date, locale: TimeLocale): string {
-  return weekdayFormatters[locale].format(date).replace(".", "");
+  return weekdayFormatter(locale).format(date).replace(".", "");
 }
 
-const T = {
+type Phrases = {
+  today: string;
+  tomorrow: string;
+  until: (t: string) => string;
+  range: (r: string) => string;
+  from: (t: string) => string;
+  fromDate: (d: string) => string;
+  since: (t: string) => string;
+  busy: string;
+  available: string;
+  inHouse: string;
+};
+
+/** Kurze Zeitangaben je Sprache (Mieterinnen sind Frauen: weibliche Formen). */
+const T: Record<TimeLocale, Phrases> = {
   de: {
     today: "heute",
     tomorrow: "morgen",
-    until: (t: string) => `bis ${t} Uhr`,
-    range: (r: string) => `${r} Uhr`,
-    from: (t: string) => `ab ${t} Uhr`,
-    fromDate: (d: string) => `ab ${d}`,
+    until: (t) => `bis ${t} Uhr`,
+    range: (r) => `${r} Uhr`,
+    from: (t) => `ab ${t} Uhr`,
+    fromDate: (d) => `ab ${d}`,
+    since: (t) => `seit ${t} Uhr`,
+    busy: "im Haus · gerade beschäftigt",
+    available: "jetzt verfügbar",
+    inHouse: "jetzt im Haus",
   },
   en: {
     today: "today",
     tomorrow: "tomorrow",
-    until: (t: string) => `until ${t}`,
-    range: (r: string) => r,
-    from: (t: string) => `from ${t}`,
-    fromDate: (d: string) => `from ${d}`,
+    until: (t) => `until ${t}`,
+    range: (r) => r,
+    from: (t) => `from ${t}`,
+    fromDate: (d) => `from ${d}`,
+    since: (t) => `since ${t}`,
+    busy: "in the house · busy",
+    available: "available now",
+    inHouse: "in the house now",
   },
-} as const;
+  pl: {
+    today: "dziś",
+    tomorrow: "jutro",
+    until: (t) => `do ${t}`,
+    range: (r) => r,
+    from: (t) => `od ${t}`,
+    fromDate: (d) => `od ${d}`,
+    since: (t) => `od ${t}`,
+    busy: "na miejscu · zajęta",
+    available: "dostępna teraz",
+    inHouse: "teraz na miejscu",
+  },
+  ro: {
+    today: "azi",
+    tomorrow: "mâine",
+    until: (t) => `până la ${t}`,
+    range: (r) => r,
+    from: (t) => `de la ${t}`,
+    fromDate: (d) => `din ${d}`,
+    since: (t) => `de la ${t}`,
+    busy: "în casă · ocupată",
+    available: "disponibilă acum",
+    inHouse: "acum în casă",
+  },
+  bg: {
+    today: "днес",
+    tomorrow: "утре",
+    until: (t) => `до ${t} ч.`,
+    range: (r) => `${r} ч.`,
+    from: (t) => `от ${t} ч.`,
+    fromDate: (d) => `от ${d}`,
+    since: (t) => `от ${t} ч.`,
+    busy: "в къщата · заета",
+    available: "свободна сега",
+    inHouse: "сега в къщата",
+  },
+  hu: {
+    today: "ma",
+    tomorrow: "holnap",
+    until: (t) => `${t} óráig`,
+    range: (r) => r,
+    from: (t) => `${t} órától`,
+    fromDate: (d) => `kezdés: ${d}`,
+    since: (t) => `${t} óra óta`,
+    busy: "a házban · foglalt",
+    available: "most elérhető",
+    inHouse: "most a házban",
+  },
+  tr: {
+    today: "bugün",
+    tomorrow: "yarın",
+    until: (t) => `bitiş ${t}`,
+    range: (r) => r,
+    from: (t) => `başlangıç ${t}`,
+    fromDate: (d) => `${d} itibarıyla`,
+    since: (t) => `başlangıç ${t}`,
+    busy: "evde · meşgul",
+    available: "şimdi müsait",
+    inHouse: "şimdi evde",
+  },
+  es: {
+    today: "hoy",
+    tomorrow: "mañana",
+    until: (t) => `hasta las ${t}`,
+    range: (r) => r,
+    from: (t) => `desde las ${t}`,
+    fromDate: (d) => `desde el ${d}`,
+    since: (t) => `desde las ${t}`,
+    busy: "en casa · ocupada",
+    available: "disponible ahora",
+    inHouse: "ahora en casa",
+  },
+  fr: {
+    today: "aujourd’hui",
+    tomorrow: "demain",
+    until: (t) => `jusqu’à ${t}`,
+    range: (r) => r,
+    from: (t) => `à partir de ${t}`,
+    fromDate: (d) => `à partir du ${d}`,
+    since: (t) => `depuis ${t}`,
+    busy: "sur place · occupée",
+    available: "disponible maintenant",
+    inHouse: "sur place maintenant",
+  },
+  pt: {
+    today: "hoje",
+    tomorrow: "amanhã",
+    until: (t) => `até ${t}`,
+    range: (r) => r,
+    from: (t) => `a partir das ${t}`,
+    fromDate: (d) => `a partir de ${d}`,
+    since: (t) => `desde ${t}`,
+    busy: "na casa · ocupada",
+    available: "disponível agora",
+    inHouse: "na casa agora",
+  },
+};
 
 /**
  * Kurzlabel für eine Schicht relativ zu `now`:
@@ -220,19 +344,14 @@ export function presenceLabel(
   },
   locale: TimeLocale,
 ): string {
-  if (presence.state === "on_site" && !presence.until)
-    return locale === "de"
-      ? "im Haus · gerade beschäftigt"
-      : "in the house · busy";
-  if (presence.until) {
-    const t = formatClock(toDate(presence.until), locale, { asEnd: true });
-    return locale === "de" ? `bis ${t} Uhr` : `until ${t}`;
-  }
-  if (presence.since) {
-    const t = formatClock(toDate(presence.since), locale);
-    return locale === "de" ? `seit ${t} Uhr` : `since ${t}`;
-  }
-  if (presence.state === "ready")
-    return locale === "de" ? "jetzt verfügbar" : "available now";
-  return locale === "de" ? "jetzt im Haus" : "in the house now";
+  const t = T[locale];
+  if (presence.state === "on_site" && !presence.until) return t.busy;
+  if (presence.until)
+    return t.until(
+      formatClock(toDate(presence.until), locale, { asEnd: true }),
+    );
+  if (presence.since)
+    return t.since(formatClock(toDate(presence.since), locale));
+  if (presence.state === "ready") return t.available;
+  return t.inHouse;
 }

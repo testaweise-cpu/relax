@@ -244,7 +244,7 @@ export function filterOptions(cards: ExplorerCard[], locale = "de") {
       return {
         key,
         n,
-        label: (locale === "en" && s.en) || s.de,
+        label: (locale !== "de" && s.en) || s.de,
       };
     }),
     live: cards.filter((c) => c.isLive).length,

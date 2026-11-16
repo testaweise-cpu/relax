@@ -1,3 +1,4 @@
+import { bcp47 } from "@/i18n/locales";
 import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/cn";
 
@@ -13,7 +14,7 @@ export async function PriceTable({
   compact?: boolean;
 }) {
   const t = await getTranslations("prices");
-  const money = new Intl.NumberFormat(locale === "en" ? "en-GB" : "de-DE", {
+  const money = new Intl.NumberFormat(bcp47(locale), {
     style: "currency",
     currency: "EUR",
     maximumFractionDigits: 0,

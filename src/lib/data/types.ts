@@ -144,5 +144,6 @@ export function parseList<T>(
 
 /** Text in der gewünschten Sprache; fehlt Englisch, gilt Deutsch. */
 export function localize(text: LocalizedText, locale: string): string {
-  return (locale === "en" && text.en) || text.de;
+  // VyceON liefert Deutsch und Englisch; für alle anderen Sprachen Englisch
+  return (locale !== "de" && text.en) || text.de;
 }

@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/routing";
+import { toLocale } from "@/i18n/locales";
 import { pageMetadata } from "@/lib/site";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -37,7 +38,7 @@ export default async function ProfilesPage({
   setRequestLocale(locale);
   const t = await getTranslations("profiles");
   const filters = parseFilters(await searchParams);
-  const { cards } = await getProfileCards(locale === "en" ? "en" : "de");
+  const { cards } = await getProfileCards(toLocale(locale));
 
   return (
     <>

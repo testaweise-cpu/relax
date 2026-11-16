@@ -300,7 +300,9 @@
     "imprint": "Legal notice",
     "privacy": "Privacy policy",
     "imprintDescription": "Legal notice of Mona Roses, room rental with bar and table dance in Berlin-Steglitz: provider, contact and responsible persons.",
-    "privacyDescription": "Privacy policy of Mona Roses: which data we process, why, for how long – and what rights you have."
+    "privacyDescription": "Privacy policy of Mona Roses: which data we process, why, for how long – and what rights you have.",
+    "bindingNote": "Courtesy translation – only the German version is legally binding.",
+    "germanVersion": "German version"
   },
   "ageGate": {
     "eyebrow": "Adults {age}+ only",

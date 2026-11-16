@@ -5,6 +5,7 @@ import { SedcardTile } from "@/components/ui/sedcard-tile";
 import { ArrowRightIcon } from "@/components/ui/icons";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
+import { toLocale, type Locale } from "@/i18n/locales";
 import type { PresenceResponse, PresentEntry } from "@/lib/data/presence-dto";
 import { formatClock, presenceLabel } from "@/lib/time/shifts";
 import { usePresence } from "./use-presence";
@@ -18,7 +19,7 @@ function Tile({
   sizes,
 }: {
   p: PresentEntry;
-  locale: "de" | "en";
+  locale: Locale;
   priority?: boolean;
   sizes?: string;
 }) {
@@ -45,7 +46,7 @@ const GRID = "grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4";
 /** Raster aller Anwesenden – Seite /jetzt-da, getrennt nach Zustand. */
 export function LivePresenceGrid({ initial }: Props) {
   const t = useTranslations("now");
-  const locale = useLocale() === "en" ? "en" : "de";
+  const locale = toLocale(useLocale());
   const { data, stale } = usePresence(initial);
   const hasStates = data.present.some((p) => p.state);
   const ready = data.present.filter((p) => p.state !== "on_site");
@@ -150,7 +151,7 @@ export function NowStrip({
   className,
 }: Props & { className?: string }) {
   const t = useTranslations("now");
-  const locale = useLocale() === "en" ? "en" : "de";
+  const locale = toLocale(useLocale());
   const { data } = usePresence(initial);
 
   return (

@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
+import { LOCALE_META, locales } from "@/i18n/locales";
 import { getPrices, getSettings, pick } from "@/lib/content";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 
@@ -41,12 +42,12 @@ export async function LocalBusinessJsonLd({ locale }: { locale: Locale }) {
     alternateName: ["Mona Roses Bordell", "Bordell Mona Roses Berlin"],
     foundingDate: "1993",
     keywords:
-      locale === "en"
+      locale !== "de"
         ? "brothel Berlin, brothel Berlin-Steglitz, table dance, room rental"
         : "Bordell Berlin, Bordell Berlin-Steglitz, Puff Berlin, Tabledance, Zimmervermietung",
     url: absoluteUrl(locale, "/"),
     image: [
-      `${SITE_URL}/media/hero-home-poster.jpg`,
+      `${SITE_URL}/media/hero-salon-poster.jpg`,
       `${SITE_URL}/images/home/bar-lounge.jpg`,
       `${SITE_URL}/images/home/zimmer.jpg`,
     ],
@@ -100,7 +101,7 @@ export async function LocalBusinessJsonLd({ locale }: { locale: Locale }) {
       "@type": "ContactPoint",
       telephone: s.phoneE164,
       contactType: "customer service",
-      availableLanguage: ["de", "en"],
+      availableLanguage: [...locales],
       hoursAvailable: {
         "@type": "OpeningHoursSpecification",
         dayOfWeek: [
@@ -153,7 +154,7 @@ export function WebSiteJsonLd({ locale }: { locale: Locale }) {
         "@id": `${SITE_URL}/#website`,
         name: "Mona Roses",
         url: absoluteUrl(locale, "/"),
-        inLanguage: locale === "en" ? "en" : "de",
+        inLanguage: LOCALE_META[locale].bcp47,
         publisher: { "@id": `${SITE_URL}/#business` },
       }}
     />

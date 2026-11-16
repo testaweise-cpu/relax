@@ -125,7 +125,7 @@ export function MobileMenu({ phoneHref }: { phoneHref: string }) {
               <PhoneIcon />
               {tc("call")}
             </a>
-            <LanguageSwitch />
+            <LanguageSwitch direction="up" />
           </div>
         </div>
       </dialog>
