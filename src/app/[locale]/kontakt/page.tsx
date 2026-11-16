@@ -33,13 +33,15 @@ function Card({
   icon,
   title,
   children,
+  className,
 }: {
   icon: ReactNode;
   title: string;
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="panel p-5 sm:p-6">
+    <div className={`panel panel-ornate p-7 sm:p-8 ${className ?? ""}`}>
       <h2 className="flex items-center gap-3 font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
         <span className="text-gold">{icon}</span>
         {title}
@@ -113,19 +115,28 @@ export default async function ContactPage({
               <PhoneIcon />
               {tc("call")}
             </ButtonAnchor>
+            {/* Öffnungszeiten gehören zum Anruf: wann jemand abnimmt */}
+            <div className="mt-6 border-t border-line pt-5">
+              <h3 className="flex items-center gap-3 font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
+                <ClockIcon />
+                {t("hours")}
+              </h3>
+              <p className="mt-3">{pick(s.openingHours, l)}</p>
+            </div>
           </Card>
-          <Card icon={<ClockIcon />} title={t("hours")}>
-            <p>{pick(s.openingHours, l)}</p>
-          </Card>
-          <Card icon={<MapPinIcon />} title={t("directions")}>
+          <Card
+            icon={<MapPinIcon />}
+            title={t("directions")}
+            className="md:col-span-2"
+          >
             <Paragraphs
               text={pick(s.directions, l)}
-              className="text-base text-muted"
+              className="text-base text-muted lg:columns-2 lg:gap-12 [&>p]:break-inside-avoid"
             />
           </Card>
         </div>
         {/* Die drei Dinge, die Gäste vor dem ersten Besuch wissen wollen */}
-        <div className="panel mt-4 p-5 sm:p-6">
+        <div className="panel panel-ornate mt-4 p-7 sm:p-8">
           <h2 className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
             {t("factsTitle")}
           </h2>
@@ -155,7 +166,7 @@ export default async function ContactPage({
             </div>
           </dl>
         </div>
-        <div className="panel mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 p-6">
+        <div className="panel panel-ornate mt-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-4 p-7 sm:p-8">
           <div>
             <p className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
               {t("jobs")}

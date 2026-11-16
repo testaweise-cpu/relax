@@ -1496,3 +1496,31 @@ main section header > h2 {
     transparent
   );
 }
+
+/* Derselbe Rahmen über einem Bild (Galerie): Linie und Raute liegen auf dem Foto */
+.frame-ornate::before,
+.frame-ornate::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+.frame-ornate::before {
+  inset: 0.55rem;
+  border: 1px solid color-mix(in oklab, var(--gold) 38%, transparent);
+  border-radius: calc(var(--radius-lg) - 0.3rem);
+  transition: border-color 400ms ease;
+}
+.frame-ornate::after {
+  top: 0.55rem;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid color-mix(in oklab, var(--gold) 75%, transparent);
+  background: var(--night);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.frame-ornate:hover::before,
+.frame-ornate:focus-visible::before {
+  border-color: color-mix(in oklab, var(--gold) 70%, transparent);
+}

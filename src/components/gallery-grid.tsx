@@ -38,7 +38,7 @@ export function GalleryGrid({
               <button
                 type="button"
                 onClick={() => box.current?.open(i)}
-                className="group relative block h-full w-full cursor-zoom-in overflow-hidden rounded-[var(--radius-lg)] border border-white/10 transition-[border-color] hover:border-gold/60"
+                className="frame-ornate group relative block h-full w-full cursor-zoom-in overflow-hidden rounded-[var(--radius-lg)] border border-white/10 transition-[border-color] hover:border-gold/60"
                 aria-label={t("openImage", { n: i + 1, total: items.length })}
               >
                 <Image
