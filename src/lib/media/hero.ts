@@ -19,15 +19,19 @@ export const HERO_VIDEO = {
   sources: [{ src: "/media/hero-salon.mp4", type: "video/mp4" }],
 } as const;
 
-/** Kopfbereich von Jetzt da, Events und Jobs: tanzende Silhouetten vor Rotlicht. */
+/**
+ * Kopfbereich von Jetzt da, Events und Jobs: eine elegant tanzende Frau als
+ * Silhouette vor einer roten LED-Wand, im Stil des früheren Stockvideos
+ * (Higgsfield, 16.11.2026: gpt_image_2_6 + kling3_0, gleiches Anfangs- und
+ * Endbild für die Schleife). 10 s, 1280 px, H.264 ohne Ton (rund 0,4 MB).
+ */
 export const PAGE_VIDEO = {
-  poster: "/media/seiten-tanz-poster.webp",
-  posterWidth: 854,
-  posterHeight: 480,
-  sources: [
-    { src: "/media/seiten-tanz.webm", type: "video/webm" },
-    { src: "/media/seiten-tanz.mp4", type: "video/mp4" },
-  ],
+  poster: "/media/tanz-silhouette-poster.webp",
+  posterWidth: 1280,
+  posterHeight: 720,
+  // Tänzerin rechts der Mitte; im flachen Kopf am Desktop Kopf und Arm zeigen
+  position: "62% 22%",
+  sources: [{ src: "/media/tanz-silhouette.mp4", type: "video/mp4" }],
 } as const;
 
 export type HeroMedia = {
