@@ -1448,3 +1448,51 @@ main section header > h2 {
     0 0 12px color-mix(in oklab, var(--red) 55%, transparent)
   );
 }
+
+/* Verzierte Karte wie der Rahmen der Startseite: eine innere
+   Champagner-Haarlinie mit einer kleinen Raute oben in der Mitte */
+.panel-ornate {
+  isolation: isolate;
+}
+.panel-ornate::before {
+  content: "";
+  position: absolute;
+  inset: 0.55rem;
+  z-index: -1;
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--gold) 26%, transparent);
+  border-radius: calc(var(--radius-lg) - 0.3rem);
+}
+.panel-ornate::after {
+  content: "";
+  position: absolute;
+  top: 0.55rem;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  pointer-events: none;
+  border: 1px solid color-mix(in oklab, var(--gold) 70%, transparent);
+  background: var(--panel);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+/* Überschrift einer Karte: Antiqua in Champagner, Haarlinie läuft aus */
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  line-height: 1.15;
+  color: var(--gold);
+}
+.card-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--gold) 45%, transparent),
+    transparent
+  );
+}

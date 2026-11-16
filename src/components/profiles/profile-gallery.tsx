@@ -47,15 +47,16 @@ export function ProfileGallery({
   if (total === 0) return null;
 
   return (
-    <div>
-      <div className="profile-stage relative">
+    // Am Desktop füllt die Galerie die Höhe ihrer (mitlaufenden) Spalte
+    <div className="lg:flex lg:h-full lg:flex-col">
+      <div className="profile-stage relative lg:min-h-0 lg:flex-1">
         <div
           ref={track}
           onScroll={(e) => {
             const el = e.currentTarget;
             setIndex(Math.round(el.scrollLeft / Math.max(1, el.clientWidth)));
           }}
-          className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-[var(--radius-lg)] border border-line/80 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.95)]"
+          className="flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto rounded-[var(--radius-lg)] border border-line/80 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.95)] lg:h-full"
           aria-label={t("gallery", { name })}
           role="region"
           tabIndex={0}
@@ -77,7 +78,7 @@ export function ProfileGallery({
                 key={img.url}
                 type="button"
                 onClick={() => story.current?.open(i)}
-                className="relative aspect-[3/4] w-full shrink-0 cursor-zoom-in snap-center"
+                className="relative aspect-[3/4] w-full shrink-0 cursor-zoom-in snap-center lg:aspect-auto lg:h-full"
                 aria-label={t("openImage", { n: i + 1, total })}
               >
                 {i === 0 ? (
@@ -137,7 +138,7 @@ export function ProfileGallery({
       </div>
 
       {total > 1 && (
-        <div className="mt-3 flex [scrollbar-width:none] gap-2 overflow-x-auto">
+        <div className="mt-3 flex shrink-0 [scrollbar-width:none] gap-2 overflow-x-auto">
           {images.map((img, i) => (
             <button
               key={img.url}

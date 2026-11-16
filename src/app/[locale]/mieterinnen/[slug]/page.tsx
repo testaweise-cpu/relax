@@ -136,8 +136,9 @@ export default async function SedcardPage({
         {/* Links: Bilder, sie bleiben beim Lesen stehen (nur wenn das Fenster
             hoch genug ist). Rechts: Name, Beschreibung, Eckdaten.
             Auf dem Handy eine Spalte in derselben Reihenfolge. */}
-        <div className="max-lg:contents lg:self-start lg:[@media(min-height:860px)]:sticky lg:[@media(min-height:860px)]:top-24">
-          <div className="max-lg:order-1">
+        {/* Desktop: Bilder füllen die Fensterhöhe und laufen beim Lesen mit */}
+        <div className="max-lg:contents lg:sticky lg:top-24 lg:h-[max(30rem,calc(100dvh-7.5rem))] lg:self-start">
+          <div className="max-lg:order-1 lg:h-full">
             <ProfileGallery
               images={profile.images}
               video={profile.video}
@@ -217,10 +218,10 @@ export default async function SedcardPage({
 
           {profile.personalNote && (
             <section
-              className="panel p-6 max-lg:order-3 sm:p-7 lg:mt-10"
+              className="panel panel-ornate p-7 max-lg:order-3 sm:p-9 lg:mt-10"
               aria-labelledby="about"
             >
-              <h2 id="about" className="text-2xl text-ink">
+              <h2 id="about" className="card-title">
                 {t("about")}
               </h2>
               <p className="mt-4 text-lg leading-relaxed whitespace-pre-line text-ink">
@@ -235,8 +236,11 @@ export default async function SedcardPage({
                 hasShifts ? "grid gap-6 sm:grid-cols-2 lg:mt-6" : "lg:mt-6"
               }
             >
-              <section aria-labelledby="facts" className="panel p-6 sm:p-7">
-                <h2 id="facts" className="text-2xl text-ink">
+              <section
+                aria-labelledby="facts"
+                className="panel panel-ornate p-7 sm:p-9"
+              >
+                <h2 id="facts" className="card-title">
                   {t("facts")}
                 </h2>
                 <dl className="mt-4 text-sm">
@@ -299,8 +303,11 @@ export default async function SedcardPage({
               </section>
 
               {hasShifts && (
-                <section aria-labelledby="week" className="panel p-6 sm:p-7">
-                  <h2 id="week" className="text-2xl text-ink">
+                <section
+                  aria-labelledby="week"
+                  className="panel panel-ornate p-7 sm:p-9"
+                >
+                  <h2 id="week" className="card-title">
                     {t("week")}
                   </h2>
                   <div className="mt-4">
@@ -312,10 +319,10 @@ export default async function SedcardPage({
 
             {profile.services.length > 0 && (
               <section
-                className="panel mt-6 p-6 sm:p-7"
+                className="panel panel-ornate mt-6 p-7 sm:p-9"
                 aria-labelledby="services"
               >
-                <h2 id="services" className="text-2xl text-ink">
+                <h2 id="services" className="card-title">
                   {t("services")}
                 </h2>
                 <ul className="mt-4 flex flex-wrap gap-2">
