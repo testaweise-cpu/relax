@@ -77,7 +77,7 @@ export default async function JobsPage({
             />
             <ApplicationForm minAge={jobs.minAge} />
           </div>
-          <aside className="panel h-fit p-6">
+          <aside className="panel h-fit p-6 lg:sticky lg:top-28">
             <p className="text-muted">{t("contactDirect")}</p>
             {s.jobsPhone && s.jobsPhoneE164 && (
               <p className="mt-3">
@@ -98,24 +98,32 @@ export default async function JobsPage({
         </div>
       </Section>
 
-      <Section title={t("faqTitle")}>
-        <div className="max-w-3xl">
+      {/* wie auf der Preisseite: Überschrift links, Fragen rechts */}
+      <Section>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+          <div className="lg:sticky lg:top-28 lg:self-start">
+            <h2 className="text-5xl text-ink sm:text-[4.2rem]">
+              {t("faqTitle")}
+            </h2>
+            {jobs.resources.length > 0 && (
+              <div className="mt-10">
+                <h3 className="font-label text-[0.7rem] font-medium tracking-[0.3em] text-gold uppercase">
+                  {t("resourcesTitle")}
+                </h3>
+                <ul className="mt-4 space-y-2">
+                  {jobs.resources.map((r) => (
+                    <li key={r.url}>
+                      <a href={r.url} target="_blank" rel="noopener noreferrer">
+                        {pick(r.label, l)} ↗
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
           <Faq items={faq} locale={l} />
         </div>
-        {jobs.resources.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl text-ink">{t("resourcesTitle")}</h2>
-            <ul className="mt-5 space-y-2">
-              {jobs.resources.map((r) => (
-                <li key={r.url}>
-                  <a href={r.url} target="_blank" rel="noopener noreferrer">
-                    {pick(r.label, l)} ↗
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </Section>
     </>
   );

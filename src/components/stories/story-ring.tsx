@@ -10,6 +10,7 @@ import {
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
 import { setScrollLock } from "@/lib/scroll-lock";
+import { ROSE_PATH, ROSE_VIEWBOX } from "@/assets/rose-mark";
 
 export type StoryRingGroup = {
   slug: string | null;
@@ -37,7 +38,16 @@ function Ring({ group, large }: { group: StoryRingGroup; large?: boolean }) {
       >
         <span className={cn("story-ring", large && "story-ring-lg")}>
           <span className="story-ring-inner">
-            {group.avatar ? (
+            {/* Stories des Hauses: die Rose aus dem Logo statt eines Fotoausschnitts */}
+            {!group.slug ? (
+              <span className="story-ring-house" aria-hidden>
+                <svg
+                  viewBox={`0 0 ${ROSE_VIEWBOX.width} ${ROSE_VIEWBOX.height}`}
+                >
+                  <path fill="currentColor" fillRule="evenodd" d={ROSE_PATH} />
+                </svg>
+              </span>
+            ) : group.avatar ? (
               <Image
                 src={group.avatar.url}
                 alt=""
@@ -92,17 +102,19 @@ export function StoryRail({
   if (groups.length === 0) return null;
   return (
     <section aria-label={t("stories")} className={cn("story-rail", className)}>
-      <div className="container-page">
-        <p className="eyebrow">{t("stories")}</p>
-        <p className="mt-2 text-sm text-muted">{t("storiesLead")}</p>
+      <div className="container-page story-rail-inner">
+        <div className="story-rail-label">
+          <p className="eyebrow">{t("stories")}</p>
+          <p className="mt-2 text-sm text-muted">{t("storiesLead")}</p>
+        </div>
+        <ul className="story-rail-list">
+          {groups.map((g) => (
+            <li key={g.slug ?? "haus"}>
+              <Ring group={g} />
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="container-page story-rail-list">
-        {groups.map((g) => (
-          <li key={g.slug ?? "haus"}>
-            <Ring group={g} />
-          </li>
-        ))}
-      </ul>
     </section>
   );
 }

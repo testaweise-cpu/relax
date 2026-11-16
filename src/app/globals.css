@@ -1332,7 +1332,24 @@ main section header > h2 {
 
 /* Stories: runde Bilder mit einem Ring, der von Rot nach Champagner läuft */
 .story-rail {
-  padding-block: 3rem 0;
+  padding-block: 2.5rem 0;
+}
+/* Beschriftung links, Ringe rechts daneben; auf dem Handy untereinander */
+.story-rail-inner {
+  display: grid;
+  gap: 1.25rem;
+}
+@media (min-width: 768px) {
+  .story-rail-inner {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    align-items: center;
+    gap: 2.5rem;
+  }
+  .story-rail-label {
+    border-right: 1px solid var(--line);
+    padding-block: 0.75rem;
+    padding-right: 2rem;
+  }
 }
 .story-rail-flush {
   padding-block: 0;
@@ -1343,7 +1360,6 @@ main section header > h2 {
 .story-rail-list {
   display: flex;
   gap: 1.25rem;
-  margin-top: 1.5rem;
   overflow-x: auto;
   scrollbar-width: none;
   padding-bottom: 0.5rem;
@@ -1409,5 +1425,26 @@ main section header > h2 {
     circle at 35% 30%,
     color-mix(in oklab, var(--red) 85%, white 6%),
     color-mix(in oklab, var(--red) 40%, var(--night)) 72%
+  );
+}
+
+/* Stories des Hauses: Rose auf warmem Schwarz */
+.story-ring-house {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(
+    circle at 50% 40%,
+    color-mix(in oklab, var(--red) 22%, var(--night-2)),
+    var(--night) 75%
+  );
+  color: var(--red);
+}
+.story-ring-house svg {
+  width: 62%;
+  height: auto;
+  filter: drop-shadow(
+    0 0 12px color-mix(in oklab, var(--red) 55%, transparent)
   );
 }
