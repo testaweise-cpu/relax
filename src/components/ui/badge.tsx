@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { LiveRose } from "./live-rose";
 
 type BadgeVariant = "live" | "ready" | "new" | "back" | "neutral";
 
-/** Chips auf Fotos: dunkel hinterlegt, Rahmen in Champagner; Grün nur für „verfügbar“. */
+/** Chips: dunkel hinterlegt, Rahmen in Champagner; helles Gold für „verfügbar“. */
 const variants: Record<BadgeVariant, string> = {
   live: "border-gold/40 text-ink",
   ready: "border-mint/45 text-mint",
@@ -30,10 +31,7 @@ export function Badge({
       )}
     >
       {(variant === "live" || variant === "ready") && (
-        <span
-          className={cn("live-dot", variant === "ready" && "live-dot-ready")}
-          aria-hidden
-        />
+        <LiveRose ready={variant === "ready"} size={13} />
       )}
       {children}
     </span>

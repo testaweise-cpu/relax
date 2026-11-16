@@ -21,7 +21,7 @@
   --wine: #6d0f20; /* dunkles Rot für Flächen */
   --gold: #cdb088; /* Champagner: Linien, Links, Fokus */
   --sunset: #d99a6c; /* Hinweise, Fehler in Formularen */
-  --mint: #86d3a6; /* nur "jetzt verfügbar" */
+  --mint: #f0cf92; /* "jetzt verfügbar": helles Gold, heller als --gold (vorher Grün) */
   --sun-core: #e3cba4; /* heller Champagner */
 
   --magenta: var(--red); /* früher zweite Neonfarbe; nicht mehr eigenständig */
@@ -1541,5 +1541,39 @@ main section header > h2 {
 }
 .services-more summary::marker,
 .trust-more summary::marker {
+  color: var(--gold);
+}
+
+/* Leuchtende Rose: jetzt im Haus. Verfügbar = volles, atmendes Leuchten */
+.live-rose {
+  display: inline-block;
+  flex-shrink: 0;
+  color: color-mix(in oklab, var(--red) 80%, white 8%);
+  filter: drop-shadow(0 0 3px color-mix(in oklab, var(--red) 70%, transparent));
+  opacity: 0.85;
+}
+.live-rose.is-ready {
+  color: color-mix(in oklab, var(--red) 70%, #ff5c7a);
+  opacity: 1;
+  filter: drop-shadow(0 0 4px color-mix(in oklab, #ff3a5c 85%, transparent))
+    drop-shadow(0 0 10px color-mix(in oklab, var(--red) 70%, transparent));
+}
+@media (prefers-reduced-motion: no-preference) {
+  .live-rose.is-ready {
+    animation: rose-glow 2.6s ease-in-out infinite;
+  }
+}
+@keyframes rose-glow {
+  50% {
+    filter: drop-shadow(0 0 2px color-mix(in oklab, #ff3a5c 60%, transparent))
+      drop-shadow(0 0 5px color-mix(in oklab, var(--red) 45%, transparent));
+  }
+}
+/* Merkmale auf der Kachel: eine ruhige Zeile über dem Namen statt Marken */
+.sedcard-tags {
+  font-family: var(--font-label);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: var(--gold);
 }

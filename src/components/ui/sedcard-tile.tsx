@@ -3,9 +3,9 @@ import { useTranslations } from "next-intl";
 import { ViewTransition } from "react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/cn";
-import { Badge } from "./badge";
 import { PlaceholderArt } from "./placeholder-art";
 import { ProfileClip } from "./profile-clip";
+import { LiveRose } from "./live-rose";
 
 export type SedcardTileProps = {
   slug: string;
@@ -92,32 +92,37 @@ export function SedcardTile({
         {video && <ProfileClip src={video} />}
         <div className="sedcard-shade" aria-hidden />
 
-        <div className="absolute inset-x-2.5 top-2.5 flex flex-wrap gap-1.5">
-          {isLive &&
-            (liveState ? (
-              <Badge variant={ready ? "ready" : "live"}>
-                {ready ? t("available") : t("onSite")}
-              </Badge>
-            ) : (
-              <Badge variant="live">{t("live")}</Badge>
-            ))}
-          {verified && (
-            <Badge variant="new">
-              <span aria-hidden>✓</span> {t("verified")}
-            </Badge>
-          )}
-          {video && <Badge>Video</Badge>}
-          {isNew && <Badge variant="new">{t("new")}</Badge>}
-          {isBack && !isNew && <Badge variant="back">{t("back")}</Badge>}
-        </div>
-
         <div className="absolute inset-x-0 bottom-0 px-3.5 pb-3.5">
+          {/* Merkmale ruhig über dem Namen statt Marken auf dem Foto */}
+          {(verified || isNew || isBack || video) && (
+            <p className="sedcard-tags mb-1.5 truncate">
+              {[
+                verified && `✓ ${t("verified")}`,
+                isNew ? t("new") : isBack && t("back"),
+                video && "Video",
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+          )}
           <p
             translate="no"
             className="sedcard-name max-w-full text-2xl break-words sm:text-[1.9rem]"
           >
+            {isLive && (
+              <LiveRose
+                ready={ready}
+                size={22}
+                className="-mt-1 mr-2 align-middle"
+              />
+            )}
             {name}
           </p>
+          {isLive && (
+            <span className="sr-only">
+              {liveState ? (ready ? t("available") : t("onSite")) : t("live")}
+            </span>
+          )}
           {languages.length > 0 && (
             <p className="mt-2 truncate font-label text-[0.62rem] tracking-[0.24em] text-ink/85 uppercase">
               <span className="sr-only">{t("languages")}: </span>

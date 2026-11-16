@@ -4,7 +4,6 @@ import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
   useMemo,
-  useRef,
   useState,
   useTransition,
   ViewTransition,
@@ -94,7 +93,6 @@ export function ProfileExplorer({
   const [allServices, setAllServices] = useState(false);
   // Alles außer der Suche liegt eingeklappt hinter einem Knopf
   const [open, setOpen] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
 
   const options = useMemo(() => filterOptions(cards, locale), [cards, locale]);
   const visible = useMemo(
@@ -109,7 +107,9 @@ export function ProfileExplorer({
     startTransition(() => setFilters(next));
     // Weit unten in der Liste: an den Anfang der Treffer, sonst schrumpft die
     // Seite unter dem Leser weg und Leiste samt Fach rutschen aus dem Bild
-    const top = root.current?.getBoundingClientRect().top ?? 0;
+    const top =
+      document.getElementById("profile-explorer")?.getBoundingClientRect()
+        .top ?? 0;
     if (top < 0) {
       const header = parseFloat(
         getComputedStyle(document.documentElement).getPropertyValue(
@@ -178,7 +178,7 @@ export function ProfileExplorer({
   );
 
   return (
-    <div ref={root}>
+    <div id="profile-explorer">
       {/* Leiste und Filterfach laufen gemeinsam mit: so öffnet sich das Fach
           immer direkt unter dem Knopf, auch weit unten in der Liste */}
       <div className="explorer-head">
