@@ -23,7 +23,10 @@ export async function StickyCall() {
   const t = await getTranslations("common");
   const s = await getSettings();
   return (
-    <div className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-line/70 bg-night/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden">
+    <aside
+      aria-label={t("contactBar")}
+      className="fixed inset-x-0 bottom-0 z-30 flex gap-2 border-t border-line/70 bg-night/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:hidden"
+    >
       <a
         href={telHref(s.phoneE164)}
         className={buttonClasses({ size: "lg", className: STICKY_BUTTON })}
@@ -44,6 +47,6 @@ export async function StickyCall() {
         <MapPinIcon />
         {t("route")}
       </a>
-    </div>
+    </aside>
   );
 }

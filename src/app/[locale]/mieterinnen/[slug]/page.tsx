@@ -60,6 +60,9 @@ export async function generateMetadata({
   });
 }
 
+/** So viele Services stehen sofort da; der Rest auf Wunsch */
+const SERVICES_SHOWN = 12;
+
 function Fact({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div className="flex justify-between gap-4 border-b border-line py-2.5">
@@ -173,6 +176,12 @@ export default async function SedcardPage({
               ) : (
                 <Badge>{t("notHere")}</Badge>
               )}
+              {profile.verificationLevel &&
+                profile.verificationLevel !== "none" && (
+                  <Badge variant="new">
+                    <span aria-hidden>✓</span> {tp("verified")}
+                  </Badge>
+                )}
               {profile.isNew && <Badge variant="new">{tp("new")}</Badge>}
               {profile.isBack && !profile.isNew && (
                 <Badge variant="back">{tp("back")}</Badge>
@@ -330,16 +339,30 @@ export default async function SedcardPage({
                 <h2 id="services" className="card-title">
                   {t("services")}
                 </h2>
+                {/* Lange Listen: die ersten zwölf, der Rest klappt auf */}
                 <ul className="mt-4 flex flex-wrap gap-2">
-                  {profile.services.map((s) => (
-                    <li
-                      key={s.id ?? s.de}
-                      className="rounded-[var(--radius)] border border-line bg-panel px-3.5 py-1.5 text-sm text-ink"
-                    >
+                  {profile.services.slice(0, SERVICES_SHOWN).map((s) => (
+                    <li key={s.id ?? s.de} className="service-chip">
                       {localize(s, locale)}
                     </li>
                   ))}
                 </ul>
+                {profile.services.length > SERVICES_SHOWN && (
+                  <details className="services-more mt-2">
+                    <summary className="cursor-pointer font-label text-xs text-gold">
+                      {tProfiles("moreServices", {
+                        count: profile.services.length,
+                      })}
+                    </summary>
+                    <ul className="mt-3 flex flex-wrap gap-2">
+                      {profile.services.slice(SERVICES_SHOWN).map((s) => (
+                        <li key={s.id ?? s.de} className="service-chip">
+                          {localize(s, locale)}
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                )}
                 <p className="mt-3 text-sm text-muted">{t("servicesNote")}</p>
               </section>
             )}

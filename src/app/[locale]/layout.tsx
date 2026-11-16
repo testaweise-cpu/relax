@@ -84,12 +84,14 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <AgeGate />
           <div id="seite" className="flex min-h-dvh flex-col">
-            <a
-              href="#inhalt"
-              className="sr-only z-50 rounded-full bg-gold px-4 py-2 font-label text-night focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
-            >
-              {t("skipToContent")}
-            </a>
+            <nav aria-label={t("skipNav")}>
+              <a
+                href="#inhalt"
+                className="sr-only z-50 rounded-full bg-gold px-4 py-2 font-label text-night focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+              >
+                {t("skipToContent")}
+              </a>
+            </nav>
             <Header />
             <main id="inhalt" className="flex-1" tabIndex={-1}>
               {children}

@@ -1529,3 +1529,17 @@ main section header > h2 {
 .frame-ornate:focus-visible::before {
   border-color: color-mix(in oklab, var(--gold) 70%, transparent);
 }
+
+/* Services der Sedcard */
+.service-chip {
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 0.4rem 0.875rem;
+  font-size: 0.875rem;
+  color: var(--ink);
+}
+.services-more summary::marker,
+.trust-more summary::marker {
+  color: var(--gold);
+}
