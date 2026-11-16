@@ -27,13 +27,15 @@ const IMAGE_FILE = /\.(avif|gif|jpe?g|png|svg|webp)$/i;
  * an /_next/image ist dann bereits geprüft. Erkennbar ist die interne Anfrage
  * am fehlenden Host-Header, den jede HTTP/1.1-Anfrage von außen mitbringt.
  * Auf Bilddateien beschränkt, damit eine Anfrage ohne Host (HTTP/1.0) nie
- * mehr als die Dekorationsbilder aus /public erreicht.
+ * mehr als Bilder erreicht: die aus /public und die Sedcard-Fotos.
  */
 function isInternalImageFetch(request: NextRequest) {
   return (
     request.method === "GET" &&
     !request.headers.has("host") &&
-    IMAGE_FILE.test(request.nextUrl.pathname)
+    (IMAGE_FILE.test(request.nextUrl.pathname) ||
+      // eigene Fotodurchleitung (Sedcard-Fotos ohne Wasserzeichen)
+      request.nextUrl.pathname.startsWith("/api/foto/"))
   );
 }
 
