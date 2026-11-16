@@ -1,7 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 
 vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://www.mona-roses.com/");
-const { absoluteUrl, alternatesFor, localizedPath } = await import("./site");
+const { absoluteUrl, alternatesFor, localizedPath, pageMetadata } =
+  await import("./site");
 
 describe("URLs und hreflang", () => {
   it("Deutsch ohne Präfix, Englisch unter /en", () => {
@@ -30,5 +31,14 @@ describe("URLs und hreflang", () => {
         "x-default": "https://www.mona-roses.com/jobs",
       },
     });
+  });
+
+  it("unbekannte Sprache (z. B. /favicon.ico) wirft nicht, sondern fällt auf Deutsch zurück", () => {
+    const meta = pageMetadata({
+      locale: "favicon.ico" as never,
+      path: "/",
+      title: "x",
+    });
+    expect(meta.openGraph?.locale).toBe("de_DE");
   });
 });

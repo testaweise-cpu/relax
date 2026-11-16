@@ -9,7 +9,7 @@ import { Paragraphs } from "@/components/rich-text";
 import { Badge } from "@/components/ui/badge";
 import { Ornament } from "@/components/ui/ornament";
 import { Section } from "@/components/ui/section";
-import { PAGE_VIDEO } from "@/lib/media/hero";
+import { EVENTS_VIDEO } from "@/lib/media/hero";
 import type { Locale } from "@/i18n/routing";
 import { getEvents, pick } from "@/lib/content";
 import { imageSize } from "@/lib/image-size";
@@ -136,7 +136,7 @@ export default async function EventsPage({
       />
       <Section
         level={1}
-        media={PAGE_VIDEO}
+        media={EVENTS_VIDEO}
         eyebrow={t("eyebrow")}
         title={t("title")}
       >

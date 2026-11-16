@@ -20,7 +20,7 @@ export const HERO_VIDEO = {
 } as const;
 
 /**
- * Kopfbereich von Jetzt da, Events und Jobs: eine elegant tanzende Frau als
+ * Kopfbereich von Jetzt da: eine elegant tanzende Frau als
  * Silhouette vor einer roten LED-Wand, im Stil des früheren Stockvideos
  * (Higgsfield, 16.11.2026: gpt_image_2_6 + kling3_0, gleiches Anfangs- und
  * Endbild für die Schleife). 10 s, 1280 px, H.264 ohne Ton (rund 0,4 MB).
@@ -32,6 +32,24 @@ export const PAGE_VIDEO = {
   // Tänzerin rechts der Mitte; im flachen Kopf am Desktop Kopf und Arm zeigen
   position: "62% 22%",
   sources: [{ src: "/media/tanz-silhouette.mp4", type: "video/mp4" }],
+} as const;
+
+/** Events: Bühne mit Spot und Goldstaub, Champagner an der Bar (Higgsfield, 16.11.2026). */
+export const EVENTS_VIDEO = {
+  poster: "/media/events-buehne-poster.webp",
+  posterWidth: 1280,
+  posterHeight: 720,
+  position: "65% 40%",
+  sources: [{ src: "/media/events-buehne.mp4", type: "video/mp4" }],
+} as const;
+
+/** Jobs: gepflegte Suite mit Schminkspiegel und Stadtblick (Higgsfield, 16.11.2026). */
+export const JOBS_VIDEO = {
+  poster: "/media/jobs-suite-poster.webp",
+  posterWidth: 1280,
+  posterHeight: 720,
+  position: "70% 50%",
+  sources: [{ src: "/media/jobs-suite.mp4", type: "video/mp4" }],
 } as const;
 
 export type HeroMedia = {

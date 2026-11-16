@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { locales, routing, type Locale } from "@/i18n/routing";
-import { LOCALE_META } from "@/i18n/locales";
+import { LOCALE_META, toLocale } from "@/i18n/locales";
 
 /** Öffentliche Basis-URL ohne abschließenden Slash. */
 export const SITE_URL = (
@@ -60,7 +60,7 @@ export function pageMetadata({
     openGraph: {
       type: "website",
       siteName: "Mona Roses",
-      locale: LOCALE_META[locale].og,
+      locale: LOCALE_META[toLocale(locale)].og,
       url: absoluteUrl(locale, path),
       title: titleAbsolute ?? (title ? `${title} · Mona Roses` : undefined),
       description,

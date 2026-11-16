@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { LOCALE_META, locales } from "@/i18n/locales";
+import { LOCALE_META, locales, toLocale } from "@/i18n/locales";
 import { getPrices, getSettings, pick } from "@/lib/content";
 import { absoluteUrl, SITE_URL } from "@/lib/site";
 
@@ -154,7 +154,7 @@ export function WebSiteJsonLd({ locale }: { locale: Locale }) {
         "@id": `${SITE_URL}/#website`,
         name: "Mona Roses",
         url: absoluteUrl(locale, "/"),
-        inLanguage: LOCALE_META[locale].bcp47,
+        inLanguage: LOCALE_META[toLocale(locale)].bcp47,
         publisher: { "@id": `${SITE_URL}/#business` },
       }}
     />

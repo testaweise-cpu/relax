@@ -6,7 +6,7 @@ import { Faq } from "@/components/faq";
 import { ApplicationForm } from "@/components/jobs/application-form";
 import { Paragraphs } from "@/components/rich-text";
 import { Section } from "@/components/ui/section";
-import { PAGE_VIDEO } from "@/lib/media/hero";
+import { JOBS_VIDEO } from "@/lib/media/hero";
 import type { Locale } from "@/i18n/routing";
 import { getFaq, getJobs, getSettings, pick } from "@/lib/content";
 import { telHref } from "@/lib/phone";
@@ -45,7 +45,7 @@ export default async function JobsPage({
       />
       <Section
         level={1}
-        media={PAGE_VIDEO}
+        media={JOBS_VIDEO}
         eyebrow={t("eyebrow")}
         title={pick(jobs.title, l)}
       >
