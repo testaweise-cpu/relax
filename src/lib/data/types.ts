@@ -65,6 +65,41 @@ export const profileSchema = z.object({
   services: z.array(serviceSchema).default([]),
   personalNote: localizedTextSchema.optional(),
   images: z.array(imageSchema).default([]),
+  /** VYCE69 Trust: Prüfstufe (Zeichen auf der Kachel) */
+  verificationLevel: z
+    .enum(["none", "id", "live", "full"])
+    .nullable()
+    .default(null),
+  /** VYCE69 Trust: die fünf Prüfungen der Sedcard (nur Einzelabfrage) */
+  trust: z
+    .object({
+      checks: z.array(
+        z.object({
+          key: z.enum(["owner", "identity", "photo", "video", "location"]),
+          confirmed: z.boolean(),
+        }),
+      ),
+      lastReviewedAt: isoDateTime.nullable(),
+    })
+    .nullable()
+    .default(null),
+  /** Freigegebene Bewertungen von VYCE69 (nur Einzelabfrage) */
+  reviews: z
+    .object({
+      count: z.number().int().min(0),
+      average: z.number().min(0).max(5).nullable(),
+      items: z.array(
+        z.object({
+          rating: z.number().int().min(1).max(5),
+          body: z.string().nullable(),
+          reply: z.string().nullable(),
+          afterAppointment: z.boolean(),
+          createdAt: isoDateTime,
+        }),
+      ),
+    })
+    .nullable()
+    .default(null),
   /** Kurzes Video als bewegtes Profilbild (abspielbare Adresse), falls vorhanden */
   video: z.string().min(1).nullable().default(null),
   updatedAt: isoDateTime,

@@ -32,6 +32,7 @@ function isEntry(v: unknown): v is PresentEntry {
     typeof v.isBack === "boolean" &&
     (v.image === null || isImage(v.image)) &&
     (v.video == null || isStr(v.video)) &&
+    (v.verified == null || typeof v.verified === "boolean") &&
     (v.state == null || v.state === "ready" || v.state === "on_site") &&
     (v.since === null || isStr(v.since)) &&
     (v.until === null || isStr(v.until))
@@ -48,6 +49,7 @@ export function parsePresenceResponse(v: unknown): PresenceResponse | null {
       ...p,
       state: p.state ?? null,
       video: p.video ?? null,
+      verified: p.verified === true,
       image: p.image && { ...p.image, alt: p.image.alt ?? "" },
     })),
   };

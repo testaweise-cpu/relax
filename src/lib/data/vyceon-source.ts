@@ -268,6 +268,48 @@ function attributes(raw: unknown) {
 }
 
 /** Sedcard (Liste oder Detail) → Profil der Website. */
+const LEVELS = ["none", "id", "live", "full"] as const;
+
+/** Prüfstufe: aus der Liste direkt, aus der Einzelabfrage über trust.level */
+function verificationLevel(raw: Json) {
+  const v =
+    raw.verification_level ?? (isObject(raw.trust) ? raw.trust.level : null);
+  return LEVELS.find((l) => l === v) ?? null;
+}
+
+function trust(raw: unknown) {
+  if (!isObject(raw) || !Array.isArray(raw.checks)) return null;
+  return {
+    checks: raw.checks.flatMap((c) =>
+      isObject(c) && str(c.key)
+        ? [{ key: c.key, confirmed: c.confirmed === true }]
+        : [],
+    ),
+    lastReviewedAt: str(raw.last_reviewed_at) ?? null,
+  };
+}
+
+function reviews(raw: unknown) {
+  if (!isObject(raw) || !Array.isArray(raw.items)) return null;
+  return {
+    count: typeof raw.count === "number" ? raw.count : raw.items.length,
+    average: typeof raw.average === "number" ? raw.average : null,
+    items: raw.items.flatMap((r) =>
+      isObject(r) && typeof r.rating === "number"
+        ? [
+            {
+              rating: r.rating,
+              body: str(r.body) ?? null,
+              reply: str(r.provider_reply) ?? null,
+              afterAppointment: r.after_appointment === true,
+              createdAt: r.created_at,
+            },
+          ]
+        : [],
+    ),
+  };
+}
+
 export function fromApiProfile(raw: unknown, now = new Date()): unknown {
   if (!isObject(raw)) return raw;
   const note = str(raw.about_text) ?? str(raw.tagline);
@@ -282,6 +324,9 @@ export function fromApiProfile(raw: unknown, now = new Date()): unknown {
     services: services(raw.services),
     personalNote: note ? { de: note } : undefined,
     images: images(raw),
+    verificationLevel: verificationLevel(raw),
+    trust: trust(raw.trust),
+    reviews: reviews(raw.reviews),
     // Liste: video_url; Einzelabfrage: videos[] – jeweils das erste
     video:
       localVideoUrl(raw.video_url) ??

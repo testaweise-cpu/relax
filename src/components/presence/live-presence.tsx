@@ -35,6 +35,7 @@ function Tile({
       timeLabel={presenceLabel(p, locale)}
       image={p.image ?? undefined}
       video={p.video}
+      verified={p.verified}
       priority={priority}
       sizes={sizes}
     />

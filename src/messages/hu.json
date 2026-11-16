@@ -49,7 +49,8 @@
     "storiesLead": "Újdonságok a házból – 24 órán át láthatók",
     "storyOpen": "{name} történetének megtekintése",
     "storyHouse": "Mona Roses",
-    "toSedcard": "A Sedcardhoz"
+    "toSedcard": "A Sedcardhoz",
+    "verified": "Ellenőrzött"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -322,5 +323,53 @@
     "errorTitle": "Egy pillanatra kialudt a fény",
     "errorText": "Valami hiba történt. Kérjük, próbáld újra.",
     "retry": "Újrapróbálás"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "{count}/{max} ellenőrzés megerősítve",
+    "lastChecked": "Utolsó ellenőrzés",
+    "intro": "A VYCE69 több lépésben ellenőrzi a profilokat. Mindig csak az ellenőrzés eredménye látható — soha nem az alapjául szolgáló dokumentum. Ezek a dokumentumok titkosítva maradnak, és az ügyfelek semmikor sem láthatják őket.",
+    "openStatus": "még nincs igazolva",
+    "noneConfirmed": "Még nincs lezárt ellenőrzés",
+    "disclaimer": "Az ellenőrzés a személyazonosságot igazolja — nem ajánlás, és nem ígéret a szolgáltatásokra, árakra vagy elérhetőségre. Ezeket közvetlenül a szolgáltatóval egyezteted.",
+    "checks": {
+      "owner": {
+        "label": "Profiltulajdonos megerősítve",
+        "detail": "Az ellenőrzött személyazonosság pontosan ehhez a profilhoz tartozik — nem csak a mögötte álló fiókhoz.",
+        "openLabel": "Profiltulajdonos",
+        "openDetail": "Még nincs igazolva, hogy egy ellenőrzött személyazonosság pontosan ehhez a profilhoz tartozik."
+      },
+      "identity": {
+        "label": "Személyazonosság ellenőrizve",
+        "detail": "Egy hivatalos személyazonosító okmányt a VYCE69 megtekintett és jóváhagyott. Maga az okmány soha nem hagyja el a védett területet.",
+        "openLabel": "Személyazonosság",
+        "openDetail": "Ehhez a profilhoz még nincs jóváhagyott hivatalos személyazonosító okmány-ellenőrzés."
+      },
+      "photo": {
+        "label": "Élő fotó megerősítve",
+        "detail": "Egy élő szelfit összevetettek a személyazonosító okmánnyal — a képeken ugyanaz a személy látható.",
+        "openLabel": "Élő fotó",
+        "openDetail": "Az élő szelfi és a személyazonosító okmány összevetése ennél a profilnál még nincs igazolva."
+      },
+      "video": {
+        "label": "Élő videó megerősítve",
+        "detail": "Ezen felül egy élő videós ellenőrzés is sikeres volt. Ez a legmagasabb szint, amelyet a VYCE69 odaítél.",
+        "openLabel": "Élő videó",
+        "openDetail": "Az élő videós ellenőrzés, a VYCE69 legmagasabb szintje, ennél a profilnál még nincs igazolva."
+      },
+      "location": {
+        "label": "Helyszín megerősítve",
+        "detail": "A profil egy ellenőrzött címmel rendelkező, ellenőrzött üzlethez tartozik.",
+        "openLabel": "Helyszín",
+        "openDetail": "Ezt csak olyan profiloknál erősítjük meg, amelyek ellenőrzött címmel rendelkező, ellenőrzött helyszínhez tartoznak."
+      }
+    },
+    "reviewsLabel": "Közzétett értékelések",
+    "reviewsHeading": "Tapasztalatok vele: {name}",
+    "reviewsEmpty": "Ehhez a profilhoz még nem tettek közzé értékelést.",
+    "afterAppointment": "Időpont után",
+    "reviewsCount": "{count, plural, other {# értékelés}}",
+    "reply": "{name} válasza",
+    "stars": "5-ből {rating} csillag"
   }
 }

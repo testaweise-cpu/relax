@@ -49,7 +49,8 @@
     "storiesLead": "Neu aus dem Haus – 24 Stunden sichtbar",
     "storyOpen": "Story von {name} ansehen",
     "storyHouse": "Mona Roses",
-    "toSedcard": "Zur Sedcard"
+    "toSedcard": "Zur Sedcard",
+    "verified": "Geprüft"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -322,5 +323,53 @@
     "errorTitle": "Kurz das Licht aus",
     "errorText": "Da ist etwas schiefgegangen. Versuch es bitte noch einmal.",
     "retry": "Noch einmal versuchen"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "{count} von {max} Prüfungen bestätigt",
+    "lastChecked": "Zuletzt geprüft",
+    "intro": "VYCE69 prüft Profile in mehreren Stufen. Angezeigt wird immer nur das Ergebnis einer Prüfung — niemals das Dokument, das ihr zugrunde liegt. Diese Unterlagen bleiben verschlüsselt und sind für Kund:innen zu keinem Zeitpunkt einsehbar.",
+    "openStatus": "noch nicht nachgewiesen",
+    "noneConfirmed": "Noch keine Prüfung abgeschlossen",
+    "disclaimer": "Eine Prüfung bestätigt die Identität — sie ist keine Empfehlung und keine Zusage über Leistungen, Preise oder Verfügbarkeit. Diese vereinbarst du direkt mit der Anbieter:in.",
+    "checks": {
+      "owner": {
+        "label": "Profilinhaber bestätigt",
+        "detail": "Die geprüfte Identität ist genau diesem Profil zugeordnet — nicht nur dem Account dahinter.",
+        "openLabel": "Profilinhaber",
+        "openDetail": "Ob die geprüfte Identität genau diesem Profil zugeordnet ist, ist für dieses Profil noch nicht nachgewiesen."
+      },
+      "identity": {
+        "label": "Identität geprüft",
+        "detail": "Ein amtliches Ausweisdokument wurde von VYCE69 gesichtet und freigegeben. Das Dokument selbst verlässt den geschützten Bereich nie.",
+        "openLabel": "Identität",
+        "openDetail": "Für dieses Profil liegt noch keine freigegebene Prüfung eines amtlichen Ausweisdokuments vor."
+      },
+      "photo": {
+        "label": "Live-Foto bestätigt",
+        "detail": "Ein Live-Selfie wurde mit dem Ausweisdokument abgeglichen — die Person auf den Bildern ist dieselbe.",
+        "openLabel": "Live-Foto",
+        "openDetail": "Ein Abgleich eines Live-Selfies mit dem Ausweisdokument ist für dieses Profil noch nicht nachgewiesen."
+      },
+      "video": {
+        "label": "Live-Video bestätigt",
+        "detail": "Zusätzlich wurde eine Live-Video-Prüfung bestanden. Das ist die höchste Stufe, die VYCE69 vergibt.",
+        "openLabel": "Live-Video",
+        "openDetail": "Die Live-Video-Prüfung, die höchste Stufe bei VYCE69, ist für dieses Profil noch nicht nachgewiesen."
+      },
+      "location": {
+        "label": "Location bestätigt",
+        "detail": "Das Profil gehört zu einem verifizierten Betrieb mit geprüfter Adresse.",
+        "openLabel": "Location",
+        "openDetail": "Bestätigt wird das nur für Profile, die zu einem verifizierten Betrieb mit geprüfter Adresse gehören."
+      }
+    },
+    "reviewsLabel": "Freigegebene Bewertungen",
+    "reviewsHeading": "Erfahrungen mit {name}",
+    "reviewsEmpty": "Für dieses Profil sind noch keine Bewertungen veröffentlicht.",
+    "afterAppointment": "Nach einem Termin",
+    "reviewsCount": "{count, plural, one {# Bewertung} other {# Bewertungen}}",
+    "reply": "Antwort von {name}",
+    "stars": "{rating} von 5 Sternen"
   }
 }

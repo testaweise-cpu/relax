@@ -49,7 +49,8 @@
     "storiesLead": "Novedades de la casa – visibles durante 24 horas",
     "storyOpen": "Ver la story de {name}",
     "storyHouse": "Mona Roses",
-    "toSedcard": "Ver Sedcard"
+    "toSedcard": "Ver Sedcard",
+    "verified": "Verificada"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -322,5 +323,53 @@
     "errorTitle": "Se ha ido la luz un momento",
     "errorText": "Algo ha salido mal. Inténtalo de nuevo, por favor.",
     "retry": "Intentar de nuevo"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "{count} de {max} verificaciones confirmadas",
+    "lastChecked": "Última verificación",
+    "intro": "VYCE69 verifica los perfiles en varias fases. Solo se muestra el resultado de una verificación, nunca el documento en el que se basa. Esos documentos permanecen cifrados y los clientes no pueden verlos en ningún momento.",
+    "openStatus": "aún no verificado",
+    "noneConfirmed": "Aún no hay ninguna verificación completada",
+    "disclaimer": "Una verificación confirma la identidad: no es una recomendación ni una garantía sobre servicios, precios o disponibilidad. Eso lo acuerdas directamente con la persona anunciante.",
+    "checks": {
+      "owner": {
+        "label": "Titular del perfil confirmado",
+        "detail": "La identidad verificada está vinculada exactamente a este perfil, no solo a la cuenta que hay detrás.",
+        "openLabel": "Titular del perfil",
+        "openDetail": "Aún no está verificado que una identidad comprobada esté vinculada exactamente a este perfil."
+      },
+      "identity": {
+        "label": "Identidad verificada",
+        "detail": "VYCE69 ha revisado y aprobado un documento de identidad oficial. El documento en sí nunca sale de la zona protegida.",
+        "openLabel": "Identidad",
+        "openDetail": "Todavía no consta una verificación aprobada de un documento de identidad oficial para este perfil."
+      },
+      "photo": {
+        "label": "Foto en directo confirmada",
+        "detail": "Se ha comparado un selfie en directo con el documento de identidad: la persona de las fotos es la misma.",
+        "openLabel": "Foto en directo",
+        "openDetail": "La comparación de un selfie en directo con el documento de identidad aún no está verificada para este perfil."
+      },
+      "video": {
+        "label": "Vídeo en directo confirmado",
+        "detail": "Además, se ha superado una verificación por vídeo en directo. Es el nivel más alto que otorga VYCE69.",
+        "openLabel": "Vídeo en directo",
+        "openDetail": "La verificación por vídeo en directo, el nivel más alto en VYCE69, aún no está verificada para este perfil."
+      },
+      "location": {
+        "label": "Local confirmado",
+        "detail": "El perfil pertenece a un local verificado con dirección comprobada.",
+        "openLabel": "Local",
+        "openDetail": "Solo se confirma para perfiles que pertenecen a un local verificado con dirección comprobada."
+      }
+    },
+    "reviewsLabel": "Reseñas publicadas",
+    "reviewsHeading": "Experiencias con {name}",
+    "reviewsEmpty": "Todavía no se han publicado reseñas para este perfil.",
+    "afterAppointment": "Tras una cita",
+    "reviewsCount": "{count, plural, one {# reseña} other {# reseñas}}",
+    "reply": "Respuesta de {name}",
+    "stars": "{rating} de 5 estrellas"
   }
 }

@@ -21,6 +21,8 @@ export type SedcardTileProps = {
   image?: { url: string; width: number; height: number; alt: string };
   /** kurzes Video als bewegtes Profilbild */
   video?: string | null;
+  /** VYCE69 Trust: Identität geprüft */
+  verified?: boolean;
   /** für Platzhalter-Varianz */
   seed?: number;
   /** erstes sichtbares Bild bevorzugt laden (LCP) */
@@ -47,6 +49,7 @@ export function SedcardTile({
   isBack,
   image,
   video,
+  verified,
   seed = 0,
   priority,
   sizes = SEDCARD_SIZES,
@@ -98,6 +101,11 @@ export function SedcardTile({
             ) : (
               <Badge variant="live">{t("live")}</Badge>
             ))}
+          {verified && (
+            <Badge variant="new">
+              <span aria-hidden>✓</span> {t("verified")}
+            </Badge>
+          )}
           {video && <Badge>Video</Badge>}
           {isNew && <Badge variant="new">{t("new")}</Badge>}
           {isBack && !isNew && <Badge variant="back">{t("back")}</Badge>}

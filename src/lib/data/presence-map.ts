@@ -16,6 +16,9 @@ export function toPresenceResponse(
       isBack: profile.isBack,
       image: profile.images[0] ?? null,
       video: profile.video,
+      verified: Boolean(
+        profile.verificationLevel && profile.verificationLevel !== "none",
+      ),
       state: presence.state ?? null,
       since: presence.since ?? null,
       until: presence.until ?? null,

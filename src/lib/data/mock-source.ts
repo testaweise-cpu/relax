@@ -26,6 +26,9 @@ type Seed = Omit<
   | "slug"
   | "images"
   | "video"
+  | "verificationLevel"
+  | "trust"
+  | "reviews"
   | "updatedAt"
   | "gender"
   | "services"
@@ -233,6 +236,40 @@ export const MOCK_PROFILES: Profile[] = SEEDS.map((seed, i) => {
     })),
     // Das Werbevideo des Hauses als Platzhalter für ein bewegtes Profilbild
     video: i === 0 ? MOCK_VIDEO : null,
+    // Zwei Prüfstufen und Bewertungen, damit beide Darstellungen sichtbar sind
+    verificationLevel: i === 0 ? "full" : i === 1 ? "id" : null,
+    trust:
+      i < 2
+        ? {
+            checks: (
+              ["owner", "identity", "photo", "video", "location"] as const
+            ).map((key, n) => ({ key, confirmed: i === 0 ? true : n < 2 })),
+            lastReviewedAt: new Date(Date.UTC(2026, 9, 20)).toISOString(),
+          }
+        : null,
+    reviews:
+      i === 0
+        ? {
+            count: 2,
+            average: 4.5,
+            items: [
+              {
+                rating: 5,
+                body: "Sehr freundlich, pünktlich und genau wie auf den Bildern.",
+                reply: "Danke, gern wieder!",
+                afterAppointment: true,
+                createdAt: new Date(Date.UTC(2026, 9, 28)).toISOString(),
+              },
+              {
+                rating: 4,
+                body: "Angenehme Atmosphäre, gutes Gespräch an der Bar.",
+                reply: null,
+                afterAppointment: false,
+                createdAt: new Date(Date.UTC(2026, 9, 12)).toISOString(),
+              },
+            ],
+          }
+        : null,
     updatedAt: new Date(Date.UTC(2026, 9, 1 + i)).toISOString(),
   };
 });

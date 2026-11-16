@@ -20,6 +20,7 @@ import { languageName, regionName } from "@/lib/display-names";
 import { telHref } from "@/lib/phone";
 import { localize } from "@/lib/data/types";
 import { getPresentProfiles, getStoryGroups } from "@/lib/data";
+import { ProfileReviews, TrustPanel } from "@/components/profiles/trust";
 import { StoryBadge } from "@/components/stories/story-ring";
 import { SedcardTile } from "@/components/ui/sedcard-tile";
 import { getProfileDetail } from "@/lib/profiles/server";
@@ -342,9 +343,24 @@ export default async function SedcardPage({
                 <p className="mt-3 text-sm text-muted">{t("servicesNote")}</p>
               </section>
             )}
+            {profile.trust && (
+              <TrustPanel
+                trust={profile.trust}
+                name={profile.name}
+                locale={tl}
+              />
+            )}
           </div>
         </div>
       </div>
+
+      {profile.reviews && profile.reviews.count > 0 && (
+        <ProfileReviews
+          reviews={profile.reviews}
+          name={profile.name}
+          locale={tl}
+        />
+      )}
 
       {others.length > 0 && (
         <section className="mt-20 sm:mt-28" aria-labelledby="also-here">
@@ -368,6 +384,9 @@ export default async function SedcardPage({
                   timeLabel={presenceLabel(op, tl)}
                   image={o.images[0]}
                   video={o.video}
+                  verified={Boolean(
+                    o.verificationLevel && o.verificationLevel !== "none",
+                  )}
                 />
               </li>
             ))}

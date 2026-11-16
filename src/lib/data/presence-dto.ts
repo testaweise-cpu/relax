@@ -12,6 +12,10 @@ export const presentEntrySchema = z.object({
   isNew: z.boolean(),
   isBack: z.boolean(),
   image: imageSchema.nullable(),
+  verified: z
+    .boolean()
+    .nullish()
+    .transform((v) => v === true),
   // fehlt bei älteren Antworten → kein Video
   video: z
     .string()

@@ -49,7 +49,8 @@
     "storiesLead": "Mekândan yeni – 24 saat görünür",
     "storyOpen": "{name} – hikâyeyi görüntüle",
     "storyHouse": "Mona Roses",
-    "toSedcard": "Sedcard’a git"
+    "toSedcard": "Sedcard’a git",
+    "verified": "Doğrulandı"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 7/24",
@@ -322,5 +323,53 @@
     "errorTitle": "Işıklar bir anlığına söndü",
     "errorText": "Bir şeyler ters gitti. Lütfen tekrar dene.",
     "retry": "Tekrar dene"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "{max} kontrolden {count} tanesi onaylandı",
+    "lastChecked": "Son kontrol",
+    "intro": "VYCE69 profilleri birkaç aşamada doğrular. Her zaman yalnızca doğrulamanın sonucu gösterilir — asla dayandığı belge değil. Bu belgeler şifreli kalır ve müşteriler tarafından hiçbir zaman görülemez.",
+    "openStatus": "henüz kanıtlanmadı",
+    "noneConfirmed": "Henüz tamamlanmış bir kontrol yok",
+    "disclaimer": "Bir doğrulama kimliği onaylar — hizmetler, fiyatlar veya müsaitlik hakkında bir tavsiye ya da taahhüt değildir. Bunları doğrudan hizmet verenle kararlaştırırsın.",
+    "checks": {
+      "owner": {
+        "label": "Profil sahibi onaylandı",
+        "detail": "Doğrulanan kimlik, yalnızca arkasındaki hesaba değil, tam olarak bu profile bağlıdır.",
+        "openLabel": "Profil sahibi",
+        "openDetail": "Doğrulanmış bir kimliğin tam olarak bu profile bağlı olduğu henüz kanıtlanmadı."
+      },
+      "identity": {
+        "label": "Kimlik doğrulandı",
+        "detail": "Resmî bir kimlik belgesi VYCE69 tarafından incelendi ve onaylandı. Belgenin kendisi korumalı alandan asla çıkmaz.",
+        "openLabel": "Kimlik",
+        "openDetail": "Bu profil için henüz onaylanmış bir resmi kimlik belgesi kontrolü yok."
+      },
+      "photo": {
+        "label": "Canlı fotoğraf onaylandı",
+        "detail": "Canlı bir selfie kimlik belgesiyle karşılaştırıldı — fotoğraflardaki kişi aynı kişidir.",
+        "openLabel": "Canlı fotoğraf",
+        "openDetail": "Canlı bir selfie'nin kimlik belgesiyle karşılaştırılması bu profil için henüz kanıtlanmadı."
+      },
+      "video": {
+        "label": "Canlı video onaylandı",
+        "detail": "Ek olarak canlı video doğrulaması da geçildi. Bu, VYCE69'un verdiği en yüksek seviyedir.",
+        "openLabel": "Canlı video",
+        "openDetail": "VYCE69'daki en yüksek seviye olan canlı video kontrolü bu profil için henüz kanıtlanmadı."
+      },
+      "location": {
+        "label": "Mekân onaylandı",
+        "detail": "Profil, adresi kontrol edilmiş doğrulanmış bir işletmeye aittir.",
+        "openLabel": "Mekân",
+        "openDetail": "Bu yalnızca adresi kontrol edilmiş, doğrulanmış bir mekâna ait profiller için onaylanır."
+      }
+    },
+    "reviewsLabel": "Yayınlanan değerlendirmeler",
+    "reviewsHeading": "{name} ile deneyimler",
+    "reviewsEmpty": "Bu profil için henüz değerlendirme yayınlanmadı.",
+    "afterAppointment": "Randevu sonrası",
+    "reviewsCount": "{count, plural, other {# değerlendirme}}",
+    "reply": "{name} yanıtı",
+    "stars": "5 üzerinden {rating} yıldız"
   }
 }

@@ -17,6 +17,7 @@ export function ProfileGrid({ cards }: { cards: ExplorerCard[] }) {
             timeLabel={c.timeLabel}
             image={c.image}
             video={c.video}
+            verified={c.verified}
             priority={i < 2}
           />
         </li>

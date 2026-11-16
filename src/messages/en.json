@@ -49,7 +49,8 @@
     "storiesLead": "New from the house – visible for 24 hours",
     "storyOpen": "Watch the story of {name}",
     "storyHouse": "Mona Roses",
-    "toSedcard": "View sedcard"
+    "toSedcard": "View sedcard",
+    "verified": "Verified"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -322,5 +323,53 @@
     "errorTitle": "Lights out for a moment",
     "errorText": "Something went wrong. Please try again.",
     "retry": "Try again"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "{count} of {max} checks confirmed",
+    "lastChecked": "Last checked",
+    "intro": "VYCE69 verifies profiles in several stages. Only the result of a check is ever shown — never the document behind it. Those records stay encrypted and are never visible to customers.",
+    "openStatus": "not yet verified",
+    "noneConfirmed": "No check completed yet",
+    "disclaimer": "A check confirms identity — it is not a recommendation and no promise about services, prices or availability. You arrange those directly with the provider.",
+    "checks": {
+      "owner": {
+        "label": "Profile owner confirmed",
+        "detail": "The verified identity is tied to this exact profile — not just the account behind it.",
+        "openLabel": "Profile owner",
+        "openDetail": "It is not yet verified that a checked identity is tied to this exact profile."
+      },
+      "identity": {
+        "label": "Identity verified",
+        "detail": "An official ID document was reviewed and approved by VYCE69. The document itself never leaves the protected area.",
+        "openLabel": "Identity",
+        "openDetail": "No approved check of an official ID document is on record for this profile yet."
+      },
+      "photo": {
+        "label": "Live photo confirmed",
+        "detail": "A live selfie was matched against the ID document — the person in the photos is the same.",
+        "openLabel": "Live photo",
+        "openDetail": "A live selfie matched against the ID document is not yet verified for this profile."
+      },
+      "video": {
+        "label": "Live video confirmed",
+        "detail": "A live video check was also passed. This is the highest level VYCE69 awards.",
+        "openLabel": "Live video",
+        "openDetail": "The live video check, the highest level at VYCE69, is not yet verified for this profile."
+      },
+      "location": {
+        "label": "Location confirmed",
+        "detail": "The profile belongs to a verified venue with a checked address.",
+        "openLabel": "Location",
+        "openDetail": "This is only confirmed for profiles that belong to a verified venue with a checked address."
+      }
+    },
+    "reviewsLabel": "Published reviews",
+    "reviewsHeading": "Experiences with {name}",
+    "reviewsEmpty": "No reviews have been published for this profile yet.",
+    "afterAppointment": "After an appointment",
+    "reviewsCount": "{count, plural, one {# review} other {# reviews}}",
+    "reply": "Reply from {name}",
+    "stars": "{rating} out of 5 stars"
   }
 }

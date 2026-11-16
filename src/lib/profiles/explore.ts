@@ -22,6 +22,7 @@ export type ExplorerCard = {
   timeLabel?: string;
   image?: { url: string; width: number; height: number; alt: string };
   video?: string | null;
+  verified?: boolean;
   services: ExplorerService[];
 };
 
@@ -89,6 +90,9 @@ export function toExplorerCard(card: ProfileCard): ExplorerCard {
     timeLabel: card.timeLabel,
     image: profile.images[0],
     video: profile.video,
+    verified: Boolean(
+      profile.verificationLevel && profile.verificationLevel !== "none",
+    ),
     services: profile.services.map((s) => ({
       key: serviceKey(s.de),
       de: s.de,

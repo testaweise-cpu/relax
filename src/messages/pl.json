@@ -49,7 +49,8 @@
     "storiesLead": "Nowości z domu – widoczne przez 24 godziny",
     "storyOpen": "Zobacz story: {name}",
     "storyHouse": "Mona Roses",
-    "toSedcard": "Zobacz Sedcard"
+    "toSedcard": "Zobacz Sedcard",
+    "verified": "Zweryfikowana"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -322,5 +323,53 @@
     "errorTitle": "Na chwilę zgasło światło",
     "errorText": "Coś poszło nie tak. Spróbuj ponownie.",
     "retry": "Spróbuj ponownie"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "Potwierdzono {count} z {max} weryfikacji",
+    "lastChecked": "Ostatnia weryfikacja",
+    "intro": "VYCE69 weryfikuje profile w kilku etapach. Pokazywany jest zawsze tylko wynik weryfikacji — nigdy dokument, na którym się opiera. Te dokumenty pozostają zaszyfrowane i klienci nie mają do nich wglądu.",
+    "openStatus": "jeszcze nie potwierdzono",
+    "noneConfirmed": "Żadna weryfikacja nie została jeszcze zakończona",
+    "disclaimer": "Weryfikacja potwierdza tożsamość — nie jest rekomendacją ani gwarancją co do usług, cen czy dostępności. Te ustalasz bezpośrednio z osobą oferującą.",
+    "checks": {
+      "owner": {
+        "label": "Właściciel profilu potwierdzony",
+        "detail": "Sprawdzona tożsamość jest przypisana dokładnie do tego profilu — nie tylko do konta, które za nim stoi.",
+        "openLabel": "Właściciel profilu",
+        "openDetail": "Nie potwierdzono jeszcze, że sprawdzona tożsamość jest przypisana dokładnie do tego profilu."
+      },
+      "identity": {
+        "label": "Tożsamość sprawdzona",
+        "detail": "Urzędowy dokument tożsamości został obejrzany i zatwierdzony przez VYCE69. Sam dokument nigdy nie opuszcza chronionego obszaru.",
+        "openLabel": "Tożsamość",
+        "openDetail": "Dla tego profilu nie ma jeszcze zatwierdzonej weryfikacji urzędowego dokumentu tożsamości."
+      },
+      "photo": {
+        "label": "Zdjęcie na żywo potwierdzone",
+        "detail": "Selfie na żywo porównano z dokumentem tożsamości — osoba na zdjęciach jest tą samą osobą.",
+        "openLabel": "Zdjęcie na żywo",
+        "openDetail": "Porównanie selfie na żywo z dokumentem tożsamości nie zostało jeszcze potwierdzone dla tego profilu."
+      },
+      "video": {
+        "label": "Wideo na żywo potwierdzone",
+        "detail": "Dodatkowo zaliczono weryfikację wideo na żywo. To najwyższy poziom, jaki przyznaje VYCE69.",
+        "openLabel": "Wideo na żywo",
+        "openDetail": "Weryfikacja wideo na żywo, najwyższy poziom w VYCE69, nie została jeszcze potwierdzona dla tego profilu."
+      },
+      "location": {
+        "label": "Lokal potwierdzony",
+        "detail": "Profil należy do zweryfikowanego lokalu ze sprawdzonym adresem.",
+        "openLabel": "Lokal",
+        "openDetail": "Potwierdzamy to tylko dla profili należących do zweryfikowanego lokalu ze sprawdzonym adresem."
+      }
+    },
+    "reviewsLabel": "Opublikowane opinie",
+    "reviewsHeading": "Doświadczenia z {name}",
+    "reviewsEmpty": "Dla tego profilu nie opublikowano jeszcze żadnych opinii.",
+    "afterAppointment": "Po spotkaniu",
+    "reviewsCount": "{count, plural, one {# opinia} few {# opinie} many {# opinii} other {# opinii}}",
+    "reply": "Odpowiedź od {name}",
+    "stars": "{rating} na 5 gwiazdek"
   }
 }

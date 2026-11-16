@@ -49,7 +49,8 @@
     "storiesLead": "Noutăți din casă – vizibile 24 de ore",
     "storyOpen": "Vezi story-ul lui {name}",
     "storyHouse": "Mona Roses",
-    "toSedcard": "Spre Sedcard"
+    "toSedcard": "Spre Sedcard",
+    "verified": "Verificată"
   },
   "home": {
     "heroEyebrow": "Berlin-Steglitz · 24/7",
@@ -322,5 +323,53 @@
     "errorTitle": "S-a stins lumina pentru o clipă",
     "errorText": "Ceva nu a mers bine. Te rugăm să încerci din nou.",
     "retry": "Încearcă din nou"
+  },
+  "trust": {
+    "title": "VYCE69 Trust",
+    "checksConfirmed": "{count} din {max} verificări confirmate",
+    "lastChecked": "Ultima verificare",
+    "intro": "VYCE69 verifică profilurile în mai multe etape. Se afișează întotdeauna doar rezultatul unei verificări — niciodată documentul pe care se bazează. Aceste documente rămân criptate și nu sunt vizibile clienților în niciun moment.",
+    "openStatus": "încă neconfirmat",
+    "noneConfirmed": "Nicio verificare finalizată încă",
+    "disclaimer": "O verificare confirmă identitatea — nu este o recomandare și nici o garanție privind serviciile, prețurile sau disponibilitatea. Pe acestea le stabilești direct cu persoana care oferă serviciile.",
+    "checks": {
+      "owner": {
+        "label": "Proprietarul profilului confirmat",
+        "detail": "Identitatea verificată este asociată exact acestui profil — nu doar contului din spatele lui.",
+        "openLabel": "Proprietarul profilului",
+        "openDetail": "Nu este încă confirmat că o identitate verificată este atribuită exact acestui profil."
+      },
+      "identity": {
+        "label": "Identitate verificată",
+        "detail": "Un act de identitate oficial a fost examinat și aprobat de VYCE69. Documentul în sine nu părăsește niciodată zona protejată.",
+        "openLabel": "Identitate",
+        "openDetail": "Pentru acest profil nu există încă o verificare aprobată a unui act de identitate oficial."
+      },
+      "photo": {
+        "label": "Fotografie live confirmată",
+        "detail": "Un selfie live a fost comparat cu actul de identitate — persoana din fotografii este aceeași.",
+        "openLabel": "Fotografie live",
+        "openDetail": "Compararea unui selfie live cu actul de identitate nu este încă confirmată pentru acest profil."
+      },
+      "video": {
+        "label": "Video live confirmat",
+        "detail": "În plus, a fost trecută o verificare video live. Acesta este cel mai înalt nivel acordat de VYCE69.",
+        "openLabel": "Video live",
+        "openDetail": "Verificarea video live, cel mai înalt nivel la VYCE69, nu este încă confirmată pentru acest profil."
+      },
+      "location": {
+        "label": "Locație confirmată",
+        "detail": "Profilul aparține unui local verificat, cu adresă verificată.",
+        "openLabel": "Locație",
+        "openDetail": "Acest lucru se confirmă doar pentru profilurile care aparțin unei locații verificate, cu adresă verificată."
+      }
+    },
+    "reviewsLabel": "Recenzii publicate",
+    "reviewsHeading": "Experiențe cu {name}",
+    "reviewsEmpty": "Pentru acest profil nu au fost publicate încă recenzii.",
+    "afterAppointment": "După o programare",
+    "reviewsCount": "{count, plural, one {# recenzie} few {# recenzii} other {# de recenzii}}",
+    "reply": "Răspuns de la {name}",
+    "stars": "{rating} din 5 stele"
   }
 }
